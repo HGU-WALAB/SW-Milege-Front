@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { AppBar, Toolbar, Box, Link } from '@mui/material';
@@ -45,7 +44,7 @@ export default function Header({ isOffset }) {
       >
         <Logo />
 
-        <Link component={NextLink} href={PATH_PAGE.faqs} variant="subtitle2" color="inherit">
+        <Link component={RouterLink} to={PATH_PAGE.faqs} variant="subtitle2" color="inherit">
           Need Help?
         </Link>
       </Toolbar>

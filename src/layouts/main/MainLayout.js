@@ -1,21 +1,14 @@
-import PropTypes from 'prop-types';
-// next
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+import { useLocation, Outlet } from 'react-router-dom';
 // @mui
 import { Box } from '@mui/material';
 //
-const Header = dynamic(() => import('./Header'), { ssr: false });
-const Footer = dynamic(() => import('./Footer'), { ssr: false });
+import Footer from './Footer';
+import Header from './Header';
 
 // ----------------------------------------------------------------------
 
-MainLayout.propTypes = {
-  children: PropTypes.node,
-};
-
-export default function MainLayout({ children }) {
-  const { pathname } = useRouter();
+export default function MainLayout() {
+  const { pathname } = useLocation();
 
   const isHome = pathname === '/';
 
@@ -32,7 +25,7 @@ export default function MainLayout({ children }) {
           }),
         }}
       >
-        {children}
+        <Outlet />
       </Box>
 
       <Footer />

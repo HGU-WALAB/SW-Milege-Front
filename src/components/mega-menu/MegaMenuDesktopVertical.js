@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import NextLink from 'next/link';
+import { NavLink as RouterLink } from 'react-router-dom';
 // @mui
 import Masonry from '@mui/lab/Masonry';
 import { alpha } from '@mui/material/styles';
@@ -87,14 +87,14 @@ function MegaMenuItem({ parent }) {
                   {list.items.map((link) => (
                     <Link
                       key={link.title}
-                      component={NextLink}
-                      href={link.path}
+                      component={RouterLink}
+                      to={link.path}
                       noWrap
                       underline="none"
                       sx={{
+                        fontSize: 13,
                         typography: 'body2',
                         color: 'text.primary',
-                        fontSize: 13,
                         transition: (theme) => theme.transitions.create('all'),
                         '&:hover': { color: 'primary.main' },
                       }}
@@ -109,8 +109,8 @@ function MegaMenuItem({ parent }) {
             {!!more && !!products && !!tags && (
               <Stack spacing={3}>
                 <Link
-                  component={NextLink}
-                  href={more.path}
+                  component={RouterLink}
+                  to={more.path}
                   sx={{ typography: 'body2', display: 'inline-flex', fontSize: 13 }}
                 >
                   {more.title}
@@ -154,27 +154,27 @@ function ParentItem({ path = '', title, open, hasSub, ...other }) {
   };
 
   return (
-    <Link component={NextLink} href={path} underline="none">
-      <ListItem
-        sx={{
-          pl: 2.5,
-          pr: 1.5,
-          height: PARENT_ITEM_HEIGHT,
-          cursor: 'pointer',
-          color: 'text.primary',
-          typography: 'subtitle2',
-          textTransform: 'capitalize',
-          justifyContent: 'space-between',
-          transition: (theme) => theme.transitions.create('all'),
-          '&:hover': activeStyle,
-          ...(open && activeStyle),
-        }}
-        {...other}
-      >
-        {title}
+    <ListItem
+      component={RouterLink}
+      to={path}
+      sx={{
+        pl: 2.5,
+        pr: 1.5,
+        height: PARENT_ITEM_HEIGHT,
+        cursor: 'pointer',
+        color: 'text.primary',
+        typography: 'subtitle2',
+        textTransform: 'capitalize',
+        justifyContent: 'space-between',
+        transition: (theme) => theme.transitions.create('all'),
+        '&:hover': activeStyle,
+        ...(open && activeStyle),
+      }}
+      {...other}
+    >
+      {title}
 
-        {hasSub && <Iconify icon="eva:chevron-right-fill" sx={{ ml: 1 }} />}
-      </ListItem>
-    </Link>
+      {hasSub && <Iconify icon="eva:chevron-right-fill" sx={{ ml: 1 }} />}
+    </ListItem>
   );
 }

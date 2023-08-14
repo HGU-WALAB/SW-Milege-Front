@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 // @mui
 import { Collapse } from '@mui/material';
 // hooks
@@ -18,7 +17,7 @@ NavList.propTypes = {
 };
 
 export default function NavList({ data, depth, hasChild }) {
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const { active, isExternalLink } = useActiveLink(data.path);
 

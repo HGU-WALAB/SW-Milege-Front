@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { paramCase } from 'change-case';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Link, Typography, Autocomplete, InputAdornment } from '@mui/material';
 // utils
@@ -19,7 +18,7 @@ import SearchNotFound from '../../../../components/search-not-found';
 // ----------------------------------------------------------------------
 
 export default function BlogPostsSearch() {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const [searchPosts, setSearchPosts] = useState('');
 
@@ -41,7 +40,7 @@ export default function BlogPostsSearch() {
   };
 
   const handleClick = (title) => {
-    push(PATH_DASHBOARD.blog.view(paramCase(title)));
+    navigate(PATH_DASHBOARD.blog.view(paramCase(title)));
   };
 
   const handleKeyUp = (event) => {

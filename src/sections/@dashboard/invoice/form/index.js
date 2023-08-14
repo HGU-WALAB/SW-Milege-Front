@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useMemo, useEffect } from 'react';
 import * as Yup from 'yup';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,7 +27,7 @@ InvoiceNewEditForm.propTypes = {
 };
 
 export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const [loadingSave, setLoadingSave] = useState(false);
 
@@ -85,7 +84,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       setLoadingSave(false);
-      push(PATH_DASHBOARD.invoice.list);
+      navigate(PATH_DASHBOARD.invoice.list);
       console.log('DATA', JSON.stringify(data, null, 2));
     } catch (error) {
       console.error(error);
@@ -100,7 +99,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       setLoadingSend(false);
-      push(PATH_DASHBOARD.invoice.list);
+      navigate(PATH_DASHBOARD.invoice.list);
       console.log('DATA', JSON.stringify(data, null, 2));
     } catch (error) {
       console.error(error);

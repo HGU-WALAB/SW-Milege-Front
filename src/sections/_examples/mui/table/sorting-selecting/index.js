@@ -78,10 +78,6 @@ export default function SortingSelecting() {
 
   const [tableData, setTableData] = useState([]);
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
   useEffect(() => {
     setTableData(TABLE_DATA);
   }, []);
@@ -164,18 +160,16 @@ export default function SortingSelecting() {
         </Scrollbar>
       </TableContainer>
 
-      {mounted && (
-        <TablePaginationCustom
-          count={dataFiltered.length}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          onPageChange={onChangePage}
-          onRowsPerPageChange={onChangeRowsPerPage}
-          //
-          dense={dense}
-          onChangeDense={onChangeDense}
-        />
-      )}
+      <TablePaginationCustom
+        count={dataFiltered.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangeRowsPerPage}
+        //
+        dense={dense}
+        onChangeDense={onChangeDense}
+      />
     </div>
   );
 }

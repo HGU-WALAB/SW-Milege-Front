@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import * as Yup from 'yup';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,7 +17,7 @@ import FormProvider, { RHFTextField, RHFCodes } from '../../components/hook-form
 // ----------------------------------------------------------------------
 
 export default function AuthNewPasswordForm() {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -76,7 +75,7 @@ export default function AuthNewPasswordForm() {
       });
       sessionStorage.removeItem('email-recovery');
       enqueueSnackbar('Change password success!');
-      push(PATH_DASHBOARD.root);
+      navigate(PATH_DASHBOARD.root);
     } catch (error) {
       console.error(error);
     }

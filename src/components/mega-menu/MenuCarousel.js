@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
-// next
-import NextLink from 'next/link';
+import { NavLink as RouterLink } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Box, Link } from '@mui/material';
@@ -20,7 +19,6 @@ MenuCarousel.propTypes = {
 
 export default function MenuCarousel({ products, numberShow, sx }) {
   const theme = useTheme();
-
   const carouselRef = useRef(null);
 
   const carouselSettings = {
@@ -59,8 +57,8 @@ export default function MenuCarousel({ products, numberShow, sx }) {
           {products.map((product) => (
             <Box key={product.name} sx={{ px: 1, textAlign: 'center' }}>
               <Link
-                component={NextLink}
-                href={product.path}
+                component={RouterLink}
+                to={product.path}
                 color="inherit"
                 underline="none"
                 sx={{

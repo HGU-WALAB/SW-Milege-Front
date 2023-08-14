@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 // @mui
 import { Table, TableRow, TableHead, TableBody, TableCell, TableContainer } from '@mui/material';
 // components
@@ -67,10 +66,6 @@ export default function GroupingFixedHeader() {
     onChangeRowsPerPage,
   } = useTable({ defaultRowsPerPage: 10 });
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
   return (
     <>
       <TableContainer sx={{ overflow: 'unset' }}>
@@ -127,15 +122,13 @@ export default function GroupingFixedHeader() {
         </Scrollbar>
       </TableContainer>
 
-      {mounted && (
-        <TablePaginationCustom
-          count={TABLE_DATA.length}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          onPageChange={onChangePage}
-          onRowsPerPageChange={onChangeRowsPerPage}
-        />
-      )}
+      <TablePaginationCustom
+        count={TABLE_DATA.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangeRowsPerPage}
+      />
     </>
   );
 }

@@ -1,27 +1,21 @@
-import PropTypes from 'prop-types';
-// next
-import dynamic from 'next/dynamic';
+import { Outlet } from 'react-router-dom';
 // hooks
 import useOffSetTop from '../../hooks/useOffSetTop';
 // config
 import { HEADER } from '../../config-global';
-//
-const Header = dynamic(() => import('./Header'), { ssr: false });
+// components
+import Header from './Header';
 
 // ----------------------------------------------------------------------
 
-SimpleLayout.propTypes = {
-  children: PropTypes.node,
-};
-
-export default function SimpleLayout({ children }) {
+export default function SimpleLayout() {
   const isOffset = useOffSetTop(HEADER.H_MAIN_DESKTOP);
 
   return (
     <>
       <Header isOffset={isOffset} />
 
-      {children}
+      <Outlet />
     </>
   );
 }

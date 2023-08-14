@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // form
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -14,7 +13,7 @@ import FormProvider, { RHFTextField } from '../../components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function AuthResetPasswordForm() {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
@@ -34,7 +33,7 @@ export default function AuthResetPasswordForm() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       sessionStorage.setItem('email-recovery', data.email);
-      push(PATH_AUTH.newPassword);
+      navigate(PATH_AUTH.newPassword);
     } catch (error) {
       console.error(error);
     }

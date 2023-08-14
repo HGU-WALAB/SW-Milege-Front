@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useCallback, useEffect, useMemo } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -61,7 +60,7 @@ ProductNewEditForm.propTypes = {
 };
 
 export default function ProductNewEditForm({ isEdit, currentProduct }) {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -122,7 +121,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct }) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      push(PATH_DASHBOARD.eCommerce.list);
+      navigate(PATH_DASHBOARD.eCommerce.list);
       console.log('DATA', data);
     } catch (error) {
       console.error(error);

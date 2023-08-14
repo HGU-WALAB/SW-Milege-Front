@@ -1,7 +1,6 @@
 import { m, useScroll } from 'framer-motion';
 import { useEffect, useState } from 'react';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import { Button, Box, Link, Container, Typography, Stack, Grid, Rating } from '@mui/material';
@@ -13,8 +12,6 @@ import useResponsive from '../../hooks/useResponsive';
 import { textGradient, bgGradient } from '../../utils/cssStyles';
 // config
 import { HEADER } from '../../config-global';
-// theme
-import { secondaryFont } from '../../theme/typography';
 // components
 import SvgColor from '../../components/svg-color';
 import Iconify from '../../components/iconify';
@@ -53,7 +50,7 @@ const StyledGradientText = styled(m.h1)(({ theme }) => ({
     `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 25%, ${theme.palette.primary.main} 50%, ${theme.palette.warning.main} 75%, ${theme.palette.primary.main} 100%`
   ),
   backgroundSize: '400%',
-  fontFamily: secondaryFont.style.fontFamily,
+  fontFamily: "'Barlow', sans-serif",
   fontSize: `${64 / 16}rem`,
   textAlign: 'center',
   lineHeight: 1,
@@ -193,8 +190,8 @@ function Description() {
         <Stack spacing={1.5} direction={{ xs: 'column-reverse', sm: 'row' }} sx={{ mb: 5 }}>
           <Stack alignItems="center" spacing={2}>
             <Button
-              component={NextLink}
-              href={PATH_DASHBOARD.root}
+              component={RouterLink}
+              to={PATH_DASHBOARD.root}
               color="inherit"
               size="large"
               variant="contained"
@@ -254,7 +251,6 @@ function Description() {
     </StyledDescription>
   );
 }
-
 // ----------------------------------------------------------------------
 
 function Content() {

@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { Navigate } from 'react-router-dom';
 // routes
 import { PATH_DASHBOARD } from '../routes/paths';
 // components
@@ -16,18 +14,13 @@ GuestGuard.propTypes = {
 };
 
 export default function GuestGuard({ children }) {
-  const { push } = useRouter();
-
   const { isAuthenticated, isInitialized } = useAuthContext();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      push(PATH_DASHBOARD.root);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  if (isAuthenticated) {
+    return <Navigate to={PATH_DASHBOARD.root} />;
+  }
 
-  if (isInitialized === isAuthenticated) {
+  if (!isInitialized) {
     return <LoadingScreen />;
   }
 

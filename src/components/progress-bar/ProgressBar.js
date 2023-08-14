@@ -1,43 +1,20 @@
-import { memo, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import NProgress from 'nprogress';
-// next
-import { useRouter } from 'next/router';
 //
 import StyledProgressBar from './styles';
 
 // ----------------------------------------------------------------------
 
-function ProgressBar() {
-  const router = useRouter();
-
+export default function ProgressBar() {
   NProgress.configure({ showSpinner: false });
 
+  useMemo(() => {
+    NProgress.start();
+  }, []);
+
   useEffect(() => {
-    let timeout;
-
-    const handleStart = () => {
-      timeout = setTimeout(() => NProgress.start(), 300);
-    };
-
-    const handleStop = () => {
-      NProgress.done();
-      clearTimeout(timeout);
-    };
-
-    router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleStop);
-    router.events.on('routeChangeError', handleStop);
-
-    return () => {
-      router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleStop);
-      router.events.off('routeChangeError', handleStop);
-      clearTimeout(timeout);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    NProgress.done();
   }, []);
 
   return <StyledProgressBar />;
 }
-
-export default memo(ProgressBar);

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-// next
-import NextLink from 'next/link';
+import { NavLink as RouterLink } from 'react-router-dom';
 // @mui
 import { Masonry } from '@mui/lab';
 import { Link, Paper, Typography, Divider, Stack } from '@mui/material';
@@ -88,14 +87,14 @@ function MegaMenuItem({ parent }) {
                   {list.items.map((link) => (
                     <Link
                       key={link.title}
-                      component={NextLink}
-                      href={link.path}
                       noWrap
                       underline="none"
+                      component={RouterLink}
+                      to={link.path}
                       sx={{
+                        fontSize: 13,
                         typography: 'body2',
                         color: 'text.primary',
-                        fontSize: 13,
                         transition: (theme) => theme.transitions.create('all'),
                         '&:hover': { color: 'primary.main' },
                       }}
@@ -110,8 +109,8 @@ function MegaMenuItem({ parent }) {
             {!!more && !!tags && !!products && (
               <Stack spacing={3}>
                 <Link
-                  component={NextLink}
-                  href={more?.path}
+                  component={RouterLink}
+                  to={more?.path}
                   sx={{ typography: 'body2', display: 'inline-flex', fontSize: 13 }}
                 >
                   {more?.title}
@@ -151,8 +150,8 @@ function ParentItem({ title, path = '', open, hasSub, ...other }) {
 
   return (
     <Link
-      component={NextLink}
-      href={path}
+      component={RouterLink}
+      to={path}
       underline="none"
       color="inherit"
       variant="subtitle2"

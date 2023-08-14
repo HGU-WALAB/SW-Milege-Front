@@ -1,5 +1,4 @@
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Stack, Typography, Link } from '@mui/material';
 // layouts
@@ -21,7 +20,7 @@ export default function Register() {
         <Stack direction="row" spacing={0.5}>
           <Typography variant="body2"> Already have an account? </Typography>
 
-          <Link component={NextLink} href={PATH_AUTH.login} variant="subtitle2">
+          <Link component={RouterLink} to={PATH_AUTH.login} variant="subtitle2">
             Sign in
           </Link>
         </Stack>

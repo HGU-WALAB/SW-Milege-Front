@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useParams } from 'react-router-dom';
 // @mui
 import { Container, Card, Stack } from '@mui/material';
 // redux
@@ -26,9 +25,9 @@ export default function Mail() {
 
   const dispatch = useDispatch();
 
-  const { query: params } = useRouter();
+  const params = useParams();
 
-  const { mailId } = params;
+  const { mailId = '' } = params;
 
   const { mails, labels, isLoading } = useSelector((state) => state.mail);
 

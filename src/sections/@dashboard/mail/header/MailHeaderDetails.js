@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-// next
-import { useRouter } from 'next/router';
+import { useParams, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Link, Tooltip, Typography, IconButton, Stack } from '@mui/material';
 // routes
@@ -23,10 +22,9 @@ MailHeaderDetails.propTypes = {
 };
 
 export default function MailHeaderDetails({ mailFrom, mailTo, createdAt, sx, ...other }) {
-  const {
-    push,
-    query: { systemLabel, customLabel },
-  } = useRouter();
+  const navigate = useNavigate();
+
+  const { systemLabel, customLabel } = useParams();
 
   const isDesktop = useResponsive('up', 'sm');
 
@@ -34,12 +32,12 @@ export default function MailHeaderDetails({ mailFrom, mailTo, createdAt, sx, ...
 
   const handleBack = () => {
     if (systemLabel) {
-      return push(`${baseUrl}/${systemLabel}`);
+      return navigate(`${baseUrl}/${systemLabel}`);
     }
     if (customLabel) {
-      return push(`${baseUrl}/label/${customLabel}`);
+      return navigate(`${baseUrl}/label/${customLabel}`);
     }
-    return push(`${baseUrl}/inbox`);
+    return navigate(`${baseUrl}/inbox`);
   };
 
   return (

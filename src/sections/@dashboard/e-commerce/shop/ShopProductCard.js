@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { paramCase } from 'change-case';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, Card, Link, Stack, Fab } from '@mui/material';
 // routes
@@ -98,7 +97,7 @@ export default function ShopProductCard({ product }) {
       </Box>
 
       <Stack spacing={2.5} sx={{ p: 3 }}>
-        <Link component={NextLink} href={linkTo} color="inherit" variant="subtitle2" noWrap>
+        <Link component={RouterLink} to={linkTo} color="inherit" variant="subtitle2" noWrap>
           {name}
         </Link>
 

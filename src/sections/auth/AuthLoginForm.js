@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import * as Yup from 'yup';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -83,8 +82,8 @@ export default function AuthLoginForm() {
 
       <Stack alignItems="flex-end" sx={{ my: 2 }}>
         <Link
-          component={NextLink}
-          href={PATH_AUTH.resetPassword}
+          component={RouterLink}
+          to={PATH_AUTH.resetPassword}
           variant="body2"
           color="inherit"
           underline="always"

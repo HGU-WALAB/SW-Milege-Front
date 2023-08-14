@@ -1,6 +1,4 @@
-// next
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 // @mui
 import { Box, Grid, Link, Stack, Divider, Container, Typography, IconButton } from '@mui/material';
 // routes
@@ -41,7 +39,7 @@ const LINKS = [
 // ----------------------------------------------------------------------
 
 export default function Footer() {
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const isHome = pathname === '/';
 
@@ -137,8 +135,8 @@ export default function Footer() {
                   {list.children.map((link) => (
                     <Link
                       key={link.name}
-                      component={NextLink}
-                      href={link.href}
+                      component={RouterLink}
+                      to={link.href}
                       color="inherit"
                       variant="body2"
                     >

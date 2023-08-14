@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-// next
-import { useRouter } from 'next/router';
 // hooks
 import useActiveLink from '../../../hooks/useActiveLink';
 //
@@ -19,7 +18,7 @@ NavList.propTypes = {
 export default function NavList({ data, depth, hasChild }) {
   const navRef = useRef(null);
 
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const { active, isExternalLink } = useActiveLink(data.path);
 

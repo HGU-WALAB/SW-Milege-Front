@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 // @mui
 import { Stack, Fade, Portal } from '@mui/material';
 // hooks
@@ -18,7 +17,7 @@ NavList.propTypes = {
 };
 
 export default function NavList({ item, isOffset }) {
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -86,7 +85,7 @@ NavSubList.propTypes = {
 };
 
 function NavSubList({ items, isDashboard, subheader, onClose }) {
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const isActive = (path) => pathname === path;
 

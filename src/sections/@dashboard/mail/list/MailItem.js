@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-// next
-import { useRouter } from 'next/router';
+import { useParams, useNavigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Tooltip, Typography, Checkbox, Stack } from '@mui/material';
@@ -109,7 +108,9 @@ export default function MailItem({
   getLabel,
   ...other
 }) {
-  const { push, query: params } = useRouter();
+  const params = useParams();
+
+  const navigate = useNavigate();
 
   const isDesktop = useResponsive('up', 'md');
 
@@ -120,7 +121,7 @@ export default function MailItem({
   const handleChangeCheckbox = (checked) => (checked ? onSelect() : onDeselect());
 
   const handleClick = () => {
-    push(linkTo(params, mail.id));
+    navigate(linkTo(params, mail.id));
   };
 
   return (

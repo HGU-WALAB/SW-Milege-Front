@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, Tooltip, ListItemText, Link } from '@mui/material';
 // locales
@@ -69,7 +68,7 @@ const NavItem = forwardRef(({ item, depth, open, active, isExternalLink, ...othe
 
     // Default
     return (
-      <Link component={NextLink} href={path} underline="none">
+      <Link component={RouterLink} to={path} underline="none">
         {renderContent}
       </Link>
     );

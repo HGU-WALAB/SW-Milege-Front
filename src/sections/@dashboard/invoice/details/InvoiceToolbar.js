@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import {
   Box,
@@ -28,7 +27,7 @@ InvoiceToolbar.propTypes = {
 };
 
 export default function InvoiceToolbar({ invoice }) {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
@@ -41,7 +40,7 @@ export default function InvoiceToolbar({ invoice }) {
   };
 
   const handleEdit = () => {
-    push(PATH_DASHBOARD.invoice.edit(invoice.id));
+    navigate(PATH_DASHBOARD.invoice.edit(invoice.id));
   };
 
   return (
@@ -128,6 +127,7 @@ export default function InvoiceToolbar({ invoice }) {
               </IconButton>
             </Tooltip>
           </DialogActions>
+
           <Box sx={{ flexGrow: 1, height: '100%', overflow: 'hidden' }}>
             <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
               <InvoicePDF invoice={invoice} />

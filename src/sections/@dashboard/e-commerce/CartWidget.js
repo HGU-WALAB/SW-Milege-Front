@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Badge, Link } from '@mui/material';
+import { Badge } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
@@ -40,12 +39,12 @@ CartWidget.propTypes = {
 
 export default function CartWidget({ totalItems }) {
   return (
-    <Link component={NextLink} href={PATH_DASHBOARD.eCommerce.checkout}>
+    <RouterLink to={PATH_DASHBOARD.eCommerce.checkout}>
       <StyledRoot>
         <Badge showZero badgeContent={totalItems} color="error" max={99}>
           <Iconify icon="eva:shopping-cart-fill" width={24} />
         </Badge>
       </StyledRoot>
-    </Link>
+    </RouterLink>
   );
 }

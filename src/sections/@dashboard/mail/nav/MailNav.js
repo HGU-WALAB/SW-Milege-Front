@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 // @mui
 import { List, Drawer, Button, Divider, Stack } from '@mui/material';
 // hooks
@@ -25,7 +24,7 @@ MailNav.propTypes = {
 };
 
 export default function MailNav({ items, openNav, onOpenCompose, onCloseNav }) {
-  const { asPath } = useRouter();
+  const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'md');
 
@@ -36,7 +35,7 @@ export default function MailNav({ items, openNav, onOpenCompose, onCloseNav }) {
       onCloseNav();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [asPath]);
+  }, [pathname]);
 
   const handleOpenCompose = () => {
     onCloseNav();

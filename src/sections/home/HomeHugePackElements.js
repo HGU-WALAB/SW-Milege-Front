@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { m } from 'framer-motion';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
@@ -46,8 +46,8 @@ import Iconify from '../../components/iconify';
 import Scrollbar from '../../components/scrollbar';
 import MenuPopover from '../../components/menu-popover';
 import BadgeStatus from '../../components/badge-status';
-import { CustomAvatar, CustomAvatarGroup } from '../../components/custom-avatar';
 import { MotionViewport, varFade } from '../../components/animate';
+import { CustomAvatar, CustomAvatarGroup } from '../../components/custom-avatar';
 
 // ----------------------------------------------------------------------
 
@@ -171,8 +171,6 @@ function Content() {
 
   const isLg = useResponsive('up', 'lg');
 
-  const [mounted, setMounted] = useState(false);
-
   const [slider, setSlider] = useState(24);
 
   const [select, setSelect] = useState('Option 1');
@@ -184,8 +182,6 @@ function Content() {
   const [currentTab, setCurrentTab] = useState('Angular');
 
   const [openPopover, setOpenPopover] = useState(null);
-
-  useEffect(() => setMounted(true), []);
 
   const handleOpenPopover = (event) => {
     setOpenPopover(event.currentTarget);
@@ -293,16 +289,14 @@ function Content() {
           </CustomAvatarGroup>
         </m.div>
 
-        {mounted && (
-          <m.div variants={varFade().in}>
-            <Rating
-              value={rating}
-              onChange={(event, newValue) => {
-                setRating(newValue);
-              }}
-            />
-          </m.div>
-        )}
+        <m.div variants={varFade().in}>
+          <Rating
+            value={rating}
+            onChange={(event, newValue) => {
+              setRating(newValue);
+            }}
+          />
+        </m.div>
 
         <m.div variants={varFade().in}>
           <Label variant="filled" color="error" startIcon={<Iconify icon="eva:email-fill" />}>
@@ -328,14 +322,12 @@ function Content() {
           />
         </m.div>
 
-        {mounted && (
-          <m.div variants={varFade().in}>
-            <Alert severity="success" onClose={() => {}}>
-              <AlertTitle>Success</AlertTitle>
-              This is a success alert — <strong>check it out!</strong>
-            </Alert>
-          </m.div>
-        )}
+        <m.div variants={varFade().in}>
+          <Alert severity="success" onClose={() => {}}>
+            <AlertTitle>Success</AlertTitle>
+            This is a success alert — <strong>check it out!</strong>
+          </Alert>
+        </m.div>
       </StyledRow>
 
       {/* Row 5 */}

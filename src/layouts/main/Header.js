@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Box, Button, AppBar, Toolbar, Container, Link } from '@mui/material';
@@ -15,13 +16,15 @@ import { PATH_DOCS, PATH_MINIMAL_ON_STORE } from '../../routes/paths';
 import Logo from '../../components/logo';
 import Label from '../../components/label';
 //
-import NavMobile from './nav/mobile';
 import navConfig from './nav/config-navigation';
+import NavMobile from './nav/mobile';
 import NavDesktop from './nav/desktop';
 
 // ----------------------------------------------------------------------
 
 export default function Header() {
+  const carouselRef = useRef(null);
+
   const theme = useTheme();
 
   const isDesktop = useResponsive('up', 'md');
@@ -29,7 +32,7 @@ export default function Header() {
   const isOffset = useOffSetTop(HEADER.H_MAIN_DESKTOP);
 
   return (
-    <AppBar color="transparent" sx={{ boxShadow: 0 }}>
+    <AppBar ref={carouselRef} color="transparent" sx={{ boxShadow: 0 }}>
       <Toolbar
         disableGutters
         sx={{

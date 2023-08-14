@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
 import { Tooltip, Box } from '@mui/material';
@@ -21,14 +20,6 @@ ToggleButton.propTypes = {
 
 export default function ToggleButton({ notDefault, open, onToggle }) {
   const theme = useTheme();
-
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <Box

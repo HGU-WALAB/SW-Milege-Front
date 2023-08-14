@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
-import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+import storage from 'redux-persist/lib/storage';
 // slices
 import mailReducer from './slices/mail';
 import chatReducer from './slices/chat';
@@ -9,21 +9,6 @@ import calendarReducer from './slices/calendar';
 import kanbanReducer from './slices/kanban';
 
 // ----------------------------------------------------------------------
-
-export const createNoopStorage = () => ({
-  getItem() {
-    return Promise.resolve(null);
-  },
-  setItem(_key, value) {
-    return Promise.resolve(value);
-  },
-  removeItem() {
-    return Promise.resolve();
-  },
-});
-
-export const storage =
-  typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
 
 export const rootPersistConfig = {
   key: 'root',

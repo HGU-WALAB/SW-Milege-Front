@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { Typography, ListItemText, ListItemButton } from '@mui/material';
 // @config
@@ -35,12 +34,12 @@ MailNavItem.propTypes = {
 };
 
 export default function MailNavItem({ label, ...other }) {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const { active } = useActiveLink(linkTo(label));
 
   const handleClick = () => {
-    push(linkTo(label));
+    navigate(linkTo(label));
   };
 
   const isUnread = label.unreadCount !== 0;

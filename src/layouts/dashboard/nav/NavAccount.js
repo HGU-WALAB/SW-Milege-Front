@@ -1,5 +1,4 @@
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Typography } from '@mui/material';
@@ -18,9 +17,6 @@ const StyledRoot = styled('div')(({ theme }) => ({
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: alpha(theme.palette.grey[500], 0.12),
-  transition: theme.transitions.create('opacity', {
-    duration: theme.transitions.duration.shorter,
-  }),
 }));
 
 // ----------------------------------------------------------------------
@@ -29,7 +25,7 @@ export default function NavAccount() {
   const { user } = useAuthContext();
 
   return (
-    <Link component={NextLink} href={PATH_DASHBOARD.user.account} underline="none" color="inherit">
+    <Link component={RouterLink} to={PATH_DASHBOARD.user.account} underline="none" color="inherit">
       <StyledRoot>
         <CustomAvatar src={user?.photoURL} alt={user?.displayName} name={user?.displayName} />
 

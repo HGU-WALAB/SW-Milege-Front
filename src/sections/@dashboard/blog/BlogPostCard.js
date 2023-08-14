@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { paramCase } from 'change-case';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Card, Avatar, Typography, CardContent, Stack, Link } from '@mui/material';
@@ -170,7 +169,7 @@ export function PostContent({ title, view, comment, share, createdAt, index }) {
         {fDate(createdAt)}
       </Typography>
 
-      <Link component={NextLink} href={linkTo} color="inherit">
+      <Link component={RouterLink} to={linkTo} color="inherit">
         <TextMaxLine
           variant={isDesktop && latestPostLarge ? 'h5' : 'subtitle2'}
           line={2}

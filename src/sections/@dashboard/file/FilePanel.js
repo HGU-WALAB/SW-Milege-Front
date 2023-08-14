@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Stack, Button, Typography, IconButton } from '@mui/material';
 // components
@@ -60,8 +59,8 @@ export default function FilePanel({
 
       {link && (
         <Button
-          component={NextLink}
-          href={link}
+          component={RouterLink}
+          to={link}
           size="small"
           color="inherit"
           endIcon={<Iconify icon="eva:chevron-right-fill" />}

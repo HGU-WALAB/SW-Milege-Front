@@ -1,6 +1,5 @@
 import { useState } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
@@ -34,7 +33,7 @@ const OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  const { replace, push } = useRouter();
+  const navigate = useNavigate();
 
   const { user, logout } = useAuthContext();
 
@@ -53,7 +52,7 @@ export default function AccountPopover() {
   const handleLogout = async () => {
     try {
       logout();
-      replace(PATH_AUTH.login);
+      navigate(PATH_AUTH.login, { replace: true });
       handleClosePopover();
     } catch (error) {
       console.error(error);
@@ -63,7 +62,7 @@ export default function AccountPopover() {
 
   const handleClickItem = (path) => {
     handleClosePopover();
-    push(path);
+    navigate(path);
   };
 
   return (

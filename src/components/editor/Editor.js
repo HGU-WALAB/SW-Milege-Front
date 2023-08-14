@@ -1,29 +1,9 @@
 import PropTypes from 'prop-types';
 import '../../utils/highlight';
-// next
-import dynamic from 'next/dynamic';
-// @mui
-import { Skeleton } from '@mui/material';
+import ReactQuill from 'react-quill';
 //
 import { StyledEditor } from './styles';
 import EditorToolbar, { formats } from './EditorToolbar';
-
-const ReactQuill = dynamic(() => import('react-quill'), {
-  ssr: false,
-  loading: () => (
-    <Skeleton
-      variant="rounded"
-      sx={{
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: 1,
-        position: 'absolute',
-      }}
-    />
-  ),
-});
 
 // ----------------------------------------------------------------------
 

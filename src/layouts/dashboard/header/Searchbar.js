@@ -1,8 +1,7 @@
 import { useState, memo, useEffect } from 'react';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
 import {
@@ -89,7 +88,9 @@ const StyledPopper = styled((props) => <Popper {...props} />)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 function Searchbar() {
-  const { push, pathname } = useRouter();
+  const navigate = useNavigate();
+
+  const { pathname } = useLocation();
 
   const [open, setOpen] = useState(false);
 
@@ -127,7 +128,7 @@ function Searchbar() {
     if (path.includes('http')) {
       window.open(path);
     } else {
-      push(path);
+      navigate(path);
     }
     handleClose();
   };

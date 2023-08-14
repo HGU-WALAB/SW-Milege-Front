@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import '../../utils/highlight';
+import { Link as RouterLink } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 // markdown plugins
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
-// next
-import NextLink from 'next/link';
 // @mui
 import { Link, Typography, Divider } from '@mui/material';
 //
@@ -52,7 +51,7 @@ const components = {
     return isHttp ? (
       <Link target="_blank" rel="noopener" {...props} />
     ) : (
-      <Link component={NextLink} href={props.href} {...props}>
+      <Link component={RouterLink} to={props.href} {...props}>
         {props.children}
       </Link>
     );

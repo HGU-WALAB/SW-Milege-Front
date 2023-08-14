@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 // @mui
 import { Box, Stack, Drawer } from '@mui/material';
 // hooks
@@ -26,7 +25,7 @@ NavVertical.propTypes = {
 };
 
 export default function NavVertical({ openNav, onCloseNav }) {
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
 

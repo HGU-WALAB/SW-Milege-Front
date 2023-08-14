@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 // @mui
 import { Box } from '@mui/material';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
-// auth
-import AuthGuard from '../../auth/AuthGuard';
 // components
 import { useSettingsContext } from '../../components/settings';
 //
@@ -17,11 +15,7 @@ import NavHorizontal from './nav/NavHorizontal';
 
 // ----------------------------------------------------------------------
 
-DashboardLayout.propTypes = {
-  children: PropTypes.node,
-};
-
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout() {
   const { themeLayout } = useSettingsContext();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -42,38 +36,21 @@ export default function DashboardLayout({ children }) {
 
   const renderNavVertical = <NavVertical openNav={open} onCloseNav={handleClose} />;
 
-  const renderContent = () => {
-    if (isNavHorizontal) {
-      return (
-        <>
-          <Header onOpenNav={handleOpen} />
+  if (isNavHorizontal) {
+    return (
+      <>
+        <Header onOpenNav={handleOpen} />
 
-          {isDesktop ? <NavHorizontal /> : renderNavVertical}
+        {isDesktop ? <NavHorizontal /> : renderNavVertical}
 
-          <Main>{children}</Main>
-        </>
-      );
-    }
+        <Main>
+          <Outlet />
+        </Main>
+      </>
+    );
+  }
 
-    if (isNavMini) {
-      return (
-        <>
-          <Header onOpenNav={handleOpen} />
-
-          <Box
-            sx={{
-              display: { lg: 'flex' },
-              minHeight: { lg: 1 },
-            }}
-          >
-            {isDesktop ? <NavMini /> : renderNavVertical}
-
-            <Main>{children}</Main>
-          </Box>
-        </>
-      );
-    }
-
+  if (isNavMini) {
     return (
       <>
         <Header onOpenNav={handleOpen} />
@@ -84,13 +61,32 @@ export default function DashboardLayout({ children }) {
             minHeight: { lg: 1 },
           }}
         >
-          {renderNavVertical}
+          {isDesktop ? <NavMini /> : renderNavVertical}
 
-          <Main>{children}</Main>
+          <Main>
+            <Outlet />
+          </Main>
         </Box>
       </>
     );
-  };
+  }
 
-  return <AuthGuard> {renderContent()} </AuthGuard>;
+  return (
+    <>
+      <Header onOpenNav={handleOpen} />
+
+      <Box
+        sx={{
+          display: { lg: 'flex' },
+          minHeight: { lg: 1 },
+        }}
+      >
+        {renderNavVertical}
+
+        <Main>
+          <Outlet />
+        </Main>
+      </Box>
+    </>
+  );
 }

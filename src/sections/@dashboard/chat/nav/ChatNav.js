@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-// next
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import { useTheme, styled } from '@mui/material/styles';
 import { Box, Stack, Drawer, IconButton } from '@mui/material';
@@ -55,15 +53,15 @@ ChatNav.propTypes = {
 export default function ChatNav({ conversations, activeConversationId }) {
   const theme = useTheme();
 
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const isDesktop = useResponsive('up', 'md');
 
   const [openNav, setOpenNav] = useState(false);
 
-  const [searchContacts, setSearchContacts] = useState('');
-
   const [searchResults, setSearchResults] = useState([]);
+
+  const [searchContacts, setSearchContacts] = useState('');
 
   const isCollapse = isDesktop && !openNav;
 
@@ -110,7 +108,7 @@ export default function ChatNav({ conversations, activeConversationId }) {
 
   const handleSelectContact = (result) => {
     setSearchContacts('');
-    push(PATH_DASHBOARD.chat.view(result.username));
+    navigate(PATH_DASHBOARD.chat.view(result.username));
   };
 
   const renderContent = (
@@ -129,7 +127,7 @@ export default function ChatNav({ conversations, activeConversationId }) {
           </IconButton>
 
           {!isCollapse && (
-            <IconButton component={NextLink} href={PATH_DASHBOARD.chat.new}>
+            <IconButton component={RouterLink} to={PATH_DASHBOARD.chat.new}>
               <Iconify icon="eva:edit-fill" />
             </IconButton>
           )}

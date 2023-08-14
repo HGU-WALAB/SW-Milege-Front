@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import sum from 'lodash/sum';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Grid, Card, Button, CardHeader, Typography } from '@mui/material';
 // routes
@@ -71,8 +70,8 @@ export default function CheckoutCart({
         </Card>
 
         <Button
-          component={NextLink}
-          href={PATH_DASHBOARD.eCommerce.root}
+          to={PATH_DASHBOARD.eCommerce.root}
+          component={RouterLink}
           color="inherit"
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
         >

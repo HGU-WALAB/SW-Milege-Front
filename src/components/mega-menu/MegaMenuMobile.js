@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect, forwardRef } from 'react';
-// next
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 // @mui
 import {
   Box,
@@ -32,7 +30,7 @@ MegaMenuMobile.propTypes = {
 };
 
 export default function MegaMenuMobile({ data }) {
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -86,7 +84,7 @@ export default function MegaMenuMobile({ data }) {
 // ----------------------------------------------------------------------
 
 const ParentItem = forwardRef(({ icon, title, hasSub, ...other }, ref) => (
-  <ListItemButton ref={ref} sx={{ height: 44, textTransform: 'capitalize' }} {...other}>
+  <ListItemButton ref={ref} sx={{ textTransform: 'capitalize', height: 44 }} {...other}>
     <ListItemIcon sx={{ width: 22, height: 22 }}>{icon}</ListItemIcon>
     <ListItemText primaryTypographyProps={{ typography: 'body2' }}>{title}</ListItemText>
     {hasSub && <Iconify icon="eva:arrow-ios-forward-fill" />}
@@ -175,40 +173,37 @@ function SubMenu({ parent, pathname }) {
                       {subheader}
                     </Typography>
                     {items.map((link) => (
-                      <Link
+                      <ListItemButton
                         key={link.title}
-                        component={NextLink}
-                        href={link.path}
-                        color="inherit"
-                        underline="none"
+                        component={RouterLink}
+                        to={link.path}
+                        sx={{ px: 1.5 }}
                       >
-                        <ListItemButton sx={{ px: 1.5 }}>
-                          <ListItemIcon
+                        <ListItemIcon
+                          sx={{
+                            mr: 0.5,
+                            width: ICON.NAV_ITEM,
+                            height: ICON.NAV_ITEM,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <Box
                             sx={{
-                              mr: 0.5,
-                              width: ICON.NAV_ITEM,
-                              height: ICON.NAV_ITEM,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
+                              width: 4,
+                              height: 4,
+                              bgcolor: 'currentColor',
+                              borderRadius: '50%',
                             }}
-                          >
-                            <Box
-                              sx={{
-                                width: 4,
-                                height: 4,
-                                bgcolor: 'currentColor',
-                                borderRadius: '50%',
-                              }}
-                            />
-                          </ListItemIcon>
-
-                          <ListItemText
-                            primary={link.title}
-                            primaryTypographyProps={{ noWrap: true, typography: 'body2' }}
                           />
-                        </ListItemButton>
-                      </Link>
+                        </ListItemIcon>
+
+                        <ListItemText
+                          primary={link.title}
+                          primaryTypographyProps={{ noWrap: true, typography: 'body2' }}
+                        />
+                      </ListItemButton>
                     ))}
                   </List>
                 );
@@ -221,7 +216,7 @@ function SubMenu({ parent, pathname }) {
   }
 
   return (
-    <Link component={NextLink} href={path} color="inherit" underline="none">
+    <Link to={path} component={RouterLink} color="inherit" underline="none" sx={{ bgcolor: 'red' }}>
       <ParentItem title={title} icon={icon} />
     </Link>
   );

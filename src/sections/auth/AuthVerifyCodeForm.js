@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,7 +15,7 @@ import FormProvider, { RHFCodes } from '../../components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function AuthVerifyCodeForm() {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -54,7 +53,7 @@ export default function AuthVerifyCodeForm() {
       await new Promise((resolve) => setTimeout(resolve, 500));
       console.log('DATA', Object.values(data).join(''));
       enqueueSnackbar('Verify success!');
-      push(PATH_DASHBOARD.root);
+      navigate(PATH_DASHBOARD.root);
     } catch (error) {
       console.error(error);
     }

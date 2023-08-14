@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Link, ListItemText, ListItemIcon } from '@mui/material';
 // components
@@ -52,7 +51,7 @@ export default function NavItem({ item, open, active, isExternalLink, ...other }
 
   // Default
   return (
-    <Link component={NextLink} href={path} underline="none">
+    <Link component={RouterLink} to={path} underline="none">
       {renderContent}
     </Link>
   );

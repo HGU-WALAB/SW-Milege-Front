@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-// next
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { List } from '@mui/material';
 // routes
@@ -32,7 +31,7 @@ export default function ChatNavList({
   sx,
   ...other
 }) {
-  const { push } = useRouter();
+  const navigate = useNavigate();
 
   const isDesktop = useResponsive('up', 'md');
 
@@ -53,7 +52,7 @@ export default function ChatNavList({
       }
     }
 
-    push(PATH_DASHBOARD.chat.view(conversationKey));
+    navigate(PATH_DASHBOARD.chat.view(conversationKey));
   };
 
   const loading = !conversations.allIds.length;

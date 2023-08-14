@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
-// next
-import dynamic from 'next/dynamic';
+import { Outlet } from 'react-router-dom';
 // @mui
 import { Stack, Container } from '@mui/material';
 // hooks
@@ -8,15 +6,11 @@ import useOffSetTop from '../../hooks/useOffSetTop';
 // config
 import { HEADER } from '../../config-global';
 //
-const Header = dynamic(() => import('./Header'), { ssr: false });
+import Header from './Header';
 
 // ----------------------------------------------------------------------
 
-CompactLayout.propTypes = {
-  children: PropTypes.node,
-};
-
-export default function CompactLayout({ children }) {
+export default function CompactLayout() {
   const isOffset = useOffSetTop(HEADER.H_MAIN_DESKTOP);
 
   return (
@@ -34,7 +28,7 @@ export default function CompactLayout({ children }) {
             justifyContent: 'center',
           }}
         >
-          {children}
+          <Outlet />
         </Stack>
       </Container>
     </>

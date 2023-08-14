@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 // @mui
 import { List, Drawer, IconButton } from '@mui/material';
 // config
@@ -21,7 +20,7 @@ NavMobile.propTypes = {
 };
 
 export default function NavMobile({ isOffset, data }) {
-  const { pathname } = useRouter();
+  const { pathname } = useLocation();
 
   const [open, setOpen] = useState(false);
 

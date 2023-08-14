@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
-// next
-import NextLink from 'next/link';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Box, Link } from '@mui/material';
@@ -80,7 +79,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <Link component={NextLink} href="/" sx={{ display: 'contents' }}>
+    <Link component={RouterLink} to="/" sx={{ display: 'contents' }}>
       {logo}
     </Link>
   );

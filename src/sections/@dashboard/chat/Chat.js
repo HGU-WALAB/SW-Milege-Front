@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-// next
-import { useRouter } from 'next/router';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // @mui
 import { Card, Container, Stack } from '@mui/material';
 // redux
@@ -37,11 +36,11 @@ export default function Chat() {
 
   const dispatch = useDispatch();
 
-  const {
-    push,
-    pathname,
-    query: { conversationKey },
-  } = useRouter();
+  const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+
+  const { conversationKey = '' } = useParams();
 
   const { contacts, recipients, participants, activeConversationId, conversations } = useSelector(
     (state) => state.chat
@@ -77,7 +76,7 @@ export default function Chat() {
         await dispatch(getConversation(`${conversationKey}`));
       } catch (error) {
         console.error(error);
-        push(PATH_DASHBOARD.chat.new);
+        navigate(PATH_DASHBOARD.chat.new);
       }
     };
 
