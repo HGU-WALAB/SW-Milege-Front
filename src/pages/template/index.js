@@ -1,7 +1,11 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Table, TextField } from '@mui/material';
+import CustomTable1 from 'src/components/Template/CustomTable1';
+import CustomTable2 from 'src/components/Template/CustomTable2';
 import FilledButton from 'src/components/Template/FilledButton';
 import OutlinedButton from 'src/components/Template/OutlinedButton';
+import TemplateBox from 'src/components/Template/TemplateBox';
 import TextButton from 'src/components/Template/TextButton';
+import { CustomTextField } from 'src/components/custom-input';
 
 export default function Template() {
   return (
@@ -11,45 +15,26 @@ export default function Template() {
         height: '100vh',
         p: '20px',
         display: 'flex',
-        flexWrap: 'true',
+        flexWrap: 'wrap',
         gap: '50px',
       }}
     >
-      <Box
-        sx={{
-          px: 5,
-          py: 5,
-          borderRadius: '10px',
-          border: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          width: '400px',
-          height: '200px',
-        }}
-      >
+      <TemplateBox width="400px" height="200px">
         <FilledButton text="FilledButton" px="20px" py="5px" />
         <OutlinedButton variant="outlined" text="outlinedButton" px="20px" py="5px" />
         <TextButton variant="text" text="textButton" px="20px" py="5px" />
-      </Box>
+      </TemplateBox>
 
-      <Box
-        sx={{
-          px: 5,
-          py: 5,
-          borderRadius: '10px',
-          border: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          width: '400px',
-          height: '200px',
-        }}
-      >
-        <TextField label="TextField" variant="outlined" />
-
+      <TemplateBox width="400px" height="200px">
+        <CustomTextField label="TextField" variant="outlined" />
         <TextField label="TextField" variant="standard" />
-      </Box>
+      </TemplateBox>
+      <TemplateBox width="400px" height="200px"></TemplateBox>
+      <TemplateBox width="1000px" height="1200px">
+        <CustomTable1 />
+
+        <CustomTable2 />
+      </TemplateBox>
     </Box>
   );
 }
