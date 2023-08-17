@@ -29,6 +29,7 @@ import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Button } from '@mui/material';
+import EnhancedTable from './CustomTable';
 const IconReturn = (text) => {
   switch (text) {
     case '마일리지 카테고리':
@@ -57,7 +58,7 @@ const IconReturn = (text) => {
 const ComponentReturn = (text) => {
   switch (text) {
     case '마일리지 카테고리':
-      return <CategoryIcon />;
+      return <EnhancedTable />;
     case '마일리지 항목':
       return <AllInboxIcon />;
     case '마일리지 조회':
@@ -181,7 +182,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            SW-Millege 관리자
+            SW중심대 마일리지 시스템
           </Typography>
         </Toolbar>
         <Box sx={{ position: 'absolute', right: '30px', top: '13px' }}>
