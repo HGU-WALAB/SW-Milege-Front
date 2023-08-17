@@ -54,6 +54,31 @@ const IconReturn = (text) => {
   }
 };
 
+const ComponentReturn = (text) => {
+  switch (text) {
+    case '마일리지 카테고리':
+      return <CategoryIcon />;
+    case '마일리지 항목':
+      return <AllInboxIcon />;
+    case '마일리지 조회':
+      return <SearchIcon />;
+    case '마일리지 등록':
+      return <InputIcon />;
+    case '신청자 관리':
+      return <AssignmentIndIcon />;
+    case '학생 관리':
+      return <Face6Icon />;
+    case '사용자 관리':
+      return <PersonIcon />;
+    case '학생별 마일리지 현황':
+      return <DonutSmallIcon />;
+    case '마일리지 선정결과':
+      return <GavelIcon />;
+    case '설정':
+      return <SettingsIcon />;
+  }
+};
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -126,6 +151,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
+  const [component, setComponent] = React.useState('마일리지 카테고리');
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -172,13 +198,22 @@ export default function MiniDrawer() {
         <List>
           {['마일리지 카테고리', '마일리지 항목', '마일리지 조회', '마일리지 등록'].map(
             (text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItem
+                key={text}
+                disablePadding
+                sx={{
+                  display: 'block',
+                  backgroundColor: text === component && 'primary.main',
+                  opacity: text === component && 0.6,
+                }}
+              >
                 <ListItemButton
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
+                  onClick={() => setComponent(text)}
                 >
                   <ListItemIcon
                     sx={{
@@ -198,13 +233,22 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {['신청자 관리', '학생 관리', '사용자 관리'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{
+                display: 'block',
+                backgroundColor: text === component && 'primary.main',
+                opacity: text === component && 0.6,
+              }}
+            >
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={() => setComponent(text)}
               >
                 <ListItemIcon
                   sx={{
@@ -223,13 +267,23 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {['학생별 마일리지 현황', '마일리지 선정결과', '설정'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{
+                display: 'block',
+
+                backgroundColor: text === component && 'primary.main',
+                opacity: text === component && 0.6,
+              }}
+            >
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={() => setComponent(text)}
               >
                 <ListItemIcon
                   sx={{
@@ -248,6 +302,7 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        {ComponentReturn(component)}
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
           ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
