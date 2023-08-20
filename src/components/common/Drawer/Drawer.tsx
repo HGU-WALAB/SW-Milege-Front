@@ -32,6 +32,7 @@ import { Box, Button } from '@mui/material';
 import EnhancedTable from '../CustomTable';
 import DrawerListItem from './DrawerListItem';
 import { Board, BoardList } from 'src/assets/data/board';
+import MileageHeader from '../Appbar/MileageHeader';
 
 const IconReturn = (text) => {
   switch (text) {
@@ -121,28 +122,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
@@ -176,7 +155,8 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      {/* 메뉴 아이콘과 제목을 가지고 있는  */}
+      {/* <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -197,53 +177,19 @@ export default function MiniDrawer() {
         <Box sx={{ position: 'absolute', right: '30px', top: '13px' }}>
           <Button color="inherit">Login</Button>
         </Box>
-      </AppBar>
+      </AppBar> */}
+      <MileageHeader open={open} handleDrawerOpen={handleDrawerOpen} />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        {/* <Divider /> */}
-        {/* <List>
-          {[0, 1, 2, 3].map((boardNum, index) => (
-            <ListItem
-              key={boardNum}
-              disablePadding
-              sx={{
-                display: 'block',
-                backgroundColor: boardNum === component && 'primary.main',
-                opacity: boardNum === component && 0.6,
-              }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                onClick={() => setComponent(boardNum)}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {IconReturn(boardNum)}
-                </ListItemIcon>
-                <ListItemText primary={BoardList[boardNum]} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
-        {/* <Divider /> */}
+        {/*  사이드바 리스트 아이템 */}
         <List>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((boardNum, index) => (
-            <>
+            <Box key={index}>
               <DrawerListItem
-                key={index}
                 boardNum={boardNum}
                 IconReturn={IconReturn}
                 setComponent={setComponent}
@@ -251,71 +197,14 @@ export default function MiniDrawer() {
                 open={open}
               />
               {(boardNum === 3 || boardNum === 6) && <Divider />}
-            </>
+            </Box>
           ))}
         </List>
-        {/* <Divider />
-        <List>
-          {['학생별 마일리지 현황', '마일리지 선정결과', '설정'].map((text, index) => (
-            <ListItem
-              key={text}
-              disablePadding
-              sx={{
-                display: 'block',
-
-                backgroundColor: text === component && 'primary.main',
-                opacity: text === component && 0.6,
-              }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                onClick={() => setComponent(text)}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {IconReturn(text)}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
       </Drawer>
+      {/* 사이드바에 따른 게시판 본문 컴포넌트 */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+        {/* <DrawerHeader /> */}
         {ComponentReturn(component)}
-        {/* <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography> */}
       </Box>
     </Box>
   );
