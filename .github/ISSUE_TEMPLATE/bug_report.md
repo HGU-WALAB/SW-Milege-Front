@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: 버그 리포트 이슈
-title: 'BUG: [상황]에서 [버그]가 작동하지 않음'
+title: 'BUG: [상황]에서 [기능]가 작동하지 않음'
 labels: bug
 assignees: ohinhyuk
 
