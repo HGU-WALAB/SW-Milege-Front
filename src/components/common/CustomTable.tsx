@@ -494,15 +494,7 @@ export default function EnhancedTable({ type }: { type: string }) {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
+
         <CustomTablePagination
           setPage={setPage}
           rowsPerPage={rowsPerPage}
