@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -28,8 +28,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Button } from '@mui/material';
-import EnhancedTable from './CustomTable';
+import { Box, Button } from '@mui/material';
+import EnhancedTable from '../CustomTable';
+import DrawerListItem from './DrawerListItem';
+
 const IconReturn = (text) => {
   switch (text) {
     case '마일리지 카테고리':
@@ -52,15 +54,19 @@ const IconReturn = (text) => {
       return <GavelIcon />;
     case '설정':
       return <SettingsIcon />;
+    default:
+      return <div>Not Found </div>;
   }
 };
 
 const ComponentReturn = (text) => {
   switch (text) {
     case '마일리지 카테고리':
-      return <EnhancedTable />;
+      return <EnhancedTable type="마일리지 카테고리" />;
+    // return <div>d</div>;
     case '마일리지 항목':
-      return <AllInboxIcon />;
+      // return <EnhancedTable type="마일리지 카테고리" />;
+      return <div>dd</div>;
     case '마일리지 조회':
       return <SearchIcon />;
     case '마일리지 등록':
@@ -77,6 +83,8 @@ const ComponentReturn = (text) => {
       return <GavelIcon />;
     case '설정':
       return <SettingsIcon />;
+    default:
+      return <div>Not Found </div>;
   }
 };
 
@@ -234,35 +242,14 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {['신청자 관리', '학생 관리', '사용자 관리'].map((text, index) => (
-            <ListItem
-              key={text}
-              disablePadding
-              sx={{
-                display: 'block',
-                backgroundColor: text === component && 'primary.main',
-                opacity: text === component && 0.6,
-              }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                onClick={() => setComponent(text)}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {IconReturn(text)}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
+            <DrawerListItem
+              key={index}
+              text={text}
+              IconReturn={IconReturn}
+              setComponent={setComponent}
+              component={component}
+              open={open}
+            />
           ))}
         </List>
         <Divider />
@@ -304,7 +291,7 @@ export default function MiniDrawer() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {ComponentReturn(component)}
-        <Typography paragraph>
+        {/* <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
           ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
           facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
@@ -326,7 +313,7 @@ export default function MiniDrawer() {
           tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
           nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
           accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        </Typography> */}
       </Box>
     </Box>
   );

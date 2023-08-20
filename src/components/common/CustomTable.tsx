@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -6,7 +7,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
+
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,6 +22,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
+import { TablePagination } from '@mui/material';
+import CustomTablePagination from './Table/CustomTablePagination';
 
 interface Data {
   calories: number;
@@ -46,21 +49,21 @@ function createData(
   };
 }
 
-const rows = [
-  createData('1', '전공 마일리지', 3.7, <StarIcon />),
-  createData('2', '비교과 - 연구활동', 25.0, <StarIcon />),
-  createData('3', '비교과 - 전공활동', 16.0, <StarIcon />),
-  createData('4', '비교과 - 특강참여', 6.0, <StarIcon />),
-  createData('5', '비교과 - 학회활동', 16.0, <StarIcon />),
-  createData('6', '비교과 - 행사참여', 3.2, <StarIcon />),
-  // createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  // createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  // createData('KitKat', 518, 26.0, 65, 7.0),
-  // createData('Lollipop', 392, 0.2, 98, 0.0),
-  // createData('Marshmallow', 318, 0, 81, 2.0),
-  // createData('Nougat', 360, 19.0, 9, 37.0),
-  // createData('Oreo', 437, 18.0, 63, 4.0),
-];
+// const rows = [
+//   createData('1', '전공 마일리지', 3.7, <StarIcon />),
+//   createData('2', '비교과 - 연구활동', 25.0, <StarIcon />),
+//   createData('3', '비교과 - 전공활동', 16.0, <StarIcon />),
+//   createData('4', '비교과 - 특강참여', 6.0, <StarIcon />),
+//   createData('5', '비교과 - 학회활동', 16.0, <StarIcon />),
+//   createData('6', '비교과 - 행사참여', 3.2, <StarIcon />),
+// createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+// createData('Jelly Bean', 375, 0.0, 94, 0.0),
+// createData('KitKat', 518, 26.0, 65, 7.0),
+// createData('Lollipop', 392, 0.2, 98, 0.0),
+// createData('Marshmallow', 318, 0, 81, 2.0),
+// createData('Nougat', 360, 19.0, 9, 37.0),
+// createData('Oreo', 437, 18.0, 63, 4.0),
+// ];
 
 // const rows = [
 //   createData('Cupcake', 305, 3.7, 67, 4.3),
@@ -88,7 +91,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
+// type Order = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -122,6 +125,37 @@ interface HeadCell {
   numeric: boolean;
 }
 
+// const headCells = [
+//   {
+//     id: 'name',
+//     numeric: false,
+//     disablePadding: true,
+//     label: '번호',
+//   },
+//   {
+//     id: 'calories',
+//     numeric: true,
+//     disablePadding: false,
+//     label: '카테고리명',
+//   },
+//   {
+//     id: 'fat',
+//     numeric: true,
+//     disablePadding: false,
+//     label: '최대 마일리지',
+//   },
+//   {
+//     id: 'carbs',
+//     numeric: true,
+//     disablePadding: false,
+//     label: '관리',
+//   },
+// ];
+
+/**
+ * @number 1번 헤더
+ * @description 마일리지 카테고리 리스트
+ */
 const headCells = [
   {
     id: 'name',
@@ -139,14 +173,53 @@ const headCells = [
     id: 'fat',
     numeric: true,
     disablePadding: false,
-    label: '최대 마일리지',
+    label: '학기',
   },
   {
     id: 'carbs',
     numeric: true,
     disablePadding: false,
+    label: '항목명',
+  },
+  {
+    id: 'caloriess',
+    numeric: true,
+    disablePadding: false,
+    label: '마일리지',
+  },
+  {
+    id: 'fatt',
+    numeric: true,
+    disablePadding: false,
+    label: '보이기',
+  },
+  {
+    id: 'carbss',
+    numeric: true,
+    disablePadding: false,
+    label: '등록일',
+  },
+
+  {
+    id: 'carbsss',
+    numeric: true,
+    disablePadding: false,
     label: '관리',
   },
+];
+
+/**
+ * @number 1번 목록
+ * @description 마일리지 카테고리 리스트
+ */
+
+const rows = [
+  createData('1', '전공 마일리지', 7, '웹 서비스 캠프', 15, 'Y', '2023-04-18', <StarIcon />),
+  createData('2', '비교과 - 연구활동', 6, '웹 서비스 캠프', 5, 'Y', '2023-04-17', <StarIcon />),
+  createData('3', '비교과 - 전공활동', 6, '웹 서비스 캠프', 25, 'Y', '2023-04-19', <StarIcon />),
+  createData('4', '비교과 - 특강참여', 7, '웹 서비스 캠프', 35, 'Y', '2023-04-20', <StarIcon />),
+  createData('5', '비교과 - 학회활동', 6, '웹 서비스 캠프', 5, 'Y', '2023-04-21', <StarIcon />),
+  createData('6', '비교과 - 행사참여', 8, '웹 서비스 캠프', 5, 'Y', '2023-04-22', <StarIcon />),
 ];
 
 // const headCells: readonly HeadCell[] = [
@@ -286,7 +359,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ type }: { type: string }) {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -421,7 +494,7 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -429,6 +502,12 @@ export default function EnhancedTable() {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+        /> */}
+        <CustomTablePagination
+          setPage={setPage}
+          rowsPerPage={rowsPerPage}
+          count={rows.length}
+          page={page}
         />
       </Paper>
       <FormControlLabel

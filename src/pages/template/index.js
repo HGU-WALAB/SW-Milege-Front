@@ -38,7 +38,7 @@ export default function Template() {
       </TemplateBox>
       <TemplateBox width="450px" height="200px">
         <Pagination count={10} variant="outlined" />
-        <Box sx={{ height: '30px' }}></Box>
+        <Box sx={{ height: '30px' }} />
         <Pagination count={10} shape="rounded" />
       </TemplateBox>
       <TemplateBox width="1000px" height="800px">
