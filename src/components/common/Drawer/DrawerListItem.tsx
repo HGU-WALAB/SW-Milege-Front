@@ -1,7 +1,8 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { BoardList } from 'src/assets/data/board';
+import { IconReturn } from './DrawerIcons';
 
-export default function DrawerListItem({ boardNum, IconReturn, setComponent, component, open }) {
+export default function DrawerListItem({ boardNum, setComponent, component, open }) {
   return (
     <>
       <ListItem

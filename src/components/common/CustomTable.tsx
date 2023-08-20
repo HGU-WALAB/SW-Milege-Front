@@ -24,30 +24,8 @@ import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import { TablePagination } from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
-
-interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
-}
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-): Data {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
+import { MileageCategoryBoard } from '../../assets/data/board';
+import { CATEGORY, NUM } from '../../assets/data/fields';
 
 // const rows = [
 //   createData('1', '전공 마일리지', 3.7, <StarIcon />),
@@ -153,58 +131,71 @@ interface HeadCell {
 // ];
 
 /**
+ * @kind 마일리지 카테로리
+ * @breif 데이터 인터페이스
+ */
+interface Data {
+  [MileageCategoryBoard.CATEGORY]: string;
+  [MileageCategoryBoard.MAX_MILEAGE]: number;
+  [MileageCategoryBoard.MANAGE]: string;
+  [MileageCategoryBoard.CHECK_BOX]: string;
+}
+
+/**
+ * @kind 마일리지 카테고리
+ * @brief 데이터 생성 함수
+ *
+ *  */
+function createData(
+  num: number,
+  category: string,
+  maxMileage: number,
+  manage: string,
+  checkBox: string
+): Data {
+  return {
+    [MileageCategoryBoard.NUM]: num,
+    [MileageCategoryBoard.CATEGORY]: category,
+    [MileageCategoryBoard.MAX_MILEAGE]: maxMileage,
+    [MileageCategoryBoard.MANAGE]: manage,
+    [MileageCategoryBoard.CHECK_BOX]: checkBox,
+  };
+}
+
+/**
  * @number 1번 헤더
  * @description 마일리지 카테고리 리스트
  */
 const headCells = [
   {
-    id: 'name',
+    id: [MileageCategoryBoard.NUM],
     numeric: false,
     disablePadding: true,
     label: '번호',
   },
   {
-    id: 'calories',
+    id: [MileageCategoryBoard.CATEGORY],
     numeric: true,
     disablePadding: false,
     label: '카테고리명',
   },
   {
-    id: 'fat',
+    id: [MileageCategoryBoard.MAX_MILEAGE],
     numeric: true,
     disablePadding: false,
-    label: '학기',
+    label: '최대 마일리지',
   },
   {
-    id: 'carbs',
-    numeric: true,
-    disablePadding: false,
-    label: '항목명',
-  },
-  {
-    id: 'caloriess',
-    numeric: true,
-    disablePadding: false,
-    label: '마일리지',
-  },
-  {
-    id: 'fatt',
-    numeric: true,
-    disablePadding: false,
-    label: '보이기',
-  },
-  {
-    id: 'carbss',
-    numeric: true,
-    disablePadding: false,
-    label: '등록일',
-  },
-
-  {
-    id: 'carbsss',
+    id: [MileageCategoryBoard.MANAGE],
     numeric: true,
     disablePadding: false,
     label: '관리',
+  },
+  {
+    id: [MileageCategoryBoard.CHECK_BOX],
+    numeric: true,
+    disablePadding: false,
+    label: '체크',
   },
 ];
 
@@ -214,12 +205,12 @@ const headCells = [
  */
 
 const rows = [
-  createData('1', '전공 마일리지', 7, '웹 서비스 캠프', 15, 'Y', '2023-04-18', <StarIcon />),
-  createData('2', '비교과 - 연구활동', 6, '웹 서비스 캠프', 5, 'Y', '2023-04-17', <StarIcon />),
-  createData('3', '비교과 - 전공활동', 6, '웹 서비스 캠프', 25, 'Y', '2023-04-19', <StarIcon />),
-  createData('4', '비교과 - 특강참여', 7, '웹 서비스 캠프', 35, 'Y', '2023-04-20', <StarIcon />),
-  createData('5', '비교과 - 학회활동', 6, '웹 서비스 캠프', 5, 'Y', '2023-04-21', <StarIcon />),
-  createData('6', '비교과 - 행사참여', 8, '웹 서비스 캠프', 5, 'Y', '2023-04-22', <StarIcon />),
+  createData(1, '전공 마일리지', 7, '웹 서비스 캠프', <StarIcon />),
+  createData(2, '비교과 - 연구활동', 6, '웹 서비스 캠프', <StarIcon />),
+  createData(3, '비교과 - 전공활동', 6, '웹 서비스 캠프', <StarIcon />),
+  createData(4, '비교과 - 특강참여', 7, '웹 서비스 캠프', <StarIcon />),
+  createData(5, '비교과 - 학회활동', 6, '웹 서비스 캠프', <StarIcon />),
+  createData(6, '비교과 - 행사참여', 8, '웹 서비스 캠프', <StarIcon />),
 ];
 
 interface EnhancedTableProps {
@@ -417,13 +408,13 @@ export default function EnhancedTable({ type }: { type: string }) {
             <TableBody>
               {visibleRows.map((row, index) => {
                 const rowValues = Object.values(row);
-                const isItemSelected = isSelected(row.name);
+                const isItemSelected = isSelected(row.num);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    onClick={(event) => handleClick(event, row.num)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -445,7 +436,7 @@ export default function EnhancedTable({ type }: { type: string }) {
                       {rowValues[0]}
                     </TableCell>
 
-                    {rowValues.slice(1, -1).map((rowValue, index) => (
+                    {rowValues.slice(1).map((rowValue, index) => (
                       <TableCell align="right">{rowValue}</TableCell>
                     ))}
                   </TableRow>

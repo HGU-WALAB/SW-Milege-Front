@@ -1,3 +1,5 @@
+import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, CATEGORY } from './fields';
+import Checkbox from '@mui/material/Checkbox';
 /**
  * @breif 게시판 종류 정의
  * @details 사이드바에서 사용되는 종류들을 모두 enum 열거형으로 관리한다.
@@ -16,6 +18,10 @@ export enum Board {
   '설정',
 }
 
+/**
+ * @breif 게시판 종류 리스트
+ */
+
 export const BoardList = [
   '마일리지 카테고리',
   '마일리지 항목',
@@ -28,3 +34,15 @@ export const BoardList = [
   '마일리지 선정결과',
   '설정',
 ];
+
+/**
+ * @breif [마일리지 카테고리] 게시판
+ */
+
+export enum MileageCategoryBoard {
+  'NUM' = NUM,
+  'CATEGORY' = CATEGORY,
+  'MAX_MILEAGE' = MAX_MILEAGE,
+  'MANAGE' = MANAGE,
+  'CHECK_BOX' = CHECK_BOX,
+}
