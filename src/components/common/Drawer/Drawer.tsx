@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, Button } from '@mui/material';
 import DrawerListItem from './DrawerListItem';
-import { Board, BoardList } from 'src/assets/data/board';
+import { Board, BoardList } from 'src/assets/data/board/board';
 import MileageHeader from '../Appbar/MileageHeader';
 import { IconReturn } from './DrawerIcons';
 import { ComponentReturn } from '../Table/TableComponents';

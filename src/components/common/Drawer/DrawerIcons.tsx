@@ -10,7 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Board } from 'src/assets/data/board';
+import { Board } from 'src/assets/data/board/board';
 
 export const IconReturn = (text) => {
   switch (text) {

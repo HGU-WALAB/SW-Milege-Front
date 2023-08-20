@@ -1,5 +1,5 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { BoardList } from 'src/assets/data/board';
+import { BoardList } from 'src/assets/data/board/board';
 import { IconReturn } from './DrawerIcons';
 
 export default function DrawerListItem({ boardNum, setComponent, component, open }) {

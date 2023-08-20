@@ -1,10 +1,12 @@
-import { Board } from 'src/assets/data/board';
+import { Board } from 'src/assets/data/board/board';
 import EnhancedTable from '../CustomTable';
+import MileageCategory from 'src/components/board/MileageCategory';
 
 export const ComponentReturn = (text) => {
   switch (text) {
     case Board['마일리지 카테고리']:
-      return <EnhancedTable type="마일리지 카테고리" />;
+      //   return <EnhancedTable type="마일리지 카테고리" />;
+      return <MileageCategory />;
     // return <div>d</div>;
     case Board['마일리지 항목']:
       // return <EnhancedTable type="마일리지 카테고리" />;
