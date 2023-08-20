@@ -31,28 +31,29 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Button } from '@mui/material';
 import EnhancedTable from '../CustomTable';
 import DrawerListItem from './DrawerListItem';
+import { Board, BoardList } from 'src/assets/data/board';
 
 const IconReturn = (text) => {
   switch (text) {
-    case '마일리지 카테고리':
+    case Board['마일리지 카테고리']:
       return <CategoryIcon />;
-    case '마일리지 항목':
+    case Board['마일리지 항목']:
       return <AllInboxIcon />;
-    case '마일리지 조회':
+    case Board['마일리지 조회']:
       return <SearchIcon />;
-    case '마일리지 등록':
+    case Board['마일리지 등록']:
       return <InputIcon />;
-    case '신청자 관리':
+    case Board['신청자 관리']:
       return <AssignmentIndIcon />;
-    case '학생 관리':
+    case Board['학생 관리']:
       return <Face6Icon />;
-    case '사용자 관리':
+    case Board['사용자 관리']:
       return <PersonIcon />;
-    case '학생별 마일리지 현황':
+    case Board['학생별 마일리지 현황']:
       return <DonutSmallIcon />;
-    case '마일리지 선정결과':
+    case Board['마일리지 선정결과']:
       return <GavelIcon />;
-    case '설정':
+    case Board['설정']:
       return <SettingsIcon />;
     default:
       return <div>Not Found </div>;
@@ -61,27 +62,27 @@ const IconReturn = (text) => {
 
 const ComponentReturn = (text) => {
   switch (text) {
-    case '마일리지 카테고리':
+    case Board['마일리지 카테고리']:
       return <EnhancedTable type="마일리지 카테고리" />;
     // return <div>d</div>;
-    case '마일리지 항목':
+    case Board['마일리지 항목']:
       // return <EnhancedTable type="마일리지 카테고리" />;
       return <div>dd</div>;
-    case '마일리지 조회':
+    case Board['마일리지 조회']:
       return <SearchIcon />;
-    case '마일리지 등록':
+    case Board['마일리지 등록']:
       return <InputIcon />;
-    case '신청자 관리':
+    case Board['신청자 관리']:
       return <AssignmentIndIcon />;
-    case '학생 관리':
+    case Board['학생 관리']:
       return <Face6Icon />;
-    case '사용자 관리':
+    case Board['사용자 관리']:
       return <PersonIcon />;
-    case '학생별 마일리지 현황':
+    case Board['학생별 마일리지 현황']:
       return <DonutSmallIcon />;
-    case '마일리지 선정결과':
+    case Board['마일리지 선정결과']:
       return <GavelIcon />;
-    case '설정':
+    case Board['설정']:
       return <SettingsIcon />;
     default:
       return <div>Not Found </div>;
@@ -160,7 +161,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-  const [component, setComponent] = React.useState('마일리지 카테고리');
+  const [component, setComponent] = React.useState(0);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -203,56 +204,57 @@ export default function MiniDrawer() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
-        <List>
-          {['마일리지 카테고리', '마일리지 항목', '마일리지 조회', '마일리지 등록'].map(
-            (text, index) => (
-              <ListItem
-                key={text}
-                disablePadding
+        {/* <Divider /> */}
+        {/* <List>
+          {[0, 1, 2, 3].map((boardNum, index) => (
+            <ListItem
+              key={boardNum}
+              disablePadding
+              sx={{
+                display: 'block',
+                backgroundColor: boardNum === component && 'primary.main',
+                opacity: boardNum === component && 0.6,
+              }}
+            >
+              <ListItemButton
                 sx={{
-                  display: 'block',
-                  backgroundColor: text === component && 'primary.main',
-                  opacity: text === component && 0.6,
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
                 }}
+                onClick={() => setComponent(boardNum)}
               >
-                <ListItemButton
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
                   }}
-                  onClick={() => setComponent(text)}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {IconReturn(text)}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
-        </List>
-        <Divider />
+                  {IconReturn(boardNum)}
+                </ListItemIcon>
+                <ListItemText primary={BoardList[boardNum]} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List> */}
+        {/* <Divider /> */}
         <List>
-          {['신청자 관리', '학생 관리', '사용자 관리'].map((text, index) => (
-            <DrawerListItem
-              key={index}
-              text={text}
-              IconReturn={IconReturn}
-              setComponent={setComponent}
-              component={component}
-              open={open}
-            />
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((boardNum, index) => (
+            <>
+              <DrawerListItem
+                key={index}
+                boardNum={boardNum}
+                IconReturn={IconReturn}
+                setComponent={setComponent}
+                component={component}
+                open={open}
+              />
+              {(boardNum === 3 || boardNum === 6) && <Divider />}
+            </>
           ))}
         </List>
-        <Divider />
+        {/* <Divider />
         <List>
           {['학생별 마일리지 현황', '마일리지 선정결과', '설정'].map((text, index) => (
             <ListItem
@@ -286,7 +288,7 @@ export default function MiniDrawer() {
               </ListItemButton>
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

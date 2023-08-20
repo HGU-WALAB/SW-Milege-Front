@@ -1,3 +1,4 @@
+import { Board } from 'src/assets/data/board';
 import MiniDrawer from 'src/components/common/Drawer/Drawer';
 import Header from 'src/components/common/Header';
 

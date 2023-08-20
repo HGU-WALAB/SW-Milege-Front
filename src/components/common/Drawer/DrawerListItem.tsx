@@ -1,24 +1,25 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { BoardList } from 'src/assets/data/board';
 
-export default function DrawerListItem({ text, IconReturn, setComponent, component, open }) {
+export default function DrawerListItem({ boardNum, IconReturn, setComponent, component, open }) {
   return (
     <>
       <ListItem
-        key={text}
+        key={boardNum}
         disablePadding
         sx={{
           display: 'block',
-          backgroundColor: text === component && 'primary.main',
-          opacity: text === component && 0.6,
+          backgroundColor: boardNum === component && 'primary.main',
+          opacity: boardNum === component && 0.6,
         }}
       >
         <ListItemButton
           sx={{
-            minHeight: 48,
+            minHeight: 60,
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          onClick={() => setComponent(text)}
+          onClick={() => setComponent(boardNum)}
         >
           <ListItemIcon
             sx={{
@@ -27,9 +28,9 @@ export default function DrawerListItem({ text, IconReturn, setComponent, compone
               justifyContent: 'center',
             }}
           >
-            {IconReturn(text)}
+            {IconReturn(boardNum)}
           </ListItemIcon>
-          <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+          <ListItemText primary={BoardList[boardNum]} sx={{ opacity: open ? 1 : 0 }} />
         </ListItemButton>
       </ListItem>
     </>
