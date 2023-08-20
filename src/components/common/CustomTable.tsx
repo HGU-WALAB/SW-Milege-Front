@@ -449,6 +449,7 @@ export default function EnhancedTable({ type }: { type: string }) {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
+                const rowValues = Object.values(row);
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -459,7 +460,7 @@ export default function EnhancedTable({ type }: { type: string }) {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={rowValues[0]}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
@@ -472,13 +473,14 @@ export default function EnhancedTable({ type }: { type: string }) {
                         }}
                       />
                     </TableCell>
+
                     <TableCell component="th" id={labelId} scope="row" padding="none">
-                      {row.name}
+                      {rowValues[0]}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+
+                    {rowValues.slice(1, -1).map((rowValue, index) => (
+                      <TableCell align="right">{rowValue}</TableCell>
+                    ))}
                   </TableRow>
                 );
               })}
