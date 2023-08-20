@@ -15,7 +15,8 @@
     "prettier": "prettier --write 'src/**/*.{js,jsx}'",
     "clear-all": "rm -rf .next .swc _static node_modules",
     "re-start": "rm -rf .next .swc _static node_modules && yarn install && yarn dev",
-    "re-build": "rm -rf .next .swc _static node_modules && yarn install && yarn build"
+    "re-build": "rm -rf .next .swc _static node_modules && yarn install && yarn build",
+    "commit": "./node_modules/cz-customizable/standalone.js"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.0.2",
@@ -90,6 +91,8 @@
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/eslint-parser": "^7.19.1",
+    "commitizen": "^4.3.0",
+    "cz-customizable": "^7.0.0",
     "eslint": "^8.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.6.0",
@@ -101,5 +104,10 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.3",
     "typescript": "^4.9.4"
+  },
+  "config": {
+    "cz-customizable": {
+      "config": "cz-config.js"
+    }
   }
 }

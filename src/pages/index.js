@@ -48,13 +48,13 @@ export default function HomePage() {
 
         <HomeHugePackElements />
 
-        <HomeForDesigner />
+        {/* <HomeForDesigner /> */}
 
-        <HomeDarkMode />
+        {/* <HomeDarkMode /> */}
 
-        <HomeColorPresets />
+        {/* <HomeColorPresets /> */}
 
-        <HomeCleanInterfaces />
+        {/* <HomeCleanInterfaces /> */}
 
         <HomePricingPlans />
 
