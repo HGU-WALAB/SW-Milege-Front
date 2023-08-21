@@ -9,6 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
+import MileageItem from 'src/components/board/MileageItem';
 
 export const ComponentReturn = (text) => {
   switch (text) {
@@ -17,8 +18,9 @@ export const ComponentReturn = (text) => {
       return <MileageCategory />;
     // return <div>d</div>;
     case Board['마일리지 항목']:
-      // return <EnhancedTable type="마일리지 카테고리" />;
-      return <div>dd</div>;
+      return <MileageItem />;
+    // return <EnhancedTable type="마일리지 카테고리" />;
+
     case Board['마일리지 조회']:
       return <SearchIcon />;
     case Board['마일리지 등록']:
