@@ -5,7 +5,12 @@ export default function MileageItem(){
    
 
 /**
- * @breif [마일리지 카테고리] 게시판
+ * @component [마일리지 항목] 게시판
+ */
+
+/**
+ * @kind [마일리지 항목]
+ * @breif enum
  */
 
 export enum MileageItemBoard {
@@ -21,12 +26,16 @@ export enum MileageItemBoard {
   }
   
   /**
-   * @kind 마일리지 카테로리
+   * @kind [마일리지 항목]
    * @breif 데이터 인터페이스
    */
   interface Data {
     [MileageItemBoard.CATEGORY]: string;
-    [MileageItemBoard.MAX_MILEAGE]: number;
+    [MileageItemBoard.SEMESTER]: number;
+    [MileageItemBoard.ITEM]: string;
+    [MileageItemBoard.MILEAGE]: number;
+    [MileageItemBoard.ISVISIBLE]: boolean;
+    [MileageItemBoard.REGISTERED_DATE]: string;
     [MileageItemBoard.MANAGE]: string;
     [MileageItemBoard.CHECK_BOX]: string;
   }
