@@ -41,16 +41,20 @@ export enum MileageItemBoard {
   }
   
   /**
-   * @kind 마일리지 카테고리
+   * @kind [마일리지 항목]
    * @brief 데이터 생성 함수
    *
    *  */
   function createData(
     num: number,
     category: string,
-    maxMileage: number,
-    manage: string,
-    checkBox: string
+    semester: number,
+    item: string,
+    mileage: number,
+    isVisible:boolean,
+    registeredDate:string,
+    manage:string,
+    checkBox:string,
   ): Data {
     return {
       [MileageCategoryBoard.NUM]: num,
