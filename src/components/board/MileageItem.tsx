@@ -57,49 +57,77 @@ export enum MileageItemBoard {
     checkBox:string,
   ): Data {
     return {
-      [MileageCategoryBoard.NUM]: num,
-      [MileageCategoryBoard.CATEGORY]: category,
-      [MileageCategoryBoard.MAX_MILEAGE]: maxMileage,
-      [MileageCategoryBoard.MANAGE]: manage,
-      [MileageCategoryBoard.CHECK_BOX]: checkBox,
+      [MileageItemBoard.NUM]: num,
+      [MileageItemBoard.CATEGORY]: category,
+      [MileageItemBoard.SEMESTER]: semester,
+      [MileageItemBoard.ITEM]: item,
+      [MileageItemBoard.MILEAGE]: mileage,
+      [MileageItemBoard.ISVISIBLE]: isVisible,
+      [MileageItemBoard.REGISTERED_DATE]: registeredDate,
+      [MileageItemBoard.MANAGE]: manage,
+      [MileageItemBoard.CHECK_BOX]: checkBox,
     };
   }
   
   /**
-   * @number 1번 헤더
-   * @description 마일리지 카테고리 리스트
+   * @kind [마일리지 항목]
+   * @brief 테이블 헤더
    */
   const headCells = [
     {
-      id: [MileageCategoryBoard.NUM],
+      id: [MileageItemBoard.NUM],
       numeric: false,
       disablePadding: true,
       label: '번호',
     },
     {
-      id: [MileageCategoryBoard.CATEGORY],
+      id: [MileageItemBoard.CATEGORY],
       numeric: true,
       disablePadding: false,
       label: '카테고리명',
     },
     {
-      id: [MileageCategoryBoard.MAX_MILEAGE],
+      id: [MileageItemBoard.SEMESTER],
       numeric: true,
       disablePadding: false,
-      label: '최대 마일리지',
+      label: '학기',
     },
     {
-      id: [MileageCategoryBoard.MANAGE],
+      id: [MileageItemBoard.ITEM],
       numeric: true,
       disablePadding: false,
-      label: '관리',
+      label: '항목명',
     },
     {
-      id: [MileageCategoryBoard.CHECK_BOX],
+      id: [MileageItemBoard.MILEAGE],
       numeric: true,
       disablePadding: false,
-      label: '체크',
+      label: '마일리지',
     },
+    {
+        id: [MileageItemBoard.ISVISIBLE],
+        numeric: true,
+        disablePadding: false,
+        label: '보이기',
+      },
+      {
+        id: [MileageItemBoard.REGISTERED_DATE],
+        numeric: true,
+        disablePadding: false,
+        label: '등록일',
+      },
+      {
+        id: [MileageItemBoard.MANAGE],
+        numeric: true,
+        disablePadding: false,
+        label: '관리',
+      },
+      {
+        id: [MileageItemBoard.CHECK_BOX],
+        numeric: true,
+        disablePadding: false,
+        label: '체크',
+      },
   ];
   
   /**
