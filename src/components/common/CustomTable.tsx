@@ -446,7 +446,7 @@ export default function EnhancedTable({ rows, headCells }) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-            />
+          />
             <TableBody>
               {visibleRows.map((row, index) => {
                 const rowValues = Object.values(row);

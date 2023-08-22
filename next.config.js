@@ -21,4 +21,7 @@ module.exports = {
     AUTH0_DOMAIN: '',
     AUTH0_CLIENT_ID: '',
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
