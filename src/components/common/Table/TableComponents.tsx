@@ -12,6 +12,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import MileageItem from 'src/components/board/MileageItem';
 import MileageView from 'src/components/board/MileageView';
 import MileageRegister from 'src/components/board/MileageRegister';
+import RegisterManage from 'src/components/board/RegisterManage';
 
 export const ComponentReturn = (text) => {
   switch (text) {
@@ -28,7 +29,7 @@ export const ComponentReturn = (text) => {
     case Board['마일리지 등록']:
       return <MileageRegister />;
     case Board['신청자 관리']:
-      return <AssignmentIndIcon />;
+      return <RegisterManage />;
     case Board['학생 관리']:
       return <Face6Icon />;
     case Board['사용자 관리']:
