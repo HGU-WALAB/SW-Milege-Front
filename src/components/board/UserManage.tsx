@@ -25,7 +25,7 @@ import {
  * @breif enum
  */
 
-export enum StudentManageBoard {
+export enum UserManageBoard {
   'NUM' = NUM,
   'STUDENT_NAME' = STUDENT_NAME,
   'EMAIL' = EMAIL,
@@ -38,49 +38,31 @@ export enum StudentManageBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [StudentManageBoard.STUDENT_NAME]: string;
-  [StudentManageBoard.STUDENT_ID]: number;
-  [StudentManageBoard.GRADE]: number;
-  [StudentManageBoard.CONTACT]: number;
-  [StudentManageBoard.DEPARTMENT]: string;
-  [StudentManageBoard.MAJOR]: string;
-  [StudentManageBoard.FREQUENCY]: string;
-  [StudentManageBoard.REGISTERED_DATE]: string;
-  [StudentManageBoard.APPROVE]: string;
-  [StudentManageBoard.MANAGE]: string;
+  [UserManageBoard.STUDENT_NAME]: string;
+  [UserManageBoard.EMAIL]: string;
+  [UserManageBoard.AUTHORITY]: string;
+  [UserManageBoard.FREQUENCY]: string;
 }
 
-export default function StudentManage() {
+export default function UserManage() {
   /**
    * @kind [사용자 관리]
    * @brief 데이터 생성 함수
    *
    *  */
-  function createData(
-    num: number,
-    studentName: string,
-    studentId: number,
-    grade: number,
-    contact: number,
-    department: string,
-    major: string,
-    frequency: string,
-    registeredDate: string,
-    approve: string,
-    manage: string
-  ): Data {
+  function createData(num: number, studentName: string): Data {
     return {
-      [StudentManageBoard.NUM]: num,
-      [StudentManageBoard.STUDENT_NAME]: studentName,
-      [StudentManageBoard.STUDENT_ID]: studentId,
-      [StudentManageBoard.GRADE]: grade,
-      [StudentManageBoard.CONTACT]: contact,
-      [StudentManageBoard.DEPARTMENT]: department,
-      [StudentManageBoard.MAJOR]: major,
-      [StudentManageBoard.FREQUENCY]: frequency,
-      [StudentManageBoard.REGISTERED_DATE]: registeredDate,
-      [StudentManageBoard.APPROVE]: approve,
-      [StudentManageBoard.MANAGE]: manage,
+      [UserManageBoard.NUM]: num,
+      [UserManageBoard.STUDENT_NAME]: studentName,
+      [UserManageBoard.STUDENT_ID]: studentId,
+      [UserManageBoard.GRADE]: grade,
+      [UserManageBoard.CONTACT]: contact,
+      [UserManageBoard.DEPARTMENT]: department,
+      [UserManageBoard.MAJOR]: major,
+      [UserManageBoard.FREQUENCY]: frequency,
+      [UserManageBoard.REGISTERED_DATE]: registeredDate,
+      [UserManageBoard.APPROVE]: approve,
+      [UserManageBoard.MANAGE]: manage,
     };
   }
 
@@ -90,67 +72,67 @@ export default function StudentManage() {
    */
   const headCells = [
     {
-      id: [StudentManageBoard.NUM],
+      id: [UserManageBoard.NUM],
       numeric: false,
       disablePadding: true,
       label: '번호',
     },
     {
-      id: [StudentManageBoard.STUDENT_NAME],
+      id: [UserManageBoard.STUDENT_NAME],
       numeric: true,
       disablePadding: false,
       label: '이름',
     },
     {
-      id: [StudentManageBoard.STUDENT_ID],
+      id: [UserManageBoard.STUDENT_ID],
       numeric: true,
       disablePadding: false,
       label: '학번',
     },
     {
-      id: [StudentManageBoard.GRADE],
+      id: [UserManageBoard.GRADE],
       numeric: true,
       disablePadding: false,
       label: '학년',
     },
     {
-      id: [StudentManageBoard.CONTACT],
+      id: [UserManageBoard.CONTACT],
       numeric: true,
       disablePadding: false,
       label: '연락처',
     },
     {
-      id: [StudentManageBoard.DEPARTMENT],
+      id: [UserManageBoard.DEPARTMENT],
       numeric: true,
       disablePadding: false,
       label: '학부',
     },
     {
-      id: [StudentManageBoard.MAJOR],
+      id: [UserManageBoard.MAJOR],
       numeric: true,
       disablePadding: false,
       label: '전공',
     },
     {
-      id: [StudentManageBoard.FREQUENCY],
+      id: [UserManageBoard.FREQUENCY],
       numeric: true,
       disablePadding: false,
       label: '빈도수',
     },
     {
-      id: [StudentManageBoard.REGISTERED_DATE],
+      id: [UserManageBoard.REGISTERED_DATE],
       numeric: true,
       disablePadding: false,
       label: '등록일',
     },
     {
-      id: [StudentManageBoard.APPROVE],
+      id: [UserManageBoard.APPROVE],
       numeric: true,
       disablePadding: false,
       label: '승인',
     },
     {
-      id: [StudentManageBoard.MANAGE],
+      id: [UserManageBoard.MANAGE],
       numeric: true,
       disablePadding: false,
       label: '신청 취소',
