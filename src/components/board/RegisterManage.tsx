@@ -14,27 +14,31 @@ import {
 } from 'src/assets/data/fields';
 
 /**
- * @component [마일리지 조회] 게시판
+ * @component [신청자 관리] 게시판
  */
 
 /**
- * @kind [마일리지 조회]
+ * @kind [신청자 관리]
  * @breif enum
  */
 
 export enum RegisterManageBoard {
   'NUM' = NUM,
   'CATEGORY' = CATEGORY,
-  'SEMESTER' = SEMESTER,
-  'ITEM' = ITEM,
-  'STUDENT_ID' = STUDENT_ID,
   'STUDENT_NAME' = STUDENT_NAME,
-  'POINT' = POINT,
+  'STUDENT_ID' = STUDENT_ID,
+  'GRADE' = GRADE,
+  'CONTACT' = CONTACT,
+  'DEPARTMENT' = DEPARTMENT,
+  'MAJOR' = MAJOR,
+  'FREQUENCY' = FREQUENCY,
   'REGISTERED_DATE' = REGISTERED_DATE,
+  'APPROVE' = APPROVE,
+  'REJECT' = REJECT,
 }
 
 /**
- * @kind [마일리지 조회]
+ * @kind [신청자 관리]
  * @breif 데이터 인터페이스
  */
 interface Data {
@@ -53,7 +57,7 @@ interface Data {
 
 export default function RegisterManage() {
   /**
-   * @kind [마일리지 조회]
+   * @kind [신청자 관리]
    * @brief 데이터 생성 함수
    *
    *  */
@@ -80,7 +84,7 @@ export default function RegisterManage() {
   }
 
   /**
-   * @kind [마일리지 조회]
+   * @kind [신청자 관리]
    * @brief 테이블 헤더
    */
   const headCells = [
