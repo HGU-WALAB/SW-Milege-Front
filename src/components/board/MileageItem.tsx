@@ -143,5 +143,5 @@ export default function MileageItem() {
     createData(6, '비교과 - 행사참여', 8, '웹 서비스 캠프', 30, 'y', '2023-08-21', <StarIcon />),
   ];
 
-  return <EnhancedTable type="마일리지 항목" rows={rows} headCells={headCells} />;
+  return <EnhancedTable rows={rows} headCells={headCells} />;
 }
