@@ -13,11 +13,11 @@ import {
 } from 'src/assets/data/fields';
 
 /**
- * @component [마일리지 조회] 게시판
+ * @component [마일리지 등록] 게시판
  */
 
 /**
- * @kind [마일리지 조회]
+ * @kind [마일리지 등록]
  * @breif enum
  */
 
@@ -33,17 +33,17 @@ export enum MileageApplyBoard {
 }
 
 /**
- * @kind [마일리지 조회]
+ * @kind [마일리지 등록]
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [MileageApplyBoard.CATEGORY]: string;
   [MileageApplyBoard.SEMESTER]: number;
   [MileageApplyBoard.ITEM]: string;
-  [MileageApplyBoard.STUDENT_ID]: number;
-  [MileageApplyBoard.STUDENT_NAME]: string;
-  [MileageApplyBoard.POINT]: number;
-  [MileageApplyBoard.REGISTERED_DATE]: string;
+  [MileageApplyBoard.DESCRIPTION]: string;
+  [MileageApplyBoard.REGISTER_NUM]: number;
+  [MileageApplyBoard.FILE]: string;
+  [MileageApplyBoard.MODIFYIED_DATE]: string;
+  [MileageApplyBoard.ADD]: string;
 }
 
 export default function MileageApply() {
@@ -54,23 +54,23 @@ export default function MileageApply() {
    *  */
   function createData(
     num: number,
-    category: string,
     semester: number,
     item: string,
-    studentId: number,
-    studentName: string,
-    point: number,
-    registeredDate: string
+    description: string,
+    registerNum: number,
+    file: string,
+    modifyiedDate: string,
+    add: string
   ): Data {
     return {
       [MileageApplyBoard.NUM]: num,
-      [MileageApplyBoard.CATEGORY]: category,
       [MileageApplyBoard.SEMESTER]: semester,
       [MileageApplyBoard.ITEM]: item,
-      [MileageApplyBoard.STUDENT_ID]: studentId,
-      [MileageApplyBoard.STUDENT_NAME]: studentName,
-      [MileageApplyBoard.POINT]: point,
-      [MileageApplyBoard.REGISTERED_DATE]: registeredDate,
+      [MileageApplyBoard.DESCRIPTION]: description,
+      [MileageApplyBoard.REGISTER_NUM]: registerNum,
+      [MileageApplyBoard.FILE]: file,
+      [MileageApplyBoard.MODIFYIED_DATE]: modifyiedDate,
+      [MileageApplyBoard.ADD]: add,
     };
   }
 
