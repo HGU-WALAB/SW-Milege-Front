@@ -98,22 +98,10 @@ export default function RegisterManage() {
       label: '번호',
     },
     {
-      id: [RegisterManageBoard.CATEGORY],
+      id: [RegisterManageBoard.STUDENT_NAME],
       numeric: true,
       disablePadding: false,
-      label: '카테고리명',
-    },
-    {
-      id: [RegisterManageBoard.SEMESTER],
-      numeric: true,
-      disablePadding: false,
-      label: '학기',
-    },
-    {
-      id: [RegisterManageBoard.ITEM],
-      numeric: true,
-      disablePadding: false,
-      label: '항목명',
+      label: '이름',
     },
     {
       id: [RegisterManageBoard.STUDENT_ID],
@@ -122,22 +110,52 @@ export default function RegisterManage() {
       label: '학번',
     },
     {
-      id: [RegisterManageBoard.STUDENT_NAME],
+      id: [RegisterManageBoard.GRADE],
       numeric: true,
       disablePadding: false,
-      label: '이름',
+      label: '학년',
     },
     {
-      id: [RegisterManageBoard.POINT],
+      id: [RegisterManageBoard.CONTACT],
       numeric: true,
       disablePadding: false,
-      label: '포인트',
+      label: '연락처',
+    },
+    {
+      id: [RegisterManageBoard.DEPARTMENT],
+      numeric: true,
+      disablePadding: false,
+      label: '학부',
+    },
+    {
+      id: [RegisterManageBoard.MAJOR],
+      numeric: true,
+      disablePadding: false,
+      label: '전공',
+    },
+    {
+      id: [RegisterManageBoard.FREQUENCY],
+      numeric: true,
+      disablePadding: false,
+      label: '빈도수',
     },
     {
       id: [RegisterManageBoard.REGISTERED_DATE],
       numeric: true,
       disablePadding: false,
       label: '등록일',
+    },
+    {
+      id: [RegisterManageBoard.APPROVE],
+      numeric: true,
+      disablePadding: false,
+      label: '승인',
+    },
+    {
+      id: [RegisterManageBoard.REJECT],
+      numeric: true,
+      disablePadding: false,
+      label: '신청 취소',
     },
   ];
 
