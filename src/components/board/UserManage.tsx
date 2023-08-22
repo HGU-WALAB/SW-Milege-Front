@@ -27,7 +27,7 @@ import {
 
 export enum UserManageBoard {
   'NUM' = NUM,
-  'STUDENT_NAME' = STUDENT_NAME,
+  'NAME' = NAME,
   'EMAIL' = EMAIL,
   'AUTHORITY' = AUTHORITY,
   'FREQUENCY' = FREQUENCY,
@@ -38,7 +38,7 @@ export enum UserManageBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [UserManageBoard.STUDENT_NAME]: string;
+  [UserManageBoard.NAME]: string;
   [UserManageBoard.EMAIL]: string;
   [UserManageBoard.AUTHORITY]: string;
   [UserManageBoard.FREQUENCY]: string;
@@ -52,14 +52,14 @@ export default function UserManage() {
    *  */
   function createData(
     num: number,
-    studentName: string,
+    name: string,
     email: string,
     authority: string,
     frequency: string
   ): Data {
     return {
       [UserManageBoard.NUM]: num,
-      [UserManageBoard.STUDENT_NAME]: studentName,
+      [UserManageBoard.NAME]: name,
       [UserManageBoard.EMAIL]: email,
       [UserManageBoard.AUTHORITY]: authority,
       [UserManageBoard.FREQUENCY]: frequency,
