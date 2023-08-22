@@ -50,19 +50,19 @@ export default function UserManage() {
    * @brief 데이터 생성 함수
    *
    *  */
-  function createData(num: number, studentName: string): Data {
+  function createData(
+    num: number,
+    studentName: string,
+    email: string,
+    authority: string,
+    frequency: string
+  ): Data {
     return {
       [UserManageBoard.NUM]: num,
       [UserManageBoard.STUDENT_NAME]: studentName,
-      [UserManageBoard.STUDENT_ID]: studentId,
-      [UserManageBoard.GRADE]: grade,
-      [UserManageBoard.CONTACT]: contact,
-      [UserManageBoard.DEPARTMENT]: department,
-      [UserManageBoard.MAJOR]: major,
+      [UserManageBoard.EMAIL]: email,
+      [UserManageBoard.AUTHORITY]: authority,
       [UserManageBoard.FREQUENCY]: frequency,
-      [UserManageBoard.REGISTERED_DATE]: registeredDate,
-      [UserManageBoard.APPROVE]: approve,
-      [UserManageBoard.MANAGE]: manage,
     };
   }
 
