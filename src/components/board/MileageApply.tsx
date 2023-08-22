@@ -21,15 +21,15 @@ import {
  * @breif enum
  */
 
-export enum MileageViewBoard {
+export enum MileageApplyBoard {
   'NUM' = NUM,
-  'CATEGORY' = CATEGORY,
   'SEMESTER' = SEMESTER,
   'ITEM' = ITEM,
-  'STUDENT_ID' = STUDENT_ID,
-  'STUDENT_NAME' = STUDENT_NAME,
-  'POINT' = POINT,
-  'REGISTERED_DATE' = REGISTERED_DATE,
+  'DESCRIPTION' = DESCRIPTION,
+  'REGISTER_NUM' = REGISTER_NUN,
+  'FILE' = FILE,
+  'MODIFYIED_DATE' = MODIFYIED_DATE,
+  'ADD' = ADD,
 }
 
 /**
@@ -37,16 +37,16 @@ export enum MileageViewBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [MileageViewBoard.CATEGORY]: string;
-  [MileageViewBoard.SEMESTER]: number;
-  [MileageViewBoard.ITEM]: string;
-  [MileageViewBoard.STUDENT_ID]: number;
-  [MileageViewBoard.STUDENT_NAME]: string;
-  [MileageViewBoard.POINT]: number;
-  [MileageViewBoard.REGISTERED_DATE]: string;
+  [MileageApplyBoard.CATEGORY]: string;
+  [MileageApplyBoard.SEMESTER]: number;
+  [MileageApplyBoard.ITEM]: string;
+  [MileageApplyBoard.STUDENT_ID]: number;
+  [MileageApplyBoard.STUDENT_NAME]: string;
+  [MileageApplyBoard.POINT]: number;
+  [MileageApplyBoard.REGISTERED_DATE]: string;
 }
 
-export default function MileageView() {
+export default function MileageApply() {
   /**
    * @kind [마일리지 조회]
    * @brief 데이터 생성 함수
@@ -63,14 +63,14 @@ export default function MileageView() {
     registeredDate: string
   ): Data {
     return {
-      [MileageViewBoard.NUM]: num,
-      [MileageViewBoard.CATEGORY]: category,
-      [MileageViewBoard.SEMESTER]: semester,
-      [MileageViewBoard.ITEM]: item,
-      [MileageViewBoard.STUDENT_ID]: studentId,
-      [MileageViewBoard.STUDENT_NAME]: studentName,
-      [MileageViewBoard.POINT]: point,
-      [MileageViewBoard.REGISTERED_DATE]: registeredDate,
+      [MileageApplyBoard.NUM]: num,
+      [MileageApplyBoard.CATEGORY]: category,
+      [MileageApplyBoard.SEMESTER]: semester,
+      [MileageApplyBoard.ITEM]: item,
+      [MileageApplyBoard.STUDENT_ID]: studentId,
+      [MileageApplyBoard.STUDENT_NAME]: studentName,
+      [MileageApplyBoard.POINT]: point,
+      [MileageApplyBoard.REGISTERED_DATE]: registeredDate,
     };
   }
 
@@ -80,49 +80,49 @@ export default function MileageView() {
    */
   const headCells = [
     {
-      id: [MileageViewBoard.NUM],
+      id: [MileageApplyBoard.NUM],
       numeric: false,
       disablePadding: true,
       label: '번호',
     },
     {
-      id: [MileageViewBoard.CATEGORY],
+      id: [MileageApplyBoard.CATEGORY],
       numeric: true,
       disablePadding: false,
       label: '카테고리명',
     },
     {
-      id: [MileageViewBoard.SEMESTER],
+      id: [MileageApplyBoard.SEMESTER],
       numeric: true,
       disablePadding: false,
       label: '학기',
     },
     {
-      id: [MileageViewBoard.ITEM],
+      id: [MileageApplyBoard.ITEM],
       numeric: true,
       disablePadding: false,
       label: '항목명',
     },
     {
-      id: [MileageViewBoard.STUDENT_ID],
+      id: [MileageApplyBoard.STUDENT_ID],
       numeric: true,
       disablePadding: false,
       label: '학번',
     },
     {
-      id: [MileageViewBoard.STUDENT_NAME],
+      id: [MileageApplyBoard.STUDENT_NAME],
       numeric: true,
       disablePadding: false,
       label: '이름',
     },
     {
-      id: [MileageViewBoard.POINT],
+      id: [MileageApplyBoard.POINT],
       numeric: true,
       disablePadding: false,
       label: '포인트',
     },
     {
-      id: [MileageViewBoard.REGISTERED_DATE],
+      id: [MileageApplyBoard.REGISTERED_DATE],
       numeric: true,
       disablePadding: false,
       label: '등록일',
