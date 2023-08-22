@@ -48,7 +48,7 @@ interface Data {
 
 export default function MileageApply() {
   /**
-   * @kind [마일리지 조회]
+   * @kind [마일리지 등록]
    * @brief 데이터 생성 함수
    *
    *  */
@@ -75,7 +75,7 @@ export default function MileageApply() {
   }
 
   /**
-   * @kind [마일리지 조회]
+   * @kind [마일리지 등록]
    * @brief 테이블 헤더
    */
   const headCells = [
@@ -84,12 +84,6 @@ export default function MileageApply() {
       numeric: false,
       disablePadding: true,
       label: '번호',
-    },
-    {
-      id: [MileageApplyBoard.CATEGORY],
-      numeric: true,
-      disablePadding: false,
-      label: '카테고리명',
     },
     {
       id: [MileageApplyBoard.SEMESTER],
@@ -104,28 +98,34 @@ export default function MileageApply() {
       label: '항목명',
     },
     {
-      id: [MileageApplyBoard.STUDENT_ID],
+      id: [MileageApplyBoard.DESCRIPTION],
       numeric: true,
       disablePadding: false,
-      label: '학번',
+      label: '내용',
     },
     {
-      id: [MileageApplyBoard.STUDENT_NAME],
+      id: [MileageApplyBoard.REGISTER_NUM],
       numeric: true,
       disablePadding: false,
-      label: '이름',
+      label: '등록수',
     },
     {
-      id: [MileageApplyBoard.POINT],
+      id: [MileageApplyBoard.FILE],
       numeric: true,
       disablePadding: false,
-      label: '포인트',
+      label: '파일',
     },
     {
-      id: [MileageApplyBoard.REGISTERED_DATE],
+      id: [MileageApplyBoard.MODIFYIED_DATE],
       numeric: true,
       disablePadding: false,
-      label: '등록일',
+      label: '수정일',
+    },
+    {
+      id: [MileageApplyBoard.ADD],
+      numeric: true,
+      disablePadding: false,
+      label: '추가',
     },
   ];
 
