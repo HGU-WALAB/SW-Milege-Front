@@ -4,7 +4,6 @@ import { FREQUENCY } from '../../assets/data/fields';
 
 import {
   NUM,
-  CATEGORY,
   SEMESTER,
   ITEM,
   STUDENT_ID,
@@ -24,7 +23,6 @@ import {
 
 export enum RegisterManageBoard {
   'NUM' = NUM,
-  'CATEGORY' = CATEGORY,
   'STUDENT_NAME' = STUDENT_NAME,
   'STUDENT_ID' = STUDENT_ID,
   'GRADE' = GRADE,
@@ -42,7 +40,6 @@ export enum RegisterManageBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [RegisterManageBoard.CATEGORY]: string;
   [RegisterManageBoard.STUDENT_NAME]: string;
   [RegisterManageBoard.STUDENT_ID]: number;
   [RegisterManageBoard.GRADE]: number;
@@ -63,7 +60,6 @@ export default function RegisterManage() {
    *  */
   function createData(
     num: number,
-    category: string,
     studentName: string,
     studentId: number,
     grade: number,
@@ -77,7 +73,6 @@ export default function RegisterManage() {
   ): Data {
     return {
       [RegisterManageBoard.NUM]: num,
-      [RegisterManageBoard.CATEGORY]: category,
       [RegisterManageBoard.STUDENT_NAME]: studentName,
       [RegisterManageBoard.STUDENT_ID]: studentId,
       [RegisterManageBoard.GRADE]: grade,
