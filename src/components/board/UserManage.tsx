@@ -2,19 +2,7 @@ import EnhancedTable from '../common/CustomTable';
 
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import {
-  NUM,
-  STUDENT_NAME,
-  STUDENT_ID,
-  GRADE,
-  CONTACT,
-  DEPARTMENT,
-  MAJOR,
-  FREQUENCY,
-  REGISTERED_DATE,
-  APPROVE,
-  MANAGE,
-} from 'src/assets/data/fields';
+import { NUM, NAME, EMAIL, AUTHORITY, FREQUENCY } from 'src/assets/data/fields';
 
 /**
  * @component [사용자 관리] 게시판
@@ -109,58 +97,11 @@ export default function UserManage() {
    */
 
   const rows = [
-    createData(
-      1,
-      '오인혁',
-      '21800446',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
-    createData(
-      2,
-      '한시온',
-      '21800447',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
-    createData(
-      3,
-      '김민수',
-      '21800448',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
-    createData(
-      4,
-      '장유진',
-      '21800449',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
+    createData(1, '오인혁', '21800446@email.com', '관리자', '20(2023-08-22)'),
+    createData(2, '한시온', '21800447@email.com', '관리자', '20(2023-08-22)'),
+    createData(3, '장유진', '21800448@email.com', '관리자', '20(2023-08-22)'),
+    createData(4, '장소연', '21800449@email.com', '관리자', '20(2023-08-22)'),
+    createData(5, '김광', '21800450', '관리자', '20(2023-08-22)'),
   ];
 
   return <EnhancedTable rows={rows} headCells={headCells} />;
