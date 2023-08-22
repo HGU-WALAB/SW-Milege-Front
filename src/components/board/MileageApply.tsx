@@ -1,6 +1,6 @@
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from '../common/CustomTable';
-
+import AddIcon from '@mui/icons-material/Add';
 import {
   NUM,
   CATEGORY,
@@ -11,6 +11,7 @@ import {
   POINT,
   REGISTERED_DATE,
 } from 'src/assets/data/fields';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 /**
  * @component [마일리지 등록] 게시판
@@ -37,7 +38,7 @@ export enum MileageApplyBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [MileageApplyBoard.SEMESTER]: number;
+  [MileageApplyBoard.SEMESTER]: string;
   [MileageApplyBoard.ITEM]: string;
   [MileageApplyBoard.DESCRIPTION]: string;
   [MileageApplyBoard.REGISTER_NUM]: number;
@@ -54,7 +55,7 @@ export default function MileageApply() {
    *  */
   function createData(
     num: number,
-    semester: number,
+    semester: string,
     item: string,
     description: string,
     registerNum: number,
@@ -130,46 +131,93 @@ export default function MileageApply() {
   ];
 
   /**
-   * @number 1번 목록
+   * @kind [마일리지 등록]
    * @description 마일리지 항목 리스트
    */
 
   const rows = [
-    createData(1, '전공 마일리지', 7, '웹 서비스 캠프', '21800446', '오인혁', 230, '2022-08-21'),
-    createData(2, '비교과 - 전공활동', 6, 'pps 캠프', '21800447', '한시온', 230, '2022-08-21'),
-    createData(3, '비교과 - 특강참여', 7, 'c언어 캠프', '21800448', '김민수', 230, '2022-08-21'),
     createData(
-      4,
-      '비교과 - 학회활동',
-      6,
-      '대경권 프로그래밍 대회',
-      '21800449',
-      '장유진',
-      230,
-      '2022-08-21'
-    ),
-    createData(5, '비교과 - 행사참여', 8, '와랩 스터디', '21800450', '정석민', 230, '2022-08-21'),
-    createData(
-      6,
-      '비교과 - 연구활동',
-      6,
+      1,
+      '2022-01',
       '웹 서비스 캠프',
-      '21800451',
-      '장유진',
-      230,
-      '2022-08-21'
+      '웹 서비스 구축에 필요한 스터디를 진행하고 직접 자신만의 웹페이지를 만들어보는 과정',
+      23,
+      <AttachFileIcon />,
+      '2021-01-21',
+      <AddIcon />
     ),
-    createData(7, '전공 마일리지', 7, '웹 서비스 캠프', '21800452', '박민지', 230, '2022-08-21'),
+     createData(
+      2,
+      '2022-01',,
+      'C언어 캠프',
+      'C언어의 기초에 대해 공부하고 C언어를 이용하여 간단한 프로그램을 만들어보는 과정',
+      23,
+      <AttachFileIcon />,
+      '2022-01-23',
+      <AddIcon />
+    ),
     createData(
-      8,
-      '비교과 - 전공활동',
-      6,
-      '웹 서비스 캠프',
-      '21800453',
-      '정가원',
-      230,
-      '2022-08-21'
+        3,
+        '2022-01',
+        '파이썬 캠프',
+        '파이썬 기초를 공부하고 파이썬을 이용하여 간단한 프로그램을 만들어보는 과정',
+        15,
+        <AttachFileIcon />,
+        '2022-01-31',
+        <AddIcon />
     ),
+    createData(
+        4,
+        '2022-01',
+        'C++ 캠프',
+        'C++ 기초를 공부하고 C++을 이용하여 간단한 프로그램을 만들어보는 과정',
+        15,
+        <AttachFileIcon />,
+        '2022-01-31',
+        <AddIcon />
+    ),
+    createData(
+        5,
+        '2022-01',
+        '자바 캠프',
+        '자바 기초를 공부하고 자바를 이용하여 간단한 프로그램을 만들어보는 과정',
+        15,
+        <AttachFileIcon />,
+        '2022-01-31',
+        <AddIcon />
+    ),
+    createData(
+        6,
+        '2022-02',
+        '웹 서비스 캠프',
+        '웹 서비스 구축에 필요한 스터디를 진행하고 직접 자신만의 웹페이지를 만들어보는 과정',
+        23,
+        <AttachFileIcon />,
+        '2021-01-21',
+        <AddIcon />
+    ),
+        createData(
+        7,
+        '2022-02',
+        '데이터 구조',
+        '데이터 구조에 대해 공부하고 간단한 프로그램을 만들어보는 과정',
+        23,
+        <AttachFileIcon />,
+        '2021-01-21',
+        <AddIcon />
+    ),
+    createData(
+        8,
+        '2022-02',
+        '데이터베이스',
+        '데이터베이스에 대해 공부하고 간단한 프로그램을 만들어보는 과정',
+        23,
+        <AttachFileIcon />,
+        '2021-01-21',
+        <AddIcon />
+    ),
+
+
   ];
 
   return <EnhancedTable rows={rows} headCells={headCells} />;
