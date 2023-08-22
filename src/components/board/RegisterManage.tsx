@@ -64,22 +64,30 @@ export default function RegisterManage() {
   function createData(
     num: number,
     category: string,
-    semester: string,
-    item: string,
-    studentId: number,
     studentName: string,
-    point: number,
-    registeredDate: string
+    studentId: number,
+    grade: number,
+    contact: number,
+    department: string,
+    major: string,
+    frequency: string,
+    registeredDate: string,
+    approve: string,
+    reject: string
   ): Data {
     return {
       [RegisterManageBoard.NUM]: num,
       [RegisterManageBoard.CATEGORY]: category,
-      [RegisterManageBoard.SEMESTER]: semester,
-      [RegisterManageBoard.ITEM]: item,
-      [RegisterManageBoard.STUDENT_ID]: studentId,
       [RegisterManageBoard.STUDENT_NAME]: studentName,
-      [RegisterManageBoard.POINT]: point,
+      [RegisterManageBoard.STUDENT_ID]: studentId,
+      [RegisterManageBoard.GRADE]: grade,
+      [RegisterManageBoard.CONTACT]: contact,
+      [RegisterManageBoard.DEPARTMENT]: department,
+      [RegisterManageBoard.MAJOR]: major,
+      [RegisterManageBoard.FREQUENCY]: frequency,
       [RegisterManageBoard.REGISTERED_DATE]: registeredDate,
+      [RegisterManageBoard.APPROVE]: approve,
+      [RegisterManageBoard.REJECT]: reject,
     };
   }
 
