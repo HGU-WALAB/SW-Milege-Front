@@ -32,17 +32,17 @@ export enum MileageViewBoard {
 }
 
 /**
- * @kind [마일리지 항목]
+ * @kind [마일리지 조회]
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [MileageItemBoard.CATEGORY]: string;
-  [MileageItemBoard.SEMESTER]: number;
-  [MileageItemBoard.ITEM]: string;
-  [MileageItemBoard.MILEAGE]: number;
-  [MileageItemBoard.ISVISIBLE]: boolean;
-  [MileageItemBoard.REGISTERED_DATE]: string;
-  [MileageItemBoard.MANAGE]: string;
+  [MileageViewBoard.CATEGORY]: string;
+  [MileageViewBoard.SEMESTER]: number;
+  [MileageViewBoard.ITEM]: string;
+  [MileageViewBoard.STUDENT_ID]: number;
+  [MileageViewBoard.STUDENT_NAME]: boolean;
+  [MileageViewBoard.POINT]: number;
+  [MileageViewBoard.REGISTERED_DATE]: string;
 }
 
 export default function MileageItem() {
@@ -62,14 +62,14 @@ export default function MileageItem() {
     manage: string
   ): Data {
     return {
-      [MileageItemBoard.NUM]: num,
-      [MileageItemBoard.CATEGORY]: category,
-      [MileageItemBoard.SEMESTER]: semester,
-      [MileageItemBoard.ITEM]: item,
-      [MileageItemBoard.MILEAGE]: mileage,
-      [MileageItemBoard.ISVISIBLE]: isVisible,
-      [MileageItemBoard.REGISTERED_DATE]: registeredDate,
-      [MileageItemBoard.MANAGE]: manage,
+      [MileageViewBoard.NUM]: num,
+      [MileageViewBoard.CATEGORY]: category,
+      [MileageViewBoard.SEMESTER]: semester,
+      [MileageViewBoard.ITEM]: item,
+      [MileageViewBoard.MILEAGE]: mileage,
+      [MileageViewBoard.ISVISIBLE]: isVisible,
+      [MileageViewBoard.REGISTERED_DATE]: registeredDate,
+      [MileageViewBoard.MANAGE]: manage,
     };
   }
 
