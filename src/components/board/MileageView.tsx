@@ -74,57 +74,57 @@ export default function MileageItem() {
   }
 
   /**
-   * @kind [마일리지 항목]
+   * @kind [마일리지 조회]
    * @brief 테이블 헤더
    */
   const headCells = [
     {
-      id: [MileageItemBoard.NUM],
+      id: [MileageViewBoard.NUM],
       numeric: false,
       disablePadding: true,
       label: '번호',
     },
     {
-      id: [MileageItemBoard.CATEGORY],
+      id: [MileageViewBoard.CATEGORY],
       numeric: true,
       disablePadding: false,
       label: '카테고리명',
     },
     {
-      id: [MileageItemBoard.SEMESTER],
+      id: [MileageViewBoard.SEMESTER],
       numeric: true,
       disablePadding: false,
       label: '학기',
     },
     {
-      id: [MileageItemBoard.ITEM],
+      id: [MileageViewBoard.ITEM],
       numeric: true,
       disablePadding: false,
       label: '항목명',
     },
     {
-      id: [MileageItemBoard.MILEAGE],
+      id: [MileageViewBoard.STUDENT_ID],
       numeric: true,
       disablePadding: false,
-      label: '마일리지',
+      label: '학번',
     },
     {
-      id: [MileageItemBoard.ISVISIBLE],
+      id: [MileageViewBoard.STUDENT_NAME],
       numeric: true,
       disablePadding: false,
-      label: '보이기',
+      label: '이름',
     },
     {
-      id: [MileageItemBoard.REGISTERED_DATE],
+      id: [MileageViewBoard.POINT],
+      numeric: true,
+      disablePadding: false,
+      label: '포인트',
+    },
+    {
+      id: [MileageViewBoard.REGISTERED_DATE],
       numeric: true,
       disablePadding: false,
       label: '등록일',
-    },
-    {
-      id: [MileageItemBoard.MANAGE],
-      numeric: true,
-      disablePadding: false,
-      label: '관리',
     },
   ];
 
