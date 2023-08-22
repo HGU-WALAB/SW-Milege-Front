@@ -9,7 +9,6 @@ import {
   STUDENT_ID,
   CONTACT,
   SCHOLARSHIP,
-  REGISTER_NUM,
   MESSAGE,
   MANAGE,
 } from 'src/assets/data/fields';
@@ -32,7 +31,6 @@ export enum MileageResultBoard {
   'STUDENT_ID' = STUDENT_ID,
   'CONTACT' = CONTACT,
   'SCHOLARSHIP' = SCHOLARSHIP,
-  'REGISTER_NUM' = REGISTER_NUM,
   'MESSAGE' = MESSAGE,
   'MANAGE' = MANAGE,
 }
@@ -48,7 +46,6 @@ interface Data {
   [MileageResultBoard.STUDENT_ID]: number;
   [MileageResultBoard.CONTACT]: number;
   [MileageResultBoard.SCHOLARSHIP]: string;
-  [MileageResultBoard.REGISTER_NUM]: number;
   [MileageResultBoard.MESSAGE]: string;
   [MileageResultBoard.MANAGE]: string;
 }
@@ -67,7 +64,6 @@ export default function MileageResult() {
     studentId: number,
     contact: number,
     scholarship: string,
-    registerNum: number,
     message: string,
     manage: string
   ): Data {
@@ -79,7 +75,6 @@ export default function MileageResult() {
       [MileageResultBoard.STUDENT_ID]: studentId,
       [MileageResultBoard.CONTACT]: contact,
       [MileageResultBoard.SCHOLARSHIP]: scholarship,
-      [MileageResultBoard.REGISTER_NUM]: registerNum,
       [MileageResultBoard.MESSAGE]: message,
       [MileageResultBoard.MANAGE]: manage,
     };
@@ -109,34 +104,34 @@ export default function MileageResult() {
       label: '항목명',
     },
     {
-      id: [MileageResultBoard.DESCRIPTION],
+      id: [MileageResultBoard.STUDENT_NAME],
       numeric: true,
       disablePadding: false,
-      label: '내용',
+      label: '학생명',
+    },
+    {
+      id: [MileageResultBoard.STUDENT_ID],
+      numeric: true,
+      disablePadding: false,
+      label: '학번',
+    },
+    {
+      id: [MileageResultBoard.CONTACT],
+      numeric: true,
+      disablePadding: false,
+      label: '연락처',
+    },
+    {
+      id: [MileageResultBoard.SCHOLARSHIP],
+      numeric: true,
+      disablePadding: false,
+      label: '장학금',
     },
     {
       id: [MileageResultBoard.REGISTER_NUM],
       numeric: true,
       disablePadding: false,
-      label: '등록수',
-    },
-    {
-      id: [MileageResultBoard.FILE],
-      numeric: true,
-      disablePadding: false,
-      label: '파일',
-    },
-    {
-      id: [MileageResultBoard.MODIFYIED_DATE],
-      numeric: true,
-      disablePadding: false,
-      label: '수정일',
-    },
-    {
-      id: [MileageResultBoard.ADD],
-      numeric: true,
-      disablePadding: false,
-      label: '추가',
+      label: '신청번호',
     },
   ];
 
