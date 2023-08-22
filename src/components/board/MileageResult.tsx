@@ -63,21 +63,25 @@ export default function MileageResult() {
     num: number,
     semester: string,
     item: string,
-    description: string,
+    studentName: string,
+    studentId: number,
+    contact: number,
+    scholarship: string,
     registerNum: number,
-    file: string,
-    modifyiedDate: string,
-    add: string
+    message: string,
+    manage: string
   ): Data {
     return {
       [MileageResultBoard.NUM]: num,
       [MileageResultBoard.SEMESTER]: semester,
       [MileageResultBoard.ITEM]: item,
-      [MileageResultBoard.DESCRIPTION]: description,
+      [MileageResultBoard.STUDENT_NAME]: studentName,
+      [MileageResultBoard.STUDENT_ID]: studentId,
+      [MileageResultBoard.CONTACT]: contact,
+      [MileageResultBoard.SCHOLARSHIP]: scholarship,
       [MileageResultBoard.REGISTER_NUM]: registerNum,
-      [MileageResultBoard.FILE]: file,
-      [MileageResultBoard.MODIFYIED_DATE]: modifyiedDate,
-      [MileageResultBoard.ADD]: add,
+      [MileageResultBoard.MESSAGE]: message,
+      [MileageResultBoard.MANAGE]: manage,
     };
   }
 
