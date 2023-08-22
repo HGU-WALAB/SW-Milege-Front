@@ -22,12 +22,51 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
-import { TablePagination } from '@mui/material';
+import { TablePagination, styled, useMediaQuery } from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
+
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
 import { CATEGORY, NUM } from '../../assets/data/fields';
 
+/**
+ *  @brief 반응형 구축
+ */
+
+const ResponsiveTableHeadCheckBox = styled(TableCell)({
+  '@media (max-width: 600px)': {
+    padding: 0,
+  },
+});
+const ResponsiveTableHeadTableCell = styled(TableCell)({
+  '@media (max-width: 600px)': {
+    padding: 0,
+  },
+});
+
+// const ResponsiveTableBody = styled(TableCell)({
+
+const ResponsiveTableHeadLabel = styled(TableSortLabel)({
+  '@media (max-width: 600px)': {
+    fontSize: '5px',
+    display: 'inline',
+  },
+});
+
+const RsponsiveTableBodyCheckBox = styled(TableCell)({
+  '@media (max-width: 600px)': {
+    padding: 0,
+  },
+});
+
+const ResponsiveTableBody = styled(TableCell)({
+  '@media (max-width: 600px)': {
+    padding: 0,
+    fontSize: '5px',
+  },
+});
+
 // const rows = [
+
 //   createData('1', '전공 마일리지', 3.7, <StarIcon />),
 //   createData('2', '비교과 - 연구활동', 25.0, <StarIcon />),
 //   createData('3', '비교과 - 전공활동', 16.0, <StarIcon />),
@@ -233,7 +272,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <ResponsiveTableHeadCheckBox padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -243,15 +282,19 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               'aria-label': 'select all desserts',
             }}
           />
-        </TableCell>
+        </ResponsiveTableHeadCheckBox>
         {headCells.map((headCell) => (
-          <TableCell
+          <ResponsiveTableHeadTableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
+            <ResponsiveTableHeadLabel
+              /**
+               * @breif 반응형
+               */
+
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
@@ -262,8 +305,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
-            </TableSortLabel>
-          </TableCell>
+            </ResponsiveTableHeadLabel>
+          </ResponsiveTableHeadTableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -394,11 +437,7 @@ export default function EnhancedTable({ rows, headCells }) {
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-          >
+          <Table sx={{}} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
             <EnhancedTableHead
               headCells={headCells}
               numSelected={selected.length}
@@ -425,7 +464,7 @@ export default function EnhancedTable({ rows, headCells }) {
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <TableCell padding="checkbox">
+                    <RsponsiveTableBodyCheckBox padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -433,14 +472,32 @@ export default function EnhancedTable({ rows, headCells }) {
                           'aria-labelledby': labelId,
                         }}
                       />
-                    </TableCell>
+                    </RsponsiveTableBodyCheckBox>
 
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
+                    <ResponsiveTableBody
+                      /**
+                       * @brief 반응형
+                       */
+
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
                       {rowValues[0]}
-                    </TableCell>
+                    </ResponsiveTableBody>
 
                     {rowValues.slice(1).map((rowValue, index) => (
-                      <TableCell align="right">{rowValue}</TableCell>
+                      <ResponsiveTableBody
+                        align="right"
+                        /**
+                         * @brief 반응형
+                         */
+                        // sx={{ fontSize: '5px' }}
+                        // sx={{ padding: 1 }}
+                      >
+                        {rowValue}
+                      </ResponsiveTableBody>
                     ))}
                   </TableRow>
                 );
