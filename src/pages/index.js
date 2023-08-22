@@ -1,4 +1,3 @@
-// next
 import Head from 'next/head';
 // @mui
 import { Box } from '@mui/material';

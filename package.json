@@ -15,7 +15,8 @@
     "prettier": "prettier --write 'src/**/*.{js,jsx}'",
     "clear-all": "rm -rf .next .swc _static node_modules",
     "re-start": "rm -rf .next .swc _static node_modules && yarn install && yarn dev",
-    "re-build": "rm -rf .next .swc _static node_modules && yarn install && yarn build"
+    "re-build": "rm -rf .next .swc _static node_modules && yarn install && yarn build",
+    "commit": "./node_modules/cz-customizable/standalone.js"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.0.2",
@@ -34,12 +35,14 @@
     "@hello-pangea/dnd": "^16.2.0",
     "@hookform/resolvers": "^2.9.10",
     "@iconify/react": "^4.0.1",
+    "@material-ui/core": "^4.12.4",
+    "@mui/icons-material": "^5.14.3",
     "@mui/lab": "^5.0.0-alpha.116",
     "@mui/material": "^5.11.10",
+    "@mui/styles": "^5.14.5",
     "@mui/system": "^5.11.5",
     "@mui/x-data-grid": "^5.17.19",
     "@mui/x-date-pickers": "^5.0.14",
-    "@next/font": "^13.1.2",
     "@react-pdf/renderer": "^3.1.5",
     "@reduxjs/toolkit": "^1.9.1",
     "amazon-cognito-identity-js": "^6.1.2",
@@ -56,7 +59,7 @@
     "i18next-browser-languagedetector": "^7.0.1",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.12.0",
-    "next": "^13.1.2",
+    "next": "^13.4.19",
     "notistack": "^2.0.8",
     "nprogress": "^0.2.0",
     "numeral": "^2.0.6",
@@ -90,6 +93,8 @@
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/eslint-parser": "^7.19.1",
+    "commitizen": "^4.3.0",
+    "cz-customizable": "^7.0.0",
     "eslint": "^8.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.6.0",
@@ -101,5 +106,10 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.3",
     "typescript": "^4.9.4"
+  },
+  "config": {
+    "cz-customizable": {
+      "config": "cz-config.js"
+    }
   }
 }
