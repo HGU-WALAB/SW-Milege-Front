@@ -128,10 +128,16 @@ export default function MileageResult() {
       label: '장학금',
     },
     {
-      id: [MileageResultBoard.REGISTER_NUM],
+      id: [MileageResultBoard.MESSAGE],
       numeric: true,
       disablePadding: false,
-      label: '신청번호',
+      label: '메세지',
+    },
+    {
+      id: [MileageResultBoard.MANAGE],
+      numeric: true,
+      disablePadding: false,
+      label: '관리',
     },
   ];
 
