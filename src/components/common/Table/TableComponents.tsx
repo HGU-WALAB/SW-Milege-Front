@@ -13,6 +13,7 @@ import MileageItem from 'src/components/board/MileageItem';
 import MileageView from 'src/components/board/MileageView';
 import MileageRegister from 'src/components/board/MileageRegister';
 import RegisterManage from 'src/components/board/RegisterManage';
+import StudentManage from 'src/components/board/StudentManage';
 
 export const ComponentReturn = (text) => {
   switch (text) {
@@ -31,7 +32,7 @@ export const ComponentReturn = (text) => {
     case Board['신청자 관리']:
       return <RegisterManage />;
     case Board['학생 관리']:
-      return <Face6Icon />;
+      return <StudentManage />;
     case Board['사용자 관리']:
       return <PersonIcon />;
     case Board['학생별 마일리지 현황']:
