@@ -38,7 +38,7 @@ export enum MileageViewBoard {
  */
 interface Data {
   [MileageViewBoard.CATEGORY]: string;
-  [MileageViewBoard.SEMESTER]: number;
+  [MileageViewBoard.SEMESTER]: string;
   [MileageViewBoard.ITEM]: string;
   [MileageViewBoard.STUDENT_ID]: number;
   [MileageViewBoard.STUDENT_NAME]: string;
@@ -55,7 +55,7 @@ export default function MileageView() {
   function createData(
     num: number,
     category: string,
-    semester: number,
+    semester: string,
     item: string,
     studentId: number,
     studentName: string,
@@ -135,35 +135,80 @@ export default function MileageView() {
    */
 
   const rows = [
-    createData(1, '전공 마일리지', 7, '웹 서비스 캠프', '21800446', '오인혁', 230, '2022-08-21'),
-    createData(2, '비교과 - 전공활동', 6, 'pps 캠프', '21800447', '한시온', 230, '2022-08-21'),
-    createData(3, '비교과 - 특강참여', 7, 'c언어 캠프', '21800448', '김민수', 230, '2022-08-21'),
+    createData(
+      1,
+      '전공 마일리지',
+      '2022-01',
+      '웹 서비스 캠프',
+      '21800446',
+      '오인혁',
+      230,
+      '2022-08-21'
+    ),
+    createData(
+      2,
+      '비교과 - 전공활동',
+      '2022-01',
+      'pps 캠프',
+      '21800447',
+      '한시온',
+      230,
+      '2022-08-21'
+    ),
+    createData(
+      3,
+      '비교과 - 특강참여',
+      '2022-01',
+      'c언어 캠프',
+      '21800448',
+      '김민수',
+      230,
+      '2022-08-21'
+    ),
     createData(
       4,
       '비교과 - 학회활동',
-      6,
+      '2022-01',
       '대경권 프로그래밍 대회',
       '21800449',
       '장유진',
       230,
       '2022-08-21'
     ),
-    createData(5, '비교과 - 행사참여', 8, '와랩 스터디', '21800450', '정석민', 230, '2022-08-21'),
+    createData(
+      5,
+      '비교과 - 행사참여',
+      '2022-01',
+      '와랩 스터디',
+      '21800450',
+      '정석민',
+      230,
+      '2022-08-21'
+    ),
     createData(
       6,
       '비교과 - 연구활동',
-      6,
+      '2022-02',
       '웹 서비스 캠프',
       '21800451',
       '장유진',
       230,
       '2022-08-21'
     ),
-    createData(7, '전공 마일리지', 7, '웹 서비스 캠프', '21800452', '박민지', 230, '2022-08-21'),
+    createData(
+      7,
+      '전공 마일리지',
+      '2022-02',
+      '웹 서비스 캠프',
+      '21800452',
+      '박민지',
+      230,
+      '2022-08-21'
+    ),
     createData(
       8,
       '비교과 - 전공활동',
-      6,
+      '2022-02',
       '웹 서비스 캠프',
       '21800453',
       '정가원',

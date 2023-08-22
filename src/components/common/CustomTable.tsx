@@ -319,7 +319,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-export default function EnhancedTable({ type, rows, headCells }: { type: string; rows: any }) {
+export default function EnhancedTable({ rows, headCells }) {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -335,7 +335,7 @@ export default function EnhancedTable({ type, rows, headCells }: { type: string;
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = rows.map((n) => n.num);
       setSelected(newSelected);
       return;
     }

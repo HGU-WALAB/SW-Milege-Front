@@ -38,7 +38,7 @@ export enum MileageItemBoard {
  */
 interface Data {
   [MileageItemBoard.CATEGORY]: string;
-  [MileageItemBoard.SEMESTER]: number;
+  [MileageItemBoard.SEMESTER]: string;
   [MileageItemBoard.ITEM]: string;
   [MileageItemBoard.MILEAGE]: number;
   [MileageItemBoard.ISVISIBLE]: boolean;
@@ -55,7 +55,7 @@ export default function MileageItem() {
   function createData(
     num: number,
     category: string,
-    semester: number,
+    semester: string,
     item: string,
     mileage: number,
     isVisible: boolean,
@@ -135,12 +135,66 @@ export default function MileageItem() {
    */
 
   const rows = [
-    createData(1, '전공 마일리지', 7, '웹 서비스 캠프', 30, 'y', '2023-08-21', <StarIcon />),
-    createData(2, '비교과 - 연구활동', 6, '웹 서비스 캠프', 30, 'y', '2023-08-21', <StarIcon />),
-    createData(3, '비교과 - 전공활동', 6, '웹 서비스 캠프', 30, 'y', '2023-08-21', <StarIcon />),
-    createData(4, '비교과 - 특강참여', 7, '웹 서비스 캠프', 30, 'y', '2023-08-21', <StarIcon />),
-    createData(5, '비교과 - 학회활동', 6, '웹 서비스 캠프', 30, 'y', '2023-08-21', <StarIcon />),
-    createData(6, '비교과 - 행사참여', 8, '웹 서비스 캠프', 30, 'y', '2023-08-21', <StarIcon />),
+    createData(
+      1,
+      '전공 마일리지',
+      '2022-01',
+      '웹 서비스 캠프',
+      30,
+      'y',
+      '2023-08-21',
+      <StarIcon />
+    ),
+    createData(
+      2,
+      '비교과 - 연구활동',
+      '2022-01',
+      '웹 서비스 캠프',
+      30,
+      'y',
+      '2023-08-21',
+      <StarIcon />
+    ),
+    createData(
+      3,
+      '비교과 - 전공활동',
+      '2022-01',
+      '웹 서비스 캠프',
+      30,
+      'y',
+      '2023-08-21',
+      <StarIcon />
+    ),
+    createData(
+      4,
+      '비교과 - 특강참여',
+      '2022-01',
+      '웹 서비스 캠프',
+      30,
+      'y',
+      '2023-08-21',
+      <StarIcon />
+    ),
+    createData(
+      5,
+      '비교과 - 학회활동',
+      '2022-02',
+      '웹 서비스 캠프',
+      30,
+      'y',
+      '2023-08-21',
+      <StarIcon />
+    ),
+    createData(
+      6,
+      '비교과 - 행사참여',
+      '2022-02',
+      '웹 서비스 캠프',
+      30,
+      'y',
+      '2023-08-21',
+      <StarIcon />
+    ),
   ];
 
   return <EnhancedTable rows={rows} headCells={headCells} />;

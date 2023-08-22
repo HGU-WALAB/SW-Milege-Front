@@ -11,6 +11,7 @@ import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MileageItem from 'src/components/board/MileageItem';
 import MileageView from 'src/components/board/MileageView';
+import MileageRegister from 'src/components/board/MileageRegister';
 
 export const ComponentReturn = (text) => {
   switch (text) {
@@ -25,7 +26,7 @@ export const ComponentReturn = (text) => {
     case Board['마일리지 조회']:
       return <MileageView />;
     case Board['마일리지 등록']:
-      return <InputIcon />;
+      return <MileageRegister />;
     case Board['신청자 관리']:
       return <AssignmentIndIcon />;
     case Board['학생 관리']:
