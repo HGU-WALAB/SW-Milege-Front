@@ -47,7 +47,7 @@ interface Data {
 
 export default function MileageItem() {
   /**
-   * @kind [마일리지 항목]
+   * @kind [마일리지 조회]
    * @brief 데이터 생성 함수
    *
    *  */
@@ -56,20 +56,20 @@ export default function MileageItem() {
     category: string,
     semester: number,
     item: string,
-    mileage: number,
-    isVisible: boolean,
-    registeredDate: string,
-    manage: string
+    studentId: number,
+    studentName: string,
+    point: number,
+    registeredDate: string
   ): Data {
     return {
       [MileageViewBoard.NUM]: num,
       [MileageViewBoard.CATEGORY]: category,
       [MileageViewBoard.SEMESTER]: semester,
       [MileageViewBoard.ITEM]: item,
-      [MileageViewBoard.MILEAGE]: mileage,
-      [MileageViewBoard.ISVISIBLE]: isVisible,
+      [MileageViewBoard.STUDENT_ID]: studentId,
+      [MileageViewBoard.STUDENT_NAME]: studentName,
+      [MileageViewBoard.POINT]: point,
       [MileageViewBoard.REGISTERED_DATE]: registeredDate,
-      [MileageViewBoard.MANAGE]: manage,
     };
   }
 
