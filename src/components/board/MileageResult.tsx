@@ -1,6 +1,7 @@
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from '../common/CustomTable';
 import AddIcon from '@mui/icons-material/Add';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {
   NUM,
   SEMESTER,
@@ -8,6 +9,7 @@ import {
   STUDENT_NAME,
   STUDENT_ID,
   CONTACT,
+  DEPARTMENT,
   SCHOLARSHIP,
   MESSAGE,
   MANAGE,
@@ -29,6 +31,7 @@ export enum MileageResultBoard {
   'ITEM' = ITEM,
   'STUDENT_NAME' = STUDENT_NAME,
   'STUDENT_ID' = STUDENT_ID,
+  'DEPARTMENT' = DEPARTMENT,
   'CONTACT' = CONTACT,
   'SCHOLARSHIP' = SCHOLARSHIP,
   'MESSAGE' = MESSAGE,
@@ -45,6 +48,7 @@ interface Data {
   [MileageResultBoard.STUDENT_NAME]: string;
   [MileageResultBoard.STUDENT_ID]: number;
   [MileageResultBoard.CONTACT]: number;
+  [MileageResultBoard.DEPARTMENT]: string;
   [MileageResultBoard.SCHOLARSHIP]: string;
   [MileageResultBoard.MESSAGE]: string;
   [MileageResultBoard.MANAGE]: string;
@@ -62,7 +66,9 @@ export default function MileageResult() {
     item: string,
     studentName: string,
     studentId: number,
+
     contact: number,
+    department: string,
     scholarship: string,
     message: string,
     manage: string
@@ -73,7 +79,9 @@ export default function MileageResult() {
       [MileageResultBoard.ITEM]: item,
       [MileageResultBoard.STUDENT_NAME]: studentName,
       [MileageResultBoard.STUDENT_ID]: studentId,
+      [MileageResultBoard.DEPARTMENT]: department,
       [MileageResultBoard.CONTACT]: contact,
+
       [MileageResultBoard.SCHOLARSHIP]: scholarship,
       [MileageResultBoard.MESSAGE]: message,
       [MileageResultBoard.MANAGE]: manage,
@@ -116,11 +124,18 @@ export default function MileageResult() {
       label: '학번',
     },
     {
+      id: [MileageResultBoard.DEPARTMENT],
+      numeric: true,
+      disablePadding: false,
+      label: '학부',
+    },
+    {
       id: [MileageResultBoard.CONTACT],
       numeric: true,
       disablePadding: false,
       label: '연락처',
     },
+
     {
       id: [MileageResultBoard.SCHOLARSHIP],
       numeric: true,
@@ -151,81 +166,25 @@ export default function MileageResult() {
       1,
       '2022-01',
       '웹 서비스 캠프',
-      '웹 서비스 구축에 필요한 스터디를 진행하고 직접 자신만의 웹페이지를 만들어보는 과정',
-      23,
-      <AttachFileIcon />,
-      '2021-01-21',
-      <AddIcon />
+      '오인혁',
+      '21800446',
+      '전산전자공학부',
+      '010-1234-5678',
+      '전액 장학금',
+      '축하드립니다.',
+      <ManageAccountsIcon />
     ),
     createData(
       2,
       '2022-01',
-      'C언어 캠프',
-      'C언어의 기초에 대해 공부하고 C언어를 이용하여 간단한 프로그램을 만들어보는 과정',
-      23,
-      <AttachFileIcon />,
-      '2022-01-23',
-      <AddIcon />
-    ),
-    createData(
-      3,
-      '2022-01',
-      '파이썬 캠프',
-      '파이썬 기초를 공부하고 파이썬을 이용하여 간단한 프로그램을 만들어보는 과정',
-      15,
-      <AttachFileIcon />,
-      '2022-01-31',
-      <AddIcon />
-    ),
-    createData(
-      4,
-      '2022-01',
-      'C++ 캠프',
-      'C++ 기초를 공부하고 C++을 이용하여 간단한 프로그램을 만들어보는 과정',
-      15,
-      <AttachFileIcon />,
-      '2022-01-31',
-      <AddIcon />
-    ),
-    createData(
-      5,
-      '2022-01',
-      '자바 캠프',
-      '자바 기초를 공부하고 자바를 이용하여 간단한 프로그램을 만들어보는 과정',
-      15,
-      <AttachFileIcon />,
-      '2022-01-31',
-      <AddIcon />
-    ),
-    createData(
-      6,
-      '2022-02',
       '웹 서비스 캠프',
-      '웹 서비스 구축에 필요한 스터디를 진행하고 직접 자신만의 웹페이지를 만들어보는 과정',
-      23,
-      <AttachFileIcon />,
-      '2021-01-21',
-      <AddIcon />
-    ),
-    createData(
-      7,
-      '2022-02',
-      '데이터 구조',
-      '데이터 구조에 대해 공부하고 간단한 프로그램을 만들어보는 과정',
-      23,
-      <AttachFileIcon />,
-      '2021-01-21',
-      <AddIcon />
-    ),
-    createData(
-      8,
-      '2022-02',
-      '데이터베이스',
-      '데이터베이스에 대해 공부하고 간단한 프로그램을 만들어보는 과정',
-      23,
-      <AttachFileIcon />,
-      '2021-01-21',
-      <AddIcon />
+      '오인혁2',
+      '21800447',
+      '전산전자공학부',
+      '010-1234-5678',
+      '전액 장학금',
+      '축하드립니다.',
+      <ManageAccountsIcon />
     ),
   ];
 

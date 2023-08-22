@@ -27,3 +27,4 @@ export const MAJOR = 'major';
 export const FREQUENCY = 'frequency';
 export const ACCEPT = 'accept';
 export const REJECT = 'reject';
+export const SCHOLARSHIP = 'scholarship';
