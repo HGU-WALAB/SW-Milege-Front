@@ -25,6 +25,9 @@ export const createNoopStorage = () => ({
 export const storage =
   typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
 
+/**
+ * @brief Persist 설정 부분
+ */
 export const rootPersistConfig = {
   key: 'root',
   storage,
@@ -39,12 +42,20 @@ export const productPersistConfig = {
   whitelist: ['sortBy', 'checkout'],
 };
 
+/**
+ * @brief Reducer
+ */
+
 const rootReducer = combineReducers({
   mail: mailReducer,
   chat: chatReducer,
   calendar: calendarReducer,
   kanban: kanbanReducer,
   product: persistReducer(productPersistConfig, productReducer),
+  /**
+   * SW-Reducer
+   */
+  // modal: modalReducer,
 });
 
 export default rootReducer;
