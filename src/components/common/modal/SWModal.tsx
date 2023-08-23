@@ -59,9 +59,9 @@ const titleConverter = (type) => {
 
 export default function SWModal({ type }) {
   const CategorySchema = Yup.object().shape({
-    CATEGORY: Yup.string().required('필수입니다.'),
-    DESCRIPTION: Yup.string(),
-    MAX_MILEAGE: Yup.number().required().integer(),
+    [CATEGORY]: Yup.string().required('필수입니다.'),
+    [DESCRIPTION]: Yup.string(),
+    [MAX_MILEAGE]: Yup.number().integer().required('필수입니다.'),
   });
 
   const dispatch = useDispatch();
@@ -99,9 +99,9 @@ export default function SWModal({ type }) {
 
           <Formik
             initialValues={{
-              CATEGORY: '',
-              DESCRIPTION: '',
-              MAX_MILEAGE: 0,
+              [CATEGORY]: '',
+              [DESCRIPTION]: '',
+              [MAX_MILEAGE]: 2,
             }}
             validationSchema={CategorySchema}
             onSubmit={(values, { setSubmitting, resetForm }) => {
