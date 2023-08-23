@@ -43,6 +43,17 @@ const IconConverter = (type) => {
   }
 };
 
+const titleConverter = (type) => {
+  switch (type) {
+    case 'addCategory':
+      return '마일리지 카테고리 추가';
+    case 'editCategory':
+      return '마일리지 카테고리 수정';
+    case 'deleteCategory':
+      return '마일리지 카테고리 삭제';
+  }
+};
+
 export default function SWModal({ type }) {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.modal.isCategoryModal);
@@ -67,7 +78,7 @@ export default function SWModal({ type }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            {titleConverter(type)}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
