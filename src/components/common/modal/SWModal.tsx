@@ -6,10 +6,20 @@ import Modal from '@mui/material/Modal';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCategoryModal, openCategoryModal } from 'src/redux/slices/modal';
+import {
+  closeCategoryModal,
+  closeModal,
+  openCategoryModal,
+  openModal,
+} from 'src/redux/slices/modal';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ADDCATEGORY, DELETECATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
 const style = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  borderRadius: '10px',
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
@@ -43,23 +53,24 @@ const IconConverter = (type) => {
   }
 };
 
-const titleConverter = (type) => {
-  switch (type) {
-    case 'addCategory':
-      return '마일리지 카테고리 추가';
-    case 'editCategory':
-      return '마일리지 카테고리 수정';
-    case 'deleteCategory':
-      return '마일리지 카테고리 삭제';
-  }
-};
-
 export default function SWModal({ type }) {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.modal.isCategoryModal);
+  const open = useSelector((state) => state.modal.isOpen);
+  const modalType = useSelector((state) => state.modal.modalType);
 
-  const handleOpen = () => dispatch(openCategoryModal());
-  const handleClose = () => dispatch(closeCategoryModal());
+  const handleOpen = () => dispatch(openModal(type));
+  const handleClose = () => dispatch(closeModal(type));
+
+  const titleConverter = (type) => {
+    switch (type) {
+      case ADDCATEGORY:
+        return '마일리지 카테고리 추가';
+      case EDITCATEGORY:
+        return '마일리지 카테고리 수정';
+      case DELETECATEGORY:
+        return '마일리지 카테고리 삭제';
+    }
+  };
 
   return (
     <div>
@@ -77,12 +88,11 @@ export default function SWModal({ type }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {titleConverter(type)}
+          <Typography color="primary" id="modal-modal-title" variant="h6" component="h2">
+            {titleConverter(modalType)}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         </Box>
       </Modal>
     </div>

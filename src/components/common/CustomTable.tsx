@@ -30,6 +30,7 @@ import { CATEGORY, NUM } from '../../assets/data/fields';
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
+import { ADDCATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
 
 /**
  *  @brief 반응형 구축
@@ -221,8 +222,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
         )}
-        <SWModal type="addCategory" />
-        <SWModal type="editCategory" />
+        <SWModal type={ADDCATEGORY} />
+        <SWModal type={EDITCATEGORY} />
       </Toolbar>
     </Box>
   );
