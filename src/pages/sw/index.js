@@ -9,12 +9,8 @@ import Header from 'src/components/common/Header';
 export default function index() {
   return (
     <>
-      {/* <Header /> */}
-
       <Header />
-
       <MiniDrawer />
-      <Dialog />
     </>
   );
 }

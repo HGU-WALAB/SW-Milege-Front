@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 // slices
+import modalReducer from './slices/modal';
 import mailReducer from './slices/mail';
 import chatReducer from './slices/chat';
 import productReducer from './slices/product';
@@ -55,7 +56,7 @@ const rootReducer = combineReducers({
   /**
    * SW-Reducer
    */
-  // modal: modalReducer,
+  modal: modalReducer,
 });
 
 export default rootReducer;

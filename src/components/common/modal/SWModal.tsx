@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMileageCategoryModalClose, addMileageCategoryModalOpen } from 'src/redux/slices/modal';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -18,15 +20,26 @@ const style = {
   p: 4,
 };
 
-export default function Modal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function SWModal({ type }) {
+  // const [open, setOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
+  const open = useSelector((state) => state.modal.isAddMileageCategoryModal);
+
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
+  const handleOpen = () => dispatch(addMileageCategoryModalOpen());
+  const handleClose = () => dispatch(addMileageCategoryModalClose());
 
   return (
     <div>
-      {/* <Button onClick={handleOpen}>Open modal</Button> */}
-      <IconButton>
+      <IconButton
+        onClick={() => {
+          console.log('Clicked', addMileageCategoryModalOpen);
+          handleOpen();
+          console.log('Clicked', addMileageCategoryModalOpen);
+        }}
+      >
         <AddIcon />
       </IconButton>
       <Modal

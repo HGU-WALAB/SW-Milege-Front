@@ -9,8 +9,19 @@ const slice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    addMileageCategoryModalOpen: (state, action) => true,
-    addMileageCategoryModalClose: (state, action) => false,
+    addMileageCategoryModalOpen: (state) => {
+      state.isAddMileageCategoryModal = true;
+    },
+    addMileageCategoryModalClose: (state) => {
+      state.isAddMileageCategoryModal = false;
+    },
+
+    editMileageCategoryModalOpen: (state) => {
+      state.isEditMileageCategoryModal = true;
+    },
+    editMileageCategoryModalClose: (state) => {
+      state.isEditMileageCategoryModal = false;
+    },
   },
 });
 
