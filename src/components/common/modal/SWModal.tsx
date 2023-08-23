@@ -20,14 +20,20 @@ const style = {
   p: 4,
 };
 
+const selectorConverter = (type, state) => {
+  switch (type) {
+    case 'addCategory':
+      return state.modal.isAddMileageCategoryModal;
+  }
+};
+
+const dispatchModalOpenConverter = () => {};
+const dispatchModalCloseConverter = () => {};
+
 export default function SWModal({ type }) {
-  // const [open, setOpen] = React.useState(false);
-
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.modal.isAddMileageCategoryModal);
+  const open = useSelector((state) => selectorConverter(type, state));
 
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
   const handleOpen = () => dispatch(addMileageCategoryModalOpen());
   const handleClose = () => dispatch(addMileageCategoryModalClose());
 
