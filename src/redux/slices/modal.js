@@ -15,45 +15,46 @@ const slice = createSlice({
     addMileageCategoryModalOpen : (state , action) => state = true,
     addMileageCategoryModalClose : (state, action) => state = false,
 
-    // START LOADING
-    startLoading(state) {
-      state.isLoading = true;
-    },
+    // // START LOADING
+    // startLoading(state) {
+    //   state.isLoading = true;
+    // },
 
-    // HAS ERROR
-    hasError(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
+    // // HAS ERROR
+    // hasError(state, action) {
+    //   state.isLoading = false;
+    //   state.error = action.payload;
+    // },
 
-    // GET LABELS
-    getLabelsSuccess(state, action) {
-      state.isLoading = false;
-      state.labels = action.payload;
-    },
+    // // GET LABELS
+    // getLabelsSuccess(state, action) {
+    //   state.isLoading = false;
+    //   state.labels = action.payload;
+    // },
 
-    // GET MAILS
-    getMailsSuccess(state, action) {
-      const mails = action.payload;
+    // // GET MAILS
+    // getMailsSuccess(state, action) {
+    //   const mails = action.payload;
 
-      state.isLoading = false;
-      state.mails.byId = keyBy(mails, 'id');
-      state.mails.allIds = Object.keys(state.mails.byId);
-    },
+    //   state.isLoading = false;
+    //   state.mails.byId = keyBy(mails, 'id');
+    //   state.mails.allIds = Object.keys(state.mails.byId);
+    // },
 
-    // GET MAIL
-    getMailSuccess(state, action) {
-      const mail = action.payload;
+    // // GET MAIL
+    // getMailSuccess(state, action) {
+    //   const mail = action.payload;
 
-      state.mails.byId[mail.id] = mail;
-      if (!state.mails.allIds.includes(mail.id)) {
-        state.mails.allIds.push(mail.id);
-      }
-    },
+    //   state.mails.byId[mail.id] = mail;
+    //   if (!state.mails.allIds.includes(mail.id)) {
+    //     state.mails.allIds.push(mail.id);
+    //   }
+    // },
   },
 });
 
 // Reducer
+export const { addMileageCategoryModalOpen , addMileageCategoryModalClose } = slice.actions;
 export default slice.reducer;
 
 // ----------------------------------------------------------------------
