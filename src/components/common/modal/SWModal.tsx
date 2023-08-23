@@ -7,7 +7,8 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeCategoryModal, openCategoryModal } from 'src/redux/slices/modal';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -20,19 +21,31 @@ const style = {
   p: 4,
 };
 
-const selectorConverter = (type, state) => {
-  switch (type) {
-    case 'addCategory':
-      return state.modal.isCategoryModal;
+// const selectorConverter = (type, state) => {
+//   switch (type) {
+//     case 'addCategory':
+//       return state.modal.isCategoryModal;
+//   }
+// };
+
+// const dispatchModalOpenConverter = () => {};
+// const dispatchModalCloseConverter = () => {};
+
+const IconConverter = (type) => {
+  const slicedType = type.slice(0, 3);
+  switch (slicedType) {
+    case 'add':
+      return <AddIcon />;
+    case 'edi':
+      return <EditIcon />;
+    case 'del':
+      return <DeleteIcon />;
   }
 };
 
-const dispatchModalOpenConverter = () => {};
-const dispatchModalCloseConverter = () => {};
-
 export default function SWModal({ type }) {
   const dispatch = useDispatch();
-  const open = useSelector((state) => selectorConverter(type, state));
+  const open = useSelector((state) => state.modal.isCategoryModal);
 
   const handleOpen = () => dispatch(openCategoryModal());
   const handleClose = () => dispatch(closeCategoryModal());
@@ -44,7 +57,7 @@ export default function SWModal({ type }) {
           handleOpen();
         }}
       >
-        <AddIcon />
+        {IconConverter(type)}
       </IconButton>
       <Modal
         open={open}
