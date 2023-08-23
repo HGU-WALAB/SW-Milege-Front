@@ -6,7 +6,7 @@ import Modal from '@mui/material/Modal';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMileageCategoryModalClose, addMileageCategoryModalOpen } from 'src/redux/slices/modal';
+import { closeCategoryModal, openCategoryModal } from 'src/redux/slices/modal';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -23,7 +23,7 @@ const style = {
 const selectorConverter = (type, state) => {
   switch (type) {
     case 'addCategory':
-      return state.modal.isAddMileageCategoryModal;
+      return state.modal.isCategoryModal;
   }
 };
 
@@ -34,16 +34,14 @@ export default function SWModal({ type }) {
   const dispatch = useDispatch();
   const open = useSelector((state) => selectorConverter(type, state));
 
-  const handleOpen = () => dispatch(addMileageCategoryModalOpen());
-  const handleClose = () => dispatch(addMileageCategoryModalClose());
+  const handleOpen = () => dispatch(openCategoryModal());
+  const handleClose = () => dispatch(closeCategoryModal());
 
   return (
     <div>
       <IconButton
         onClick={() => {
-          console.log('Clicked', addMileageCategoryModalOpen);
           handleOpen();
-          console.log('Clicked', addMileageCategoryModalOpen);
         }}
       >
         <AddIcon />

@@ -1,30 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isAddMileageCategoryModal: false,
-  isEditMileageCategoryModal: false,
+  isCategoryModal: false,
 };
 
 const slice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    addMileageCategoryModalOpen: (state) => {
-      state.isAddMileageCategoryModal = true;
+    openCategoryModal: (state) => {
+      state.isCategoryModal = true;
     },
-    addMileageCategoryModalClose: (state) => {
-      state.isAddMileageCategoryModal = false;
-    },
-
-    editMileageCategoryModalOpen: (state) => {
-      state.isEditMileageCategoryModal = true;
-    },
-    editMileageCategoryModalClose: (state) => {
-      state.isEditMileageCategoryModal = false;
+    closeCategoryModal: (state) => {
+      state.isCategoryModal = false;
     },
   },
 });
 
 // Reducer
-export const { addMileageCategoryModalOpen, addMileageCategoryModalClose } = slice.actions;
+export const { openCategoryModal, closeCategoryModal } = slice.actions;
 export default slice.reducer;
