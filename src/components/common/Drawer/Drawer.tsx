@@ -95,7 +95,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         {/*  사이드바 리스트 아이템 */}
         <List>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((boardNum, index) => (
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((boardNum, index) => (
             <Box key={index}>
               <DrawerListItem
                 boardNum={boardNum}
@@ -103,7 +103,7 @@ export default function MiniDrawer() {
                 component={component}
                 open={open}
               />
-              {(boardNum === 3 || boardNum === 6) && <Divider />}
+              {(boardNum === 4 || boardNum === 7) && <Divider />}
             </Box>
           ))}
         </List>
