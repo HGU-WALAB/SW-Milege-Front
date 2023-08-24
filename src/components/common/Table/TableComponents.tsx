@@ -16,17 +16,16 @@ import RegisterManage from 'src/components/board/RegisterManage';
 import StudentManage from 'src/components/board/StudentManage';
 import UserManage from 'src/components/board/UserManage';
 import MileageResult from 'src/components/board/MileageResult';
+import MileageGlobalItem from 'src/components/board/MileageGlobalItem';
 
 export const ComponentReturn = (text) => {
   switch (text) {
     case Board['마일리지 카테고리']:
-
       return <MileageCategory />;
-
+    case Board['마일리지 글로벌 항목']:
+      return <MileageGlobalItem />;
     case Board['마일리지 항목']:
       return <MileageItem />;
-
-
     case Board['마일리지 조회']:
       return <MileageView />;
     case Board['마일리지 등록']:

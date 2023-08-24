@@ -10,12 +10,15 @@ import PersonIcon from '@mui/icons-material/Person';
 import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
+import PublicIcon from '@mui/icons-material/Public';
 import { Board } from 'src/assets/data/board/board';
 
 export const IconReturn = (text) => {
   switch (text) {
     case Board['마일리지 카테고리']:
       return <CategoryIcon />;
+    case Board['마일리지 글로벌 항목']:
+      return <PublicIcon />;
     case Board['마일리지 항목']:
       return <AllInboxIcon />;
     case Board['마일리지 조회']:

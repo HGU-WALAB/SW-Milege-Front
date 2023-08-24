@@ -103,7 +103,7 @@ export default function MiniDrawer() {
                 component={component}
                 open={open}
               />
-              {(boardNum === 3 || boardNum === 6) && <Divider />}
+              {(boardNum === 4 || boardNum === 7) && <Divider />}
             </Box>
           ))}
         </List>
