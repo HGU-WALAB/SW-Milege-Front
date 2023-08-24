@@ -1,6 +1,13 @@
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { ADDCATEGORY, DELETECATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
+import {
+  ADDCATEGORY,
+  ADDITEM,
+  DELETECATEGORY,
+  DELETEITEM,
+  EDITCATEGORY,
+  EDITITEM,
+} from 'src/assets/data/modal/modals';
 
 export default function ModalTitle() {
   const modalType = useSelector((state) => state.modal.modalType);
@@ -13,6 +20,12 @@ export default function ModalTitle() {
         return '마일리지 카테고리 수정';
       case DELETECATEGORY:
         return '마일리지 카테고리 삭제';
+      case ADDITEM:
+        return '마일리지 항목 추가';
+      case EDITITEM:
+        return '마일리지 항목 수정';
+      case DELETEITEM:
+        return '마일리지 항목 삭제';
     }
   };
 

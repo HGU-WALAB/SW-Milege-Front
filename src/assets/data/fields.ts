@@ -28,3 +28,15 @@ export const FREQUENCY = 'frequency';
 export const ACCEPT = 'accept';
 export const REJECT = 'reject';
 export const SCHOLARSHIP = 'scholarship';
+
+export const DESCRIPTION1 = 'description1';
+export const DESCRIPTION2 = 'description2';
+export const FILE_DESCRIPTION = 'fileDescription';
+
+export const ISVISIBLE_STUDENT = 'isVisibleStudent';
+export const ISINPUT_STUDENT = 'isInputStudent';
+export const ISDUPLICATE_RECORD = 'isDuplicateRecord';
+export const ISEVALUATE_CSEE = 'isEvaluateCsee';
+export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
+export const ISEVALUATE_FUSION = 'isEvaluateFusion';
+export const MAX_MAILEAGE = 'maxMileage';

@@ -15,9 +15,27 @@ import {
 } from 'src/redux/slices/modal';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ADDCATEGORY, DELETECATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
+import { ADDCATEGORY, DELETECATEGORY, EDITCATEGORY, EDITITEM } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { DESCRIPTION, CATEGORY, MAX_MILEAGE } from '../../../assets/data/fields';
+import {
+  DESCRIPTION,
+  CATEGORY,
+  MAX_MILEAGE,
+  SEMESTER,
+  ITEM,
+  MILEAGE,
+  DESCRIPTION1,
+  DESCRIPTION2,
+  FILE_DESCRIPTION,
+  ISVISIBLE,
+  ISVISIBLE_STUDENT,
+  ISINPUT_STUDENT,
+  ISDUPLICATE_RECORD,
+  ISEVALUATE_CSEE,
+  ISEVALUATE_PORTFOLIO,
+  ISEVALUATE_FUSION,
+  MAX_MAILEAGE,
+} from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
@@ -40,11 +58,11 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  maxHeight: '700px',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 2,
 };
 
 export default function SWModal({ type, beforeData }) {
@@ -74,7 +92,129 @@ export default function SWModal({ type, beforeData }) {
           https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html#getfieldprops-%EC%9C%A0%ED%8B%B8-%ED%95%A8%EC%88%98-%EC%A0%9C%EA%B3%B5
           */}
 
-          <CategoryForm modalType={modalType} beforeData={beforeData} />
+          <Formik
+            initialValues={{
+              [CATEGORY]: modalType === EDITITEM ? beforeData?.[CATEGORY] : '',
+              [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
+              [ITEM]: modalType === EDITITEM ? beforeData?.[ITEM] : '',
+              [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
+              [MAX_MAILEAGE]: modalType === EDITITEM ? beforeData?.[MAX_MAILEAGE] : 0,
+              [DESCRIPTION1]: modalType === EDITITEM ? beforeData?.[DESCRIPTION1] : '',
+              [DESCRIPTION2]: modalType === EDITITEM ? beforeData?.[DESCRIPTION2] : '',
+              [FILE_DESCRIPTION]: modalType === EDITITEM ? beforeData?.[FILE_DESCRIPTION] : '',
+              [ISVISIBLE]: modalType === EDITITEM ? beforeData?.[ISVISIBLE] : false,
+              [ISVISIBLE_STUDENT]: modalType === EDITITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
+              [ISINPUT_STUDENT]: modalType === EDITITEM ? beforeData?.[ISINPUT_STUDENT] : false,
+              [ISDUPLICATE_RECORD]:
+                modalType === EDITITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
+              [ISEVALUATE_CSEE]: modalType === EDITITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
+              [ISEVALUATE_PORTFOLIO]:
+                modalType === EDITITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
+              [ISEVALUATE_FUSION]: modalType === EDITITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
+            }}
+            // validationSchema={CategorySchema}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+              console.log(values);
+              resetForm();
+            }}
+          >
+            {({ isSubmitting, errors, touched }) => (
+              <Form
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: ' center',
+                  margin: '30px 0px',
+
+                  padding: '0px 20px',
+                  width: '100%',
+                  gap: '20px',
+                }}
+              >
+                <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: ' center',
+                      margin: '30px 0px',
+
+                      padding: '0px 20px',
+                      width: '100%',
+                      gap: '15px',
+                    }}
+                  >
+                    {[
+                      CATEGORY,
+                      SEMESTER,
+                      ITEM,
+                      MILEAGE,
+                      MAX_MAILEAGE,
+                      DESCRIPTION1,
+                      DESCRIPTION2,
+                      FILE_DESCRIPTION,
+                    ].map((field: string, index: number) => (
+                      <Box key={index}>
+                        <Field
+                          sx={{ width: '300px' }}
+                          name={field}
+                          as={TextField}
+                          type="text"
+                          label={field}
+                          variant="standard"
+                        />
+                        <ErrorMessage name={CATEGORY} />
+                      </Box>
+                    ))}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: ' center',
+                      margin: '30px 0px',
+
+                      padding: '0px 20px',
+                      width: '100%',
+                      gap: '20px',
+                    }}
+                  >
+                    {[
+                      ISVISIBLE,
+                      ISVISIBLE_STUDENT,
+                      ISINPUT_STUDENT,
+                      ISDUPLICATE_RECORD,
+                      ISEVALUATE_CSEE,
+                      ISEVALUATE_PORTFOLIO,
+                      ISEVALUATE_FUSION,
+                    ].map((field: string, index: number) => (
+                      <Box key={index}>
+                        <Field
+                          name={field}
+                          as={TextField}
+                          type=""
+                          label={field}
+                          variant="standard"
+                        />
+                        <ErrorMessage name={CATEGORY} />
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+
+                <ButtonFlexBox>
+                  <Button type="submit" variant="outlined" color="primary">
+                    취소
+                  </Button>
+                  <Button type="submit" variant="contained" color="primary">
+                    제출
+                  </Button>
+                </ButtonFlexBox>
+              </Form>
+            )}
+          </Formik>
+
+          {/* <CategoryForm modalType={modalType} beforeData={beforeData} /> */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         </Box>
       </Modal>

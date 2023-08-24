@@ -50,6 +50,7 @@
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.2.3",
     "change-case": "^4.1.2",
+    "commit": "^0.0.4",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.9",
     "firebase": "^9.15.0",

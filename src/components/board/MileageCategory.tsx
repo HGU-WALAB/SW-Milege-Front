@@ -1,6 +1,6 @@
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from '../common/CustomTable';
-import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, CATEGORY } from 'src/assets/data/fields';
+import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, CATEGORY, DESCRIPTION } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
 
@@ -75,9 +75,9 @@ const headCells = [
  * 더미 객체
  */
 const IParams = {
-  category: '카테고리테스트',
-  description: '설명 테스트',
-  maxMileage: 5,
+  [CATEGORY]: '카테고리테스트',
+  [DESCRIPTION]: '설명 테스트',
+  [MAX_MILEAGE]: 5,
 };
 /**
  * @number 1번 목록

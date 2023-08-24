@@ -9,7 +9,7 @@ export default function ModalIconButton({ type }) {
   const handleOpen = () => dispatch(openModal(type));
 
   const IconConverter = (type) => {
-    const slicedType = type.slice(0, 3);
+    const slicedType = type?.slice(0, 3);
     switch (slicedType) {
       case 'add':
         return <AddIcon />;

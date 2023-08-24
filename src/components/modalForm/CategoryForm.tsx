@@ -16,9 +16,9 @@ export default function CategoryForm({ modalType, beforeData }) {
   return (
     <Formik
       initialValues={{
-        [CATEGORY]: modalType === EDITCATEGORY ? beforeData?.category : '',
-        [DESCRIPTION]: modalType === EDITCATEGORY ? beforeData?.description : '',
-        [MAX_MILEAGE]: modalType === EDITCATEGORY ? beforeData?.maxMileage : 0,
+        [CATEGORY]: modalType === EDITCATEGORY ? beforeData?.[CATEGORY] : '',
+        [DESCRIPTION]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION] : '',
+        [MAX_MILEAGE]: modalType === EDITCATEGORY ? beforeData?.[MAX_MILEAGE] : 0,
       }}
       validationSchema={CategorySchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
