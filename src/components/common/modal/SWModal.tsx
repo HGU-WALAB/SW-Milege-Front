@@ -21,6 +21,8 @@ import { DESCRIPTION, CATEGORY, MAX_MILEAGE } from '../../../assets/data/fields'
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
+import ModalIconButton from './ModalIconButton';
+import ModalTitle from './ModalTitle';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -45,29 +47,6 @@ const style = {
   p: 4,
 };
 
-const IconConverter = (type) => {
-  const slicedType = type.slice(0, 3);
-  switch (slicedType) {
-    case 'add':
-      return <AddIcon />;
-    case 'edi':
-      return <EditIcon />;
-    case 'del':
-      return <DeleteIcon />;
-  }
-};
-
-const titleConverter = (type) => {
-  switch (type) {
-    case ADDCATEGORY:
-      return '마일리지 카테고리 추가';
-    case EDITCATEGORY:
-      return '마일리지 카테고리 수정';
-    case DELETECATEGORY:
-      return '마일리지 카테고리 삭제';
-  }
-};
-
 export default function SWModal({ type, beforeData }) {
   console.log(beforeData);
 
@@ -75,18 +54,11 @@ export default function SWModal({ type, beforeData }) {
   const open = useSelector((state) => state.modal.isOpen);
   const modalType = useSelector((state) => state.modal.modalType);
 
-  const handleOpen = () => dispatch(openModal(type));
   const handleClose = () => dispatch(closeModal(type));
 
   return (
     <div>
-      <IconButton
-        onClick={() => {
-          handleOpen();
-        }}
-      >
-        {IconConverter(type)}
-      </IconButton>
+      <ModalIconButton type={type} />
       <Modal
         open={open}
         onClose={handleClose}
@@ -94,9 +66,7 @@ export default function SWModal({ type, beforeData }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography color="primary" id="modal-modal-title" variant="h6" component="h2">
-            {titleConverter(modalType)}
-          </Typography>
+          <ModalTitle />
 
           {/* use Formik 
           https://formik.org/docs/api/errormessage
@@ -104,7 +74,7 @@ export default function SWModal({ type, beforeData }) {
           https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html#getfieldprops-%EC%9C%A0%ED%8B%B8-%ED%95%A8%EC%88%98-%EC%A0%9C%EA%B3%B5
           */}
 
-          <CategoryForm modalType={modalType} />
+          <CategoryForm modalType={modalType} beforeData={beforeData} />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         </Box>
       </Modal>
