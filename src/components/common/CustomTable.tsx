@@ -31,8 +31,7 @@ import { CATEGORY, NUM } from '../../assets/data/fields';
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
-import { ADDCATEGORY, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
-
+import { ADDCATEGORY, ADDGLOBALITEM, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
 
 /**
  *  @brief 반응형 구축
@@ -53,7 +52,6 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 
 const ResponsiveTableHeadLabel = styled(TableSortLabel)({
   '@media (max-width: 600px)': {
-
     fontSize: '10px',
 
     display: 'inline',
@@ -74,7 +72,6 @@ const ResponsiveTableBody = styled(TableCell)({
   },
 });
 
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -84,7 +81,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   }
   return 0;
 }
-
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -199,7 +195,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         {type} {' 리스트'}
       </Typography>
 
-
       <Toolbar
         sx={{
           pl: { sm: 2 },
@@ -248,11 +243,12 @@ const typeConverter = (type) => {
       return ADDCATEGORY;
     case '마일리지 항목':
       return ADDITEM;
+    case '마일리지 글로벌 항목':
+      return ADDGLOBALITEM;
   }
 };
 
 export default function EnhancedTable({ rows, headCells, type }) {
-
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);

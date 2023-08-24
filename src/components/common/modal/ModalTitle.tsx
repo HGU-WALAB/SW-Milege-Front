@@ -2,10 +2,12 @@ import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import {
   ADDCATEGORY,
+  ADDGLOBALITEM,
   ADDITEM,
   DELETECATEGORY,
   DELETEITEM,
   EDITCATEGORY,
+  EDITGLOBALITEM,
   EDITITEM,
 } from 'src/assets/data/modal/modals';
 
@@ -26,6 +28,10 @@ export default function ModalTitle() {
         return '마일리지 항목 수정';
       case DELETEITEM:
         return '마일리지 항목 삭제';
+      case ADDGLOBALITEM:
+        return '마일리지 글로벌 항목 추가';
+      case EDITGLOBALITEM:
+        return '마일리지 글로벌 항목 수정';
     }
   };
 

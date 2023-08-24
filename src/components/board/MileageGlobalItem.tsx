@@ -23,7 +23,7 @@ import {
   MAX_MAILEAGE,
 } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
-import { EDITITEM } from 'src/assets/data/modal/modals';
+import { EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
 
 /**
  * @component [마일리지 항목] 게시판
@@ -176,7 +176,7 @@ export default function MileageGlobalItem() {
       'y',
       '2023-08-21',
 
-      <SWModal type={EDITITEM} beforeData={IParams} />
+      <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),
     createData(
       2,
@@ -187,7 +187,7 @@ export default function MileageGlobalItem() {
       'y',
       '2023-08-21',
 
-      <SWModal type={EDITITEM} beforeData={IParams} />
+      <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),
     createData(
       3,
@@ -198,7 +198,7 @@ export default function MileageGlobalItem() {
       'y',
       '2023-08-21',
 
-      <SWModal type={EDITITEM} beforeData={IParams} />
+      <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),
     createData(
       4,
@@ -209,7 +209,7 @@ export default function MileageGlobalItem() {
       'y',
       '2023-08-21',
 
-      <SWModal type={EDITITEM} beforeData={IParams} />
+      <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),
     createData(
       5,
@@ -219,7 +219,7 @@ export default function MileageGlobalItem() {
       30,
       'y',
       '2023-08-21',
-      <StarIcon />
+      <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),
     createData(
       6,
@@ -229,7 +229,7 @@ export default function MileageGlobalItem() {
       30,
       'y',
       '2023-08-21',
-      <StarIcon />
+      <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),
   ];
 
