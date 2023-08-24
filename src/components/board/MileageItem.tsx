@@ -10,7 +10,20 @@ import {
   CATEGORY,
   SEMESTER,
   ITEM,
+  DESCRIPTION,
+  DESCRIPTION1,
+  DESCRIPTION2,
+  FILE_DESCRIPTION,
+  ISVISIBLE_STUDENT,
+  ISINPUT_STUDENT,
+  ISDUPLICATE_RECORD,
+  ISEVALUATE_CSEE,
+  ISEVALUATE_PORTFOLIO,
+  ISEVALUATE_FUSION,
+  MAX_MAILEAGE,
 } from 'src/assets/data/fields';
+import SWModal from '../common/modal/SWModal';
+import { EDITITEM } from 'src/assets/data/modal/modals';
 
 /**
  * @component [마일리지 항목] 게시판
@@ -129,8 +142,26 @@ export default function MileageItem() {
     },
   ];
 
+  const IParams = {
+    [CATEGORY]: '카테고리테스트',
+    [SEMESTER]: '2022-01',
+    [ITEM]: '웹 서비스 캠프',
+    [MILEAGE]: 30,
+    [MAX_MAILEAGE]: 50,
+    [DESCRIPTION1]: '설명 1',
+    [DESCRIPTION2]: '설명 2',
+    [FILE_DESCRIPTION]: '첨부파일 설명',
+    [ISVISIBLE]: true,
+    [ISVISIBLE_STUDENT]: false,
+    [ISINPUT_STUDENT]: false,
+    [ISDUPLICATE_RECORD]: false,
+    [ISEVALUATE_CSEE]: false,
+    [ISEVALUATE_PORTFOLIO]: false,
+    [ISEVALUATE_FUSION]: false,
+  };
+
   /**
-   * @number 1번 목록
+   * @kind [마일리지 항목]
    * @description 마일리지 항목 리스트
    */
 
@@ -143,7 +174,7 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
-      <StarIcon />
+      <SWModal type={EDITITEM} beforeData={IParams} />
     ),
     createData(
       2,
@@ -153,7 +184,7 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
-      <StarIcon />
+      <SWModal type={EDITITEM} beforeData={IParams} />
     ),
     createData(
       3,
@@ -163,7 +194,7 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
-      <StarIcon />
+      <SWModal type={EDITITEM} beforeData={IParams} />
     ),
     createData(
       4,
@@ -173,7 +204,7 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
-      <StarIcon />
+      <SWModal type={EDITITEM} beforeData={IParams} />
     ),
     createData(
       5,
@@ -197,5 +228,5 @@ export default function MileageItem() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} />;
+  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 항목" />;
 }
