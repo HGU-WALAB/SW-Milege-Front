@@ -179,15 +179,16 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  type?: string;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, type } = props;
 
   return (
     <Box>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        마일리지 카테고리 리스트
+        {type} {' 리스트'}
       </Typography>
 
       <Toolbar
@@ -222,13 +223,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
         )}
-        <SWModal type={ADDCATEGORY} />
+        <SWModal type={type} />
       </Toolbar>
     </Box>
   );
 }
 
-export default function EnhancedTable({ rows, headCells }) {
+export default function EnhancedTable({ rows, headCells, type }) {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -301,7 +302,7 @@ export default function EnhancedTable({ rows, headCells }) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} type={type} />
         <TableContainer>
           <Table sx={{}} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
             <EnhancedTableHead

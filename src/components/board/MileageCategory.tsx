@@ -94,5 +94,5 @@ const rows = [
 ];
 
 export default function MileageCategory() {
-  return <EnhancedTable rows={rows} headCells={headCells} />;
+  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 카테고리" />;
 }
