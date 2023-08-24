@@ -76,6 +76,41 @@ const style = {
   p: 2,
 };
 
+const engToKor = (eng) => {
+  switch (eng) {
+    case CATEGORY:
+      return '카테고리';
+    case SEMESTER:
+      return '학기';
+    case ITEM:
+      return '항목';
+    case MILEAGE:
+      return '마일리지';
+    case MAX_MAILEAGE:
+      return '최대 마일리지';
+    case DESCRIPTION1:
+      return '설명1';
+    case DESCRIPTION2:
+      return '설명2';
+    case FILE_DESCRIPTION:
+      return '파일 설명';
+    case ISVISIBLE:
+      return '보이기 여부';
+    case ISVISIBLE_STUDENT:
+      return '학생 보이기';
+    case ISINPUT_STUDENT:
+      return '학생 입력';
+    case ISDUPLICATE_RECORD:
+      return '중복 레코드';
+    case ISEVALUATE_CSEE:
+      return '전전 평가항목';
+    case ISEVALUATE_PORTFOLIO:
+      return '포폴 평가항목';
+    case ISEVALUATE_FUSION:
+      return '융합 평가항목';
+  }
+};
+
 export default function SWModal({ type, beforeData }) {
   console.log(beforeData);
 
