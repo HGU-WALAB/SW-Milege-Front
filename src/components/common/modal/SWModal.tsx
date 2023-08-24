@@ -25,7 +25,13 @@ import {
 } from 'src/redux/slices/modal';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ADDCATEGORY, DELETECATEGORY, EDITCATEGORY, EDITITEM } from 'src/assets/data/modal/modals';
+import {
+  ADDCATEGORY,
+  ADDITEM,
+  DELETECATEGORY,
+  EDITCATEGORY,
+  EDITITEM,
+} from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
   DESCRIPTION,
@@ -75,6 +81,21 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 2,
+};
+
+const modalForm = (modalType, beforeData) => {
+  switch (modalType) {
+    case ADDCATEGORY:
+      return <CategoryForm beforeData={beforeData} />;
+    case EDITCATEGORY:
+      return <CategoryForm beforeData={beforeData} />;
+    case DELETECATEGORY:
+      return <CategoryForm beforeData={beforeData} />;
+    case ADDITEM:
+      return <ItemForm beforeData={beforeData} />;
+    case EDITITEM:
+      return <ItemForm beforeData={beforeData} />;
+  }
 };
 
 export const engToKor = (eng) => {
@@ -132,14 +153,14 @@ export default function SWModal({ type, beforeData }) {
       >
         <Box sx={style}>
           <ModalTitle />
-          <ItemForm beforeData={beforeData} />
+          {/* <ItemForm beforeData={beforeData} /> */}
           {/* use Formik 
           https://formik.org/docs/api/errormessage
           https://velog.io/@silverbeen/Formik%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-feat.-Yup
           https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html#getfieldprops-%EC%9C%A0%ED%8B%B8-%ED%95%A8%EC%88%98-%EC%A0%9C%EA%B3%B5
           */}
-
-          {/* <CategoryForm modalType={modalType} beforeData={beforeData} /> */}
+          {modalForm(modalType, beforeData)}
+          {/* <CategoryForm beforeData={beforeData} /> */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         </Box>
       </Modal>
