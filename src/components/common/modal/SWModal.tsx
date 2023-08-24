@@ -18,6 +18,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ADDCATEGORY, DELETECATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { DESCRIPTION, CATEGORY, MAX_MILEAGE } from '../../../assets/data/fields';
+import FilledButton from 'src/components/Template/FilledButton';
+import { styled } from '@mui/styles';
+
+const ButtonFlexBox = styled(Box)({
+  display: 'flex',
+  gap: '10px',
+  justifyContent: 'end',
+  width: '100%',
+});
+
 const style = {
   display: 'flex',
   flexDirection: 'column',
@@ -57,7 +67,8 @@ const titleConverter = (type) => {
   }
 };
 
-export default function SWModal({ type }) {
+export default function SWModal({ type, beforeData }) {
+  console.log(beforeData);
   const CategorySchema = Yup.object().shape({
     [CATEGORY]: Yup.string().required('필수입니다.'),
     [DESCRIPTION]: Yup.string(),
@@ -99,9 +110,9 @@ export default function SWModal({ type }) {
 
           <Formik
             initialValues={{
-              [CATEGORY]: '',
-              [DESCRIPTION]: '',
-              [MAX_MILEAGE]: 2,
+              [CATEGORY]: beforeData ? beforeData.category : '',
+              [DESCRIPTION]: beforeData ? beforeData.description : '',
+              [MAX_MILEAGE]: beforeData ? beforeData.maxMileage : 0,
             }}
             validationSchema={CategorySchema}
             onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -115,18 +126,34 @@ export default function SWModal({ type }) {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: ' center',
-                  gap: '20px',
+                  margin: '30px 0px',
+
+                  padding: '0px 20px',
+                  width: '100%',
+                  gap: '30px',
                 }}
               >
-                <TextField color="secondary" variant="standard" color="primary" name={CATEGORY} />
-                <Field name={CATEGORY} component={TextField} type="text" label="dds" />
+                <Field
+                  name={CATEGORY}
+                  as={TextField}
+                  type="text"
+                  label="카테고리"
+                  variant="standard"
+                />
                 <ErrorMessage name={CATEGORY} />
-                <Field name={DESCRIPTION} as={TextField} />
+                <Field label="설명" name={DESCRIPTION} as={TextField} variant="standard" />
                 <ErrorMessage name={DESCRIPTION} />
 
-                <Field name={MAX_MILEAGE} as={TextField} />
+                <Field label="최대 마일리지" name={MAX_MILEAGE} as={TextField} variant="standard" />
                 <ErrorMessage name={MAX_MILEAGE} disabled={isSubmitting} />
-                <Button type="submit">제출</Button>
+                <ButtonFlexBox>
+                  <Button type="submit" variant="outlined" color="primary">
+                    취소
+                  </Button>
+                  <Button type="submit" variant="contained" color="primary">
+                    제출
+                  </Button>
+                </ButtonFlexBox>
               </Form>
             )}
           </Formik>

@@ -223,7 +223,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           </Tooltip>
         )}
         <SWModal type={ADDCATEGORY} />
-        <SWModal type={EDITCATEGORY} />
       </Toolbar>
     </Box>
   );

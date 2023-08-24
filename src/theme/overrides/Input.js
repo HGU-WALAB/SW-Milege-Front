@@ -37,6 +37,7 @@ export default function Input(theme) {
     MuiTextField: {
       styleOverrides: {
         root: {
+          width: '100%',
           '& .MuiInputLabel-root.Mui-focused': {
             // color: theme.palette.text.primary,
             color: theme.palette.primary,
