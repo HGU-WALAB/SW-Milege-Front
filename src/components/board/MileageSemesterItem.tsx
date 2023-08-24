@@ -26,15 +26,15 @@ import SWModal from '../common/modal/SWModal';
 import { EDITITEM } from 'src/assets/data/modal/modals';
 
 /**
- * @component [마일리지 항목] 게시판
+ * @component [마일리지 학기별 항목] 게시판
  */
 
 /**
- * @kind [마일리지 항목]
+ * @kind [마일리지 학기별 항목]
  * @breif enum
  */
 
-export enum MileageItemBoard {
+export enum MileageSemesterItemBoard {
   'NUM' = NUM,
   'CATEGORY' = CATEGORY,
   'SEMESTER' = SEMESTER,
@@ -46,22 +46,22 @@ export enum MileageItemBoard {
 }
 
 /**
- * @kind [마일리지 항목]
+ * @kind [마일리지 학기별 항목]
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [MileageItemBoard.CATEGORY]: string;
-  [MileageItemBoard.SEMESTER]: string;
-  [MileageItemBoard.ITEM]: string;
-  [MileageItemBoard.MILEAGE]: number;
-  [MileageItemBoard.ISVISIBLE]: boolean;
-  [MileageItemBoard.REGISTERED_DATE]: string;
-  [MileageItemBoard.MANAGE]: string;
+  [MileageSemesterItemBoard.CATEGORY]: string;
+  [MileageSemesterItemBoard.SEMESTER]: string;
+  [MileageSemesterItemBoard.ITEM]: string;
+  [MileageSemesterItemBoard.MILEAGE]: number;
+  [MileageSemesterItemBoard.ISVISIBLE]: boolean;
+  [MileageSemesterItemBoard.REGISTERED_DATE]: string;
+  [MileageSemesterItemBoard.MANAGE]: string;
 }
 
-export default function MileageItem() {
+export default function MileageSemesterItem() {
   /**
-   * @kind [마일리지 항목]
+   * @kind [마일리지 학기별 항목]
    * @brief 데이터 생성 함수
    *
    *  */
@@ -76,66 +76,66 @@ export default function MileageItem() {
     manage: string
   ): Data {
     return {
-      [MileageItemBoard.NUM]: num,
-      [MileageItemBoard.CATEGORY]: category,
-      [MileageItemBoard.SEMESTER]: semester,
-      [MileageItemBoard.ITEM]: item,
-      [MileageItemBoard.MILEAGE]: mileage,
-      [MileageItemBoard.ISVISIBLE]: isVisible,
-      [MileageItemBoard.REGISTERED_DATE]: registeredDate,
-      [MileageItemBoard.MANAGE]: manage,
+      [MileageSemesterItemBoard.NUM]: num,
+      [MileageSemesterItemBoard.CATEGORY]: category,
+      [MileageSemesterItemBoard.SEMESTER]: semester,
+      [MileageSemesterItemBoard.ITEM]: item,
+      [MileageSemesterItemBoard.MILEAGE]: mileage,
+      [MileageSemesterItemBoard.ISVISIBLE]: isVisible,
+      [MileageSemesterItemBoard.REGISTERED_DATE]: registeredDate,
+      [MileageSemesterItemBoard.MANAGE]: manage,
     };
   }
 
   /**
-   * @kind [마일리지 항목]
+   * @kind [마일리지 학기별 항목]
    * @brief 테이블 헤더
    */
   const headCells = [
     {
-      id: [MileageItemBoard.NUM],
+      id: [MileageSemesterItemBoard.NUM],
       numeric: false,
       disablePadding: true,
       label: '번호',
     },
     {
-      id: [MileageItemBoard.CATEGORY],
+      id: [MileageSemesterItemBoard.CATEGORY],
       numeric: true,
       disablePadding: false,
       label: '카테고리명',
     },
     {
-      id: [MileageItemBoard.SEMESTER],
+      id: [MileageSemesterItemBoard.SEMESTER],
       numeric: true,
       disablePadding: false,
       label: '학기',
     },
     {
-      id: [MileageItemBoard.ITEM],
+      id: [MileageSemesterItemBoard.ITEM],
       numeric: true,
       disablePadding: false,
       label: '항목명',
     },
     {
-      id: [MileageItemBoard.MILEAGE],
+      id: [MileageSemesterItemBoard.MILEAGE],
       numeric: true,
       disablePadding: false,
       label: '마일리지',
     },
     {
-      id: [MileageItemBoard.ISVISIBLE],
+      id: [MileageSemesterItemBoard.ISVISIBLE],
       numeric: true,
       disablePadding: false,
       label: '보이기',
     },
     {
-      id: [MileageItemBoard.REGISTERED_DATE],
+      id: [MileageSemesterItemBoard.REGISTERED_DATE],
       numeric: true,
       disablePadding: false,
       label: '등록일',
     },
     {
-      id: [MileageItemBoard.MANAGE],
+      id: [MileageSemesterItemBoard.MANAGE],
       numeric: true,
       disablePadding: false,
       label: '관리',
@@ -161,9 +161,9 @@ export default function MileageItem() {
   };
 
   /**
-   * @kind [마일리지 항목]
+   * @kind [마일리지 학기별 항목]
 
-   * @description 마일리지 항목 리스트
+   * @description 마일리지 학기별 항목 리스트
    */
 
   const rows = [
@@ -233,5 +233,5 @@ export default function MileageItem() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 항목" />;
+  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 학기별 항목" />;
 }

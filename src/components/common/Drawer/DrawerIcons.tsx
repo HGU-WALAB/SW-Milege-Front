@@ -19,7 +19,7 @@ export const IconReturn = (text) => {
       return <CategoryIcon />;
     case Board['마일리지 글로벌 항목']:
       return <PublicIcon />;
-    case Board['마일리지 항목']:
+    case Board['마일리지 학기별 항목']:
       return <AllInboxIcon />;
     case Board['마일리지 조회']:
       return <SearchIcon />;

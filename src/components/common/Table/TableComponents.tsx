@@ -9,7 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
-import MileageItem from 'src/components/board/MileageItem';
+import MileageItem from 'src/components/board/MileageSemesterItem';
 import MileageView from 'src/components/board/MileageView';
 import MileageRegister from 'src/components/board/MileageRegister';
 import RegisterManage from 'src/components/board/RegisterManage';
@@ -24,7 +24,7 @@ export const ComponentReturn = (text) => {
       return <MileageCategory />;
     case Board['마일리지 글로벌 항목']:
       return <MileageGlobalItem />;
-    case Board['마일리지 항목']:
+    case Board['마일리지 학기별 항목']:
       return <MileageItem />;
     case Board['마일리지 조회']:
       return <MileageView />;

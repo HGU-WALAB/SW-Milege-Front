@@ -241,7 +241,7 @@ const typeConverter = (type) => {
   switch (type) {
     case '마일리지 카테고리':
       return ADDCATEGORY;
-    case '마일리지 항목':
+    case '마일리지 학기별 항목':
       return ADDITEM;
     case '마일리지 글로벌 항목':
       return ADDGLOBALITEM;
