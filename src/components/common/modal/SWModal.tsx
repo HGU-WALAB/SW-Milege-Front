@@ -20,8 +20,9 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { DESCRIPTION, CATEGORY, MAX_MILEAGE } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
+import CategoryForm from 'src/components/modalForm/CategoryForm';
 
-const ButtonFlexBox = styled(Box)({
+export const ButtonFlexBox = styled(Box)({
   display: 'flex',
   gap: '10px',
   justifyContent: 'end',
@@ -69,11 +70,6 @@ const titleConverter = (type) => {
 
 export default function SWModal({ type, beforeData }) {
   console.log(beforeData);
-  const CategorySchema = Yup.object().shape({
-    [CATEGORY]: Yup.string().required('필수입니다.'),
-    [DESCRIPTION]: Yup.string(),
-    [MAX_MILEAGE]: Yup.number().integer().required('필수입니다.'),
-  });
 
   const dispatch = useDispatch();
   const open = useSelector((state) => state.modal.isOpen);
@@ -108,56 +104,7 @@ export default function SWModal({ type, beforeData }) {
           https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html#getfieldprops-%EC%9C%A0%ED%8B%B8-%ED%95%A8%EC%88%98-%EC%A0%9C%EA%B3%B5
           */}
 
-          <Formik
-            initialValues={{
-              [CATEGORY]: beforeData ? beforeData.category : '',
-              [DESCRIPTION]: beforeData ? beforeData.description : '',
-              [MAX_MILEAGE]: beforeData ? beforeData.maxMileage : 0,
-            }}
-            validationSchema={CategorySchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              console.log(values);
-              resetForm();
-            }}
-          >
-            {({ isSubmitting, errors, touched }) => (
-              <Form
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: ' center',
-                  margin: '30px 0px',
-
-                  padding: '0px 20px',
-                  width: '100%',
-                  gap: '30px',
-                }}
-              >
-                <Field
-                  name={CATEGORY}
-                  as={TextField}
-                  type="text"
-                  label="카테고리"
-                  variant="standard"
-                />
-                <ErrorMessage name={CATEGORY} />
-                <Field label="설명" name={DESCRIPTION} as={TextField} variant="standard" />
-                <ErrorMessage name={DESCRIPTION} />
-
-                <Field label="최대 마일리지" name={MAX_MILEAGE} as={TextField} variant="standard" />
-                <ErrorMessage name={MAX_MILEAGE} disabled={isSubmitting} />
-                <ButtonFlexBox>
-                  <Button type="submit" variant="outlined" color="primary">
-                    취소
-                  </Button>
-                  <Button type="submit" variant="contained" color="primary">
-                    제출
-                  </Button>
-                </ButtonFlexBox>
-              </Form>
-            )}
-          </Formik>
-
+          <CategoryForm modalType={modalType} />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         </Box>
       </Modal>
