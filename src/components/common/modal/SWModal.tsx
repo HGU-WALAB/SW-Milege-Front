@@ -3,10 +3,20 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { FilledInput, IconButton, OutlinedInput, TextField } from '@mui/material';
+import {
+  Chip,
+  FilledInput,
+  IconButton,
+  OutlinedInput,
+  Switch,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {
   closeCategoryModal,
   closeModal,
@@ -41,6 +51,7 @@ import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
 import ModalIconButton from './ModalIconButton';
 import ModalTitle from './ModalTitle';
+import { values } from 'lodash';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -187,16 +198,43 @@ export default function SWModal({ type, beforeData }) {
                       ISEVALUATE_CSEE,
                       ISEVALUATE_PORTFOLIO,
                       ISEVALUATE_FUSION,
-                    ].map((field: string, index: number) => (
-                      <Box key={index}>
-                        <Field
+                    ].map((inputName: string, index: number) => (
+                      <Box key={index} sx={{ display: 'flex', gap: 2 }}>
+                        {/* <Field
                           name={field}
-                          as={TextField}
+                          // as={TextField}
+                          component={Switch}
                           type=""
                           label={field}
                           variant="standard"
                         />
-                        <ErrorMessage name={CATEGORY} />
+                        <ErrorMessage name={CATEGORY} /> */}
+                        <Chip
+                          color="primary"
+                          sx={{ mb: 1, px: 1 }}
+                          label={inputName}
+                          variant="outlined"
+                        />
+
+                        <Field name={inputName}>
+                          {({ field, form }) => (
+                            <ToggleButtonGroup
+                              sx={{ height: '40px' }}
+                              color="primary"
+                              value={field.value}
+                              exclusive
+                              onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
+                              aria-label="toggle value"
+                            >
+                              <ToggleButton value="true" aria-label="true">
+                                O
+                              </ToggleButton>
+                              <ToggleButton value="false" aria-label="false">
+                                X
+                              </ToggleButton>
+                            </ToggleButtonGroup>
+                          )}
+                        </Field>
                       </Box>
                     ))}
                   </Box>
