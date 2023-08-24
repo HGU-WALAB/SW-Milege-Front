@@ -30,7 +30,7 @@ import { CATEGORY, NUM } from '../../assets/data/fields';
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
-import { ADDCATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
+import { ADDCATEGORY, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
 
 /**
  *  @brief 반응형 구축
@@ -223,11 +223,23 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
         )}
-        <SWModal type={type} />
+        <SWModal type={typeConverter(type)} />
       </Toolbar>
     </Box>
   );
 }
+
+/**
+ *  @brief 타입을 add modal에 알맞는 형태로 변환 시켜줌
+ */
+const typeConverter = (type) => {
+  switch (type) {
+    case '마일리지 카테고리':
+      return ADDCATEGORY;
+    case '마일리지 항목':
+      return ADDITEM;
+  }
+};
 
 export default function EnhancedTable({ rows, headCells, type }) {
   const [order, setOrder] = React.useState<Order>('asc');
