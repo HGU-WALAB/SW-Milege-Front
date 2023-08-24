@@ -27,10 +27,12 @@ import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
 import { CATEGORY, NUM } from '../../assets/data/fields';
+
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
 import { ADDCATEGORY, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
+
 
 /**
  *  @brief 반응형 구축
@@ -51,7 +53,9 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 
 const ResponsiveTableHeadLabel = styled(TableSortLabel)({
   '@media (max-width: 600px)': {
+
     fontSize: '10px',
+
     display: 'inline',
   },
 });
@@ -65,9 +69,11 @@ const RsponsiveTableBodyCheckBox = styled(TableCell)({
 const ResponsiveTableBody = styled(TableCell)({
   '@media (max-width: 600px)': {
     padding: 0,
+
     fontSize: '10px',
   },
 });
+
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -78,6 +84,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   }
   return 0;
 }
+
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -179,6 +186,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+
   type?: string;
 }
 
@@ -190,6 +198,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
         {type} {' 리스트'}
       </Typography>
+
 
       <Toolbar
         sx={{
@@ -223,6 +232,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
         )}
+
         <SWModal type={typeConverter(type)} />
       </Toolbar>
     </Box>
@@ -242,6 +252,7 @@ const typeConverter = (type) => {
 };
 
 export default function EnhancedTable({ rows, headCells, type }) {
+
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -315,6 +326,7 @@ export default function EnhancedTable({ rows, headCells, type }) {
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} type={type} />
+
         <TableContainer>
           <Table sx={{}} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
             <EnhancedTableHead

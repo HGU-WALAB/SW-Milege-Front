@@ -1,8 +1,10 @@
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from '../common/CustomTable';
+
 import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, CATEGORY, DESCRIPTION } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
+
 
 /**
  * @breif [마일리지 카테고리] 게시판
@@ -24,6 +26,7 @@ interface Data {
   [MileageCategoryBoard.CATEGORY]: string;
   [MileageCategoryBoard.MAX_MILEAGE]: number;
   [MileageCategoryBoard.MANAGE]: ReactNode;
+
 }
 
 /**
@@ -31,12 +34,15 @@ interface Data {
  * @brief 데이터 생성 함수
  *
  *  */
+
 function createData(num: number, category: string, maxMileage: number, manage: ReactNode): Data {
+
   return {
     [MileageCategoryBoard.NUM]: num,
     [MileageCategoryBoard.CATEGORY]: category,
     [MileageCategoryBoard.MAX_MILEAGE]: maxMileage,
     [MileageCategoryBoard.MANAGE]: manage,
+
   };
 }
 
@@ -69,6 +75,7 @@ const headCells = [
     disablePadding: false,
     label: '관리',
   },
+
 ];
 
 /**

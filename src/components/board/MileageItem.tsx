@@ -25,6 +25,7 @@ import {
 import SWModal from '../common/modal/SWModal';
 import { EDITITEM } from 'src/assets/data/modal/modals';
 
+
 /**
  * @component [마일리지 항목] 게시판
  */
@@ -162,6 +163,7 @@ export default function MileageItem() {
 
   /**
    * @kind [마일리지 항목]
+
    * @description 마일리지 항목 리스트
    */
 
@@ -174,7 +176,9 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
+
       <SWModal type={EDITITEM} beforeData={IParams} />
+
     ),
     createData(
       2,
@@ -184,7 +188,9 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
+
       <SWModal type={EDITITEM} beforeData={IParams} />
+
     ),
     createData(
       3,
@@ -194,7 +200,9 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
+
       <SWModal type={EDITITEM} beforeData={IParams} />
+
     ),
     createData(
       4,
@@ -204,7 +212,9 @@ export default function MileageItem() {
       30,
       'y',
       '2023-08-21',
+
       <SWModal type={EDITITEM} beforeData={IParams} />
+
     ),
     createData(
       5,
@@ -228,5 +238,7 @@ export default function MileageItem() {
     ),
   ];
 
+
   return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 항목" />;
+
 }

@@ -20,10 +20,12 @@ import MileageResult from 'src/components/board/MileageResult';
 export const ComponentReturn = (text) => {
   switch (text) {
     case Board['마일리지 카테고리']:
+
       return <MileageCategory />;
 
     case Board['마일리지 항목']:
       return <MileageItem />;
+
 
     case Board['마일리지 조회']:
       return <MileageView />;
