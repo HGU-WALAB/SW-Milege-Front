@@ -28,6 +28,12 @@ import CustomTablePagination from './Table/CustomTablePagination';
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
 import { CATEGORY, NUM } from '../../assets/data/fields';
 
+import Modal from './modal/SWModal';
+import CustomModal1 from '../Template/CustomModal';
+import SWModal from './modal/SWModal';
+import { ADDCATEGORY, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
+
+
 /**
  *  @brief 반응형 구축
  */
@@ -47,7 +53,9 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 
 const ResponsiveTableHeadLabel = styled(TableSortLabel)({
   '@media (max-width: 600px)': {
-    fontSize: '5px',
+
+    fontSize: '10px',
+
     display: 'inline',
   },
 });
@@ -61,42 +69,11 @@ const RsponsiveTableBodyCheckBox = styled(TableCell)({
 const ResponsiveTableBody = styled(TableCell)({
   '@media (max-width: 600px)': {
     padding: 0,
-    fontSize: '5px',
+
+    fontSize: '10px',
   },
 });
 
-// const rows = [
-
-//   createData('1', '전공 마일리지', 3.7, <StarIcon />),
-//   createData('2', '비교과 - 연구활동', 25.0, <StarIcon />),
-//   createData('3', '비교과 - 전공활동', 16.0, <StarIcon />),
-//   createData('4', '비교과 - 특강참여', 6.0, <StarIcon />),
-//   createData('5', '비교과 - 학회활동', 16.0, <StarIcon />),
-//   createData('6', '비교과 - 행사참여', 3.2, <StarIcon />),
-// createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-// createData('Jelly Bean', 375, 0.0, 94, 0.0),
-// createData('KitKat', 518, 26.0, 65, 7.0),
-// createData('Lollipop', 392, 0.2, 98, 0.0),
-// createData('Marshmallow', 318, 0, 81, 2.0),
-// createData('Nougat', 360, 19.0, 9, 37.0),
-// createData('Oreo', 437, 18.0, 63, 4.0),
-// ];
-
-// const rows = [
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Donut', 452, 25.0, 51, 4.9),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-//   createData('Honeycomb', 408, 3.2, 87, 6.5),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Jelly Bean', 375, 0.0, 94, 0.0),
-//   createData('KitKat', 518, 26.0, 65, 7.0),
-//   createData('Lollipop', 392, 0.2, 98, 0.0),
-//   createData('Marshmallow', 318, 0, 81, 2.0),
-//   createData('Nougat', 360, 19.0, 9, 37.0),
-//   createData('Oreo', 437, 18.0, 63, 4.0),
-// ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -108,7 +85,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-// type Order = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -142,115 +118,10 @@ interface HeadCell {
   numeric: boolean;
 }
 
-// const headCells = [
-//   {
-//     id: 'name',
-//     numeric: false,
-//     disablePadding: true,
-//     label: '번호',
-//   },
-//   {
-//     id: 'calories',
-//     numeric: true,
-//     disablePadding: false,
-//     label: '카테고리명',
-//   },
-//   {
-//     id: 'fat',
-//     numeric: true,
-//     disablePadding: false,
-//     label: '최대 마일리지',
-//   },
-//   {
-//     id: 'carbs',
-//     numeric: true,
-//     disablePadding: false,
-//     label: '관리',
-//   },
-// ];
-
-/**
- * @kind 마일리지 카테로리
- * @breif 데이터 인터페이스
- */
-// interface Data {
-//   [MileageCategoryBoard.CATEGORY]: string;
-//   [MileageCategoryBoard.MAX_MILEAGE]: number;
-//   [MileageCategoryBoard.MANAGE]: string;
-//   [MileageCategoryBoard.CHECK_BOX]: string;
-// }
-
-/**
- * @kind 마일리지 카테고리
- * @brief 데이터 생성 함수
- *
- *  */
-// function createData(
-//   num: number,
-//   category: string,
-//   maxMileage: number,
-//   manage: string,
-//   checkBox: string
-// ): Data {
-//   return {
-//     [MileageCategoryBoard.NUM]: num,
-//     [MileageCategoryBoard.CATEGORY]: category,
-//     [MileageCategoryBoard.MAX_MILEAGE]: maxMileage,
-//     [MileageCategoryBoard.MANAGE]: manage,
-//     [MileageCategoryBoard.CHECK_BOX]: checkBox,
-//   };
-// }
-
-/**
- * @number 1번 헤더
- * @description 마일리지 카테고리 리스트
- */
-// const headCells = [
-//   {
-//     id: [MileageCategoryBoard.NUM],
-//     numeric: false,
-//     disablePadding: true,
-//     label: '번호',
-//   },
-//   {
-//     id: [MileageCategoryBoard.CATEGORY],
-//     numeric: true,
-//     disablePadding: false,
-//     label: '카테고리명',
-//   },
-//   {
-//     id: [MileageCategoryBoard.MAX_MILEAGE],
-//     numeric: true,
-//     disablePadding: false,
-//     label: '최대 마일리지',
-//   },
-//   {
-//     id: [MileageCategoryBoard.MANAGE],
-//     numeric: true,
-//     disablePadding: false,
-//     label: '관리',
-//   },
-//   {
-//     id: [MileageCategoryBoard.CHECK_BOX],
-//     numeric: true,
-//     disablePadding: false,
-//     label: '체크',
-//   },
-// ];
-
 /**
  * @number 1번 목록
  * @description 마일리지 카테고리 리스트
  */
-
-// const rows = [
-//   createData(1, '전공 마일리지', 7, '웹 서비스 캠프', <StarIcon />),
-//   createData(2, '비교과 - 연구활동', 6, '웹 서비스 캠프', <StarIcon />),
-//   createData(3, '비교과 - 전공활동', 6, '웹 서비스 캠프', <StarIcon />),
-//   createData(4, '비교과 - 특강참여', 7, '웹 서비스 캠프', <StarIcon />),
-//   createData(5, '비교과 - 학회활동', 6, '웹 서비스 캠프', <StarIcon />),
-//   createData(6, '비교과 - 행사참여', 8, '웹 서비스 캠프', <StarIcon />),
-// ];
 
 interface EnhancedTableProps {
   numSelected: number;
@@ -315,16 +186,20 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+
+  type?: string;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, type } = props;
 
   return (
-    <>
+    <Box>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        마일리지 카테고리 리스트
+        {type} {' 리스트'}
       </Typography>
+
+
       <Toolbar
         sx={{
           pl: { sm: 2 },
@@ -357,12 +232,27 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
         )}
+
+        <SWModal type={typeConverter(type)} />
       </Toolbar>
-    </>
+    </Box>
   );
 }
 
-export default function EnhancedTable({ rows, headCells }) {
+/**
+ *  @brief 타입을 add modal에 알맞는 형태로 변환 시켜줌
+ */
+const typeConverter = (type) => {
+  switch (type) {
+    case '마일리지 카테고리':
+      return ADDCATEGORY;
+    case '마일리지 항목':
+      return ADDITEM;
+  }
+};
+
+export default function EnhancedTable({ rows, headCells, type }) {
+
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -435,7 +325,8 @@ export default function EnhancedTable({ rows, headCells }) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} type={type} />
+
         <TableContainer>
           <Table sx={{}} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
             <EnhancedTableHead
