@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { IconButton, TextField } from '@mui/material';
+import { FilledInput, IconButton, OutlinedInput, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -110,8 +110,16 @@ export default function SWModal({ type }) {
             }}
           >
             {({ isSubmitting, errors, touched }) => (
-              <Form>
-                <Field name={CATEGORY} as={TextField} />
+              <Form
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: ' center',
+                  gap: '20px',
+                }}
+              >
+                <TextField color="secondary" variant="standard" color="primary" name={CATEGORY} />
+                <Field name={CATEGORY} component={TextField} type="text" label="dds" />
                 <ErrorMessage name={CATEGORY} />
                 <Field name={DESCRIPTION} as={TextField} />
                 <ErrorMessage name={DESCRIPTION} />

@@ -28,7 +28,8 @@ export default function Input(theme) {
             borderBottomColor: alpha(theme.palette.grey[500], 0.56),
           },
           '&:after': {
-            borderBottomColor: theme.palette.text.primary,
+            // borderBottomColor: theme.palette.text.primary,
+            color: theme.palette.primary,
           },
         },
       },
@@ -37,7 +38,8 @@ export default function Input(theme) {
       styleOverrides: {
         root: {
           '& .MuiInputLabel-root.Mui-focused': {
-            color: theme.palette.text.primary,
+            // color: theme.palette.text.primary,
+            color: theme.palette.primary,
           },
         },
       },
@@ -73,7 +75,8 @@ export default function Input(theme) {
           '&.Mui-focused': {
             '& .MuiOutlinedInput-notchedOutline': {
               borderWidth: 1,
-              borderColor: theme.palette.text.primary,
+              // borderColor: theme.palette.text.primary,
+              borderColor: theme.palette.primary,
             },
           },
           '&.Mui-disabled': {
