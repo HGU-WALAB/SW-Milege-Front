@@ -6,7 +6,8 @@ import Button from '@mui/material/Button';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
 import { TextField } from '@mui/material';
 
-export default function CategoryForm({ modalType, beforeData }) {
+export default function CategoryForm({ beforeData }) {
+  const modalType = useSelector((state) => state.modal.modalType);
   const CategorySchema = Yup.object().shape({
     [CATEGORY]: Yup.string().required('필수입니다.'),
     [DESCRIPTION]: Yup.string(),

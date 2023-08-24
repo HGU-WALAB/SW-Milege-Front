@@ -52,6 +52,7 @@ import CategoryForm from 'src/components/modalForm/CategoryForm';
 import ModalIconButton from './ModalIconButton';
 import ModalTitle from './ModalTitle';
 import { values } from 'lodash';
+import ItemForm from 'src/components/modalForm/ItemForm';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -76,7 +77,7 @@ const style = {
   p: 2,
 };
 
-const engToKor = (eng) => {
+export const engToKor = (eng) => {
   switch (eng) {
     case CATEGORY:
       return '카테고리';
@@ -131,161 +132,12 @@ export default function SWModal({ type, beforeData }) {
       >
         <Box sx={style}>
           <ModalTitle />
-
+          <ItemForm beforeData={beforeData} />
           {/* use Formik 
           https://formik.org/docs/api/errormessage
           https://velog.io/@silverbeen/Formik%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-feat.-Yup
           https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html#getfieldprops-%EC%9C%A0%ED%8B%B8-%ED%95%A8%EC%88%98-%EC%A0%9C%EA%B3%B5
           */}
-
-          <Formik
-            initialValues={{
-              [CATEGORY]: modalType === EDITITEM ? beforeData?.[CATEGORY] : '',
-              [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
-              [ITEM]: modalType === EDITITEM ? beforeData?.[ITEM] : '',
-              [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
-              [MAX_MAILEAGE]: modalType === EDITITEM ? beforeData?.[MAX_MAILEAGE] : 0,
-              [DESCRIPTION1]: modalType === EDITITEM ? beforeData?.[DESCRIPTION1] : '',
-              [DESCRIPTION2]: modalType === EDITITEM ? beforeData?.[DESCRIPTION2] : '',
-              [FILE_DESCRIPTION]: modalType === EDITITEM ? beforeData?.[FILE_DESCRIPTION] : '',
-              [ISVISIBLE]: modalType === EDITITEM ? beforeData?.[ISVISIBLE] : false,
-              [ISVISIBLE_STUDENT]: modalType === EDITITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
-              [ISINPUT_STUDENT]: modalType === EDITITEM ? beforeData?.[ISINPUT_STUDENT] : false,
-              [ISDUPLICATE_RECORD]:
-                modalType === EDITITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
-              [ISEVALUATE_CSEE]: modalType === EDITITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
-              [ISEVALUATE_PORTFOLIO]:
-                modalType === EDITITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
-              [ISEVALUATE_FUSION]: modalType === EDITITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
-            }}
-            // validationSchema={CategorySchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              console.log(values);
-              resetForm();
-            }}
-          >
-            {({ isSubmitting, errors, touched }) => (
-              <Form
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: ' center',
-                  margin: '30px 0px',
-
-                  padding: '0px 20px',
-                  width: '100%',
-                  gap: '20px',
-                }}
-              >
-                <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: ' center',
-                      margin: '30px 0px',
-
-                      padding: '0px 20px',
-                      width: '100%',
-                      gap: '15px',
-                    }}
-                  >
-                    {[
-                      CATEGORY,
-                      SEMESTER,
-                      ITEM,
-                      MILEAGE,
-                      MAX_MAILEAGE,
-                      DESCRIPTION1,
-                      DESCRIPTION2,
-                      FILE_DESCRIPTION,
-                    ].map((field: string, index: number) => (
-                      <Box key={index}>
-                        <Field
-                          sx={{ width: '300px' }}
-                          name={field}
-                          as={TextField}
-                          type="text"
-                          label={field}
-                          variant="standard"
-                        />
-                        <ErrorMessage name={CATEGORY} />
-                      </Box>
-                    ))}
-                  </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: ' center',
-                      margin: '30px 0px',
-
-                      padding: '0px 20px',
-                      width: '100%',
-                      gap: '20px',
-                    }}
-                  >
-                    {[
-                      ISVISIBLE,
-                      ISVISIBLE_STUDENT,
-                      ISINPUT_STUDENT,
-                      ISDUPLICATE_RECORD,
-                      ISEVALUATE_CSEE,
-                      ISEVALUATE_PORTFOLIO,
-                      ISEVALUATE_FUSION,
-                    ].map((inputName: string, index: number) => (
-                      <Box key={index} sx={{ display: 'flex', gap: 2 }}>
-                        {/* <Field
-                          name={field}
-                          // as={TextField}
-                          component={Switch}
-                          type=""
-                          label={field}
-                          variant="standard"
-                        />
-                        <ErrorMessage name={CATEGORY} /> */}
-                        <Chip
-                          color="primary"
-                          sx={{ mb: 1, px: 1 }}
-                          label={inputName}
-                          variant="outlined"
-                        />
-
-                        <Field name={inputName}>
-                          {({ field, form }) => (
-                            <ToggleButtonGroup
-                              sx={{ height: '40px' }}
-                              color="primary"
-                              value={field.value}
-                              exclusive
-                              onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
-                              aria-label="toggle value"
-                            >
-                              <ToggleButton value="true" aria-label="true">
-                                O
-                              </ToggleButton>
-                              <ToggleButton value="false" aria-label="false">
-                                X
-                              </ToggleButton>
-                            </ToggleButtonGroup>
-                          )}
-                        </Field>
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
-
-                <ButtonFlexBox>
-                  <Button type="submit" variant="outlined" color="primary">
-                    취소
-                  </Button>
-                  <Button type="submit" variant="contained" color="primary">
-                    제출
-                  </Button>
-                </ButtonFlexBox>
-              </Form>
-            )}
-          </Formik>
 
           {/* <CategoryForm modalType={modalType} beforeData={beforeData} /> */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>

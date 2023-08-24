@@ -51,7 +51,7 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 
 const ResponsiveTableHeadLabel = styled(TableSortLabel)({
   '@media (max-width: 600px)': {
-    fontSize: '5px',
+    fontSize: '10px',
     display: 'inline',
   },
 });
@@ -65,7 +65,7 @@ const RsponsiveTableBodyCheckBox = styled(TableCell)({
 const ResponsiveTableBody = styled(TableCell)({
   '@media (max-width: 600px)': {
     padding: 0,
-    fontSize: '5px',
+    fontSize: '10px',
   },
 });
 
