@@ -104,5 +104,5 @@ export default function UserManage() {
     createData(5, '김광', '21800450', '관리자', '20(2023-08-22)'),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} type="사용자 관리" />;
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="사용자 관리" />;
 }

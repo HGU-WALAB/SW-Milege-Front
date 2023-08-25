@@ -218,5 +218,5 @@ export default function MileageRegister() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 등록" />;
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 등록" />;
 }

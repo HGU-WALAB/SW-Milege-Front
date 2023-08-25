@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   mileageCategoryList: [],
   mileageGlobalList: [],
+  mileageSemesterList: [],
 };
 
 const slice = createSlice({
@@ -15,9 +16,13 @@ const slice = createSlice({
     setMileageGlobalList: (state, action) => {
       state.mileageGlobalList = action.payload;
     },
+    setMileageSemesterList: (state, action) => {
+      state.mileageSemesterList = action.payload;
+    },
   },
 });
 
 // Reducer
-export const { setMileageCategoryList, setMileageGlobalList } = slice.actions;
+export const { setMileageCategoryList, setMileageGlobalList, setMileageSemesterList } =
+  slice.actions;
 export default slice.reducer;

@@ -24,6 +24,10 @@ import {
 } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
 import { EDITITEM } from 'src/assets/data/modal/modals';
+import { useSelector, dispatch } from 'src/redux/store';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { setMileageSemesterList } from 'src/redux/slices/data';
 
 /**
  * @component [마일리지 학기별 항목] 게시판
@@ -233,5 +237,12 @@ export default function MileageSemesterItem() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 학기별 항목" />;
+  const data = useSelector((state) => state.data.mileageSemesterList);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setMileageSemesterList(rows));
+  }, []);
+
+  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 학기별 항목" />;
 }

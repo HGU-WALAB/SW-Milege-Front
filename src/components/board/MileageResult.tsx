@@ -188,5 +188,5 @@ export default function MileageResult() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 선정결과" />;
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 선정결과" />;
 }

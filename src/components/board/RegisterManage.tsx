@@ -223,5 +223,5 @@ export default function RegisterManage() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} type="신청자 관리" />;
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="신청자 관리" />;
 }
