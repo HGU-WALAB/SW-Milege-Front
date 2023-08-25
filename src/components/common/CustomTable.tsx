@@ -279,18 +279,32 @@ const typeConverter = (type) => {
   }
 };
 
+/**
+ *
+ * @brief 테이블 컴포넌트
+ * @param originalRows 전체 데이터를 가지고 있는 배열
+ * @param headCells 테이블 카테고리들
+ * @param type 테이블 타입
+ */
+
 export default function EnhancedTable({ originalRows, headCells, type }) {
+  /**
+   * @field 필터링을 거치고 보여주는 값들 (rows)
+   */
   const [rows, setRows] = React.useState(originalRows);
   console.log(rows, originalRows);
 
+  /**
+   * @brief 필터링 요소
+   */
+
   const category = useSelector((state) => state.filter.category);
   const semester = useSelector((state) => state.filter.semester);
-  useEffect(() => {
-    // dispatch(setMileageCategoryList(rows.filter((row) => row.category === category)));
 
-    // if(!category && !semester){
-    //   setRows(originalRows)
-    // }
+  /**
+   * @brief 필터링
+   */
+  useEffect(() => {
     let copyRows = originalRows;
     if (category && category !== '전체') {
       copyRows = copyRows.filter((row) => row.category === category);
