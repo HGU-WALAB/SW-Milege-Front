@@ -25,5 +25,5 @@ const slice = createSlice({
 });
 
 // Reducer
-export const { setCategory, clearCategory } = slice.actions;
+export const { setCategory, clearCategory, setSemester, clearSemester } = slice.actions;
 export default slice.reducer;

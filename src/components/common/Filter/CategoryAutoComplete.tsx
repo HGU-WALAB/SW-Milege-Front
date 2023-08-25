@@ -20,6 +20,7 @@ export default function CategoryAutoComplete() {
 
   return (
     <Autocomplete
+      sx={{ minWidth: '200px' }}
       value={value}
       disablePortal
       id="combo-box-demo"

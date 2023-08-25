@@ -38,6 +38,7 @@ import { setCategory } from 'src/redux/slices/filter';
 import CategoryAutoComplete from './Filter/CategoryAutoComplete';
 import { useEffect } from 'react';
 import { setMileageCategoryList } from 'src/redux/slices/data';
+import SemesterDropdown from './Filter/SemesterDropdown';
 
 /**
  *  @brief 반응형 구축
@@ -210,7 +211,19 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
       {/* 필터링 */}
 
-      <CategoryAutoComplete />
+      {/* 카테고리 필터링 */}
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          gap: '10px',
+        }}
+      >
+        <CategoryAutoComplete />
+        <SemesterDropdown />
+      </Box>
+
+      {/* 학기 필터링 */}
 
       <Toolbar
         sx={{
