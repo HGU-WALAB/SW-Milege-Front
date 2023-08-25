@@ -22,7 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
-import { TablePagination, styled, useMediaQuery } from '@mui/material';
+import { Autocomplete, TablePagination, TextField, styled, useMediaQuery } from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
@@ -189,11 +189,34 @@ interface EnhancedTableToolbarProps {
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected, type } = props;
 
+  // example
+  const top100Films = [
+    { label: 'The Shawshank Redemption' },
+    { label: 'The Godfather' },
+    { label: 'The Godfather: Part II' },
+  ];
+
+  const [value, setValue] = React.useState(null);
+  React.useEffect(() => {
+    console.log(value);
+  }, [value]);
   return (
     <Box>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
         {type} {' 리스트'}
       </Typography>
+
+      {/* 필터링 */}
+
+      <Autocomplete
+        inputValue={value}
+        disablePortal
+        id="combo-box-demo"
+        options={top100Films}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Controllable" />}
+        onInputChange={(e, newValue) => setValue(newValue)}
+      />
 
       <Toolbar
         sx={{
