@@ -40,8 +40,9 @@ import { useEffect } from 'react';
 import { setMileageCategoryList } from 'src/redux/slices/data';
 import SemesterDropdown from './Filter/SemesterDropdown';
 import { id } from 'date-fns/locale';
-import isVisibleDropdown from './Filter/IsVisibleDropdown';
+
 import IsVisibleDropdown from './Filter/IsVisibleDropdown';
+import ItemAutoComplete from './Filter/ItemAutoComplete';
 
 /**
  *  @brief 반응형 구축
@@ -225,6 +226,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         <CategoryAutoComplete />
         <SemesterDropdown />
         <IsVisibleDropdown />
+        <ItemAutoComplete />
       </Box>
 
       {/* 학기 필터링 */}
@@ -304,6 +306,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const category = useSelector((state) => state.filter.category);
   const semester = useSelector((state) => state.filter.semester);
   const isVisible = useSelector((state) => state.filter.isVisible);
+  const item = useSelector((state) => state.filter.item);
   /**
    * @brief 필터링
    */
@@ -320,12 +323,15 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       copyRows = copyRows.filter((row) => row.isVisible === isVisible);
       console.log(copyRows[0]?.isVisible, isVisible);
     }
+    if (item && item !== '전체') {
+      copyRows = copyRows.filter((row) => row.item === item);
+    }
     setRows(copyRows);
 
     // !category
     //   ? setRows(originalRows)
     //   : setRows(originalRows.filter((row) => row.category === category));
-  }, [category, semester, isVisible]);
+  }, [category, semester, isVisible, item]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
