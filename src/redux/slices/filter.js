@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   category: '전체',
   semester: '전체',
-  isVisible: null,
+  isVisible: '전체',
+  item: '전체',
 };
 
 const slice = createSlice({
@@ -26,7 +27,13 @@ const slice = createSlice({
       state.isVisible = action.payload;
     },
     clearIsVisible: (state) => {
-      state.isVisible = null;
+      state.isVisible = '전체';
+    },
+    setItem: (state, action) => {
+      state.item = action.payload;
+    },
+    clearItem: (state) => {
+      state.item = '전체';
     },
   },
 });
@@ -39,5 +46,7 @@ export const {
   clearSemester,
   setIsVisible,
   clearIsVisible,
+  setItem,
+  clearItem,
 } = slice.actions;
 export default slice.reducer;

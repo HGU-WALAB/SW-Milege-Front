@@ -40,6 +40,8 @@ import { useEffect } from 'react';
 import { setMileageCategoryList } from 'src/redux/slices/data';
 import SemesterDropdown from './Filter/SemesterDropdown';
 import { id } from 'date-fns/locale';
+import isVisibleDropdown from './Filter/IsVisibleDropdown';
+import IsVisibleDropdown from './Filter/IsVisibleDropdown';
 
 /**
  *  @brief 반응형 구축
@@ -222,6 +224,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       >
         <CategoryAutoComplete />
         <SemesterDropdown />
+        <IsVisibleDropdown />
       </Box>
 
       {/* 학기 필터링 */}
@@ -300,7 +303,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const category = useSelector((state) => state.filter.category);
   const semester = useSelector((state) => state.filter.semester);
-
+  const isVisible = useSelector((state) => state.filter.isVisible);
   /**
    * @brief 필터링
    */
@@ -312,12 +315,17 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (semester && semester !== '전체') {
       copyRows = copyRows.filter((row) => row.semester === semester);
     }
+    console.log(copyRows[0]?.isVisible, isVisible);
+    if (isVisible !== '전체') {
+      copyRows = copyRows.filter((row) => row.isVisible === isVisible);
+      console.log(copyRows[0]?.isVisible, isVisible);
+    }
     setRows(copyRows);
 
     // !category
     //   ? setRows(originalRows)
     //   : setRows(originalRows.filter((row) => row.category === category));
-  }, [category, semester]);
+  }, [category, semester, isVisible]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
@@ -453,7 +461,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                         // sx={{ fontSize: '5px' }}
                         // sx={{ padding: 1 }}
                       >
-                        {rowValue}
+                        {rowValue === true ? 'Y' : rowValue === false ? 'N' : rowValue}
                       </ResponsiveTableBody>
                     ))}
                   </TableRow>

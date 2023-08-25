@@ -177,7 +177,7 @@ export default function MileageGlobalItem() {
       '2022-01',
       '웹 서비스 캠프',
       30,
-      'y',
+      true,
       '2023-08-21',
 
       <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
@@ -188,7 +188,7 @@ export default function MileageGlobalItem() {
       '2022-01',
       '웹 서비스 캠프',
       30,
-      'y',
+      true,
       '2023-08-21',
 
       <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
@@ -199,7 +199,7 @@ export default function MileageGlobalItem() {
       '2022-01',
       '웹 서비스 캠프',
       30,
-      'y',
+      false,
       '2023-08-21',
 
       <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
@@ -210,7 +210,7 @@ export default function MileageGlobalItem() {
       '2022-01',
       '웹 서비스 캠프',
       30,
-      'y',
+      false,
       '2023-08-21',
 
       <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
@@ -221,7 +221,7 @@ export default function MileageGlobalItem() {
       '2022-02',
       '웹 서비스 캠프',
       30,
-      'y',
+      true,
       '2023-08-21',
       <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),
@@ -231,7 +231,7 @@ export default function MileageGlobalItem() {
       '2022-02',
       '웹 서비스 캠프',
       30,
-      'y',
+      true,
       '2023-08-21',
       <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
     ),

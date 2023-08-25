@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsVisible, setSemester } from 'src/redux/slices/filter';
 
-export default function isVisibleDropdown() {
+export default function IsVisibleDropdown() {
   const isVisible = useSelector((state) => state.filter.isVisible);
   const dispatch = useDispatch();
 
@@ -27,9 +27,9 @@ export default function isVisibleDropdown() {
           label="학기"
           onChange={handleChange}
         >
-          <MenuItem value={null}>전체</MenuItem>
-          <MenuItem value={true}>Yes</MenuItem>
-          <MenuItem value={false}>No</MenuItem>
+          <MenuItem value={'전체'}>전체</MenuItem>
+          <MenuItem value={true}>Y</MenuItem>
+          <MenuItem value={false}>N</MenuItem>
         </Select>
       </FormControl>
     </Box>
