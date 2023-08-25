@@ -8,8 +8,9 @@ export default function CategoryAutoComplete() {
     '전체',
     '전공 마일리지',
     '비교과 - 연구활동',
-    '비교과 - 봉사활동',
-    '비교과 - 창업활동',
+    '비교과 - 특강참여',
+    '비교과 - 학회활동',
+    '비교과 - 행사참여',
   ];
 
   const value = useSelector((state) => state.filter.category);
