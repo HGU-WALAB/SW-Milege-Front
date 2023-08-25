@@ -13,6 +13,7 @@ export default function SemesterDropdown() {
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(setSemester(event.target.value));
+    console.log(event.target.value);
   };
 
   return (
@@ -26,10 +27,11 @@ export default function SemesterDropdown() {
           label="학기"
           onChange={handleChange}
         >
-          <MenuItem value={'2023-01'}>2020-01</MenuItem>
-          <MenuItem value={'2023-01'}>2020-02</MenuItem>
-          <MenuItem value={'2023-01'}>2021-01</MenuItem>
-          <MenuItem value={'2023-01'}>2021-02</MenuItem>
+          <MenuItem value={'전체'}>전체</MenuItem>
+          <MenuItem value={'2020-01'}>2020-01</MenuItem>
+          <MenuItem value={'2020-02'}>2020-02</MenuItem>
+          <MenuItem value={'2021-01'}>2021-01</MenuItem>
+          <MenuItem value={'2021-02'}>2021-02</MenuItem>
           <MenuItem value={'2022-01'}>2022-01</MenuItem>
           <MenuItem value={'2022-02'}>2022-02</MenuItem>
           <MenuItem value={'2023-01'}>2023-01</MenuItem>

@@ -39,6 +39,7 @@ import CategoryAutoComplete from './Filter/CategoryAutoComplete';
 import { useEffect } from 'react';
 import { setMileageCategoryList } from 'src/redux/slices/data';
 import SemesterDropdown from './Filter/SemesterDropdown';
+import { id } from 'date-fns/locale';
 
 /**
  *  @brief 반응형 구축
@@ -283,13 +284,26 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   console.log(rows, originalRows);
 
   const category = useSelector((state) => state.filter.category);
-
+  const semester = useSelector((state) => state.filter.semester);
   useEffect(() => {
     // dispatch(setMileageCategoryList(rows.filter((row) => row.category === category)));
-    !category
-      ? setRows(originalRows)
-      : setRows(originalRows.filter((row) => row.category === category));
-  }, [category]);
+
+    // if(!category && !semester){
+    //   setRows(originalRows)
+    // }
+    let copyRows = originalRows;
+    if (category && category !== '전체') {
+      copyRows = copyRows.filter((row) => row.category === category);
+    }
+    if (semester && semester !== '전체') {
+      copyRows = copyRows.filter((row) => row.semester === semester);
+    }
+    setRows(copyRows);
+
+    // !category
+    //   ? setRows(originalRows)
+    //   : setRows(originalRows.filter((row) => row.category === category));
+  }, [category, semester]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');

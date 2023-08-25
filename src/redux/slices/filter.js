@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  category: '',
-  semester: '',
+  category: '전체',
+  semester: '전체',
 };
 
 const slice = createSlice({

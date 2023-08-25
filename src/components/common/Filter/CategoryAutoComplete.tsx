@@ -5,6 +5,7 @@ import { setCategory } from 'src/redux/slices/filter';
 
 export default function CategoryAutoComplete() {
   const top100Films = [
+    '전체',
     '전공 마일리지',
     '비교과 - 연구활동',
     '비교과 - 봉사활동',
