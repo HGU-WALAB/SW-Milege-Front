@@ -4,7 +4,10 @@ import EnhancedTable from '../common/CustomTable';
 import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, CATEGORY, DESCRIPTION } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { dispatch } from 'src/redux/store';
+import { setMileageCategoryList } from 'src/redux/slices/data';
 
 /**
  * @breif [마일리지 카테고리] 게시판
@@ -26,7 +29,6 @@ interface Data {
   [MileageCategoryBoard.CATEGORY]: string;
   [MileageCategoryBoard.MAX_MILEAGE]: number;
   [MileageCategoryBoard.MANAGE]: ReactNode;
-
 }
 
 /**
@@ -36,13 +38,11 @@ interface Data {
  *  */
 
 function createData(num: number, category: string, maxMileage: number, manage: ReactNode): Data {
-
   return {
     [MileageCategoryBoard.NUM]: num,
     [MileageCategoryBoard.CATEGORY]: category,
     [MileageCategoryBoard.MAX_MILEAGE]: maxMileage,
     [MileageCategoryBoard.MANAGE]: manage,
-
   };
 }
 
@@ -75,7 +75,6 @@ const headCells = [
     disablePadding: false,
     label: '관리',
   },
-
 ];
 
 /**
@@ -101,5 +100,17 @@ const rows = [
 ];
 
 export default function MileageCategory() {
-  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 카테고리" />;
+  const data = useSelector((state) => state.data.mileageCategoryList);
+  const dispatch = useDispatch();
+
+  /**
+   * SSR을 이용해서 미리 받아와야 할듯 !!
+   */
+  useEffect(() => {
+    dispatch(setMileageCategoryList(rows));
+  }, []);
+
+  console.log(data);
+
+  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 카테고리" />;
 }

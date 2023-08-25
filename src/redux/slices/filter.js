@@ -8,15 +8,15 @@ const slice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    setFilter: (state, action) => {
+    setCategory: (state, action) => {
       state.category = action.payload;
     },
-    clearFilter: (state) => {
+    clearCategory: (state) => {
       state.category = '';
     },
   },
 });
 
 // Reducer
-export const { setFilter, clearFilter } = slice.actions;
+export const { setCategory, clearCategory } = slice.actions;
 export default slice.reducer;

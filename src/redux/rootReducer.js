@@ -8,6 +8,8 @@ import chatReducer from './slices/chat';
 import productReducer from './slices/product';
 import calendarReducer from './slices/calendar';
 import kanbanReducer from './slices/kanban';
+import filterReducer from './slices/filter';
+import dataReducer from './slices/data';
 
 // ----------------------------------------------------------------------
 
@@ -53,10 +55,13 @@ const rootReducer = combineReducers({
   calendar: calendarReducer,
   kanban: kanbanReducer,
   product: persistReducer(productPersistConfig, productReducer),
+
   /**
    * SW-Reducer
    */
   modal: modalReducer,
+  filter: filterReducer,
+  data: dataReducer,
 });
 
 export default rootReducer;

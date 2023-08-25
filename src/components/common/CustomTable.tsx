@@ -32,6 +32,12 @@ import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
 import { ADDCATEGORY, ADDGLOBALITEM, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatch } from 'src/redux/store';
+import { setCategory } from 'src/redux/slices/filter';
+import CategoryAutoComplete from './Filter/CategoryAutoComplete';
+import { useEffect } from 'react';
+import { setMileageCategoryList } from 'src/redux/slices/data';
 
 /**
  *  @brief 반응형 구축
@@ -190,13 +196,9 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected, type } = props;
 
   // example
-  const top100Films = [
-    { label: 'The Shawshank Redemption' },
-    { label: 'The Godfather' },
-    { label: 'The Godfather: Part II' },
-  ];
 
-  const [value, setValue] = React.useState(null);
+  const value = useSelector((state) => state.filter.category);
+  const dispatch = useDispatch();
   React.useEffect(() => {
     console.log(value);
   }, [value]);
@@ -208,15 +210,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
       {/* 필터링 */}
 
-      <Autocomplete
-        inputValue={value}
-        disablePortal
-        id="combo-box-demo"
-        options={top100Films}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Controllable" />}
-        onInputChange={(e, newValue) => setValue(newValue)}
-      />
+      <CategoryAutoComplete />
 
       <Toolbar
         sx={{
@@ -271,7 +265,19 @@ const typeConverter = (type) => {
   }
 };
 
-export default function EnhancedTable({ rows, headCells, type }) {
+export default function EnhancedTable({ originalRows, headCells, type }) {
+  const [rows, setRows] = React.useState(originalRows);
+  console.log(rows, originalRows);
+
+  const category = useSelector((state) => state.filter.category);
+
+  useEffect(() => {
+    // dispatch(setMileageCategoryList(rows.filter((row) => row.category === category)));
+    !category
+      ? setRows(originalRows)
+      : setRows(originalRows.filter((row) => row.category === category));
+  }, [category]);
+
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -338,7 +344,7 @@ export default function EnhancedTable({ rows, headCells, type }) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, rows]
   );
 
   return (
