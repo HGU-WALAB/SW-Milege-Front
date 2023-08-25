@@ -110,7 +110,5 @@ export default function MileageCategory() {
     dispatch(setMileageCategoryList(rows));
   }, []);
 
-  console.log(data);
-
   return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 카테고리" />;
 }

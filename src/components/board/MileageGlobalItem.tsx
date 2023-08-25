@@ -24,6 +24,10 @@ import {
 } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
 import { EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
+import { dispatch } from 'src/redux/store';
+import { setMileageGlobalList } from 'src/redux/slices/data';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 /**
  * @component [마일리지 항목] 게시판
@@ -233,5 +237,16 @@ export default function MileageGlobalItem() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} type="마일리지 글로벌 항목" />;
+  /**
+   * 리액트 메모를 쓰거나 하면 성능 최적화가 될것 같은..
+   */
+  const data = useSelector((state) => state.data.mileageGlobalList);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setMileageGlobalList(rows));
+    console.log('Fetched');
+  }, []);
+
+  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 글로벌 항목" />;
 }
