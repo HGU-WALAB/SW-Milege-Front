@@ -1,6 +1,4 @@
-import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from '../common/CustomTable';
-
 import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, CATEGORY, DESCRIPTION } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';

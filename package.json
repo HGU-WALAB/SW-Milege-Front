@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3031",
-    "start": "next start",
+    "start": "next start -p 3031",
     "build": "next build",
     "build-netlify": "next build && cp -r .next _next && mv _next .next/",
     "export": "yarn build && next export -o _static",
