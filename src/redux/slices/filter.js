@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   category: '',
+  semester: '',
 };
 
 const slice = createSlice({
@@ -12,7 +13,13 @@ const slice = createSlice({
       state.category = action.payload;
     },
     clearCategory: (state) => {
-      state.category = '';
+      state.category = undefined;
+    },
+    setSemester: (state, action) => {
+      state.semester = action.payload;
+    },
+    clearSemester: (state) => {
+      state.semester = undefined;
     },
   },
 });
