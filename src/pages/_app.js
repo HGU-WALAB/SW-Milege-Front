@@ -54,7 +54,10 @@ import { ThemeSettings, SettingsProvider } from '../components/settings';
 
 import { AuthProvider } from '../auth/JwtContext';
 import MainLayout from '../layouts/main/MainLayout';
+
 import { PersistGate } from 'redux-persist/integration/react';
+
+
 // import { AuthProvider } from '../auth/Auth0Context';
 // import { AuthProvider } from '../auth/FirebaseContext';
 // import { AuthProvider } from '../auth/AwsCognitoContext';
@@ -82,6 +85,7 @@ export default function MyApp(props) {
 
       <AuthProvider>
         <ReduxProvider store={store}>
+
           <PersistGate persistor={persistor}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <SettingsProvider>
@@ -102,6 +106,7 @@ export default function MyApp(props) {
               </SettingsProvider>
             </LocalizationProvider>
           </PersistGate>
+
         </ReduxProvider>
       </AuthProvider>
     </CacheProvider>

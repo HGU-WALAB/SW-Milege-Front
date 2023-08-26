@@ -164,10 +164,12 @@ const IParams = {
 };
 
 /**
+
    * @kind [마일리지 항목]
 
    * @description 마일리지 항목 리스트
    */
+
 
 const rows = [
   createData(
@@ -273,11 +275,13 @@ export const getServerSideProps: GetServerSideProps<{
 export default function MileageCategory({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
   /**
    * 리액트 메모를 쓰거나 하면 성능 최적화가 될것 같은..
    */
   const data = useSelector((state) => state.data.mileageGlobalList);
   const dispatch = useDispatch();
+
   console.log(fetchData);
 
   const convertedFetchList = fetchData.items?.map((item) => {
