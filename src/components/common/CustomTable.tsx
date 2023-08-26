@@ -37,7 +37,7 @@ import { dispatch } from 'src/redux/store';
 import { setCategory } from 'src/redux/slices/filter';
 import CategoryAutoComplete from './Filter/CategoryAutoComplete';
 import { useEffect } from 'react';
-import { setMileageCategoryList } from 'src/redux/slices/data';
+import { setMileageCategoryList, setSelectedId } from 'src/redux/slices/data';
 import SemesterDropdown from './Filter/SemesterDropdown';
 import { id } from 'date-fns/locale';
 
@@ -335,7 +335,12 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+
+  // selected를 redux로 전역 상태 관리
+  const selected = useSelector((state) => state.data.selectedId);
+  const dispatch = useDispatch();
+  const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
+
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
