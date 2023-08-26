@@ -1,14 +1,24 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { ButtonFlexBox } from '../common/modal/SWModal';
-import { CATEGORY, DESCRIPTION, MAX_MILEAGE } from 'src/assets/data/fields';
+import { TITLE, CATEGORY, DESCRIPTION, MAX_MILEAGE, MAX_POINTS } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
 import { TextField, styled } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatch } from 'src/redux/store';
+import { closeModal } from 'src/redux/slices/modal';
+import CancelButton from '../common/modal/CancelButton';
+import SubmitButton from '../common/modal/SubmitButton';
+import axiosInstance from 'src/utils/axios';
 
 export default function CategoryForm({ beforeData }) {
   const modalType = useSelector((state) => state.modal.modalType);
+  // const dispatch = useDispatch();
+  // const handleClose = () => dispatch(closeModal(modalType));
+  // <Button onClick={handleClose} variant="outlined" color="primary">
+  //             취소
+  //           </Button>
   const CategorySchema = Yup.object().shape({
     [CATEGORY]: Yup.string().required('필수입니다.'),
     [DESCRIPTION]: Yup.string(),
@@ -26,7 +36,18 @@ export default function CategoryForm({ beforeData }) {
       }}
       validationSchema={CategorySchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        console.log(values);
+        console.log('dd', {
+          [TITLE]: values[CATEGORY],
+          [DESCRIPTION]: values[DESCRIPTION],
+          [MAX_POINTS]: values[MAX_MILEAGE],
+        });
+        axiosInstance
+          .post('/api/mileage/categories', {
+            [TITLE]: values[CATEGORY],
+            [DESCRIPTION]: values[DESCRIPTION],
+            [MAX_POINTS]: values[MAX_MILEAGE],
+          })
+          .then((res) => console.log(res));
         resetForm();
       }}
     >
@@ -57,12 +78,14 @@ export default function CategoryForm({ beforeData }) {
           <Field label="최대 마일리지" name={MAX_MILEAGE} as={TextField} variant="standard" />
           <ErrorMessage name={MAX_MILEAGE} disabled={isSubmitting} />
           <ButtonFlexBox>
-            <Button type="submit" variant="outlined" color="primary">
+            {/* <Button onClick={handleClose} variant="outlined" color="primary">
               취소
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
+            </Button> */}
+            <CancelButton modalType={modalType} />
+            {/* <Button type="submit" variant="contained" color="primary">
               제출
-            </Button>
+            </Button> */}
+            <SubmitButton />
           </ButtonFlexBox>
         </Form>
       )}

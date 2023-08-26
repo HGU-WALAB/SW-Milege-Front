@@ -129,22 +129,6 @@ export default function MileageCategory({
     );
   });
 
-  //   const rows = [
-  //     createData(1, '전공 마일리지', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  //     createData(2, '비교과 - 연구활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  //     createData(3, '비교과 - 전공활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  //     createData(4, '비교과 - 특강참여', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  //     createData(5, '비교과 - 학회활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  //     createData(6, '비교과 - 행사참여', 8, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  //   ];
-
-  /**
-   * SSR을 이용해서 미리 받아와야 할듯 !!
-   */
-  //   useEffect(() => {
-  //     dispatch(setMileageCategoryList(rows));
-  //   }, []);
-
   return (
     <EnhancedTable
       originalRows={convertedFetchList}
