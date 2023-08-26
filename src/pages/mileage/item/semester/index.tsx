@@ -12,6 +12,7 @@ import {
   ITEM,
   DESCRIPTION,
   DESCRIPTION1,
+  SEMESTERITEM,
   DESCRIPTION2,
   FILE_DESCRIPTION,
   ISVISIBLE_STUDENT,
@@ -28,6 +29,7 @@ import { useSelector, dispatch } from 'src/redux/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setMileageSemesterList } from 'src/redux/slices/data';
+import axiosInstance from 'src/utils/axios';
 
 /**
  * @component [마일리지 학기별 항목] 게시판
@@ -236,7 +238,7 @@ const rows = [
   ),
 ];
 
-interface Item {
+interface IItem {
   id: number;
   itemName: string;
   isPortfolio: boolean;
@@ -245,23 +247,27 @@ interface Item {
   stuType: string; // 'C', 'F', 'CF' 중 하나로 제한하려면 "C" | "F" | "CF"와 같이 명시할 수 있습니다.
 }
 
-interface Category {
+interface ICategory {
   id: number;
   name: string;
   maxPoints: number;
 }
 
-interface SemesterItem {
-  item: Item;
-  category: Category;
+interface ISemesterItem {
+  item: IItem;
+  category: ICategory;
   semesterName: string;
   weight: number;
 }
+interface ISemesterItemList {
+  semesterItems: ISemesterItem[];
+}
+
 export const getServerSideProps: GetServerSideProps<{
-  fetchData: IGlobalItemList;
+  fetchData: ISemesterItemList;
 }> = async () => {
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const res = await axiosInstance.get('/api/mileage/items');
+  const res = await axiosInstance.get(`/api/mileage/semesters/2023-01/items`);
   const fetchData = res.data;
   console.log(fetchData);
   return { props: { fetchData } };
@@ -273,9 +279,44 @@ export default function MileageCategory({
   const data = useSelector((state) => state.data.mileageSemesterList);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setMileageSemesterList(rows));
-  }, []);
+  console.log(fetchData);
 
-  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 학기별 항목" />;
+  const convertedFetchList = fetchData.semesterItems?.map((semesterItem) => {
+    const beforeData = {
+      [NUM]: semesterItem.item.id,
+      [CATEGORY]: semesterItem.category.name,
+      [SEMESTER]: semesterItem.semesterName,
+      [SEMESTERITEM]: semesterItem.item.itemName,
+      [MILEAGE]: semesterItem.weight,
+      [MAX_MAILEAGE]: semesterItem.category.maxPoints,
+      [DESCRIPTION1]: semesterItem.item.description1,
+      [DESCRIPTION2]: semesterItem.item.description2,
+      [FILE_DESCRIPTION]: '첨부파일 설명', // 업서야 되는 듯
+      [ISVISIBLE]: true,
+      [ISVISIBLE_STUDENT]: false,
+      [ISINPUT_STUDENT]: false,
+      [ISDUPLICATE_RECORD]: false,
+      [ISEVALUATE_CSEE]: semesterItem.item.stuType === 'F' ? false : true,
+      [ISEVALUATE_PORTFOLIO]: semesterItem.item.isPortfolio,
+      [ISEVALUATE_FUSION]: semesterItem.item.stuType === 'C' ? false : true,
+    };
+    return createData(
+      semesterItem.item.id,
+      semesterItem.category.name,
+      semesterItem.semesterName,
+      semesterItem.item.itemName,
+      semesterItem.weight,
+      true,
+      '2023-08-21',
+      <SWModal type={EDITITEM} beforeData={beforeData} />
+    );
+  });
+
+  return (
+    <EnhancedTable
+      originalRows={convertedFetchList}
+      headCells={headCells}
+      type="마일리지 학기별 항목"
+    />
+  );
 }
