@@ -159,7 +159,6 @@ export default function SWModal({ type, beforeData }) {
       >
         <Box sx={style}>
           <ModalTitle />
-
           {/* use Formik 
           https://formik.org/docs/api/errormessage
           https://velog.io/@silverbeen/Formik%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-feat.-Yup
