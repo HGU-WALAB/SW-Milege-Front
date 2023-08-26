@@ -2,10 +2,13 @@ import PropTypes from 'prop-types';
 // next
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import MiniDrawer from 'src/components/common/Drawer/Drawer';
+import Header from 'src/components/common/Header';
 // @mui
 import { Box } from '@mui/material';
 //
-const Header = dynamic(() => import('./Header'), { ssr: false });
+
+// const Header = dynamic(() => import('./Header'), { ssr: false });
 const Footer = dynamic(() => import('./Footer'), { ssr: false });
 
 // ----------------------------------------------------------------------
@@ -22,6 +25,7 @@ export default function MainLayout({ children }) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
       <Header />
+      <MiniDrawer />
 
       <Box
         component="main"
@@ -35,7 +39,7 @@ export default function MainLayout({ children }) {
         {children}
       </Box>
 
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 }

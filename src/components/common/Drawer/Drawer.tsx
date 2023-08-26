@@ -18,6 +18,7 @@ import { Board, BoardList } from 'src/assets/data/board/board';
 import MileageHeader from '../Appbar/MileageHeader';
 import { IconReturn } from './DrawerIcons';
 import { ComponentReturn } from '../Table/TableComponents';
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -97,12 +98,14 @@ export default function MiniDrawer() {
         <List>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((boardNum, index) => (
             <Box key={index}>
-              <DrawerListItem
-                boardNum={boardNum}
-                setComponent={setComponent}
-                component={component}
-                open={open}
-              />
+              <Link href={`/board/${boardNum}`}>
+                <DrawerListItem
+                  boardNum={boardNum}
+                  setComponent={setComponent}
+                  component={component}
+                  open={open}
+                />
+              </Link>
               {(boardNum === 4 || boardNum === 7) && <Divider />}
             </Box>
           ))}

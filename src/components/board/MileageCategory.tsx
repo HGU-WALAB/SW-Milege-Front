@@ -22,6 +22,7 @@ export enum MileageCategoryBoard {
  * @kind 마일리지 카테로리
  * @breif 데이터 인터페이스
  */
+
 interface Data {
   [MileageCategoryBoard.NUM]: number;
   [MileageCategoryBoard.CATEGORY]: string;
@@ -88,18 +89,18 @@ const IParams = {
  * @description 마일리지 카테고리 리스트
  */
 
-const rows = [
-  createData(1, '전공 마일리지', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  createData(2, '비교과 - 연구활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  createData(3, '비교과 - 전공활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  createData(4, '비교과 - 특강참여', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  createData(5, '비교과 - 학회활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  createData(6, '비교과 - 행사참여', 8, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-];
-
 export default function MileageCategory() {
   const data = useSelector((state) => state.data.mileageCategoryList);
   const dispatch = useDispatch();
+
+  const rows = [
+    createData(1, '전공 마일리지', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+    createData(2, '비교과 - 연구활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+    createData(3, '비교과 - 전공활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+    createData(4, '비교과 - 특강참여', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+    createData(5, '비교과 - 학회활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+    createData(6, '비교과 - 행사참여', 8, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+  ];
 
   /**
    * SSR을 이용해서 미리 받아와야 할듯 !!

@@ -1,6 +1,7 @@
 export const NUM = 'num';
 export const CATEGORY = 'category';
 export const MAX_MILEAGE = 'maxMileage';
+export const MAX_POINTS = 'maxPoints';
 export const MANAGE = 'manage';
 export const CHECK_BOX = 'checkBox';
 export const SEMESTER = 'semester';
@@ -40,4 +41,3 @@ export const ISEVALUATE_CSEE = 'isEvaluateCsee';
 export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
 export const ISEVALUATE_FUSION = 'isEvaluateFusion';
 export const MAX_MAILEAGE = 'maxMileage';
-

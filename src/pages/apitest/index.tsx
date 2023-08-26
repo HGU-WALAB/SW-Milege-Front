@@ -6,22 +6,25 @@
 import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 
-type Repo = {
+interface IGetMileageCategory {
+  id: number;
   name: string;
-  stargazers_count: number;
-};
+  maxPoints: number;
+}
 
 export const getServerSideProps: GetServerSideProps<{
-  repo: any;
+  fetchData: IGetMileageCategory[];
 }> = async () => {
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const res = await axiosInstance.get('/api/mileage/categories');
-  const repo = res.data;
-  console.log(repo);
-  return { props: { repo } };
+  const fetchData = res.data;
+  console.log(fetchData);
+  return { props: { fetchData } };
 };
 
-export default function Page({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Page({
+  fetchData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
       Next stars:

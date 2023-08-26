@@ -29,14 +29,14 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title> The starting point for your next project | Minimal UI</title>
+        <title>SW 마일리지 관리자</title>
       </Head>
 
       <ScrollProgress />
 
-      <HomeHero />
+      {/* <HomeHero /> */}
 
-      <Box
+      {/* <Box
         sx={{
           overflow: 'hidden',
           position: 'relative',
@@ -60,7 +60,7 @@ export default function HomePage() {
         <HomeLookingFor />
 
         <HomeAdvertisement />
-      </Box>
+      </Box> */}
     </>
   );
 }
