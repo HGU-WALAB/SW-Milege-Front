@@ -101,6 +101,9 @@ const modalForm = (modalType, beforeData) => {
       return <ItemForm beforeData={beforeData} />;
     case EDITGLOBALITEM:
       return <ItemForm beforeData={beforeData} />;
+    default:
+      return <div>default</div>;
+
   }
 };
 

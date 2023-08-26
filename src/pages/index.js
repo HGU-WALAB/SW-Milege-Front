@@ -22,8 +22,6 @@ import { ComponentReturn } from 'src/components/common/Table/TableComponents';
 import { useSelector } from 'react-redux';
 // ----------------------------------------------------------------------
 
-HomePage.getLayout = (page) => <MainLayout> {page} </MainLayout>;
-
 // ----------------------------------------------------------------------
 
 export default function HomePage() {
