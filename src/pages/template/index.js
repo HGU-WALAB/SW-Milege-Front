@@ -1,5 +1,6 @@
 import { DatePicker } from '@mui/lab';
 import { Box, Chip, Pagination, Skeleton, Stack, Table, TextField } from '@mui/material';
+import axios from 'axios';
 import CustomModal from 'src/components/Template/CustomModal';
 
 import CustomTable1 from 'src/components/Template/CustomTable1';
@@ -13,6 +14,7 @@ import TemplateBox from 'src/components/Template/TemplateBox';
 import TextButton from 'src/components/Template/TextButton';
 
 import { CustomTextField } from 'src/components/custom-input';
+import axiosInstance from 'src/utils/axios';
 
 export default function Template() {
   return (

@@ -1,13 +1,14 @@
 export const NUM = 'num';
 export const CATEGORY = 'category';
 export const MAX_MILEAGE = 'maxMileage';
+export const MAX_POINTS = 'maxPoints';
 export const MANAGE = 'manage';
 export const CHECK_BOX = 'checkBox';
 export const SEMESTER = 'semester';
 export const MILEAGE = 'mileage';
 export const ISVISIBLE = 'isVisible';
 export const REGISTERED_DATE = 'registeredDate';
-// export const TITLE = 'title';
+export const TITLE = 'title';
 export const ITEM = 'item';
 // export const NAME = 'name';
 export const STUDENT_NAME = 'studentName';
@@ -40,4 +41,3 @@ export const ISEVALUATE_CSEE = 'isEvaluateCsee';
 export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
 export const ISEVALUATE_FUSION = 'isEvaluateFusion';
 export const MAX_MAILEAGE = 'maxMileage';
-

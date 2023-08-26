@@ -17,7 +17,11 @@ import DrawerListItem from './DrawerListItem';
 import { Board, BoardList } from 'src/assets/data/board/board';
 import MileageHeader from '../Appbar/MileageHeader';
 import { IconReturn } from './DrawerIcons';
-import { ComponentReturn } from '../Table/TableComponents';
+import { ComponentReturn } from 'src/components/common/Table/TableComponents';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatch } from 'src/redux/store';
+import { clearSelectedId } from 'src/redux/slices/data';
 
 const drawerWidth = 240;
 
@@ -69,7 +73,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-  const [component, setComponent] = React.useState(0);
+  // const [component, setComponent] = React.useState(0);
+  const dispatch = useDispatch();
+  const clearSelected = () => dispatch(clearSelectedId());
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -79,6 +85,31 @@ export default function MiniDrawer() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const linkConverter = (num) => {
+    switch (num) {
+      case 0:
+        return '/mileage/category';
+      case 1:
+        return '/mileage/item/global';
+      case 2:
+        return '/mileage/item/semester';
+      case 3:
+        return '/mileage/view';
+      case 4:
+        return '/mileage/register';
+      case 5:
+        return '/manage/register';
+      case 6:
+        return '/manage/student';
+      case 7:
+        return '/manage/user';
+      case 9:
+        return '/mileage/result';
+      default:
+        return '/';
+    }
   };
 
   return (
@@ -95,15 +126,15 @@ export default function MiniDrawer() {
         </DrawerHeader>
         {/*  사이드바 리스트 아이템 */}
         <List>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((boardNum, index) => (
-            <Box key={index}>
-              <DrawerListItem
-                boardNum={boardNum}
-                setComponent={setComponent}
-                component={component}
-                open={open}
-              />
-              {(boardNum === 3 || boardNum === 6) && <Divider />}
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((boardNum, index) => (
+            <Box key={index} onClick={clearSelected}>
+              <Link
+                href={linkConverter(boardNum)}
+                style={{ color: 'inherit', textDecoration: 'none' }}
+              >
+                <DrawerListItem boardNum={boardNum} open={open} />
+              </Link>
+              {(boardNum === 4 || boardNum === 7) && <Divider />}
             </Box>
           ))}
         </List>
@@ -111,7 +142,7 @@ export default function MiniDrawer() {
       {/* 사이드바에 따른 게시판 본문 컴포넌트 */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         {/* <DrawerHeader /> */}
-        {ComponentReturn(component)}
+        {/* {ComponentReturn(component)} */}
       </Box>
     </Box>
   );

@@ -18,7 +18,8 @@ import {
   HomeCleanInterfaces,
   HomeHugePackElements,
 } from '../sections/home';
-
+import { ComponentReturn } from 'src/components/common/Table/TableComponents';
+import { useSelector } from 'react-redux';
 // ----------------------------------------------------------------------
 
 HomePage.getLayout = (page) => <MainLayout> {page} </MainLayout>;
@@ -26,17 +27,20 @@ HomePage.getLayout = (page) => <MainLayout> {page} </MainLayout>;
 // ----------------------------------------------------------------------
 
 export default function HomePage() {
+  const componentNum = useSelector((state) => state.component.componentNum);
   return (
     <>
       <Head>
-        <title> The starting point for your next project | Minimal UI</title>
+        <title>SW 마일리지 관리자</title>
       </Head>
 
-      <ScrollProgress />
+      {ComponentReturn(componentNum)}
 
-      <HomeHero />
+      {/* <ScrollProgress /> */}
 
-      <Box
+      {/* <HomeHero /> */}
+
+      {/* <Box
         sx={{
           overflow: 'hidden',
           position: 'relative',
@@ -60,7 +64,7 @@ export default function HomePage() {
         <HomeLookingFor />
 
         <HomeAdvertisement />
-      </Box>
+      </Box> */}
     </>
   );
 }

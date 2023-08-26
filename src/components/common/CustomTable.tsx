@@ -22,7 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
-import { TablePagination, styled, useMediaQuery } from '@mui/material';
+import { Autocomplete, TablePagination, TextField, styled, useMediaQuery } from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
@@ -31,8 +31,19 @@ import { CATEGORY, NUM } from '../../assets/data/fields';
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
-import { ADDCATEGORY, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
+import { ADDCATEGORY, ADDGLOBALITEM, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatch } from 'src/redux/store';
+import { setCategory } from 'src/redux/slices/filter';
+import CategoryAutoComplete from './Filter/CategoryAutoComplete';
+import { useEffect } from 'react';
+import { setMileageCategoryList, setSelectedId } from 'src/redux/slices/data';
+import SemesterDropdown from './Filter/SemesterDropdown';
+import { id } from 'date-fns/locale';
 
+import IsVisibleDropdown from './Filter/IsVisibleDropdown';
+import ItemAutoComplete from './Filter/ItemAutoComplete';
+import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
 
 /**
  *  @brief 반응형 구축
@@ -53,7 +64,6 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 
 const ResponsiveTableHeadLabel = styled(TableSortLabel)({
   '@media (max-width: 600px)': {
-
     fontSize: '10px',
 
     display: 'inline',
@@ -74,7 +84,6 @@ const ResponsiveTableBody = styled(TableCell)({
   },
 });
 
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -84,7 +93,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   }
   return 0;
 }
-
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -193,12 +201,36 @@ interface EnhancedTableToolbarProps {
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected, type } = props;
 
+  // example
+
+  const value = useSelector((state) => state.filter.category);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    console.log(value);
+  }, [value]);
   return (
     <Box>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
         {type} {' 리스트'}
       </Typography>
 
+      {/* 필터링 */}
+
+      {/* 카테고리 필터링 */}
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          gap: '10px',
+        }}
+      >
+        <CategoryAutoComplete />
+        <SemesterDropdown />
+        <IsVisibleDropdown />
+        <ItemAutoComplete />
+      </Box>
+
+      {/* 학기 필터링 */}
 
       <Toolbar
         sx={{
@@ -222,7 +254,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton>
-              <DeleteIcon />
+              <SelectedItemsDeleteIcon type={type} />
             </IconButton>
           </Tooltip>
         ) : (
@@ -246,16 +278,70 @@ const typeConverter = (type) => {
   switch (type) {
     case '마일리지 카테고리':
       return ADDCATEGORY;
-    case '마일리지 항목':
+    case '마일리지 학기별 항목':
       return ADDITEM;
+    case '마일리지 글로벌 항목':
+      return ADDGLOBALITEM;
   }
 };
 
-export default function EnhancedTable({ rows, headCells, type }) {
+/**
+ *
+ * @brief 테이블 컴포넌트
+ * @param originalRows 전체 데이터를 가지고 있는 배열
+ * @param headCells 테이블 카테고리들
+ * @param type 테이블 타입
+ */
+
+export default function EnhancedTable({ originalRows, headCells, type }) {
+  /**
+   * @field 필터링을 거치고 보여주는 값들 (rows)
+   */
+  const [rows, setRows] = React.useState(originalRows);
+  console.log(rows, originalRows);
+
+  /**
+   * @brief 필터링 요소
+   */
+
+  const category = useSelector((state) => state.filter.category);
+  const semester = useSelector((state) => state.filter.semester);
+  const isVisible = useSelector((state) => state.filter.isVisible);
+  const item = useSelector((state) => state.filter.item);
+  /**
+   * @brief 필터링
+   */
+  useEffect(() => {
+    let copyRows = originalRows;
+    if (category && category !== '전체') {
+      copyRows = copyRows.filter((row) => row.category === category);
+    }
+    if (semester && semester !== '전체') {
+      copyRows = copyRows.filter((row) => row.semester === semester);
+    }
+    console.log(copyRows[0]?.isVisible, isVisible);
+    if (isVisible !== '전체') {
+      copyRows = copyRows.filter((row) => row.isVisible === isVisible);
+      console.log(copyRows[0]?.isVisible, isVisible);
+    }
+    if (item && item !== '전체') {
+      copyRows = copyRows.filter((row) => row.item === item);
+    }
+    setRows(copyRows);
+
+    // !category
+    //   ? setRows(originalRows)
+    //   : setRows(originalRows.filter((row) => row.category === category));
+  }, [category, semester, isVisible, item]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+
+  // selected를 redux로 전역 상태 관리
+  const selected = useSelector((state) => state.data.selectedId);
+  const dispatch = useDispatch();
+  const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
+
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -319,7 +405,7 @@ export default function EnhancedTable({ rows, headCells, type }) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, rows]
   );
 
   return (
@@ -387,7 +473,7 @@ export default function EnhancedTable({ rows, headCells, type }) {
                         // sx={{ fontSize: '5px' }}
                         // sx={{ padding: 1 }}
                       >
-                        {rowValue}
+                        {rowValue === true ? 'Y' : rowValue === false ? 'N' : rowValue}
                       </ResponsiveTableBody>
                     ))}
                   </TableRow>

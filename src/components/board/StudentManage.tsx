@@ -223,5 +223,5 @@ export default function StudentManage() {
     ),
   ];
 
-  return <EnhancedTable rows={rows} headCells={headCells} />;
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="학생 관리" />;
 }

@@ -53,6 +53,7 @@ import { ThemeSettings, SettingsProvider } from '../components/settings';
 // https://docs.minimals.cc/authentication/js-version
 
 import { AuthProvider } from '../auth/JwtContext';
+import MainLayout from '../layouts/main/MainLayout';
 // import { AuthProvider } from '../auth/Auth0Context';
 // import { AuthProvider } from '../auth/FirebaseContext';
 // import { AuthProvider } from '../auth/AwsCognitoContext';
@@ -89,7 +90,8 @@ export default function MyApp(props) {
                       <SnackbarProvider>
                         <StyledChart />
                         <ProgressBar />
-                        {getLayout(<Component {...pageProps} />)}
+                        {/* 메인 레이아웃 */}
+                        <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
                       </SnackbarProvider>
                     </ThemeLocalization>
                   </ThemeSettings>
