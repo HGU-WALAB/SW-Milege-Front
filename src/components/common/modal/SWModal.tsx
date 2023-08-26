@@ -103,7 +103,6 @@ const modalForm = (modalType, beforeData) => {
       return <GlobalItemForm beforeData={beforeData} />;
     default:
       return <div>default</div>;
-
   }
 };
 
