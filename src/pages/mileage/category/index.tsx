@@ -117,6 +117,7 @@ export default function MileageCategory({
 
   const convertedFetchList = fetchData.categories?.map((item) => {
     const beforeData = {
+      [NUM]: item.id,
       [CATEGORY]: item.name,
       [DESCRIPTION]: 'descriptionTest',
       [MAX_MILEAGE]: item.maxPoints,
