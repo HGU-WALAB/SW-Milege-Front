@@ -89,25 +89,67 @@ const IParams = {
  * @description 마일리지 카테고리 리스트
  */
 
-export default function MileageCategory() {
+import axiosInstance from 'src/utils/axios';
+import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import MileageCategory from 'src/components/board/MileageCategory';
+
+interface IGetMileageCategory {
+  id: number;
+  name: string;
+  maxPoints: number;
+}
+
+export const getServerSideProps: GetServerSideProps<{
+  fetchData: IGetMileageCategory[];
+}> = async () => {
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
+  const res = await axiosInstance.get('/api/mileage/categories');
+  const fetchData = res.data;
+  console.log(fetchData);
+  return { props: { fetchData } };
+};
+
+export default function MileageCategory({
+  fetchData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const data = useSelector((state) => state.data.mileageCategoryList);
   const dispatch = useDispatch();
 
-  const rows = [
-    createData(1, '전공 마일리지', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-    createData(2, '비교과 - 연구활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-    createData(3, '비교과 - 전공활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-    createData(4, '비교과 - 특강참여', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-    createData(5, '비교과 - 학회활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-    createData(6, '비교과 - 행사참여', 8, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
-  ];
+  const convertedFetchList = fetchData.categories?.map((item) => {
+    const beforeData = {
+      [CATEGORY]: item.name,
+      [DESCRIPTION]: 'descriptionTest',
+      [MAX_MILEAGE]: item.maxPoints,
+    };
+    return createData(
+      item.id,
+      item.name,
+      item.maxPoints,
+      <SWModal type={EDITCATEGORY} beforeData={beforeData} />
+    );
+  });
+
+  //   const rows = [
+  //     createData(1, '전공 마일리지', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+  //     createData(2, '비교과 - 연구활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+  //     createData(3, '비교과 - 전공활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+  //     createData(4, '비교과 - 특강참여', 7, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+  //     createData(5, '비교과 - 학회활동', 6, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+  //     createData(6, '비교과 - 행사참여', 8, <SWModal type={EDITCATEGORY} beforeData={IParams} />),
+  //   ];
 
   /**
    * SSR을 이용해서 미리 받아와야 할듯 !!
    */
-  useEffect(() => {
-    dispatch(setMileageCategoryList(rows));
-  }, []);
+  //   useEffect(() => {
+  //     dispatch(setMileageCategoryList(rows));
+  //   }, []);
 
-  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 카테고리" />;
+  return (
+    <EnhancedTable
+      originalRows={convertedFetchList}
+      headCells={headCells}
+      type="마일리지 카테고리"
+    />
+  );
 }
