@@ -43,6 +43,7 @@ import { id } from 'date-fns/locale';
 
 import IsVisibleDropdown from './Filter/IsVisibleDropdown';
 import ItemAutoComplete from './Filter/ItemAutoComplete';
+import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
 
 /**
  *  @brief 반응형 구축
@@ -253,7 +254,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton>
-              <DeleteIcon />
+              <SelectedItemsDeleteIcon type={type} />
             </IconButton>
           </Tooltip>
         ) : (
