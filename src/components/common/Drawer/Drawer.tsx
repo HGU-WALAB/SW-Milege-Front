@@ -114,7 +114,6 @@ export default function MiniDrawer() {
       {/* 사이드바에 따른 게시판 본문 컴포넌트 */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         {/* <DrawerHeader /> */}
-        {ComponentReturn(component)}
       </Box>
     </Box>
   );

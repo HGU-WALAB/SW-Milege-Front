@@ -10,6 +10,7 @@ import calendarReducer from './slices/calendar';
 import kanbanReducer from './slices/kanban';
 import filterReducer from './slices/filter';
 import dataReducer from './slices/data';
+import componentReducer from './slices/component';
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
   modal: modalReducer,
   filter: filterReducer,
   data: dataReducer,
+  component: componentReducer,
 });
 
 export default rootReducer;
