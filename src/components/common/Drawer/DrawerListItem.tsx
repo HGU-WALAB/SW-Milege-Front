@@ -1,8 +1,13 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { BoardList } from 'src/assets/data/board/board';
 import { IconReturn } from './DrawerIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { setComponentNum } from 'src/redux/slices/component';
 
-export default function DrawerListItem({ boardNum, setComponent, component, open }) {
+export default function DrawerListItem({ boardNum, open }) {
+  const componentNum = useSelector((state) => state.component.componentNum);
+  const dispatch = useDispatch();
+  const updateComponentNum = (newComponentNum) => dispatch(setComponentNum(newComponentNum));
   return (
     <>
       <ListItem
@@ -10,8 +15,8 @@ export default function DrawerListItem({ boardNum, setComponent, component, open
         disablePadding
         sx={{
           display: 'block',
-          backgroundColor: boardNum === component && 'primary.main',
-          opacity: boardNum === component && 0.6,
+          backgroundColor: boardNum === componentNum && 'primary.main',
+          opacity: boardNum === componentNum && 0.6,
         }}
       >
         <ListItemButton
@@ -20,7 +25,7 @@ export default function DrawerListItem({ boardNum, setComponent, component, open
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          onClick={() => setComponent(boardNum)}
+          onClick={() => updateComponentNum(boardNum)}
         >
           <ListItemIcon
             sx={{

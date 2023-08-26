@@ -23,17 +23,15 @@ export default function MainLayout({ children }) {
   const isHome = pathname === '/';
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
+    <Box sx={{}}>
       <Header />
       <MiniDrawer />
 
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          ...(!isHome && {
-            pt: { xs: 8, md: 11 },
-          }),
+          pl: '100px',
+          pr: '30px',
         }}
       >
         {children}
