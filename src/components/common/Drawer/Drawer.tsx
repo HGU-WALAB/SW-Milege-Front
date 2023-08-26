@@ -21,6 +21,7 @@ import { ComponentReturn } from 'src/components/common/Table/TableComponents';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
+import { clearSelectedId } from 'src/redux/slices/data';
 
 const drawerWidth = 240;
 
@@ -73,6 +74,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer() {
   // const [component, setComponent] = React.useState(0);
+  const dispatch = useDispatch();
+  const clearSelected = () => dispatch(clearSelectedId());
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -124,7 +127,7 @@ export default function MiniDrawer() {
         {/*  사이드바 리스트 아이템 */}
         <List>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((boardNum, index) => (
-            <Box key={index}>
+            <Box key={index} onClick={clearSelected}>
               <Link
                 href={linkConverter(boardNum)}
                 style={{ color: 'inherit', textDecoration: 'none' }}
