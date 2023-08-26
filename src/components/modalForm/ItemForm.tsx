@@ -31,6 +31,8 @@ import {
 } from 'src/assets/data/fields';
 import { useSelector } from 'react-redux';
 import { EDITITEM } from 'src/assets/data/modal/modals';
+import CancelButton from '../common/modal/CancelButton';
+import SubmitButton from '../common/modal/SubmitButton';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -156,12 +158,8 @@ export default function ItemForm({ beforeData }) {
           </Box>
 
           <ButtonFlexBox>
-            <Button type="submit" variant="outlined" color="primary">
-              취소
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
-              제출
-            </Button>
+            <CancelButton modalType={modalType} />
+            <SubmitButton />
           </ButtonFlexBox>
         </StyleFieldForm>
       )}
