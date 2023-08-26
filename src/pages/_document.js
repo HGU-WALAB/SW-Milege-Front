@@ -8,6 +8,7 @@ import createEmotionCache from '../utils/createEmotionCache';
 // theme
 import palette from '../theme/palette';
 import { primaryFont } from '../theme/typography';
+import MainLayout from '../layouts/main/MainLayout';
 
 // ----------------------------------------------------------------------
 

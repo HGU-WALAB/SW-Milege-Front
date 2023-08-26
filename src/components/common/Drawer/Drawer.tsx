@@ -84,6 +84,31 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const linkConverter = (num) => {
+    switch (num) {
+      case 0:
+        return '/mileage/category';
+      case 1:
+        return '/mileage/item/global';
+      case 2:
+        return '/mileage/item/semester';
+      case 3:
+        return '/mileage/view';
+      case 4:
+        return '/mileage/register';
+      case 5:
+        return '/manage/register';
+      case 6:
+        return '/manage/student';
+      case 7:
+        return '/manage/user';
+      case 9:
+        return '/mileage/result';
+      default:
+        return '/';
+    }
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -100,9 +125,12 @@ export default function MiniDrawer() {
         <List>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((boardNum, index) => (
             <Box key={index}>
-              {/* <Link href={`/board/${boardNum}`}> */}
-              <DrawerListItem boardNum={boardNum} open={open} />
-              {/* </Link> */}
+              <Link
+                href={linkConverter(boardNum)}
+                style={{ color: 'inherit', textDecoration: 'none' }}
+              >
+                <DrawerListItem boardNum={boardNum} open={open} />
+              </Link>
               {(boardNum === 4 || boardNum === 7) && <Divider />}
             </Box>
           ))}
