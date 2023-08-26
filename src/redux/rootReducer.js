@@ -36,14 +36,8 @@ export const rootPersistConfig = {
   key: 'root',
   storage,
   keyPrefix: 'redux-',
-  whitelist: [],
-};
-
-export const productPersistConfig = {
-  key: 'product',
-  storage,
-  keyPrefix: 'redux-',
-  whitelist: ['sortBy', 'checkout'],
+  blacklist: ['filter', 'modal', 'data'],
+  whitelist: ['component'],
 };
 
 /**
@@ -51,11 +45,6 @@ export const productPersistConfig = {
  */
 
 const rootReducer = combineReducers({
-  mail: mailReducer,
-  chat: chatReducer,
-  calendar: calendarReducer,
-  kanban: kanbanReducer,
-  product: persistReducer(productPersistConfig, productReducer),
   /**
    * SW-Reducer
    */

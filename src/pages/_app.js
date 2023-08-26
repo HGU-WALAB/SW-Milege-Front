@@ -35,7 +35,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // redux
-import { store } from '../redux/store';
+import { persistor, store } from '../redux/store';
 // utils
 import createEmotionCache from '../utils/createEmotionCache';
 // theme
@@ -54,6 +54,7 @@ import { ThemeSettings, SettingsProvider } from '../components/settings';
 
 import { AuthProvider } from '../auth/JwtContext';
 import MainLayout from '../layouts/main/MainLayout';
+import { PersistGate } from 'redux-persist/integration/react';
 // import { AuthProvider } from '../auth/Auth0Context';
 // import { AuthProvider } from '../auth/FirebaseContext';
 // import { AuthProvider } from '../auth/AwsCognitoContext';
@@ -81,24 +82,26 @@ export default function MyApp(props) {
 
       <AuthProvider>
         <ReduxProvider store={store}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <SettingsProvider>
-              <MotionLazyContainer>
-                <ThemeProvider>
-                  <ThemeSettings>
-                    <ThemeLocalization>
-                      <SnackbarProvider>
-                        <StyledChart />
-                        <ProgressBar />
-                        {/* 메인 레이아웃 */}
-                        <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
-                      </SnackbarProvider>
-                    </ThemeLocalization>
-                  </ThemeSettings>
-                </ThemeProvider>
-              </MotionLazyContainer>
-            </SettingsProvider>
-          </LocalizationProvider>
+          <PersistGate persistor={persistor}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <SettingsProvider>
+                <MotionLazyContainer>
+                  <ThemeProvider>
+                    <ThemeSettings>
+                      <ThemeLocalization>
+                        <SnackbarProvider>
+                          <StyledChart />
+                          <ProgressBar />
+                          {/* 메인 레이아웃 */}
+                          <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
+                        </SnackbarProvider>
+                      </ThemeLocalization>
+                    </ThemeSettings>
+                  </ThemeProvider>
+                </MotionLazyContainer>
+              </SettingsProvider>
+            </LocalizationProvider>
+          </PersistGate>
         </ReduxProvider>
       </AuthProvider>
     </CacheProvider>

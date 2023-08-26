@@ -28,11 +28,14 @@ import {
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
+  NUM,
 } from 'src/assets/data/fields';
 import { useSelector } from 'react-redux';
-import { EDITITEM } from 'src/assets/data/modal/modals';
+import { ADDGLOBALITEM, EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
+import axiosInstance from 'src/utils/axios';
+import { useRouter } from 'next/router';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -63,30 +66,97 @@ const StyleFieldForm = styled(Form)({
 export default function ItemForm({ beforeData }) {
   const modalType = useSelector((state) => state.modal.modalType);
   console.log(modalType, beforeData);
+
+  const router = useRouter();
+
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    // 글로벌 세부항목 추가
+    // 1) newData 생성
+    // 2) axios post
+    // 3) alert
+    // 4) reload
+
+    const stuTypeConverter = ({
+      [ISEVALUATE_FUSION]: f,
+      [ISEVALUATE_CSEE]: c,
+    }: {
+      [ISEVALUATE_FUSION]: boolean;
+      [ISEVALUATE_CSEE]: boolean;
+    }) => {
+      if (f && c) {
+        return 'CF';
+      } else if (f) {
+        return 'F';
+      } else if (c) {
+        return 'C';
+      }
+    };
+    const newData = {
+      categoryId: 1,
+      itemName: values[ITEM],
+      // [SEMESTER]: values[SEMESTER],
+      // [MILEAGE]: values[MILEAGE],
+      // [MAX_MAILEAGE]: values[MAX_MAILEAGE],
+      [DESCRIPTION1]: values[DESCRIPTION1],
+      [DESCRIPTION2]: values[DESCRIPTION2],
+      stuType: stuTypeConverter(values),
+      flags: {
+        [ISVISIBLE]: values[ISVISIBLE],
+        isStudentVisible: values[ISVISIBLE_STUDENT],
+        isStudentEditable: values[ISINPUT_STUDENT],
+        isMultiple: values[ISDUPLICATE_RECORD],
+        isPortfolio: values[ISEVALUATE_PORTFOLIO],
+      },
+    };
+
+    switch (modalType) {
+      case ADDGLOBALITEM:
+        axiosInstance
+          .post('/api/mileage/items', newData)
+          .then((res) => {
+            alert('글로벌 항목이 추가되었습니다.');
+            router.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+            alert('글로벌 항목 추가에 실패했습니다.');
+          });
+        break;
+
+      case EDITGLOBALITEM:
+        axiosInstance
+          .patch(`/api/mileage/items/${beforeData[NUM]}`, newData)
+          .then((res) => {
+            alert(`글로벌 항목 ${beforeData[NUM]}번이 수정되었습니다.`);
+            router.reload();
+          })
+          .catch((err) => alert('글로벌 항목 수정에 실패했습니다.'));
+        break;
+    }
+  };
   return (
     <Formik
       initialValues={{
-        [CATEGORY]: modalType === EDITITEM ? beforeData?.[CATEGORY] : '',
-        [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
-        [ITEM]: modalType === EDITITEM ? beforeData?.[ITEM] : '',
-        [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
-        [MAX_MAILEAGE]: modalType === EDITITEM ? beforeData?.[MAX_MAILEAGE] : 0,
-        [DESCRIPTION1]: modalType === EDITITEM ? beforeData?.[DESCRIPTION1] : '',
-        [DESCRIPTION2]: modalType === EDITITEM ? beforeData?.[DESCRIPTION2] : '',
-        [FILE_DESCRIPTION]: modalType === EDITITEM ? beforeData?.[FILE_DESCRIPTION] : '',
-        [ISVISIBLE]: modalType === EDITITEM ? beforeData?.[ISVISIBLE] : false,
-        [ISVISIBLE_STUDENT]: modalType === EDITITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
-        [ISINPUT_STUDENT]: modalType === EDITITEM ? beforeData?.[ISINPUT_STUDENT] : false,
-        [ISDUPLICATE_RECORD]: modalType === EDITITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
-        [ISEVALUATE_CSEE]: modalType === EDITITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
-        [ISEVALUATE_PORTFOLIO]: modalType === EDITITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
-        [ISEVALUATE_FUSION]: modalType === EDITITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
+        [CATEGORY]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORY] : '',
+        [SEMESTER]: modalType === EDITGLOBALITEM ? beforeData?.[SEMESTER] : '',
+        [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
+        [MILEAGE]: modalType === EDITGLOBALITEM ? beforeData?.[MILEAGE] : 0,
+        [MAX_MAILEAGE]: modalType === EDITGLOBALITEM ? beforeData?.[MAX_MAILEAGE] : 0,
+        [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
+        [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
+        [FILE_DESCRIPTION]: modalType === EDITGLOBALITEM ? beforeData?.[FILE_DESCRIPTION] : '',
+        [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
+        [ISVISIBLE_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
+        [ISINPUT_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISINPUT_STUDENT] : false,
+        [ISDUPLICATE_RECORD]:
+          modalType === EDITGLOBALITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
+        [ISEVALUATE_CSEE]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
+        [ISEVALUATE_PORTFOLIO]:
+          modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
+        [ISEVALUATE_FUSION]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
       }}
       // validationSchema={CategorySchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        console.log(values);
-        resetForm();
-      }}
+      onSubmit={handleSubmit}
     >
       {({ isSubmitting, errors, touched }) => (
         <StyleFieldForm>
