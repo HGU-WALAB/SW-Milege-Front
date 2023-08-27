@@ -9,6 +9,7 @@ import {
   ToggleButtonGroup,
   styled,
 } from '@mui/material';
+import * as Yup from 'yup';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
   DESCRIPTION,
@@ -81,9 +82,21 @@ const StyleFieldForm = styled(Form)({
 
 export default function StudentForm({ beforeData }) {
   const modalType = useSelector((state) => state.modal.modalType);
-  console.log(modalType, beforeData);
+  console.log('debug2', modalType, beforeData);
 
   const router = useRouter();
+
+  const StudentSchema = Yup.object().shape({
+    [NAME]: Yup.string().required('필수입니다.'),
+    [SID]: Yup.number().integer().required('필수입니다.'),
+    [MOBILE]: Yup.number().integer().required('필수입니다.'),
+    [EMAIL]: Yup.string().required('필수입니다.'),
+    [DEPARTMENT]: Yup.string().required('필수입니다.'),
+    [MAJOR1]: Yup.string().required('필수입니다.'),
+    [MAJOR2]: Yup.string().required('필수입니다.'),
+    [YEAR]: Yup.number().integer().required('필수입니다.'),
+    [SEMESTERCOUNT]: Yup.number().integer().required('필수입니다.'),
+  });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     // 학생 항목 추가
@@ -104,6 +117,7 @@ export default function StudentForm({ beforeData }) {
       [YEAR]: values[YEAR],
       [SEMESTERCOUNT]: values[SEMESTERCOUNT],
     };
+    console.log(newData);
 
     switch (modalType) {
       case ADDSTUDENT:
@@ -133,93 +147,38 @@ export default function StudentForm({ beforeData }) {
   return (
     <Formik
       initialValues={{
-        [CATEGORY]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORY] : '',
-        [SEMESTER]: modalType === EDITGLOBALITEM ? beforeData?.[SEMESTER] : '',
-        [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
-        [MILEAGE]: modalType === EDITGLOBALITEM ? beforeData?.[MILEAGE] : 0,
-        [MAX_MAILEAGE]: modalType === EDITGLOBALITEM ? beforeData?.[MAX_MAILEAGE] : 0,
-        [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
-        [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
-        [FILE_DESCRIPTION]: modalType === EDITGLOBALITEM ? beforeData?.[FILE_DESCRIPTION] : '',
-        [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
-        [ISVISIBLE_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
-        [ISINPUT_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISINPUT_STUDENT] : false,
-        [ISDUPLICATE_RECORD]:
-          modalType === EDITGLOBALITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
-        [ISEVALUATE_CSEE]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
-        [ISEVALUATE_PORTFOLIO]:
-          modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
-        [ISEVALUATE_FUSION]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
+        [NAME]: modalType === EDITSTUDENT ? beforeData?.[NAME] : '',
+        [SID]: modalType === EDITSTUDENT ? beforeData?.[SID] : '',
+        [MOBILE]: modalType === EDITSTUDENT ? beforeData?.[MOBILE] : '',
+        [EMAIL]: modalType === EDITSTUDENT ? beforeData?.[EMAIL] : '',
+        [DEPARTMENT]: modalType === EDITSTUDENT ? beforeData?.[DEPARTMENT] : '',
+        [MAJOR1]: modalType === EDITSTUDENT ? beforeData?.[MAJOR1] : '',
+        [MAJOR2]: modalType === EDITSTUDENT ? beforeData?.[MAJOR2] : '',
+        [YEAR]: modalType === EDITSTUDENT ? beforeData?.[YEAR] : '',
+        [SEMESTERCOUNT]: modalType === EDITSTUDENT ? beforeData?.[SEMESTERCOUNT] : '',
       }}
-      // validationSchema={CategorySchema}
+      validationSchema={StudentSchema}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, errors, touched }) => (
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[
-                CATEGORY,
-                SEMESTER,
-                ITEM,
-                MILEAGE,
-                MAX_MAILEAGE,
-                DESCRIPTION1,
-                DESCRIPTION2,
-                FILE_DESCRIPTION,
-              ].map((field: string, index: number) => (
-                <Box key={index}>
-                  <Field
-                    sx={{ width: '300px' }}
-                    name={field}
-                    as={TextField}
-                    type="text"
-                    label={engToKor(field)}
-                    variant="standard"
-                  />
-                  <ErrorMessage name={CATEGORY} />
-                </Box>
-              ))}
-            </StyleFieldBox>
-            <StyleFieldBox>
-              {[
-                ISVISIBLE,
-                ISVISIBLE_STUDENT,
-                ISINPUT_STUDENT,
-                ISDUPLICATE_RECORD,
-                ISEVALUATE_CSEE,
-                ISEVALUATE_PORTFOLIO,
-                ISEVALUATE_FUSION,
-              ].map((inputName: string, index: number) => (
-                <Box key={index} sx={{ display: 'flex', gap: 2 }}>
-                  <Chip
-                    color="primary"
-                    sx={{ px: 1, borderRadius: '10px', height: '40px' }}
-                    label={engToKor(inputName)}
-                    variant="outlined"
-                  />
-
-                  <Field name={inputName}>
-                    {({ field, form }) => (
-                      <ToggleButtonGroup
-                        sx={{ height: '40px' }}
-                        color="primary"
-                        value={field.value}
-                        exclusive
-                        onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
-                        aria-label="toggle value"
-                      >
-                        <ToggleButton value={true} aria-label="true">
-                          O
-                        </ToggleButton>
-                        <ToggleButton value={false} aria-label="false">
-                          X
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    )}
-                  </Field>
-                </Box>
-              ))}
+              {[NAME, SID, MOBILE, EMAIL, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
+                (field: string, index: number) => (
+                  <Box key={index}>
+                    <Field
+                      sx={{ width: '300px' }}
+                      name={field}
+                      as={TextField}
+                      type="text"
+                      label={engToKor(field)}
+                      variant="standard"
+                    />
+                    <ErrorMessage name={field} />
+                  </Box>
+                )
+              )}
             </StyleFieldBox>
           </Box>
 

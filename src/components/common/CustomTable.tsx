@@ -31,7 +31,13 @@ import { CATEGORY, NUM } from '../../assets/data/fields';
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
-import { ADDCATEGORY, ADDGLOBALITEM, ADDITEM, EDITCATEGORY } from 'src/assets/data/modal/modals';
+import {
+  ADDCATEGORY,
+  ADDGLOBALITEM,
+  ADDITEM,
+  ADDSTUDENT,
+  EDITCATEGORY,
+} from 'src/assets/data/modal/modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
 import { setCategory } from 'src/redux/slices/filter';
@@ -282,6 +288,8 @@ const typeConverter = (type) => {
       return ADDITEM;
     case '마일리지 글로벌 항목':
       return ADDGLOBALITEM;
+    case '학생 관리':
+      return ADDSTUDENT;
   }
 };
 

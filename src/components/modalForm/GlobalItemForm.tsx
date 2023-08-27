@@ -181,7 +181,7 @@ export default function GlobalItemForm({ beforeData }) {
                     label={engToKor(field)}
                     variant="standard"
                   />
-                  <ErrorMessage name={CATEGORY} />
+                  <ErrorMessage name={field} />
                 </Box>
               ))}
             </StyleFieldBox>

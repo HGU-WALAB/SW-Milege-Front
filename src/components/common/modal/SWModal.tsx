@@ -29,10 +29,12 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDSTUDENT,
   DELETECATEGORY,
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
+  EDITSTUDENT,
 } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
@@ -53,6 +55,15 @@ import {
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
+  NAME,
+  SID,
+  YEAR,
+  SEMESTERCOUNT,
+  EMAIL,
+  DEPARTMENT,
+  MOBILE,
+  MAJOR1,
+  MAJOR2,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -63,6 +74,7 @@ import { values } from 'lodash';
 import ItemForm from 'src/components/modalForm/GlobalItemForm';
 import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
 import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
+import StudentForm from 'src/components/modalForm/StudentForm';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -101,6 +113,10 @@ const modalForm = (modalType, beforeData) => {
       return <GlobalItemForm beforeData={beforeData} />;
     case EDITGLOBALITEM:
       return <GlobalItemForm beforeData={beforeData} />;
+    case ADDSTUDENT:
+      return <StudentForm beforeData={beforeData} />;
+    case EDITSTUDENT:
+      return <StudentForm beforeData={beforeData} />;
     default:
       return <div>default</div>;
   }
@@ -138,11 +154,29 @@ export const engToKor = (eng) => {
       return '포폴 평가항목';
     case ISEVALUATE_FUSION:
       return '융합 평가항목';
+    case NAME:
+      return '이름';
+    case SID:
+      return '학번';
+    case YEAR:
+      return '학년';
+    case SEMESTERCOUNT:
+      return '학기 수';
+    case MOBILE:
+      return '휴대폰 번호';
+    case EMAIL:
+      return '이메일';
+    case DEPARTMENT:
+      return '학부';
+    case MAJOR1:
+      return '전공1';
+    case MAJOR2:
+      return '전공2';
   }
 };
 
 export default function SWModal({ type, beforeData }) {
-  console.log(beforeData);
+  console.log('debug', beforeData);
 
   const dispatch = useDispatch();
   const open = useSelector((state) => state.modal.isOpen);

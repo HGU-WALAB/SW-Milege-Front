@@ -6,7 +6,6 @@ import {
   NUM,
   SID,
   GRADE,
-  MOBILE,
   MANAGE,
   NAME,
   YEAR,
@@ -20,12 +19,14 @@ import {
   LASTLOGINDATE,
   REGDATE,
   ISAPPROVED,
+  MOBILE,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY, EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { random } from 'lodash';
+import { ReactNode } from 'react';
 
 /**
  * @component [학생 관리] 게시판
@@ -82,7 +83,7 @@ function createData(
   LASTLOGINDATE: string,
   REGDATE: string,
   ISAPPROVED: string,
-  MANAGE: string
+  MANAGE: ReactNode
 ): Data {
   return {
     [StudentManageBoard.NUM]: NUM,
@@ -267,18 +268,18 @@ export default function StudentManage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const convertedFetchList = fetchData.students?.map((student) => {
     const beforeData = {
-      NAME: student[NAME],
-      SID: student[SID],
-      YEAR: student[YEAR],
-      SEMESTERCOUNT: student[SEMESTERCOUNT],
-      MOBILE: student[MOBILE],
-      EMAIL: student[EMAIL],
-      DEPARTMENT: student[DEPARTMENT],
-      MAJOR1: student[MAJOR1],
-      MAJOR2: student[MAJOR2],
-      LASTLOGINDATE: student[LASTLOGINDATE],
-      REGDATE: student[REGDATE],
-      ISAPPROVED: student[ISAPPROVED],
+      [NAME]: student[NAME],
+      [SID]: student[SID],
+      [YEAR]: student[YEAR],
+      [SEMESTERCOUNT]: student[SEMESTERCOUNT],
+      [MOBILE]: student[MOBILE],
+      [EMAIL]: student[EMAIL],
+      [DEPARTMENT]: student[DEPARTMENT],
+      [MAJOR1]: student[MAJOR1],
+      [MAJOR2]: student[MAJOR2],
+      [LASTLOGINDATE]: student[LASTLOGINDATE],
+      [REGDATE]: student[REGDATE],
+      [ISAPPROVED]: student[ISAPPROVED],
     };
     return createData(
       random(1, 100),
