@@ -41,3 +41,6 @@ export const ISEVALUATE_CSEE = 'isEvaluateCsee';
 export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
 export const ISEVALUATE_FUSION = 'isEvaluateFusion';
 export const MAX_MAILEAGE = 'maxMileage';
+
+export const YEAR = 'year';
+export const SEMESTERCOUNT = 'semesterCount';
