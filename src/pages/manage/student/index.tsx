@@ -7,11 +7,6 @@ import {
   SID,
   GRADE,
   MOBILE,
-  DEPARTMENT,
-  MAJOR,
-  LASTLOGINDATE,
-  REGDATE,
-  ISAPPROVED,
   MANAGE,
   NAME,
   YEAR,
@@ -20,6 +15,11 @@ import {
   MAJOR1,
   MAJOR2,
   LOGINCOUNT,
+  DEPARTMENT,
+  MAJOR,
+  LASTLOGINDATE,
+  REGDATE,
+  ISAPPROVED,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -72,30 +72,30 @@ interface Data {
  *
  *  */
 function createData(
-  num: number,
-  name: string,
-  sid: number,
-  grade: number,
-  mobile: number,
-  department: string,
-  major: string,
-  lastLoginDate: string,
-  regDate: string,
-  isApproved: string,
-  manage: string
+  NUM: number,
+  NAME: string,
+  SID: number,
+  GRADE: number,
+  MOBILE: number,
+  DEPARTMENT: string,
+  MAJOR: string,
+  LASTLOGINDATE: string,
+  REGDATE: string,
+  ISAPPROVED: string,
+  MANAGE: string
 ): Data {
   return {
-    [StudentManageBoard.NUM]: num,
-    [StudentManageBoard.NAME]: name,
-    [StudentManageBoard.SID]: sid,
-    [StudentManageBoard.GRADE]: grade,
-    [StudentManageBoard.MOBILE]: mobile,
-    [StudentManageBoard.DEPARTMENT]: department,
-    [StudentManageBoard.MAJOR]: major,
-    [StudentManageBoard.LASTLOGINDATE]: lastLoginDate,
-    [StudentManageBoard.REGDATE]: regDate,
-    [StudentManageBoard.ISAPPROVED]: isApproved,
-    [StudentManageBoard.MANAGE]: manage,
+    [StudentManageBoard.NUM]: NUM,
+    [StudentManageBoard.NAME]: NAME,
+    [StudentManageBoard.SID]: SID,
+    [StudentManageBoard.GRADE]: GRADE,
+    [StudentManageBoard.MOBILE]: MOBILE,
+    [StudentManageBoard.DEPARTMENT]: DEPARTMENT,
+    [StudentManageBoard.MAJOR]: MAJOR,
+    [StudentManageBoard.LASTLOGINDATE]: LASTLOGINDATE,
+    [StudentManageBoard.REGDATE]: REGDATE,
+    [StudentManageBoard.ISAPPROVED]: ISAPPROVED,
+    [StudentManageBoard.MANAGE]: MANAGE,
   };
 }
 
@@ -269,30 +269,30 @@ export default function StudentManage({
 
   const convertedFetchList = fetchData.students?.map((student) => {
     const beforeData = {
-      [NAME]: student[NAME],
-      [SID]: student[SID],
-      [YEAR]: student[YEAR],
-      [SEMESTERCOUNT]: student[SEMESTERCOUNT],
-      [MOBILE]: student[MOBILE],
-      [EMAIL]: student[EMAIL],
-      [DEPARTMENT]: student[DEPARTMENT],
-      [MAJOR1]: student[MAJOR1],
-      [MAJOR2]: student[MAJOR2],
-      [LASTLOGINDATE]: student[LASTLOGINDATE],
-      [REGDATE]: student[REGDATE],
-      [ISAPPROVED]: student[ISAPPROVED],
+      NAME: student[NAME],
+      SID: student[SID],
+      YEAR: student[YEAR],
+      SEMESTERCOUNT: student[SEMESTERCOUNT],
+      MOBILE: student[MOBILE],
+      EMAIL: student[EMAIL],
+      DEPARTMENT: student[DEPARTMENT],
+      MAJOR1: student[MAJOR1],
+      MAJOR2: student[MAJOR2],
+      LASTLOGINDATE: student[LASTLOGINDATE],
+      REGDATE: student[REGDATE],
+      ISAPPROVED: student[ISAPPROVED],
     };
     return createData(
       random(1, 100),
-      student.name,
-      student.sid,
-      student.year,
-      student.mobile,
-      student.department,
-      student.major1 + ' / ' + student.major2,
-      student.lastLoginDate.split('T')[0],
-      student.regDate.split('T')[0],
-      student.isApproved ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
+      student[NAME],
+      student[SID],
+      student[YEAR],
+      student[MOBILE],
+      student[DEPARTMENT],
+      student[MAJOR1] + ' / ' + student[MAJOR2],
+      student[LASTLOGINDATE].split('T')[0],
+      student[REGDATE].split('T')[0],
+      student[ISAPPROVED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );
   });
