@@ -265,8 +265,6 @@ export const getServerSideProps: GetServerSideProps<{
 export default function StudentManage({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log('dd', fetchData);
-
   const convertedFetchList = fetchData.students?.map((student) => {
     const beforeData = {
       NAME: student[NAME],
@@ -297,6 +295,5 @@ export default function StudentManage({
     );
   });
 
-  console.log('!!');
   return <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="학생 관리" />;
 }
