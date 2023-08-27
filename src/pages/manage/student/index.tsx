@@ -231,7 +231,7 @@ const rows = [
 ];
 
 interface IStudent {
-  name: string;
+  [NAME]: string;
   sid: string;
   year: number;
   semesterCount: number;
@@ -268,18 +268,18 @@ export default function StudentManage({
 
   const convertedFetchList = fetchData.students?.map((student) => {
     const beforeData = {
-      [NAME]: student.name,
-      [SID]: student.sid,
-      [YEAR]: student.year,
-      [SEMESTERCOUNT]: student.semesterCount,
-      [MOBILE]: student.mobile,
-      [EMAIL]: student.email,
-      [DEPARTMENT]: student.department,
-      [MAJOR1]: student.major1,
-      [MAJOR2]: student.major2,
-      [LASTLOGINDATE]: student.lastLoginDate,
-      [REGDATE]: student.regDate,
-      [ISAPPROVED]: student.isApproved,
+      [NAME]: student[NAME],
+      [SID]: student[SID],
+      [YEAR]: student[YEAR],
+      [SEMESTERCOUNT]: student[SEMESTERCOUNT],
+      [MOBILE]: student[MOBILE],
+      [EMAIL]: student[EMAIL],
+      [DEPARTMENT]: student[DEPARTMENT],
+      [MAJOR1]: student[MAJOR1],
+      [MAJOR2]: student[MAJOR2],
+      [LASTLOGINDATE]: student[LASTLOGINDATE],
+      [REGDATE]: student[REGDATE],
+      [ISAPPROVED]: student[ISAPPROVED],
     };
     return createData(
       random(1, 100),
