@@ -19,6 +19,7 @@ import {
   EMAIL,
   MAJOR1,
   MAJOR2,
+  LOGINCOUNT,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -232,18 +233,18 @@ const rows = [
 
 interface IStudent {
   [NAME]: string;
-  sid: string;
-  year: number;
-  semesterCount: number;
-  mobile: string;
-  email: string;
-  department: string;
-  major1: string;
-  major2: string;
-  loginCount: number;
-  lastLoginDate: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
-  regDate: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
-  isApproved: boolean;
+  [SID]: string;
+  [YEAR]: number;
+  [SEMESTERCOUNT]: number;
+  [MOBILE]: string;
+  [EMAIL]: string;
+  [DEPARTMENT]: string;
+  [MAJOR1]: string;
+  [MAJOR2]: string;
+  [LOGINCOUNT]: number;
+  [LASTLOGINDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
+  [REGDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
+  [ISAPPROVED]: boolean;
 }
 
 interface IStudentList {
