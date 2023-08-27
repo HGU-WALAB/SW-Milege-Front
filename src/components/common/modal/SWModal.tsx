@@ -60,7 +60,9 @@ import CategoryForm from 'src/components/modalForm/CategoryForm';
 import ModalIconButton from './ModalIconButton';
 import ModalTitle from './ModalTitle';
 import { values } from 'lodash';
-import ItemForm from 'src/components/modalForm/ItemForm';
+import ItemForm from 'src/components/modalForm/GlobalItemForm';
+import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
+import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -91,19 +93,16 @@ const modalForm = (modalType, beforeData) => {
       return <CategoryForm beforeData={beforeData} />;
     case EDITCATEGORY:
       return <CategoryForm beforeData={beforeData} />;
-    case DELETECATEGORY:
-      return <CategoryForm beforeData={beforeData} />;
     case ADDITEM:
-      return <ItemForm beforeData={beforeData} />;
+      return <SemesterItemForm beforeData={beforeData} />;
     case EDITITEM:
-      return <ItemForm beforeData={beforeData} />;
+      return <SemesterItemForm beforeData={beforeData} />;
     case ADDGLOBALITEM:
-      return <ItemForm beforeData={beforeData} />;
+      return <GlobalItemForm beforeData={beforeData} />;
     case EDITGLOBALITEM:
-      return <ItemForm beforeData={beforeData} />;
+      return <GlobalItemForm beforeData={beforeData} />;
     default:
       return <div>default</div>;
-
   }
 };
 
