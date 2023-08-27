@@ -56,6 +56,26 @@ interface Data {
   [StudentManageBoard.MANAGE]: string;
 }
 
+interface IStudent {
+  name: string;
+  sid: string;
+  year: number;
+  semesterCount: number;
+  mobile: string;
+  email: string;
+  department: string;
+  major1: string;
+  major2: string;
+  loginCount: number;
+  lastLoginDate: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
+  regDate: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
+  isApproved: boolean;
+}
+
+interface IStudentList {
+  students: IStudent[];
+}
+
 export default function StudentManage() {
   /**
    * @kind [학생 관리]
