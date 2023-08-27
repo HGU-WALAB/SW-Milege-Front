@@ -1,22 +1,30 @@
 import EnhancedTable from 'src/components/common/CustomTable';
-
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {
   NUM,
-  STUDENT_NAME,
-  STUDENT_ID,
+  SID,
   GRADE,
-  CONTACT,
+  MOBILE,
   DEPARTMENT,
   MAJOR,
-  FREQUENCY,
-  REGISTERED_DATE,
-  APPROVE,
+  LASTLOGINDATE,
+  REGDATE,
+  ISAPPROVED,
   MANAGE,
+  NAME,
+  YEAR,
+  SEMESTERCOUNT,
+  EMAIL,
+  MAJOR1,
+  MAJOR2,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import SWModal from 'src/components/common/modal/SWModal';
+import { EDITCATEGORY, EDITSTUDENT } from 'src/assets/data/modal/modals';
+import { random } from 'lodash';
 
 /**
  * @component [학생 관리] 게시판
@@ -29,15 +37,15 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 export enum StudentManageBoard {
   'NUM' = NUM,
-  'STUDENT_NAME' = STUDENT_NAME,
-  'STUDENT_ID' = STUDENT_ID,
+  'NAME' = NAME,
+  'SID' = SID,
   'GRADE' = GRADE,
-  'CONTACT' = CONTACT,
+  'MOBILE' = MOBILE,
   'DEPARTMENT' = DEPARTMENT,
   'MAJOR' = MAJOR,
-  'FREQUENCY' = FREQUENCY,
-  'REGISTERED_DATE' = REGISTERED_DATE,
-  'APPROVE' = APPROVE,
+  'LASTLOGINDATE' = LASTLOGINDATE,
+  'REGDATE' = REGDATE,
+  'ISAPPROVED' = ISAPPROVED,
   'MANAGE' = MANAGE,
 }
 
@@ -46,15 +54,15 @@ export enum StudentManageBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [StudentManageBoard.STUDENT_NAME]: string;
-  [StudentManageBoard.STUDENT_ID]: number;
+  [StudentManageBoard.NAME]: string;
+  [StudentManageBoard.SID]: number;
   [StudentManageBoard.GRADE]: number;
-  [StudentManageBoard.CONTACT]: number;
+  [StudentManageBoard.MOBILE]: number;
   [StudentManageBoard.DEPARTMENT]: string;
   [StudentManageBoard.MAJOR]: string;
-  [StudentManageBoard.FREQUENCY]: string;
-  [StudentManageBoard.REGISTERED_DATE]: string;
-  [StudentManageBoard.APPROVE]: string;
+  [StudentManageBoard.LASTLOGINDATE]: string;
+  [StudentManageBoard.REGDATE]: string;
+  [StudentManageBoard.ISAPPROVED]: string;
   [StudentManageBoard.MANAGE]: string;
 }
 /**
@@ -64,28 +72,28 @@ interface Data {
  *  */
 function createData(
   num: number,
-  studentName: string,
-  studentId: number,
+  name: string,
+  sid: number,
   grade: number,
-  contact: number,
+  mobile: number,
   department: string,
   major: string,
-  frequency: string,
-  registeredDate: string,
-  approve: string,
+  lastLoginDate: string,
+  regDate: string,
+  isApproved: string,
   manage: string
 ): Data {
   return {
     [StudentManageBoard.NUM]: num,
-    [StudentManageBoard.STUDENT_NAME]: studentName,
-    [StudentManageBoard.STUDENT_ID]: studentId,
+    [StudentManageBoard.NAME]: name,
+    [StudentManageBoard.SID]: sid,
     [StudentManageBoard.GRADE]: grade,
-    [StudentManageBoard.CONTACT]: contact,
+    [StudentManageBoard.MOBILE]: mobile,
     [StudentManageBoard.DEPARTMENT]: department,
     [StudentManageBoard.MAJOR]: major,
-    [StudentManageBoard.FREQUENCY]: frequency,
-    [StudentManageBoard.REGISTERED_DATE]: registeredDate,
-    [StudentManageBoard.APPROVE]: approve,
+    [StudentManageBoard.LASTLOGINDATE]: lastLoginDate,
+    [StudentManageBoard.REGDATE]: regDate,
+    [StudentManageBoard.ISAPPROVED]: isApproved,
     [StudentManageBoard.MANAGE]: manage,
   };
 }
@@ -93,8 +101,7 @@ function createData(
 /**
  * @kind [학생 관리]
  * @brief 테이블 헤더
- */
-const headCells = [
+ */ const headCells = [
   {
     id: [StudentManageBoard.NUM],
     numeric: false,
@@ -102,13 +109,13 @@ const headCells = [
     label: '번호',
   },
   {
-    id: [StudentManageBoard.STUDENT_NAME],
+    id: [StudentManageBoard.NAME],
     numeric: true,
     disablePadding: false,
     label: '이름',
   },
   {
-    id: [StudentManageBoard.STUDENT_ID],
+    id: [StudentManageBoard.SID],
     numeric: true,
     disablePadding: false,
     label: '학번',
@@ -120,7 +127,7 @@ const headCells = [
     label: '학년',
   },
   {
-    id: [StudentManageBoard.CONTACT],
+    id: [StudentManageBoard.MOBILE],
     numeric: true,
     disablePadding: false,
     label: '연락처',
@@ -138,19 +145,19 @@ const headCells = [
     label: '전공',
   },
   {
-    id: [StudentManageBoard.FREQUENCY],
+    id: [StudentManageBoard.LASTLOGINDATE],
     numeric: true,
     disablePadding: false,
     label: '빈도수',
   },
   {
-    id: [StudentManageBoard.REGISTERED_DATE],
+    id: [StudentManageBoard.REGDATE],
     numeric: true,
     disablePadding: false,
     label: '등록일',
   },
   {
-    id: [StudentManageBoard.APPROVE],
+    id: [StudentManageBoard.ISAPPROVED],
     numeric: true,
     disablePadding: false,
     label: '승인',
@@ -259,6 +266,36 @@ export default function StudentManage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   console.log('dd', fetchData);
 
+  const convertedFetchList = fetchData.students?.map((student) => {
+    const beforeData = {
+      [NAME]: student.name,
+      [SID]: student.sid,
+      [YEAR]: student.year,
+      [SEMESTERCOUNT]: student.semesterCount,
+      [MOBILE]: student.mobile,
+      [EMAIL]: student.email,
+      [DEPARTMENT]: student.department,
+      [MAJOR1]: student.major1,
+      [MAJOR2]: student.major2,
+      [LASTLOGINDATE]: student.lastLoginDate,
+      [REGDATE]: student.regDate,
+      [ISAPPROVED]: student.isApproved,
+    };
+    return createData(
+      random(1, 100),
+      student.name,
+      student.sid,
+      student.year,
+      student.mobile,
+      student.department,
+      student.major1 + ' / ' + student.major2,
+      student.lastLoginDate.split('T')[0],
+      student.regDate.split('T')[0],
+      student.isApproved ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
+      <SWModal type={EDITSTUDENT} beforeData={beforeData} />
+    );
+  });
+
   console.log('!!');
-  return <EnhancedTable originalRows={rows} headCells={headCells} type="학생 관리" />;
+  return <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="학생 관리" />;
 }
