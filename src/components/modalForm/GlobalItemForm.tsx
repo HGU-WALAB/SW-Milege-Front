@@ -63,7 +63,7 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-export default function ItemForm({ beforeData }) {
+export default function GlobalItemForm({ beforeData }) {
   const modalType = useSelector((state) => state.modal.modalType);
   console.log(modalType, beforeData);
 
