@@ -160,8 +160,7 @@ export default function MileageRegister({
 
       const beforeData = {
         [SEMESTERITEMID]: record[ID],
-        [STUDENT_ID]: item[STUDENT_ID],
-        [RECORD_ID]: item[ID],
+        [STUDENT_ID]: item[ID],
         [COUNTS]: item[COUNTS],
         [POINTS]: item[POINTS],
         [EXTRAPOINTS]: item[EXTRAPOINTS],
@@ -171,7 +170,7 @@ export default function MileageRegister({
 
       return {
         [STUDENT_NAME]: item[STUDENT_NAME],
-        [STUDENT_ID]: item.id,
+        [STUDENT_ID]: item[ID],
         [POINTS]: item[POINTS],
         [DESCRIPTION1]: item[DESCRIPTION1],
         [DESCRIPTION2]: item[DESCRIPTION2],

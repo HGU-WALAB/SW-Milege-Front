@@ -62,3 +62,4 @@ export const SEMESTERITEMID = 'semesterItemId';
 
 export const SEMESTER_NAME = 'semesterName';
 export const ITEM_NAME = 'itemName';
+export const STUDENT_ID = 'studentId';
