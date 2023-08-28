@@ -9,3 +9,6 @@ export const DELETEITEM = 'deleteItme';
 export const ADDGLOBALITEM = 'addGlobalItem';
 export const EDITGLOBALITEM = 'editGlobalItem';
 export const DELETEGLOBALITEM = 'deleteGlobalItem';
+
+export const ADDSTUDENT = 'addStudent';
+export const EDITSTUDENT = 'editStudent';

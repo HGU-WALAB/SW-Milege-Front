@@ -1,20 +1,32 @@
 import EnhancedTable from 'src/components/common/CustomTable';
-
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {
   NUM,
-  STUDENT_NAME,
-  STUDENT_ID,
+  SID,
   GRADE,
-  CONTACT,
+  MANAGE,
+  NAME,
+  YEAR,
+  SEMESTERCOUNT,
+  EMAIL,
+  MAJOR1,
+  MAJOR2,
+  LOGINCOUNT,
   DEPARTMENT,
   MAJOR,
-  FREQUENCY,
-  REGISTERED_DATE,
-  APPROVE,
-  MANAGE,
+  LASTLOGINDATE,
+  REGDATE,
+  ISAPPROVED,
+  MOBILE,
 } from 'src/assets/data/fields';
+import axiosInstance from 'src/utils/axios';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import SWModal from 'src/components/common/modal/SWModal';
+import { EDITCATEGORY, EDITSTUDENT } from 'src/assets/data/modal/modals';
+import { random } from 'lodash';
+import { ReactNode } from 'react';
 
 /**
  * @component [학생 관리] 게시판
@@ -27,15 +39,15 @@ import {
 
 export enum StudentManageBoard {
   'NUM' = NUM,
-  'STUDENT_NAME' = STUDENT_NAME,
-  'STUDENT_ID' = STUDENT_ID,
+  'NAME' = NAME,
+  'SID' = SID,
   'GRADE' = GRADE,
-  'CONTACT' = CONTACT,
+  'MOBILE' = MOBILE,
   'DEPARTMENT' = DEPARTMENT,
   'MAJOR' = MAJOR,
-  'FREQUENCY' = FREQUENCY,
-  'REGISTERED_DATE' = REGISTERED_DATE,
-  'APPROVE' = APPROVE,
+  'LASTLOGINDATE' = LASTLOGINDATE,
+  'REGDATE' = REGDATE,
+  'ISAPPROVED' = ISAPPROVED,
   'MANAGE' = MANAGE,
 }
 
@@ -44,184 +56,245 @@ export enum StudentManageBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [StudentManageBoard.STUDENT_NAME]: string;
-  [StudentManageBoard.STUDENT_ID]: number;
+  [StudentManageBoard.NAME]: string;
+  [StudentManageBoard.SID]: number;
   [StudentManageBoard.GRADE]: number;
-  [StudentManageBoard.CONTACT]: number;
+  [StudentManageBoard.MOBILE]: number;
   [StudentManageBoard.DEPARTMENT]: string;
   [StudentManageBoard.MAJOR]: string;
-  [StudentManageBoard.FREQUENCY]: string;
-  [StudentManageBoard.REGISTERED_DATE]: string;
-  [StudentManageBoard.APPROVE]: string;
+  [StudentManageBoard.LASTLOGINDATE]: string;
+  [StudentManageBoard.REGDATE]: string;
+  [StudentManageBoard.ISAPPROVED]: string;
   [StudentManageBoard.MANAGE]: string;
 }
+/**
+ * @kind [학생 관리]
+ * @brief 데이터 생성 함수
+ *
+ *  */
+function createData(
+  NUM: number,
+  NAME: string,
+  SID: number,
+  GRADE: number,
+  MOBILE: number,
+  DEPARTMENT: string,
+  MAJOR: string,
+  LASTLOGINDATE: string,
+  REGDATE: string,
+  ISAPPROVED: string,
+  MANAGE: ReactNode
+): Data {
+  return {
+    [StudentManageBoard.NUM]: NUM,
+    [StudentManageBoard.NAME]: NAME,
+    [StudentManageBoard.SID]: SID,
+    [StudentManageBoard.GRADE]: GRADE,
+    [StudentManageBoard.MOBILE]: MOBILE,
+    [StudentManageBoard.DEPARTMENT]: DEPARTMENT,
+    [StudentManageBoard.MAJOR]: MAJOR,
+    [StudentManageBoard.LASTLOGINDATE]: LASTLOGINDATE,
+    [StudentManageBoard.REGDATE]: REGDATE,
+    [StudentManageBoard.ISAPPROVED]: ISAPPROVED,
+    [StudentManageBoard.MANAGE]: MANAGE,
+  };
+}
 
-export default function StudentManage() {
-  /**
-   * @kind [학생 관리]
-   * @brief 데이터 생성 함수
-   *
-   *  */
-  function createData(
-    num: number,
-    studentName: string,
-    studentId: number,
-    grade: number,
-    contact: number,
-    department: string,
-    major: string,
-    frequency: string,
-    registeredDate: string,
-    approve: string,
-    manage: string
-  ): Data {
-    return {
-      [StudentManageBoard.NUM]: num,
-      [StudentManageBoard.STUDENT_NAME]: studentName,
-      [StudentManageBoard.STUDENT_ID]: studentId,
-      [StudentManageBoard.GRADE]: grade,
-      [StudentManageBoard.CONTACT]: contact,
-      [StudentManageBoard.DEPARTMENT]: department,
-      [StudentManageBoard.MAJOR]: major,
-      [StudentManageBoard.FREQUENCY]: frequency,
-      [StudentManageBoard.REGISTERED_DATE]: registeredDate,
-      [StudentManageBoard.APPROVE]: approve,
-      [StudentManageBoard.MANAGE]: manage,
+/**
+ * @kind [학생 관리]
+ * @brief 테이블 헤더
+ */ const headCells = [
+  {
+    id: [StudentManageBoard.NUM],
+    numeric: false,
+    disablePadding: true,
+    label: '번호',
+  },
+  {
+    id: [StudentManageBoard.NAME],
+    numeric: true,
+    disablePadding: false,
+    label: '이름',
+  },
+  {
+    id: [StudentManageBoard.SID],
+    numeric: true,
+    disablePadding: false,
+    label: '학번',
+  },
+  {
+    id: [StudentManageBoard.GRADE],
+    numeric: true,
+    disablePadding: false,
+    label: '학년',
+  },
+  {
+    id: [StudentManageBoard.MOBILE],
+    numeric: true,
+    disablePadding: false,
+    label: '연락처',
+  },
+  {
+    id: [StudentManageBoard.DEPARTMENT],
+    numeric: true,
+    disablePadding: false,
+    label: '학부',
+  },
+  {
+    id: [StudentManageBoard.MAJOR],
+    numeric: true,
+    disablePadding: false,
+    label: '전공',
+  },
+  {
+    id: [StudentManageBoard.LASTLOGINDATE],
+    numeric: true,
+    disablePadding: false,
+    label: '빈도수',
+  },
+  {
+    id: [StudentManageBoard.REGDATE],
+    numeric: true,
+    disablePadding: false,
+    label: '등록일',
+  },
+  {
+    id: [StudentManageBoard.ISAPPROVED],
+    numeric: true,
+    disablePadding: false,
+    label: '승인',
+  },
+  {
+    id: [StudentManageBoard.MANAGE],
+    numeric: true,
+    disablePadding: false,
+    label: '신청 취소',
+  },
+];
+
+/**
+ * @kind [학생 관리]
+ * @description 마일리지 항목 리스트
+ */
+
+const rows = [
+  createData(
+    1,
+    '오인혁',
+    '21800446',
+    '4(8)',
+    '010-6536-6217',
+    '전산전자공학부',
+    'AI 컴퓨터공학심화',
+    '2022-08-21',
+    '2022-08-20',
+    <CheckBoxIcon />,
+    <ManageAccountsIcon />
+  ),
+  createData(
+    2,
+    '한시온',
+    '21800447',
+    '4(8)',
+    '010-6536-6217',
+    '전산전자공학부',
+    'AI 컴퓨터공학심화',
+    '2022-08-21',
+    '2022-08-20',
+    <CheckBoxIcon />,
+    <ManageAccountsIcon />
+  ),
+  createData(
+    3,
+    '김민수',
+    '21800448',
+    '4(8)',
+    '010-6536-6217',
+    '전산전자공학부',
+    'AI 컴퓨터공학심화',
+    '2022-08-21',
+    '2022-08-20',
+    <CheckBoxIcon />,
+    <ManageAccountsIcon />
+  ),
+  createData(
+    4,
+    '장유진',
+    '21800449',
+    '4(8)',
+    '010-6536-6217',
+    '전산전자공학부',
+    'AI 컴퓨터공학심화',
+    '2022-08-21',
+    '2022-08-20',
+    <CheckBoxIcon />,
+    <ManageAccountsIcon />
+  ),
+];
+
+interface IStudent {
+  [NAME]: string;
+  [SID]: string;
+  [YEAR]: number;
+  [SEMESTERCOUNT]: number;
+  [MOBILE]: string;
+  [EMAIL]: string;
+  [DEPARTMENT]: string;
+  [MAJOR1]: string;
+  [MAJOR2]: string;
+  [LOGINCOUNT]: number;
+  [LASTLOGINDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
+  [REGDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
+  [ISAPPROVED]: boolean;
+}
+
+interface IStudentList {
+  students: IStudent[];
+}
+
+export const getServerSideProps: GetServerSideProps<{
+  fetchData: IStudentList;
+}> = async () => {
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
+  const res = await axiosInstance.get(`/api/mileage/students`);
+  const fetchData = res.data;
+  console.log(fetchData);
+
+  return { props: { fetchData } };
+};
+
+export default function StudentManage({
+  fetchData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const convertedFetchList = fetchData.students?.map((student) => {
+    const beforeData = {
+      [NAME]: student[NAME],
+      [SID]: student[SID],
+      [YEAR]: student[YEAR],
+      [SEMESTERCOUNT]: student[SEMESTERCOUNT],
+      [MOBILE]: student[MOBILE],
+      [EMAIL]: student[EMAIL],
+      [DEPARTMENT]: student[DEPARTMENT],
+      [MAJOR1]: student[MAJOR1],
+      [MAJOR2]: student[MAJOR2],
+      [LASTLOGINDATE]: student[LASTLOGINDATE],
+      [REGDATE]: student[REGDATE],
+      [ISAPPROVED]: student[ISAPPROVED],
     };
-  }
+    return createData(
+      random(1, 100),
+      student[NAME],
+      student[SID],
+      student[YEAR],
+      student[MOBILE],
+      student[DEPARTMENT],
+      student[MAJOR1] + ' / ' + student[MAJOR2],
+      student[LASTLOGINDATE].split('T')[0],
+      student[REGDATE].split('T')[0],
+      student[ISAPPROVED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
+      <SWModal type={EDITSTUDENT} beforeData={beforeData} />
+    );
+  });
 
-  /**
-   * @kind [학생 관리]
-   * @brief 테이블 헤더
-   */
-  const headCells = [
-    {
-      id: [StudentManageBoard.NUM],
-      numeric: false,
-      disablePadding: true,
-      label: '번호',
-    },
-    {
-      id: [StudentManageBoard.STUDENT_NAME],
-      numeric: true,
-      disablePadding: false,
-      label: '이름',
-    },
-    {
-      id: [StudentManageBoard.STUDENT_ID],
-      numeric: true,
-      disablePadding: false,
-      label: '학번',
-    },
-    {
-      id: [StudentManageBoard.GRADE],
-      numeric: true,
-      disablePadding: false,
-      label: '학년',
-    },
-    {
-      id: [StudentManageBoard.CONTACT],
-      numeric: true,
-      disablePadding: false,
-      label: '연락처',
-    },
-    {
-      id: [StudentManageBoard.DEPARTMENT],
-      numeric: true,
-      disablePadding: false,
-      label: '학부',
-    },
-    {
-      id: [StudentManageBoard.MAJOR],
-      numeric: true,
-      disablePadding: false,
-      label: '전공',
-    },
-    {
-      id: [StudentManageBoard.FREQUENCY],
-      numeric: true,
-      disablePadding: false,
-      label: '빈도수',
-    },
-    {
-      id: [StudentManageBoard.REGISTERED_DATE],
-      numeric: true,
-      disablePadding: false,
-      label: '등록일',
-    },
-    {
-      id: [StudentManageBoard.APPROVE],
-      numeric: true,
-      disablePadding: false,
-      label: '승인',
-    },
-    {
-      id: [StudentManageBoard.MANAGE],
-      numeric: true,
-      disablePadding: false,
-      label: '신청 취소',
-    },
-  ];
-
-  /**
-   * @kind [학생 관리]
-   * @description 마일리지 항목 리스트
-   */
-
-  const rows = [
-    createData(
-      1,
-      '오인혁',
-      '21800446',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
-    createData(
-      2,
-      '한시온',
-      '21800447',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
-    createData(
-      3,
-      '김민수',
-      '21800448',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
-    createData(
-      4,
-      '장유진',
-      '21800449',
-      '4(8)',
-      '010-6536-6217',
-      '전산전자공학부',
-      'AI 컴퓨터공학심화',
-      '2022-08-21',
-      '2022-08-20',
-      <CheckBoxIcon />,
-      <ManageAccountsIcon />
-    ),
-  ];
-
-  return <EnhancedTable originalRows={rows} headCells={headCells} type="학생 관리" />;
+  return <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="학생 관리" />;
 }

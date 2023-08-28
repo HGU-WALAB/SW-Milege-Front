@@ -4,11 +4,13 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDSTUDENT,
   DELETECATEGORY,
   DELETEITEM,
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
+  EDITSTUDENT,
 } from 'src/assets/data/modal/modals';
 
 export default function ModalTitle() {
@@ -32,6 +34,10 @@ export default function ModalTitle() {
         return '마일리지 글로벌 항목 추가';
       case EDITGLOBALITEM:
         return '마일리지 글로벌 항목 수정';
+      case ADDSTUDENT:
+        return '학생 추가';
+      case EDITSTUDENT:
+        return '학생 수정';
     }
   };
 
