@@ -21,7 +21,7 @@ import {
   SEMESTERITEMID,
 } from '../../assets/data/fields';
 import { STUDENT_ID } from 'src/assets/data/fields';
-import { EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
+import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
 
 export default function MileageRegisterForm({ beforeData }) {
   const modalType = useSelector((state) => state.modal.modalType);
@@ -55,6 +55,7 @@ export default function MileageRegisterForm({ beforeData }) {
       [DESCRIPTION2]: values[DESCRIPTION2],
     };
 
+    console.log(newData);
     switch (modalType) {
       case ADDMILEAGEREGISTER:
         axiosInstance

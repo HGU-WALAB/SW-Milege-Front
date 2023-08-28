@@ -190,5 +190,5 @@ export default function MileageRegister({
 
   console.log(convertedFetchList);
 
-  return <CollapsibleTable rows={convertedFetchList} />;
+  return <CollapsibleTable rows={convertedFetchList} type="마일리지 등록" />;
 }

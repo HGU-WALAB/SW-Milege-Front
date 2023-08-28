@@ -85,25 +85,32 @@ function Row({ row }) {
   );
 }
 
-export default function CollapsibleTable({ rows }) {
+export default function CollapsibleTable({ rows, type }) {
   return (
-    <TableContainer component={Paper} sx={{ minWidth: '500px', overflowX: 'scroll' }}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            {['', '번호', '학기', '항목', '등록 학생 수', '추가'].map((outerHeadElement, index) => (
-              <TableCell align="left" key={index}>
-                {outerHeadElement}
-              </TableCell>
+    <>
+      <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
+        {type} {' 리스트'}
+      </Typography>
+      <TableContainer component={Paper} sx={{ minWidth: '500px', overflowX: 'scroll' }}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              {['', '번호', '학기', '항목', '등록 학생 수', '추가'].map(
+                (outerHeadElement, index) => (
+                  <TableCell align="left" key={index}>
+                    {outerHeadElement}
+                  </TableCell>
+                )
+              )}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <Row key={row.item} row={row} />
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <Row key={row.item} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
