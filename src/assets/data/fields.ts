@@ -51,3 +51,5 @@ export const LASTLOGINDATE = 'lastLoginDate';
 export const REGDATE = 'regDate';
 export const ISAPPROVED = 'isApproved';
 export const MOBILE = 'mobile';
+
+export const STUDENTS = 'students';

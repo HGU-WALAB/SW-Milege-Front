@@ -12,3 +12,6 @@ export const DELETEGLOBALITEM = 'deleteGlobalItem';
 
 export const ADDSTUDENT = 'addStudent';
 export const EDITSTUDENT = 'editStudent';
+
+export const ADDMILEAGEREGISTER = 'addMileageRegister';
+export const EDITMILEAGEREGISTER = 'editMileageRegister';
