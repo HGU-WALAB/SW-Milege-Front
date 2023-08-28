@@ -59,3 +59,6 @@ export const COUNTS = 'counts';
 export const ID = 'id';
 export const RECORD_ID = 'recordId';
 export const SEMESTERITEMID = 'semesterItemId';
+
+export const SEMESTER_NAME = 'semesterName';
+export const ITEM_NAME = 'itemName';

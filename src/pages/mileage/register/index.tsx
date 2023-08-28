@@ -189,5 +189,7 @@ export default function MileageRegister({
     );
   });
 
+  console.log(convertedFetchList);
+
   return <CollapsibleTable rows={convertedFetchList} />;
 }
