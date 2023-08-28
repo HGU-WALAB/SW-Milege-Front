@@ -54,3 +54,8 @@ export const MOBILE = 'mobile';
 
 export const STUDENTS = 'students';
 export const POINTS = 'points';
+export const EXTRAPOINTS = 'extraPoints';
+export const COUNTS = 'counts';
+export const ID = 'id';
+export const RECORD_ID = 'recordId';
+export const SEMESTERITEMID = 'semesterItemId';
