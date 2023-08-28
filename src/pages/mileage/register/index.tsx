@@ -269,7 +269,7 @@ export default function MileageRegister({
     return createData(
       index + 1,
       record.semesterName,
-      <Link href={`/mileage/register/${index + 1}`}>{record.itemName}</Link>,
+      record.itemName,
       record.records.length,
       <SWModal
         type={ADDMILEAGEREGISTER}

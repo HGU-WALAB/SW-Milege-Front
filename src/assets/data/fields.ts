@@ -53,3 +53,4 @@ export const ISAPPROVED = 'isApproved';
 export const MOBILE = 'mobile';
 
 export const STUDENTS = 'students';
+export const POINTS = 'points';

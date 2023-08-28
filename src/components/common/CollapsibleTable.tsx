@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { ADD, ITEM, NUM, REGISTER_NUM, SEMESTER } from '../../assets/data/fields';
 import {
   STUDENT_ID,
   POINTS,
@@ -62,13 +63,13 @@ function Row({ row }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.num}
-        </TableCell>
-        <TableCell align="right">{row.semester}</TableCell>
-        <TableCell align="right">{row.item}</TableCell>
-        <TableCell align="right">{row.registerNum}</TableCell>
-        <TableCell align="right">{row.add}</TableCell>
+        {[row[NUM], row[SEMESTER], row[ITEM], row[REGISTER_NUM], row[ADD]].map(
+          (outerBodyElement, index) => (
+            <TableCell align="left" key={index}>
+              {outerBodyElement}
+            </TableCell>
+          )
+        )}
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -129,12 +130,11 @@ export default function CollapsibleTable({ rows }) {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            {['', '번호', '학기', '항목', '등록 학생 수', '추가'].map((outerHeadElement, index) => (
+              <TableCell align="left" key={index}>
+                {outerHeadElement}
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
