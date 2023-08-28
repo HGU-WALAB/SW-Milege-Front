@@ -12,7 +12,13 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { STUDENT_NAME } from 'src/assets/data/fields';
+import {
+  STUDENT_ID,
+  POINTS,
+  DESCRIPTION1,
+  DESCRIPTION2,
+  STUDENT_NAME,
+} from 'src/assets/data/fields';
 
 // function createData(
 //   name: string,
@@ -74,21 +80,28 @@ function Row({ row }) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    {['이름', '학번', '포인트', '추가설명1', '추가설명2', '관리'].map(
+                      (headElement) => (
+                        <TableCell>{headElement}</TableCell>
+                      )
+                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row.students.map((student) => (
                     <TableRow key={student.studentId}>
-                      <TableCell component="th" scope="row">
-                        {student.semesterItemId}
-                      </TableCell>
-                      <TableCell>{student.studentId}</TableCell>
-                      <TableCell align="right">{student.recordId}</TableCell>
-                      <TableCell align="right">{student[STUDENT_NAME]}</TableCell>
+                      {[
+                        student[STUDENT_NAME],
+                        student[STUDENT_ID],
+                        student[POINTS],
+                        student[DESCRIPTION1],
+                        student[DESCRIPTION2],
+                        student['edit'],
+                      ].map((bodyElement, index) => (
+                        <TableCell component="th" scope="row" key={index}>
+                          {bodyElement}
+                        </TableCell>
+                      ))}
                     </TableRow>
                   ))}
                 </TableBody>
