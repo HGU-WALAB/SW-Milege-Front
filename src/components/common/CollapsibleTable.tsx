@@ -21,6 +21,8 @@ import {
   STUDENT_NAME,
 } from 'src/assets/data/fields';
 import { styled } from '@mui/material';
+import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
+import Filtering from './Filter/Filtering';
 
 const ResponsiveHeadCell = styled(TableCell)({
   minWidth: '110px',
@@ -92,9 +94,8 @@ function Row({ row }) {
 export default function CollapsibleTable({ rows, type }) {
   return (
     <>
-      <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        {type} {' 리스트'}
-      </Typography>
+      <TitleAndRefreshButton type={type} />
+
       <TableContainer component={Paper} sx={{ overflowX: 'scroll' }}>
         <Table aria-label="collapsible table">
           <TableHead>

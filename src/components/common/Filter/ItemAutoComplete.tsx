@@ -10,7 +10,7 @@ const StyledAutocomplete = styled(Autocomplete)({
 export default function ItemAutoComplete() {
   const top100Films = [
     '전체',
-    ...useSelector((state) => state.filter.itemList).map((item) => item.name),
+    ...useSelector((state) => state.filterList.itemList).map((item) => item.name),
   ];
   const item = useSelector((state) => state.filter.item);
   const dispatch = useDispatch();

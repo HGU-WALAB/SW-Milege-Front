@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { clearCategory } from './filter';
+
 const initialState = {
   componentNum: 0,
 };

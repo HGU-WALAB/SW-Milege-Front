@@ -263,14 +263,6 @@ export default function MileageCategory({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const dispatch = useDispatch();
 
-  dispatch(
-    setItemList(
-      fetchData.items.map((item) => {
-        return { id: item.id, name: item.name };
-      })
-    )
-  );
-
   const convertedFetchList = fetchData.items?.map((item) => {
     const beforeData = {
       [NUM]: item.id,

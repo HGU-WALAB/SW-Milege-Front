@@ -11,7 +11,7 @@ const StyledAutocomplete = styled(Autocomplete)({
 export default function CategoryAutoComplete() {
   const top100Films = [
     '전체',
-    ...useSelector((state) => state.filter.categoryList.map((category) => category.name)),
+    ...useSelector((state) => state.filterList.categoryList.map((category) => category.name)),
   ];
 
   const value = useSelector((state) => state.filter.category);

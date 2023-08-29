@@ -22,6 +22,15 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
 import { clearSelectedId } from 'src/redux/slices/data';
+import {
+  clearCategory,
+  clearDepartment,
+  clearGrade,
+  clearIsVisible,
+  clearItem,
+  clearSemester,
+  clearStudentName,
+} from 'src/redux/slices/filter';
 
 const drawerWidth = 240;
 
@@ -75,7 +84,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
   // const [component, setComponent] = React.useState(0);
   const dispatch = useDispatch();
-  const clearSelected = () => dispatch(clearSelectedId());
+  const clearSelected = () => {
+    dispatch(clearCategory());
+    dispatch(clearSemester());
+    dispatch(clearIsVisible());
+    dispatch(clearItem());
+    dispatch(clearStudentName());
+    dispatch(clearGrade());
+    dispatch(clearDepartment());
+  };
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 

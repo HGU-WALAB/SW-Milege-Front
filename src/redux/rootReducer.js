@@ -11,6 +11,7 @@ import kanbanReducer from './slices/kanban';
 import filterReducer from './slices/filter';
 import dataReducer from './slices/data';
 import componentReducer from './slices/component';
+import filterListReducer from './slices/filterList';
 
 // ----------------------------------------------------------------------
 
@@ -36,8 +37,8 @@ export const rootPersistConfig = {
   key: 'root',
   storage,
   keyPrefix: 'redux-',
-  blacklist: ['modal', 'data'],
-  whitelist: ['component', 'filter'],
+  blacklist: ['filter', 'modal', 'data'],
+  whitelist: ['component', 'filterList'],
 };
 
 /**
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
   filter: filterReducer,
   data: dataReducer,
   component: componentReducer,
+  filterList: filterListReducer,
 });
 
 export default rootReducer;

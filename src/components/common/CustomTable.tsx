@@ -22,7 +22,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
-import { Autocomplete, TablePagination, TextField, useMediaQuery, styled } from '@mui/material';
+import {
+  Autocomplete,
+  TablePagination,
+  TextField,
+  useMediaQuery,
+  styled,
+  Button,
+} from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
@@ -55,6 +62,9 @@ import GradeDropdown from './Filter/GradeDropdown';
 import DepartmentDropdown from './Filter/DepartmentDropDown';
 import { useRouter } from 'next/router';
 import Filtering from './Filter/Filtering';
+import Link from 'next/link';
+import { setComponentNum } from 'src/redux/slices/component';
+import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
 
 /**
  *  @brief 반응형 구축
@@ -229,9 +239,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
   return (
     <Box>
-      <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        {type} {' 리스트'}
-      </Typography>
+      <TitleAndRefreshButton type={type} />
 
       {/* 필터링 */}
 

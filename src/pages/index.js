@@ -28,7 +28,7 @@ import {
   setItemList,
   setStudentList,
   setStudentNameList,
-} from 'src/redux/slices/filter';
+} from 'src/redux/slices/filterList';
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------

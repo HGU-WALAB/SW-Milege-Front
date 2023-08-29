@@ -116,17 +116,6 @@ export default function MileageCategory({
   const dispatch = useDispatch();
 
   /**
-   * @breif 마일리지 카테고리 필터링 형성
-   */
-  dispatch(
-    setCategoryList(
-      fetchData.categories.map((category) => {
-        return { id: category.id, name: category.name };
-      })
-    )
-  );
-
-  /**
    * @brief 마일리지 카테고리 리스트 데이터
    */
 
