@@ -9,19 +9,19 @@ export default function StudentNameAutoComplete() {
   const studentName = useSelector((state) => state.filter.studentName);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(studentName);
-  }, [studentName]);
-
+  const handleChange = (event, newValue) => {
+    dispatch(setStudentName(newValue));
+  };
   return (
     <Autocomplete
-      sx={{ minWidth: '200px' }}
+      sx={{ minWidth: '150px' }}
+      size="small"
       value={studentName}
       disablePortal
       id="combo-box-demo"
       options={top100Films}
       renderInput={(params) => <TextField {...params} label="학생명" />}
-      onChange={(e, newValue) => dispatch(setStudentName(newValue))}
+      onChange={(e, newValue) => handleChange(e, newValue)}
     />
   );
 }

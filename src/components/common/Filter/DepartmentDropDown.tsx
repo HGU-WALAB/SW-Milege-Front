@@ -22,10 +22,6 @@ export default function DepartmentDropdown() {
   const department = useSelector((state) => state.filter.department);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(department);
-  }, [department]);
-
   const handleChange = (event) => {
     dispatch(setDepartment(event.target.value));
     console.log(event.target.value);

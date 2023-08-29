@@ -34,10 +34,6 @@ export default function GradeDropdown() {
   const grade = useSelector((state) => state.filter.grade);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(grade);
-  }, [grade]);
-
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(setGrade(event.target.value));
     console.log(event.target.value);

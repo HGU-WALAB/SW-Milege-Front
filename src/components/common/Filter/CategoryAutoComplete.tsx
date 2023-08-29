@@ -16,19 +16,19 @@ export default function CategoryAutoComplete() {
   const value = useSelector((state) => state.filter.category);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
+  const handleChange = (event, newValue) => {
+    dispatch(setCategory(newValue));
+  };
 
   return (
     <Autocomplete
-      sx={{ minWidth: '200px' }}
+      size="small"
       value={value}
       disablePortal
       id="combo-box-demo"
       options={top100Films}
       renderInput={(params) => <TextField {...params} label="카테고리" />}
-      onChange={(e, newValue) => dispatch(setCategory(newValue))}
+      onChange={(e, newValue) => handleChange(e, newValue)}
     />
   );
 }

@@ -1,7 +1,11 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, styled } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSemester } from 'src/redux/slices/filter';
+
+const StyledSelect = styled(Select)({
+  width: '120px',
+});
 
 const SEMESTERS = [
   '전체',
@@ -29,10 +33,12 @@ export default function SemesterDropdown() {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">학기</InputLabel>
-        <Select
+        <StyledSelect
+          size="small"
+          sx={{ width: '120px' }}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={semester}
@@ -42,7 +48,7 @@ export default function SemesterDropdown() {
           {SEMESTERS.map((semester, index) => (
             <MenuItem value={semester}>{semester}</MenuItem>
           ))}
-        </Select>
+        </StyledSelect>
       </FormControl>
     </Box>
   );
