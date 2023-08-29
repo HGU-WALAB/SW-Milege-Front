@@ -32,6 +32,7 @@ export default function GradeDropdown() {
           <MenuItem value={'2'}>2학년</MenuItem>
           <MenuItem value={'3'}>3학년</MenuItem>
           <MenuItem value={'4'}>4학년</MenuItem>
+          <MenuItem value={'5'}>5학년</MenuItem>
         </Select>
       </FormControl>
     </Box>

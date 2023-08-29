@@ -326,7 +326,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const isVisible = useSelector((state) => state.filter.isVisible);
   const item = useSelector((state) => state.filter.item);
   const studentName = useSelector((state) => state.filter.studentName);
-  // const grade = useSelector((state) => state.filter.grade);
+  const grade = useSelector((state) => state.filter.grade);
   // const department = useSelector((state) => state.filter.department);
   /**
    * @brief 필터링
@@ -350,12 +350,15 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (studentName && studentName !== '전체') {
       copyRows = copyRows.filter((row) => row.studentName === studentName);
     }
+    if (grade && grade !== '전체') {
+      copyRows = copyRows.filter((row) => row.grade?.slice(0, 1) === grade);
+    }
     setRows(copyRows);
 
     // !category
     //   ? setRows(originalRows)
     //   : setRows(originalRows.filter((row) => row.category === category));
-  }, [category, semester, isVisible, item, studentName]);
+  }, [category, semester, isVisible, item, studentName, grade]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
