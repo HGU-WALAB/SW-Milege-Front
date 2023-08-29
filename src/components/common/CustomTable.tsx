@@ -52,6 +52,7 @@ import ItemAutoComplete from './Filter/ItemAutoComplete';
 import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
 import StudentNameDropdown from './Filter/StudentNameAutoComplete';
 import GradeDropdown from './Filter/GradeDropdown';
+import DepartmentDropdown from './Filter/DepartmentDropDown';
 
 /**
  *  @brief 반응형 구축
@@ -243,6 +244,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         <ItemAutoComplete />
         <StudentNameDropdown />
         <GradeDropdown />
+        <DepartmentDropdown />
       </Box>
 
       {/* 학기 필터링 */}
@@ -327,7 +329,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const item = useSelector((state) => state.filter.item);
   const studentName = useSelector((state) => state.filter.studentName);
   const grade = useSelector((state) => state.filter.grade);
-  // const department = useSelector((state) => state.filter.department);
+  const department = useSelector((state) => state.filter.department);
   /**
    * @brief 필터링
    */
@@ -353,12 +355,15 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (grade && grade !== '전체') {
       copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
     }
+    if (department && department !== '전체') {
+      copyRows = copyRows.filter((row) => row.department === department);
+    }
     setRows(copyRows);
 
     // !category
     //   ? setRows(originalRows)
     //   : setRows(originalRows.filter((row) => row.category === category));
-  }, [category, semester, isVisible, item, studentName, grade]);
+  }, [category, semester, isVisible, item, studentName, grade, department]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
