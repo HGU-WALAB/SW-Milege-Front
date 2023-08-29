@@ -67,12 +67,12 @@ const ResponsiveTable = styled(Box)({
 //     padding: 0,
 //   },
 // });
-const ResponsiveTableHeadTableCell = styled(TableCell)({
-  // '@media (max-width: 600px)': {
-  //   padding: 0,
-  // },
-  minWidth: '130px',
-});
+// const ResponsiveTableHeadTableCell = styled(TableCell)({
+//   // '@media (max-width: 600px)': {
+//   //   padding: 0,
+//   // },
+//   minWidth: '130px',
+// });
 
 // // const ResponsiveTableBody = styled(TableCell)({
 

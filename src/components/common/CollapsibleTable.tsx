@@ -20,6 +20,11 @@ import {
   DESCRIPTION2,
   STUDENT_NAME,
 } from 'src/assets/data/fields';
+import { styled } from '@mui/material';
+
+const ResponsiveHeadCell = styled(TableCell)({
+  minWidth: '110px',
+});
 
 function Row({ row }) {
   const [open, setOpen] = React.useState(false);
@@ -96,9 +101,9 @@ export default function CollapsibleTable({ rows, type }) {
             <TableRow>
               {['', '번호', '학기', '항목', '등록 학생 수', '추가'].map(
                 (outerHeadElement, index) => (
-                  <TableCell align="left" key={index}>
+                  <ResponsiveHeadCell align="left" key={index}>
                     {outerHeadElement}
-                  </TableCell>
+                  </ResponsiveHeadCell>
                 )
               )}
             </TableRow>
