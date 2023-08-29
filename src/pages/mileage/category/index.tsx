@@ -92,6 +92,7 @@ const IParams = {
 import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
+import { setCategoryList } from 'src/redux/slices/filter';
 
 interface IGetMileageCategory {
   id: number;
@@ -114,6 +115,17 @@ export default function MileageCategory({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const data = useSelector((state) => state.data.mileageCategoryList);
   const dispatch = useDispatch();
+
+  /**
+   * @breif 마일리지 카테고리 필터링 형성
+   */
+  dispatch(
+    setCategoryList(
+      fetchData.categories.map((category) => {
+        return { id: category.id, name: category.name };
+      })
+    )
+  );
 
   const convertedFetchList = fetchData.categories?.map((item) => {
     const beforeData = {

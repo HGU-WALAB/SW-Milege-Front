@@ -8,16 +8,12 @@ const StyledAutocomplete = styled(Autocomplete)({
   minWidth: '200px',
 });
 
-const top100Films = [
-  '전체',
-  '전공 마일리지',
-  '비교과 - 연구활동',
-  '비교과 - 특강참여',
-  '비교과 - 학회활동',
-  '비교과 - 행사참여',
-];
-
 export default function CategoryAutoComplete() {
+  const top100Films = [
+    '전체',
+    ...useSelector((state) => state.filter.categoryList.map((category) => category.name)),
+  ];
+
   const value = useSelector((state) => state.filter.category);
   const dispatch = useDispatch();
 

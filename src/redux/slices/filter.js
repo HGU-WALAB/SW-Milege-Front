@@ -8,6 +8,10 @@ const initialState = {
   studentName: '전체',
   grade: '전체',
   department: '전체',
+  categoryList: [],
+  semesterList: [], // 애매
+  itemList: [],
+  studentNameList: [],
 };
 
 const slice = createSlice({
@@ -56,6 +60,18 @@ const slice = createSlice({
     clearDepartment: (state) => {
       state.department = '전체';
     },
+    setCategoryList: (state, action) => {
+      state.categoryList = action.payload;
+    },
+    setSemesterList: (state, action) => {
+      state.semesterList = action.payload;
+    },
+    setItemList: (state, action) => {
+      state.itemList = action.payload;
+    },
+    setStudentNameList: (state, action) => {
+      state.studentNameList = action.payload;
+    },
   },
 });
 
@@ -75,5 +91,9 @@ export const {
   clearGrade,
   setDepartment,
   clearDepartment,
+  setCategoryList,
+  setSemesterList,
+  setItemList,
+  setStudentNameList,
 } = slice.actions;
 export default slice.reducer;
