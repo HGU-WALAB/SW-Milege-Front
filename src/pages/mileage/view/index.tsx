@@ -250,5 +250,5 @@ export default function MileageView({
     );
   });
 
-  return <EnhancedTable originalRows={[]} headCells={headCells} type="마일리지 조회" />;
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 조회" />;
 }
