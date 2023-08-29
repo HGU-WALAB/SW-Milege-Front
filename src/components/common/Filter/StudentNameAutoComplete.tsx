@@ -1,11 +1,15 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, styled } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setStudentName } from 'src/redux/slices/filter';
 
-export default function StudentNameAutoComplete() {
-  const top100Films = ['오인혁', '오인혁2', '한시온', '김민수', '장유진'];
+const StyledAutocomplete = styled(Autocomplete)({
+  width: '150px',
+});
 
+const top100Films = ['오인혁', '오인혁2', '한시온', '김민수', '장유진'];
+
+export default function StudentNameAutoComplete() {
   const studentName = useSelector((state) => state.filter.studentName);
   const dispatch = useDispatch();
 
@@ -13,8 +17,7 @@ export default function StudentNameAutoComplete() {
     dispatch(setStudentName(newValue));
   };
   return (
-    <Autocomplete
-      sx={{ minWidth: '150px' }}
+    <StyledAutocomplete
       size="small"
       value={studentName}
       disablePortal

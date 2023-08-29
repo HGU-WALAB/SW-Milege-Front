@@ -3,10 +3,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsVisible, setSemester } from 'src/redux/slices/filter';
 
-const StyledSelect = styled(Select)({
-  width: '80px',
-});
-
 const ISVISIBLES = [
   {
     text: '전체',
@@ -35,7 +31,7 @@ export default function IsVisibleDropdown() {
     <Box>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">보이기</InputLabel>
-        <StyledSelect
+        <Select
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -46,7 +42,7 @@ export default function IsVisibleDropdown() {
           {ISVISIBLES.map((isVisible, index) => (
             <MenuItem value={isVisible.value}>{isVisible.text}</MenuItem>
           ))}
-        </StyledSelect>
+        </Select>
       </FormControl>
     </Box>
   );

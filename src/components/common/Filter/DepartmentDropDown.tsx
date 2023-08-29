@@ -1,7 +1,11 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, styled } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDepartment, department } from 'src/redux/slices/filter';
+
+const StyledSelect = styled(Select)({
+  width: '200px',
+});
 
 const DEPARTMENTS = [
   '전체',
@@ -28,10 +32,11 @@ export default function DepartmentDropdown() {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">학부</InputLabel>
         <Select
+          size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={department}

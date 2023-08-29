@@ -3,10 +3,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGrade } from 'src/redux/slices/filter';
 
-const StyledSelect = styled(Select)({
-  width: '100px',
-});
-
 const GRADES = [
   {
     text: '전체',
@@ -47,7 +43,7 @@ export default function GradeDropdown() {
     <Box>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">학년</InputLabel>
-        <StyledSelect
+        <Select
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -58,7 +54,7 @@ export default function GradeDropdown() {
           {GRADES.map((grade, index) => (
             <MenuItem value={grade.value}>{grade.text}</MenuItem>
           ))}
-        </StyledSelect>
+        </Select>
       </FormControl>
     </Box>
   );
