@@ -1,7 +1,11 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, styled } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setItem } from 'src/redux/slices/filter';
+
+const StyledAutocomplete = styled(Autocomplete)({
+  width: '230px',
+});
 
 const top100Films = [
   '전체',
@@ -21,8 +25,8 @@ export default function ItemAutoComplete() {
   };
 
   return (
-    <Autocomplete
-      sx={{ minWidth: '200px' }}
+    <StyledAutocomplete
+      size="small"
       value={item}
       disablePortal
       id="combo-box-demo"
