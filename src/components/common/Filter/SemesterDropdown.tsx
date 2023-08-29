@@ -3,6 +3,18 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSemester } from 'src/redux/slices/filter';
 
+const SEMESTERS = [
+  '전체',
+  '2020-01',
+  '2020-02',
+  '2021-01',
+  '2021-02',
+  '2022-01',
+  '2022-02',
+  '2023-01',
+  '2023-02',
+];
+
 export default function SemesterDropdown() {
   const semester = useSelector((state) => state.filter.semester);
   const dispatch = useDispatch();
@@ -27,15 +39,9 @@ export default function SemesterDropdown() {
           label="학기"
           onChange={handleChange}
         >
-          <MenuItem value={'전체'}>전체</MenuItem>
-          <MenuItem value={'2020-01'}>2020-01</MenuItem>
-          <MenuItem value={'2020-02'}>2020-02</MenuItem>
-          <MenuItem value={'2021-01'}>2021-01</MenuItem>
-          <MenuItem value={'2021-02'}>2021-02</MenuItem>
-          <MenuItem value={'2022-01'}>2022-01</MenuItem>
-          <MenuItem value={'2022-02'}>2022-02</MenuItem>
-          <MenuItem value={'2023-01'}>2023-01</MenuItem>
-          <MenuItem value={'2023-01'}>2023-02</MenuItem>
+          {SEMESTERS.map((semester, index) => (
+            <MenuItem value={semester}>{semester}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>
