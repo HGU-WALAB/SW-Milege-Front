@@ -27,6 +27,7 @@ export const DEPARTMENT = 'department';
 export const MAJOR = 'major';
 export const FREQUENCY = 'frequency';
 export const ACCEPT = 'accept';
+export const APPROVE = 'approve';
 export const REJECT = 'reject';
 export const SCHOLARSHIP = 'scholarship';
 
@@ -63,3 +64,4 @@ export const SEMESTERITEMID = 'semesterItemId';
 export const SEMESTER_NAME = 'semesterName';
 export const ITEM_NAME = 'itemName';
 export const STUDENT_ID = 'studentId';
+export const CATEGORY_NAME = 'categoryName';

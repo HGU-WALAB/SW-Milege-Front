@@ -142,7 +142,7 @@ export const engToKor = (eng) => {
     case SEMESTER:
       return '학기';
     case ITEM:
-      return '항목';
+      return '항목 이름';
     case MILEAGE:
       return '마일리지';
     case MAX_MAILEAGE:

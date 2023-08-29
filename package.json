@@ -81,6 +81,7 @@
     "react-slick": "^0.29.0",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
+    "redux-persist-transform-filter": "^0.0.22",
     "rehype-highlight": "^6.0.0",
     "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",

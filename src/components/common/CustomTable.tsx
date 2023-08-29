@@ -22,7 +22,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
-import { Autocomplete, TablePagination, TextField, styled, useMediaQuery } from '@mui/material';
+import {
+  Autocomplete,
+  TablePagination,
+  TextField,
+  useMediaQuery,
+  styled,
+  Button,
+} from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
@@ -50,13 +57,21 @@ import { id } from 'date-fns/locale';
 import IsVisibleDropdown from './Filter/IsVisibleDropdown';
 import ItemAutoComplete from './Filter/ItemAutoComplete';
 import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
+import StudentNameDropdown from './Filter/StudentNameAutoComplete';
+import GradeDropdown from './Filter/GradeDropdown';
+import DepartmentDropdown from './Filter/DepartmentDropDown';
+import { useRouter } from 'next/router';
+import Filtering from './Filter/Filtering';
+import Link from 'next/link';
+import { setComponentNum } from 'src/redux/slices/component';
+import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
 
 /**
  *  @brief 반응형 구축
  */
 
 const ResponsiveTable = styled(Box)({
-  minWidth: '900px',
+  // minWidth: '1000px',
   overflowX: 'scroll',
 });
 // const ResponsiveTableHeadCheckBox = styled(TableCell)({
@@ -64,20 +79,18 @@ const ResponsiveTable = styled(Box)({
 //     padding: 0,
 //   },
 // });
-const ResponsiveTableHeadTableCell = styled(TableCell)({
-  // '@media (max-width: 600px)': {
-  //   padding: 0,
-  // },
-  minWidth: '130px',
-});
+// const ResponsiveTableHeadTableCell = styled(TableCell)({
+//   // '@media (max-width: 600px)': {
+//   //   padding: 0,
+//   // },
+//   minWidth: '130px',
+// });
 
 // // const ResponsiveTableBody = styled(TableCell)({
 
 // const ResponsiveTableHeadLabel = styled(TableSortLabel)({
 //   '@media (max-width: 600px)': {
-//     fontSize: '10px',
-
-//     display: 'inline',
+//     fontSize: '13px',
 //   },
 // });
 
@@ -91,9 +104,13 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 //   '@media (max-width: 600px)': {
 //     padding: 0,
 
-//     fontSize: '10px',
+//     fontSize: '13px',
 //   },
 // });
+
+const ResponsiveHeaderCell = styled(TableCell)({
+  minWidth: '110px',
+});
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -176,15 +193,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={'right'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableCell
+            <ResponsiveHeaderCell
               /**
                * @breif 반응형
                */
-
+              align={'left'}
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
@@ -195,7 +212,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
-            </TableCell>
+            </ResponsiveHeaderCell>
           </TableCell>
         ))}
       </TableRow>
@@ -219,27 +236,15 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   React.useEffect(() => {
     console.log(value);
   }, [value]);
+
   return (
     <Box>
-      <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        {type} {' 리스트'}
-      </Typography>
+      <TitleAndRefreshButton type={type} />
 
       {/* 필터링 */}
 
       {/* 카테고리 필터링 */}
-      <Box
-        sx={{
-          display: 'flex',
-          width: '100%',
-          gap: '10px',
-        }}
-      >
-        <CategoryAutoComplete />
-        <SemesterDropdown />
-        <IsVisibleDropdown />
-        <ItemAutoComplete />
-      </Box>
+      <Filtering />
 
       {/* 학기 필터링 */}
 
@@ -311,7 +316,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
   const [rows, setRows] = React.useState(originalRows);
-  console.log(rows, originalRows);
+  console.log('debug', rows, originalRows);
 
   /**
    * @brief 필터링 요소
@@ -321,6 +326,9 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const semester = useSelector((state) => state.filter.semester);
   const isVisible = useSelector((state) => state.filter.isVisible);
   const item = useSelector((state) => state.filter.item);
+  const studentName = useSelector((state) => state.filter.studentName);
+  const grade = useSelector((state) => state.filter.grade);
+  const department = useSelector((state) => state.filter.department);
   /**
    * @brief 필터링
    */
@@ -340,12 +348,21 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (item && item !== '전체') {
       copyRows = copyRows.filter((row) => row.item === item);
     }
+    if (studentName && studentName !== '전체') {
+      copyRows = copyRows.filter((row) => row.studentName === studentName);
+    }
+    if (grade && grade !== '전체') {
+      copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
+    }
+    if (department && department !== '전체') {
+      copyRows = copyRows.filter((row) => row.department === department);
+    }
     setRows(copyRows);
 
     // !category
     //   ? setRows(originalRows)
     //   : setRows(originalRows.filter((row) => row.category === category));
-  }, [category, semester, isVisible, item]);
+  }, [category, semester, isVisible, item, studentName, grade, department]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');

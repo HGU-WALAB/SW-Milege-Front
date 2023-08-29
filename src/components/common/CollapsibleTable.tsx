@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { ADD, ITEM, NUM, REGISTER_NUM, SEMESTER } from '../../assets/data/fields';
+import { ADD, CATEGORY_NAME, ITEM, NUM, REGISTER_NUM, SEMESTER } from '../../assets/data/fields';
 import {
   STUDENT_ID,
   POINTS,
@@ -20,9 +20,15 @@ import {
   DESCRIPTION2,
   STUDENT_NAME,
 } from 'src/assets/data/fields';
+import { styled } from '@mui/material';
+import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
+import Filtering from './Filter/Filtering';
+
+const ResponsiveHeadCell = styled(TableCell)({
+  minWidth: '110px',
+});
 
 function Row({ row }) {
-  console.log('dd', row);
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -33,7 +39,7 @@ function Row({ row }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        {[row[NUM], row[SEMESTER], row[ITEM], row[REGISTER_NUM], row[ADD]].map(
+        {[row[NUM], row[SEMESTER], row[CATEGORY_NAME], row[ITEM], row[REGISTER_NUM], row[ADD]].map(
           (outerBodyElement, index) => (
             <TableCell align="left" key={index}>
               {outerBodyElement}
@@ -88,18 +94,17 @@ function Row({ row }) {
 export default function CollapsibleTable({ rows, type }) {
   return (
     <>
-      <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        {type} {' 리스트'}
-      </Typography>
-      <TableContainer component={Paper} sx={{ minWidth: '500px', overflowX: 'scroll' }}>
+      <TitleAndRefreshButton type={type} />
+
+      <TableContainer component={Paper} sx={{ overflowX: 'scroll' }}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              {['', '번호', '학기', '항목', '등록 학생 수', '추가'].map(
+              {['', '번호', '학기', '카테고리명', '항목', '등록 학생 수', '추가'].map(
                 (outerHeadElement, index) => (
-                  <TableCell align="left" key={index}>
+                  <ResponsiveHeadCell align="left" key={index}>
                     {outerHeadElement}
-                  </TableCell>
+                  </ResponsiveHeadCell>
                 )
               )}
             </TableRow>

@@ -289,8 +289,8 @@ export default function StudentManage({
       student[MOBILE],
       student[DEPARTMENT],
       student[MAJOR1] + ' / ' + student[MAJOR2],
-      student[LASTLOGINDATE].split('T')[0],
-      student[REGDATE].split('T')[0],
+      student[LASTLOGINDATE]?.split('T')[0],
+      student[REGDATE]?.split('T')[0],
       student[ISAPPROVED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );

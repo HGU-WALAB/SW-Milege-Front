@@ -216,39 +216,6 @@ interface Data {
   [MileageViewBoard.REGISTERED_DATE]: string;
 }
 
-interface IGetMileageCategory {
-  id: number;
-  name: string;
-  maxPoints: number;
-}
-
-export const getServerSideProps: GetServerSideProps<{
-  fetchData: IGetMileageCategory[];
-}> = async () => {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const res = await axiosInstance.get('/api/mileage/records');
-  const fetchData = res.data;
-  console.log(fetchData);
-  return { props: { fetchData } };
-};
-
-export default function MileageView({
-  fetchData,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const convertedFetchList = fetchData.categories?.map((item) => {
-    const beforeData = {
-      [NUM]: item.id,
-      [CATEGORY]: item.name,
-      [DESCRIPTION]: 'descriptionTest',
-      [MAX_MILEAGE]: item.maxPoints,
-    };
-    return createData(
-      item.id,
-      item.name,
-      item.maxPoints,
-      <SWModal type={EDITCATEGORY} beforeData={beforeData} />
-    );
-  });
-
-  return <EnhancedTable originalRows={[]} headCells={headCells} type="마일리지 조회" />;
+export default function MileageView() {
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 조회" />;
 }
