@@ -5,6 +5,7 @@ import { setSemester } from 'src/redux/slices/filter';
 
 const SEMESTERS = [
   '전체',
+
   '2020-01',
   '2020-02',
   '2021-01',
@@ -13,6 +14,12 @@ const SEMESTERS = [
   '2022-02',
   '2023-01',
   '2023-02',
+  '2024-01',
+  '2024-02',
+  '2025-01',
+  '2025-02',
+  '2026-01',
+  '2026-02',
 ];
 
 export default function SemesterDropdown() {

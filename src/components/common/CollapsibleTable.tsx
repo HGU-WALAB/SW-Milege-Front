@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { ADD, ITEM, NUM, REGISTER_NUM, SEMESTER } from '../../assets/data/fields';
+import { ADD, CATEGORY_NAME, ITEM, NUM, REGISTER_NUM, SEMESTER } from '../../assets/data/fields';
 import {
   STUDENT_ID,
   POINTS,
@@ -37,7 +37,7 @@ function Row({ row }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        {[row[NUM], row[SEMESTER], row[ITEM], row[REGISTER_NUM], row[ADD]].map(
+        {[row[NUM], row[SEMESTER], row[CATEGORY_NAME], row[ITEM], row[REGISTER_NUM], row[ADD]].map(
           (outerBodyElement, index) => (
             <TableCell align="left" key={index}>
               {outerBodyElement}
@@ -99,7 +99,7 @@ export default function CollapsibleTable({ rows, type }) {
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              {['', '번호', '학기', '항목', '등록 학생 수', '추가'].map(
+              {['', '번호', '학기', '카테고리명', '항목', '등록 학생 수', '추가'].map(
                 (outerHeadElement, index) => (
                   <ResponsiveHeadCell align="left" key={index}>
                     {outerHeadElement}
