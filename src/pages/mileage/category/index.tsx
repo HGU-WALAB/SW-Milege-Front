@@ -113,7 +113,6 @@ export const getServerSideProps: GetServerSideProps<{
 export default function MileageCategory({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const data = useSelector((state) => state.data.mileageCategoryList);
   const dispatch = useDispatch();
 
   /**
@@ -126,6 +125,10 @@ export default function MileageCategory({
       })
     )
   );
+
+  /**
+   * @brief 마일리지 카테고리 리스트 데이터
+   */
 
   const convertedFetchList = fetchData.categories?.map((item) => {
     const beforeData = {

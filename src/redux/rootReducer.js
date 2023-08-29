@@ -36,8 +36,8 @@ export const rootPersistConfig = {
   key: 'root',
   storage,
   keyPrefix: 'redux-',
-  blacklist: ['filter', 'modal', 'data'],
-  whitelist: ['component'],
+  blacklist: ['modal', 'data'],
+  whitelist: ['component', 'filter'],
 };
 
 /**

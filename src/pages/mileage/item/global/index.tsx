@@ -226,7 +226,7 @@ const rows = [
 import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
-import { setSemesterList } from 'src/redux/slices/filter';
+import { setItemList, setSemesterList } from 'src/redux/slices/filter';
 
 interface ICategory {
   id: number;
@@ -261,13 +261,15 @@ export const getServerSideProps: GetServerSideProps<{
 export default function MileageCategory({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  /**
-   * 리액트 메모를 쓰거나 하면 성능 최적화가 될것 같은..
-   */
-  const data = useSelector((state) => state.data.mileageGlobalList);
   const dispatch = useDispatch();
 
-  console.log(fetchData);
+  dispatch(
+    setItemList(
+      fetchData.items.map((item) => {
+        return { id: item.id, name: item.name };
+      })
+    )
+  );
 
   const convertedFetchList = fetchData.items?.map((item) => {
     const beforeData = {

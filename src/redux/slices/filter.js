@@ -11,7 +11,7 @@ const initialState = {
   categoryList: [],
   semesterList: [], // 애매
   itemList: [],
-  studentNameList: [],
+  studentList: [],
 };
 
 const slice = createSlice({
@@ -69,8 +69,8 @@ const slice = createSlice({
     setItemList: (state, action) => {
       state.itemList = action.payload;
     },
-    setStudentNameList: (state, action) => {
-      state.studentNameList = action.payload;
+    setStudentList: (state, action) => {
+      state.studentList = action.payload;
     },
   },
 });
@@ -94,6 +94,6 @@ export const {
   setCategoryList,
   setSemesterList,
   setItemList,
-  setStudentNameList,
+  setStudentList,
 } = slice.actions;
 export default slice.reducer;

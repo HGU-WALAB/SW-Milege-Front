@@ -7,9 +7,12 @@ const StyledAutocomplete = styled(Autocomplete)({
   minWidth: '150px',
 });
 
-const top100Films = ['오인혁', '오인혁2', '한시온', '김민수', '장유진'];
-
 export default function StudentNameAutoComplete() {
+  const top100Films = [
+    '전체',
+    ...useSelector((state) => state.filter.studentList).map((student) => student.name),
+  ];
+
   const studentName = useSelector((state) => state.filter.studentName);
   const dispatch = useDispatch();
 

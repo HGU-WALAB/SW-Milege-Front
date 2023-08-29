@@ -7,16 +7,11 @@ const StyledAutocomplete = styled(Autocomplete)({
   minWidth: '230px',
 });
 
-const top100Films = [
-  '전체',
-  '웹 서비스 캠프',
-  'pps 캠프',
-  'c언어 캠프',
-  '대경권 프로그래밍 대회',
-  '와랩 스터디',
-];
-
 export default function ItemAutoComplete() {
+  const top100Films = [
+    '전체',
+    ...useSelector((state) => state.filter.itemList).map((item) => item.name),
+  ];
   const item = useSelector((state) => state.filter.item);
   const dispatch = useDispatch();
 
