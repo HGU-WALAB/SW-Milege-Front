@@ -3,6 +3,33 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGrade } from 'src/redux/slices/filter';
 
+const GRADES = [
+  {
+    text: '전체',
+    value: '전체',
+  },
+  {
+    text: '1학년',
+    value: '1',
+  },
+  {
+    text: '2학년',
+    value: '2',
+  },
+  {
+    text: '3학년',
+    value: '3',
+  },
+  {
+    text: '4학년',
+    value: '4',
+  },
+  {
+    text: '5학년',
+    value: '5',
+  },
+];
+
 export default function GradeDropdown() {
   const grade = useSelector((state) => state.filter.grade);
   const dispatch = useDispatch();
@@ -27,12 +54,9 @@ export default function GradeDropdown() {
           label="학년"
           onChange={handleChange}
         >
-          <MenuItem value={'전체'}>전체</MenuItem>
-          <MenuItem value={'1'}>1학년</MenuItem>
-          <MenuItem value={'2'}>2학년</MenuItem>
-          <MenuItem value={'3'}>3학년</MenuItem>
-          <MenuItem value={'4'}>4학년</MenuItem>
-          <MenuItem value={'5'}>5학년</MenuItem>
+          {GRADES.map((grade, index) => (
+            <MenuItem value={grade.value}>{grade.text}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>
