@@ -22,7 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { StarIcon } from 'src/theme/overrides/CustomIcons';
-import { Autocomplete, TablePagination, TextField, styled, useMediaQuery } from '@mui/material';
+import { Autocomplete, TablePagination, TextField, useMediaQuery, styled } from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
@@ -76,11 +76,11 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 
 // // const ResponsiveTableBody = styled(TableCell)({
 
-const ResponsiveTableHeadLabel = styled(TableSortLabel)({
-  '@media (max-width: 600px)': {
-    fontSize: '13px',
-  },
-});
+// const ResponsiveTableHeadLabel = styled(TableSortLabel)({
+//   '@media (max-width: 600px)': {
+//     fontSize: '13px',
+//   },
+// });
 
 // const RsponsiveTableBodyCheckBox = styled(TableCell)({
 //   '@media (max-width: 600px)': {
@@ -88,12 +88,24 @@ const ResponsiveTableHeadLabel = styled(TableSortLabel)({
 //   },
 // });
 
-const ResponsiveTableBody = styled(TableCell)({
-  '@media (max-width: 600px)': {
-    padding: 0,
+// const ResponsiveTableBody = styled(TableCell)({
+//   '@media (max-width: 600px)': {
+//     padding: 0,
 
-    fontSize: '13px',
-  },
+//     fontSize: '13px',
+//   },
+// });
+
+const ResponsiveFilterBox = styled(Box)({
+  padding: '10px 0px',
+  overflowX: 'scroll',
+  display: 'flex',
+  width: '100%',
+  gap: '10px',
+});
+
+const ResponsiveHeaderCell = styled(TableCell)({
+  minWidth: '110px',
 });
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -181,12 +193,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableCell
+            <ResponsiveHeaderCell
               /**
                * @breif 반응형
                */
               align={'left'}
-              sx={{ minWidth: '110px' }}
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
@@ -197,7 +208,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
-            </TableCell>
+            </ResponsiveHeaderCell>
           </TableCell>
         ))}
       </TableRow>
@@ -230,15 +241,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       {/* 필터링 */}
 
       {/* 카테고리 필터링 */}
-      <Box
-        sx={{
-          py: '10px',
-          overflowX: 'scroll',
-          display: 'flex',
-          width: '100%',
-          gap: '10px',
-        }}
-      >
+      <ResponsiveFilterBox>
         <CategoryAutoComplete />
         <SemesterDropdown />
         <IsVisibleDropdown />
@@ -246,7 +249,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         <StudentNameDropdown />
         <GradeDropdown />
         <DepartmentDropdown />
-      </Box>
+      </ResponsiveFilterBox>
 
       {/* 학기 필터링 */}
 

@@ -22,7 +22,6 @@ import {
 } from 'src/assets/data/fields';
 
 function Row({ row }) {
-  console.log('dd', row);
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -91,7 +90,7 @@ export default function CollapsibleTable({ rows, type }) {
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
         {type} {' 리스트'}
       </Typography>
-      <TableContainer component={Paper} sx={{ minWidth: '500px', overflowX: 'scroll' }}>
+      <TableContainer component={Paper} sx={{ overflowX: 'scroll' }}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
