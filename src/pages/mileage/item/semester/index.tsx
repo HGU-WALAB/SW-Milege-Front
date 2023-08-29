@@ -267,7 +267,7 @@ export const getServerSideProps: GetServerSideProps<{
   fetchData: ISemesterItemList;
 }> = async () => {
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const res = await axiosInstance.get(`/api/mileage/semesters/2023-01/items`);
+  const res = await axiosInstance.get(`/api/mileage/semesters/2022-01/items`);
   const fetchData = res.data;
   console.log(fetchData);
   return { props: { fetchData } };

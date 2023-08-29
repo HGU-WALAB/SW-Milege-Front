@@ -55,40 +55,45 @@ import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
  *  @brief 반응형 구축
  */
 
-const ResponsiveTableHeadCheckBox = styled(TableCell)({
-  '@media (max-width: 600px)': {
-    padding: 0,
-  },
+const ResponsiveTable = styled(Box)({
+  minWidth: '900px',
+  overflowX: 'scroll',
 });
+// const ResponsiveTableHeadCheckBox = styled(TableCell)({
+//   '@media (max-width: 600px)': {
+//     padding: 0,
+//   },
+// });
 const ResponsiveTableHeadTableCell = styled(TableCell)({
-  '@media (max-width: 600px)': {
-    padding: 0,
-  },
+  // '@media (max-width: 600px)': {
+  //   padding: 0,
+  // },
+  minWidth: '130px',
 });
+
+// // const ResponsiveTableBody = styled(TableCell)({
+
+// const ResponsiveTableHeadLabel = styled(TableSortLabel)({
+//   '@media (max-width: 600px)': {
+//     fontSize: '10px',
+
+//     display: 'inline',
+//   },
+// });
+
+// const RsponsiveTableBodyCheckBox = styled(TableCell)({
+//   '@media (max-width: 600px)': {
+//     padding: 0,
+//   },
+// });
 
 // const ResponsiveTableBody = styled(TableCell)({
+//   '@media (max-width: 600px)': {
+//     padding: 0,
 
-const ResponsiveTableHeadLabel = styled(TableSortLabel)({
-  '@media (max-width: 600px)': {
-    fontSize: '10px',
-
-    display: 'inline',
-  },
-});
-
-const RsponsiveTableBodyCheckBox = styled(TableCell)({
-  '@media (max-width: 600px)': {
-    padding: 0,
-  },
-});
-
-const ResponsiveTableBody = styled(TableCell)({
-  '@media (max-width: 600px)': {
-    padding: 0,
-
-    fontSize: '10px',
-  },
-});
+//     fontSize: '10px',
+//   },
+// });
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -157,7 +162,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <ResponsiveTableHeadCheckBox padding="checkbox">
+        <TableCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -167,15 +172,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               'aria-label': 'select all desserts',
             }}
           />
-        </ResponsiveTableHeadCheckBox>
+        </TableCell>
         {headCells.map((headCell) => (
-          <ResponsiveTableHeadTableCell
+          <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <ResponsiveTableHeadLabel
+            <TableCell
               /**
                * @breif 반응형
                */
@@ -190,8 +195,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
-            </ResponsiveTableHeadLabel>
-          </ResponsiveTableHeadTableCell>
+            </TableCell>
+          </TableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -417,7 +422,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <ResponsiveTable>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} type={type} />
 
@@ -449,7 +454,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <RsponsiveTableBodyCheckBox padding="checkbox">
+                    <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -457,9 +462,9 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                           'aria-labelledby': labelId,
                         }}
                       />
-                    </RsponsiveTableBodyCheckBox>
+                    </TableCell>
 
-                    <ResponsiveTableBody
+                    <TableCell
                       /**
                        * @brief 반응형
                        */
@@ -470,11 +475,11 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                       padding="none"
                     >
                       {rowValues[0]}
-                    </ResponsiveTableBody>
+                    </TableCell>
 
                     {rowValues.slice(1).map((rowValue, index) => (
-                      <ResponsiveTableBody
-                        align="right"
+                      <TableCell
+                        align={'left'}
                         /**
                          * @brief 반응형
                          */
@@ -482,7 +487,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                         // sx={{ padding: 1 }}
                       >
                         {rowValue === true ? 'Y' : rowValue === false ? 'N' : rowValue}
-                      </ResponsiveTableBody>
+                      </TableCell>
                     ))}
                   </TableRow>
                 );
@@ -511,6 +516,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
-    </Box>
+    </ResponsiveTable>
   );
 }

@@ -27,4 +27,12 @@ module.exports = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: 'http://walab.handong.edu:8080/sw_mileage/download/api/excel/download/category',
+  //       destination: '/',
+  //     },
+  //   ];
+  // },
 };

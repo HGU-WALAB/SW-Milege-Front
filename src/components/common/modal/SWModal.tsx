@@ -29,11 +29,13 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMILEAGEREGISTER,
   ADDSTUDENT,
   DELETECATEGORY,
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
+  EDITMILEAGEREGISTER,
   EDITSTUDENT,
 } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -64,6 +66,10 @@ import {
   MOBILE,
   MAJOR1,
   MAJOR2,
+  SEMESTERITEMID,
+  COUNTS,
+  POINTS,
+  EXTRAPOINTS,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -75,6 +81,8 @@ import ItemForm from 'src/components/modalForm/GlobalItemForm';
 import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
 import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
 import StudentForm from 'src/components/modalForm/StudentForm';
+import MileageRegisterForm from 'src/components/modalForm/MileageRegisterForm';
+import { STUDENT_ID } from 'src/assets/data/fields';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -117,6 +125,11 @@ const modalForm = (modalType, beforeData) => {
       return <StudentForm beforeData={beforeData} />;
     case EDITSTUDENT:
       return <StudentForm beforeData={beforeData} />;
+    case ADDMILEAGEREGISTER:
+      return <MileageRegisterForm beforeData={beforeData} />;
+    case EDITMILEAGEREGISTER:
+      return <MileageRegisterForm beforeData={beforeData} />;
+
     default:
       return <div>default</div>;
   }
@@ -172,6 +185,20 @@ export const engToKor = (eng) => {
       return '전공1';
     case MAJOR2:
       return '전공2';
+    case SEMESTERITEMID:
+      return '학기별 세부 항목 ID';
+    case STUDENT_ID:
+      return '학번';
+    case COUNTS:
+      return '등록횟수';
+    case POINTS:
+      return '계싼된 점수';
+    case EXTRAPOINTS:
+      return '가산점';
+    case DESCRIPTION1:
+      return '설명1';
+    case DESCRIPTION2:
+      return '설명2';
   }
 };
 

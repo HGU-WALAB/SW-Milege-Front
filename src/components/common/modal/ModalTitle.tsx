@@ -4,6 +4,7 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMILEAGEREGISTER,
   ADDSTUDENT,
   DELETECATEGORY,
   DELETEITEM,
@@ -38,6 +39,10 @@ export default function ModalTitle() {
         return '학생 추가';
       case EDITSTUDENT:
         return '학생 수정';
+      case ADDMILEAGEREGISTER:
+        return '마일리지 등록';
+      case EDITMILEAGEREGISTER:
+        return '마일리지 수정';
     }
   };
 

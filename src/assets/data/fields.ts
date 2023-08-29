@@ -51,3 +51,15 @@ export const LASTLOGINDATE = 'lastLoginDate';
 export const REGDATE = 'regDate';
 export const ISAPPROVED = 'isApproved';
 export const MOBILE = 'mobile';
+
+export const STUDENTS = 'students';
+export const POINTS = 'points';
+export const EXTRAPOINTS = 'extraPoints';
+export const COUNTS = 'counts';
+export const ID = 'id';
+export const RECORD_ID = 'recordId';
+export const SEMESTERITEMID = 'semesterItemId';
+
+export const SEMESTER_NAME = 'semesterName';
+export const ITEM_NAME = 'itemName';
+export const STUDENT_ID = 'studentId';
