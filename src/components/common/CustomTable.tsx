@@ -56,7 +56,7 @@ import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
  */
 
 const ResponsiveTable = styled(Box)({
-  minWidth: '800px',
+  minWidth: '900px',
   overflowX: 'scroll',
 });
 // const ResponsiveTableHeadCheckBox = styled(TableCell)({
@@ -64,11 +64,12 @@ const ResponsiveTable = styled(Box)({
 //     padding: 0,
 //   },
 // });
-// const ResponsiveTableHeadTableCell = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
-//   },
-// });
+const ResponsiveTableHeadTableCell = styled(TableCell)({
+  // '@media (max-width: 600px)': {
+  //   padding: 0,
+  // },
+  minWidth: '130px',
+});
 
 // // const ResponsiveTableBody = styled(TableCell)({
 
@@ -478,7 +479,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
                     {rowValues.slice(1).map((rowValue, index) => (
                       <TableCell
-                        align="right"
+                        align={'left'}
                         /**
                          * @brief 반응형
                          */

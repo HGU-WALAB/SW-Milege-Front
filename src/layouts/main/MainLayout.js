@@ -6,6 +6,7 @@ import MiniDrawer from 'src/components/common/Drawer/Drawer';
 import Header from 'src/components/common/Header';
 // @mui
 import { Box } from '@mui/material';
+import ExcelExport from 'src/components/excel/ExcelExport';
 //
 
 // const Header = dynamic(() => import('./Header'), { ssr: false });
@@ -31,10 +32,12 @@ export default function MainLayout({ children }) {
         component="main"
         sx={{
           pl: '100px',
-          pr: '30px',
+          mr: '40px',
         }}
       >
         {children}
+
+        <ExcelExport />
       </Box>
 
       {/* <Footer /> */}
