@@ -1,7 +1,11 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, styled } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGrade } from 'src/redux/slices/filter';
+
+const StyledSelect = styled(Select)({
+  width: '100px',
+});
 
 const GRADES = [
   {
@@ -40,10 +44,11 @@ export default function GradeDropdown() {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">학년</InputLabel>
-        <Select
+        <StyledSelect
+          size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={grade}
@@ -53,7 +58,7 @@ export default function GradeDropdown() {
           {GRADES.map((grade, index) => (
             <MenuItem value={grade.value}>{grade.text}</MenuItem>
           ))}
-        </Select>
+        </StyledSelect>
       </FormControl>
     </Box>
   );
