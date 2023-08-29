@@ -27,6 +27,7 @@ export const DEPARTMENT = 'department';
 export const MAJOR = 'major';
 export const FREQUENCY = 'frequency';
 export const ACCEPT = 'accept';
+export const APPROVE = 'approve';
 export const REJECT = 'reject';
 export const SCHOLARSHIP = 'scholarship';
 

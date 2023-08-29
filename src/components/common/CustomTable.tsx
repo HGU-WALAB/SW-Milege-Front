@@ -313,7 +313,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
   const [rows, setRows] = React.useState(originalRows);
-  console.log(rows, originalRows);
+  console.log('debug', rows, originalRows);
 
   /**
    * @brief 필터링 요소
@@ -323,6 +323,9 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const semester = useSelector((state) => state.filter.semester);
   const isVisible = useSelector((state) => state.filter.isVisible);
   const item = useSelector((state) => state.filter.item);
+  const name = useSelector((state) => state.filter.name);
+  // const grade = useSelector((state) => state.filter.grade);
+  // const department = useSelector((state) => state.filter.department);
   /**
    * @brief 필터링
    */
@@ -341,6 +344,9 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     }
     if (item && item !== '전체') {
       copyRows = copyRows.filter((row) => row.item === item);
+    }
+    if (name && name !== '전체') {
+      copyRows = copyRows.filter((row) => row.name === name);
     }
     setRows(copyRows);
 

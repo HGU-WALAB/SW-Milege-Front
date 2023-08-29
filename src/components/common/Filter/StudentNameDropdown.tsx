@@ -1,18 +1,18 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setName } from 'src/redux/slices/filter';
+import { setStudentName } from 'src/redux/slices/filter';
 
-export default function StudentNameDropdown() {
-  const name = useSelector((state) => state.filter.name);
+export default function StudentStudentNameDropdown() {
+  const studentName = useSelector((state) => state.filter.studentName);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(name);
-  }, [name]);
+    console.log(studentName);
+  }, [studentName]);
 
   const handleChange = (event: SelectChangeEvent) => {
-    dispatch(setName(event.target.value));
+    dispatch(setStudentName(event.target.value));
     console.log(event.target.value);
   };
 
@@ -23,7 +23,7 @@ export default function StudentNameDropdown() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={name}
+          value={studentName}
           label="학생명"
           onChange={handleChange}
         >

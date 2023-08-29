@@ -5,7 +5,7 @@ const initialState = {
   semester: '전체',
   isVisible: '전체',
   item: '전체',
-  name: '전체',
+  studentName: '전체',
   grade: '전체',
   department: '전체',
 };
@@ -38,11 +38,11 @@ const slice = createSlice({
     clearItem: (state) => {
       state.item = '전체';
     },
-    setName: (state, action) => {
-      state.name = action.payload;
+    setStudentName: (state, action) => {
+      state.studentName = action.payload;
     },
-    clearName: (state) => {
-      state.name = '전체';
+    clearStudentName: (state) => {
+      state.studentName = '전체';
     },
     setGrade: (state, action) => {
       state.grade = action.payload;
@@ -69,8 +69,8 @@ export const {
   clearIsVisible,
   setItem,
   clearItem,
-  setName,
-  clearName,
+  setStudentName,
+  clearStudentName,
   setGrade,
   clearGrade,
   setDepartment,
