@@ -94,9 +94,6 @@ export default function GlobalItemForm({ beforeData }) {
     const newData = {
       categoryId: 1,
       itemName: values[ITEM],
-      // [SEMESTER]: values[SEMESTER],
-      // [MILEAGE]: values[MILEAGE],
-      // [MAX_MAILEAGE]: values[MAX_MAILEAGE],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
       stuType: stuTypeConverter(values),
@@ -138,10 +135,9 @@ export default function GlobalItemForm({ beforeData }) {
     <Formik
       initialValues={{
         [CATEGORY]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORY] : '',
-        [SEMESTER]: modalType === EDITGLOBALITEM ? beforeData?.[SEMESTER] : '',
+
         [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
-        [MILEAGE]: modalType === EDITGLOBALITEM ? beforeData?.[MILEAGE] : 0,
-        [MAX_MAILEAGE]: modalType === EDITGLOBALITEM ? beforeData?.[MAX_MAILEAGE] : 0,
+
         [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
         [FILE_DESCRIPTION]: modalType === EDITGLOBALITEM ? beforeData?.[FILE_DESCRIPTION] : '',
@@ -162,28 +158,21 @@ export default function GlobalItemForm({ beforeData }) {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[
-                CATEGORY,
-                SEMESTER,
-                ITEM,
-                MILEAGE,
-                MAX_MAILEAGE,
-                DESCRIPTION1,
-                DESCRIPTION2,
-                FILE_DESCRIPTION,
-              ].map((field: string, index: number) => (
-                <Box key={index}>
-                  <Field
-                    sx={{ width: '300px' }}
-                    name={field}
-                    as={TextField}
-                    type="text"
-                    label={engToKor(field)}
-                    variant="standard"
-                  />
-                  <ErrorMessage name={field} />
-                </Box>
-              ))}
+              {[CATEGORY, ITEM, DESCRIPTION1, DESCRIPTION2, FILE_DESCRIPTION].map(
+                (field: string, index: number) => (
+                  <Box key={index}>
+                    <Field
+                      sx={{ width: '300px' }}
+                      name={field}
+                      as={TextField}
+                      type="text"
+                      label={engToKor(field)}
+                      variant="standard"
+                    />
+                    <ErrorMessage name={field} />
+                  </Box>
+                )
+              )}
             </StyleFieldBox>
             <StyleFieldBox>
               {[

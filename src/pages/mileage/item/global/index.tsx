@@ -273,8 +273,7 @@ export default function MileageCategory({
     const beforeData = {
       [NUM]: item.id,
       [CATEGORY]: item.category.name,
-
-      [ITEM]: item.itemName,
+      [ITEM]: item.name,
       [DESCRIPTION1]: item.description1,
       [DESCRIPTION2]: item.description2,
       [FILE_DESCRIPTION]: '첨부파일 설명', // 업서야 되는 듯
@@ -290,7 +289,7 @@ export default function MileageCategory({
       item.id,
       item.category.name,
 
-      item.itemName,
+      item.name,
       true,
       '2023-08-21',
       <SWModal type={EDITGLOBALITEM} beforeData={beforeData} />
