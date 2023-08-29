@@ -59,7 +59,7 @@ import DepartmentDropdown from './Filter/DepartmentDropDown';
  */
 
 const ResponsiveTable = styled(Box)({
-  minWidth: '900px',
+  // minWidth: '1000px',
   overflowX: 'scroll',
 });
 // const ResponsiveTableHeadCheckBox = styled(TableCell)({
@@ -76,13 +76,11 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 
 // // const ResponsiveTableBody = styled(TableCell)({
 
-// const ResponsiveTableHeadLabel = styled(TableSortLabel)({
-//   '@media (max-width: 600px)': {
-//     fontSize: '10px',
-
-//     display: 'inline',
-//   },
-// });
+const ResponsiveTableHeadLabel = styled(TableSortLabel)({
+  '@media (max-width: 600px)': {
+    fontSize: '13px',
+  },
+});
 
 // const RsponsiveTableBodyCheckBox = styled(TableCell)({
 //   '@media (max-width: 600px)': {
@@ -90,13 +88,13 @@ const ResponsiveTableHeadTableCell = styled(TableCell)({
 //   },
 // });
 
-// const ResponsiveTableBody = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
+const ResponsiveTableBody = styled(TableCell)({
+  '@media (max-width: 600px)': {
+    padding: 0,
 
-//     fontSize: '10px',
-//   },
-// });
+    fontSize: '13px',
+  },
+});
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -179,7 +177,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={'right'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -187,7 +185,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               /**
                * @breif 반응형
                */
-
+              align={'left'}
+              sx={{ minWidth: '110px' }}
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
@@ -233,6 +232,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       {/* 카테고리 필터링 */}
       <Box
         sx={{
+          py: '10px',
+          overflowX: 'scroll',
           display: 'flex',
           width: '100%',
           gap: '10px',

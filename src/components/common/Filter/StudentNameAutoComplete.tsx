@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setStudentName } from 'src/redux/slices/filter';
 
 const StyledAutocomplete = styled(Autocomplete)({
-  width: '150px',
+  minWidth: '150px',
 });
 
 const top100Films = ['오인혁', '오인혁2', '한시온', '김민수', '장유진'];

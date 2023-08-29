@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setItem } from 'src/redux/slices/filter';
 
 const StyledAutocomplete = styled(Autocomplete)({
-  width: '230px',
+  minWidth: '230px',
 });
 
 const top100Films = [
