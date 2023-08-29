@@ -50,6 +50,7 @@ import { id } from 'date-fns/locale';
 import IsVisibleDropdown from './Filter/IsVisibleDropdown';
 import ItemAutoComplete from './Filter/ItemAutoComplete';
 import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
+import StudentNameDropdown from './Filter/StudentNameDropdown';
 
 /**
  *  @brief 반응형 구축
@@ -239,6 +240,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         <SemesterDropdown />
         <IsVisibleDropdown />
         <ItemAutoComplete />
+        <StudentNameDropdown />
       </Box>
 
       {/* 학기 필터링 */}
