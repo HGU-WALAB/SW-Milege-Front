@@ -1,35 +1,37 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setStudentName } from 'src/redux/slices/filter';
+import { setGrade } from 'src/redux/slices/filter';
 
-export default function StudentStudentNameDropdown() {
-  const studentName = useSelector((state) => state.filter.studentName);
+export default function GradeDropdown() {
+  const grade = useSelector((state) => state.filter.grade);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(studentName);
-  }, [studentName]);
+    console.log(grade);
+  }, [grade]);
 
   const handleChange = (event: SelectChangeEvent) => {
-    dispatch(setStudentName(event.target.value));
+    dispatch(setGrade(event.target.value));
     console.log(event.target.value);
   };
 
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">학생명</InputLabel>
+        <InputLabel id="demo-simple-select-label">학년</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={studentName}
-          label="학생명"
+          value={grade}
+          label="학년"
           onChange={handleChange}
         >
           <MenuItem value={'전체'}>전체</MenuItem>
-          <MenuItem value={'오인혁'}>오인혁</MenuItem>
-          <MenuItem value={'오인혁2'}>오인혁2</MenuItem>
+          <MenuItem value={'1'}>1학년</MenuItem>
+          <MenuItem value={'2'}>2학년</MenuItem>
+          <MenuItem value={'3'}>3학년</MenuItem>
+          <MenuItem value={'4'}>4학년</MenuItem>
         </Select>
       </FormControl>
     </Box>
