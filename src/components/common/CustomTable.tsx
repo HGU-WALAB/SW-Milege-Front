@@ -54,6 +54,7 @@ import StudentNameDropdown from './Filter/StudentNameAutoComplete';
 import GradeDropdown from './Filter/GradeDropdown';
 import DepartmentDropdown from './Filter/DepartmentDropDown';
 import { useRouter } from 'next/router';
+import Filtering from './Filter/Filtering';
 
 /**
  *  @brief 반응형 구축
@@ -96,14 +97,6 @@ const ResponsiveTable = styled(Box)({
 //     fontSize: '13px',
 //   },
 // });
-
-const ResponsiveFilterBox = styled(Box)({
-  padding: '10px 0px',
-  overflowX: 'scroll',
-  display: 'flex',
-  width: '100%',
-  gap: '10px',
-});
 
 const ResponsiveHeaderCell = styled(TableCell)({
   minWidth: '110px',
@@ -234,11 +227,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     console.log(value);
   }, [value]);
 
-  const tableNum = useSelector((state) => state.component.componentNum);
-
-  function renderComponentsForTableNums(allowedTableNums, Component) {
-    return allowedTableNums.includes(tableNum) ? Component : null;
-  }
   return (
     <Box>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
@@ -248,15 +236,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       {/* 필터링 */}
 
       {/* 카테고리 필터링 */}
-      <ResponsiveFilterBox>
-        {renderComponentsForTableNums([0, 1, 2, 3, 4], <CategoryAutoComplete />)}
-        {renderComponentsForTableNums([2, 3, 4, 9], <SemesterDropdown />)}
-        {renderComponentsForTableNums([1, 2], <IsVisibleDropdown />)}
-        {renderComponentsForTableNums([1, 2, 3, 4], <ItemAutoComplete />)}
-        {renderComponentsForTableNums([3, 5, 6, 7, 8, 9, 10], <StudentNameDropdown />)}
-        {renderComponentsForTableNums([5, 6], <GradeDropdown />)}
-        {renderComponentsForTableNums([5, 6, 9], <DepartmentDropdown />)}
-      </ResponsiveFilterBox>
+      <Filtering />
 
       {/* 학기 필터링 */}
 
