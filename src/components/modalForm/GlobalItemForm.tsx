@@ -91,6 +91,7 @@ export default function GlobalItemForm({ beforeData }) {
         return 'C';
       }
     };
+
     const newData = {
       categoryId: 1,
       itemName: values[ITEM],
@@ -135,9 +136,7 @@ export default function GlobalItemForm({ beforeData }) {
     <Formik
       initialValues={{
         [CATEGORY]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORY] : '',
-
         [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
-
         [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
         [FILE_DESCRIPTION]: modalType === EDITGLOBALITEM ? beforeData?.[FILE_DESCRIPTION] : '',

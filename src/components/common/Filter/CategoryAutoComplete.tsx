@@ -3,16 +3,17 @@ import { styled } from '@mui/system';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory } from 'src/redux/slices/filter';
+import { removeDuplicates } from './Filtering';
 
 const StyledAutocomplete = styled(Autocomplete)({
   minWidth: '200px',
 });
 
 export default function CategoryAutoComplete() {
-  const top100Films = [
+  const top100Films = removeDuplicates([
     '전체',
     ...useSelector((state) => state.filterList.categoryList.map((category) => category.name)),
-  ];
+  ]);
 
   const value = useSelector((state) => state.filter.category);
   const dispatch = useDispatch();

@@ -27,6 +27,7 @@ import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY, EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { random } from 'lodash';
 import { ReactNode } from 'react';
+import { ID } from 'src/assets/data/fields';
 
 /**
  * @component [학생 관리] 게시판
@@ -42,11 +43,11 @@ export enum StudentManageBoard {
   'NAME' = NAME,
   'SID' = SID,
   'GRADE' = GRADE,
-  'MOBILE' = MOBILE,
+
   'DEPARTMENT' = DEPARTMENT,
   'MAJOR' = MAJOR,
   'LASTLOGINDATE' = LASTLOGINDATE,
-  'REGDATE' = REGDATE,
+
   'ISAPPROVED' = ISAPPROVED,
   'MANAGE' = MANAGE,
 }
@@ -59,11 +60,11 @@ interface Data {
   [StudentManageBoard.NAME]: string;
   [StudentManageBoard.SID]: number;
   [StudentManageBoard.GRADE]: number;
-  [StudentManageBoard.MOBILE]: number;
+
   [StudentManageBoard.DEPARTMENT]: string;
   [StudentManageBoard.MAJOR]: string;
   [StudentManageBoard.LASTLOGINDATE]: string;
-  [StudentManageBoard.REGDATE]: string;
+
   [StudentManageBoard.ISAPPROVED]: string;
   [StudentManageBoard.MANAGE]: string;
 }
@@ -77,11 +78,11 @@ function createData(
   NAME: string,
   SID: number,
   GRADE: number,
-  MOBILE: number,
+
   DEPARTMENT: string,
   MAJOR: string,
   LASTLOGINDATE: string,
-  REGDATE: string,
+
   ISAPPROVED: string,
   MANAGE: ReactNode
 ): Data {
@@ -90,11 +91,11 @@ function createData(
     [StudentManageBoard.NAME]: NAME,
     [StudentManageBoard.SID]: SID,
     [StudentManageBoard.GRADE]: GRADE,
-    [StudentManageBoard.MOBILE]: MOBILE,
+
     [StudentManageBoard.DEPARTMENT]: DEPARTMENT,
     [StudentManageBoard.MAJOR]: MAJOR,
     [StudentManageBoard.LASTLOGINDATE]: LASTLOGINDATE,
-    [StudentManageBoard.REGDATE]: REGDATE,
+
     [StudentManageBoard.ISAPPROVED]: ISAPPROVED,
     [StudentManageBoard.MANAGE]: MANAGE,
   };
@@ -128,12 +129,7 @@ function createData(
     disablePadding: false,
     label: '학년',
   },
-  {
-    id: [StudentManageBoard.MOBILE],
-    numeric: true,
-    disablePadding: false,
-    label: '연락처',
-  },
+
   {
     id: [StudentManageBoard.DEPARTMENT],
     numeric: true,
@@ -151,12 +147,6 @@ function createData(
     numeric: true,
     disablePadding: false,
     label: '빈도수',
-  },
-  {
-    id: [StudentManageBoard.REGDATE],
-    numeric: true,
-    disablePadding: false,
-    label: '등록일',
   },
   {
     id: [StudentManageBoard.ISAPPROVED],
@@ -183,11 +173,11 @@ const rows = [
     '오인혁',
     '21800446',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -196,11 +186,11 @@ const rows = [
     '한시온',
     '21800447',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -209,11 +199,11 @@ const rows = [
     '김민수',
     '21800448',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -222,11 +212,11 @@ const rows = [
     '장유진',
     '21800449',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -237,14 +227,14 @@ interface IStudent {
   [SID]: string;
   [YEAR]: number;
   [SEMESTERCOUNT]: number;
-  [MOBILE]: string;
+
   [EMAIL]: string;
   [DEPARTMENT]: string;
   [MAJOR1]: string;
   [MAJOR2]: string;
   [LOGINCOUNT]: number;
   [LASTLOGINDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
-  [REGDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
+
   [ISAPPROVED]: boolean;
 }
 
@@ -272,25 +262,24 @@ export default function StudentManage({
       [SID]: student[SID],
       [YEAR]: student[YEAR],
       [SEMESTERCOUNT]: student[SEMESTERCOUNT],
-      [MOBILE]: student[MOBILE],
+
       [EMAIL]: student[EMAIL],
       [DEPARTMENT]: student[DEPARTMENT],
       [MAJOR1]: student[MAJOR1],
       [MAJOR2]: student[MAJOR2],
       [LASTLOGINDATE]: student[LASTLOGINDATE],
-      [REGDATE]: student[REGDATE],
+
       [ISAPPROVED]: student[ISAPPROVED],
     };
     return createData(
-      random(1, 100),
+      student[ID],
       student[NAME],
       student[SID],
       student[YEAR],
-      student[MOBILE],
       student[DEPARTMENT],
       student[MAJOR1] + ' / ' + student[MAJOR2],
       student[LASTLOGINDATE]?.split('T')[0],
-      student[REGDATE]?.split('T')[0],
+
       student[ISAPPROVED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );

@@ -1,5 +1,5 @@
 import EnhancedTable from 'src/components/common/CustomTable';
-import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, CATEGORY, DESCRIPTION } from 'src/assets/data/fields';
+import { MAX_MILEAGE, CHECK_BOX, DESCRIPTION, NAME } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,9 +12,10 @@ import { setMileageCategoryList } from 'src/redux/slices/data';
  */
 
 export enum MileageCategoryBoard {
-  'NUM' = NUM,
+  'ID' = ID,
   'CATEGORY' = CATEGORY,
-  'MAX_MILEAGE' = MAX_MILEAGE,
+  'DESCRIPTION1' = DESCRIPTION1,
+  'DESCRIPTION2' = DESCRIPTION2,
   'MANAGE' = MANAGE,
 }
 
@@ -24,9 +25,10 @@ export enum MileageCategoryBoard {
  */
 
 interface Data {
-  [MileageCategoryBoard.NUM]: number;
+  [MileageCategoryBoard.ID]: number;
   [MileageCategoryBoard.CATEGORY]: string;
-  [MileageCategoryBoard.MAX_MILEAGE]: number;
+  [MileageCategoryBoard.DESCRIPTION1]: string;
+  [MileageCategoryBoard.DESCRIPTION2]: string;
   [MileageCategoryBoard.MANAGE]: ReactNode;
 }
 
@@ -36,12 +38,19 @@ interface Data {
  *
  *  */
 
-function createData(num: number, category: string, maxMileage: number, manage: ReactNode): Data {
+function createData(
+  ID: number,
+  CATEGORY: string,
+  DESCRIPTION1: string,
+  DESCRIPTION2: string,
+  MANAGE: ReactNode
+): Data {
   return {
-    [MileageCategoryBoard.NUM]: num,
-    [MileageCategoryBoard.CATEGORY]: category,
-    [MileageCategoryBoard.MAX_MILEAGE]: maxMileage,
-    [MileageCategoryBoard.MANAGE]: manage,
+    [MileageCategoryBoard.ID]: ID,
+    [MileageCategoryBoard.CATEGORY]: CATEGORY,
+    [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
+    [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
+    [MileageCategoryBoard.MANAGE]: MANAGE,
   };
 }
 
@@ -51,7 +60,7 @@ function createData(num: number, category: string, maxMileage: number, manage: R
  */
 const headCells = [
   {
-    id: [MileageCategoryBoard.NUM],
+    id: [MileageCategoryBoard.ID],
     numeric: false,
     disablePadding: true,
     label: '번호',
@@ -62,11 +71,18 @@ const headCells = [
     disablePadding: false,
     label: '카테고리명',
   },
+
   {
-    id: [MileageCategoryBoard.MAX_MILEAGE],
+    id: [MileageCategoryBoard.DESCRIPTION1],
     numeric: true,
     disablePadding: false,
-    label: '최대 마일리지',
+    label: '설명 1',
+  },
+  {
+    id: [MileageCategoryBoard.DESCRIPTION2],
+    numeric: true,
+    disablePadding: false,
+    label: '설명 2',
   },
   {
     id: [MileageCategoryBoard.MANAGE],
@@ -82,7 +98,6 @@ const headCells = [
 const IParams = {
   [CATEGORY]: '카테고리테스트',
   [DESCRIPTION]: '설명 테스트',
-  [MAX_MILEAGE]: 5,
 };
 /**
  * @number 1번 목록
@@ -93,11 +108,13 @@ import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setCategoryList } from 'src/redux/slices/filter';
+import { DESCRIPTION1, DESCRIPTION2, NUM, CATEGORY, MANAGE, ID } from '../../../assets/data/fields';
 
 interface IGetMileageCategory {
   id: number;
   name: string;
-  maxPoints: number;
+  description1: string;
+  description2: string;
 }
 
 export const getServerSideProps: GetServerSideProps<{
@@ -121,15 +138,16 @@ export default function MileageCategory({
 
   const convertedFetchList = fetchData.categories?.map((item) => {
     const beforeData = {
-      [NUM]: item.id,
-      [CATEGORY]: item.name,
-      [DESCRIPTION]: 'descriptionTest',
-      [MAX_MILEAGE]: item.maxPoints,
+      [ID]: item[ID],
+      [CATEGORY]: item[NAME],
+      [DESCRIPTION1]: item[DESCRIPTION1],
+      [DESCRIPTION2]: item[DESCRIPTION2],
     };
     return createData(
       item.id,
       item.name,
-      item.maxPoints,
+      item.description1,
+      item.description2,
       <SWModal type={EDITCATEGORY} beforeData={beforeData} />
     );
   });
