@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
-
+import { m } from 'framer-motion';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -144,7 +144,13 @@ export default function MiniDrawer() {
         {/*  사이드바 리스트 아이템 */}
         <List>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((boardNum, index) => (
-            <Box key={index} onClick={clearSelected}>
+            <m.div
+              key={index}
+              onClick={clearSelected}
+              onMouseEnter={handleDrawerOpen}
+              onMouseLeave={handleDrawerClose}
+              transition={{ delay: 0.5 }}
+            >
               <Link
                 href={linkConverter(boardNum)}
                 style={{ color: 'inherit', textDecoration: 'none' }}
@@ -152,7 +158,7 @@ export default function MiniDrawer() {
                 <DrawerListItem boardNum={boardNum} open={open} />
               </Link>
               {(boardNum === 4 || boardNum === 7) && <Divider />}
-            </Box>
+            </m.div>
           ))}
         </List>
       </Drawer>
