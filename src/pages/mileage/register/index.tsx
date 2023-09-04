@@ -28,8 +28,13 @@ import { ReactNode } from 'react';
 import Link from 'next/link';
 import axiosInstance from 'src/utils/axios';
 import SWModal from 'src/components/common/modal/SWModal';
-import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
+import {
+  ADDMILEAGEREGISTER,
+  EDITMILEAGEREGISTER,
+  REGISTEREDSTUDENTS,
+} from 'src/assets/data/modal/modals';
 import CollapsibleTable from 'src/components/common/CollapsibleTable';
+import CRUDStudentTable from 'src/components/common/Table/CRUDStudentTable';
 
 /**
  * @component [마일리지 등록] 게시판
@@ -242,12 +247,14 @@ export default function MileageRegister({
       semesterItem.item.name,
       semesterItem.item.description1,
       semesterItem.points,
-      <SWModal type={ADDMILEAGEREGISTER} />
+      <SWModal type={REGISTEREDSTUDENTS} />
     );
   });
 
   return (
-    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 등록" />
+    <>
+      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 등록" />
+    </>
   );
   // <CollapsibleTable rows={convertedFetchList} type="마일리지 등록" />;
 }

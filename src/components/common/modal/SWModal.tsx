@@ -37,6 +37,7 @@ import {
   EDITITEM,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
+  REGISTEREDSTUDENTS,
 } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
@@ -83,6 +84,7 @@ import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
 import StudentForm from 'src/components/modalForm/StudentForm';
 import MileageRegisterForm from 'src/components/modalForm/MileageRegisterForm';
 import { STUDENT_ID } from 'src/assets/data/fields';
+import StudentsModal from 'src/components/modalForm/StudentsModal';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -90,22 +92,6 @@ export const ButtonFlexBox = styled(Box)({
   justifyContent: 'end',
   width: '100%',
 });
-
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  borderRadius: '10px',
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  maxHeight: '700px',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 2,
-};
 
 const modalForm = (modalType, beforeData) => {
   switch (modalType) {
@@ -129,6 +115,8 @@ const modalForm = (modalType, beforeData) => {
       return <MileageRegisterForm beforeData={beforeData} />;
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm beforeData={beforeData} />;
+    case REGISTEREDSTUDENTS:
+      return <StudentsModal />;
 
     default:
       return <div>default</div>;
@@ -210,7 +198,24 @@ export default function SWModal({ type, beforeData }) {
   const modalType = useSelector((state) => state.modal.modalType);
 
   const handleClose = () => dispatch(closeModal(type));
+  console.log('DD?', modalType === REGISTEREDSTUDENTS);
+  const style = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: '10px',
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxHeight: '700px',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 2,
 
+    width: modalType === REGISTEREDSTUDENTS && '80%',
+  };
   return (
     <div>
       <ModalIconButton type={type} />

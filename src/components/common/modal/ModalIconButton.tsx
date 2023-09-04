@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { dispatch } from 'src/redux/store';
 import { openModal } from 'src/redux/slices/modal';
-
+import PersonIcon from '@mui/icons-material/Person';
 export default function ModalIconButton({ type }) {
   const handleOpen = () => dispatch(openModal(type));
 
@@ -17,6 +17,8 @@ export default function ModalIconButton({ type }) {
         return <EditIcon />;
       case 'del':
         return <DeleteIcon />;
+      case 'reg':
+        return <PersonIcon />;
     }
   };
 

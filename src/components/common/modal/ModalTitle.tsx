@@ -11,6 +11,7 @@ import {
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
+  EDITMILEAGEREGISTER,
   EDITSTUDENT,
 } from 'src/assets/data/modal/modals';
 
