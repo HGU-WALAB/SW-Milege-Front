@@ -43,10 +43,9 @@ import CollapsibleTable from 'src/components/common/CollapsibleTable';
 export enum MileageRegisterBoard {
   'NUM' = NUM,
   'SEMESTER' = SEMESTER,
-  'CATEGORY_NAME' = CATEGORY_NAME,
-  'ITEM' = ITEM,
-  'REGISTER_NUM' = REGISTER_NUM,
-  'ADD' = ADD,
+  'ITEM_NAME' = ITEM_NAME,
+  'DESCRIPTION1' = DESCRIPTION1,
+  'POINTS' = POINTS,
   'STUDENTS' = STUDENTS,
 }
 
@@ -55,12 +54,12 @@ export enum MileageRegisterBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
+  [MileageRegisterBoard.NUM]: number;
   [MileageRegisterBoard.SEMESTER]: string;
-  [MileageRegisterBoard.CATEGORY_NAME]: string;
-  [MileageRegisterBoard.ITEM]: string;
-  [MileageRegisterBoard.REGISTER_NUM]: number;
-  [MileageRegisterBoard.ADD]: ReactNode;
-  [MileageRegisterBoard.STUDENTS]: any;
+  [MileageRegisterBoard.ITEM_NAME]: string;
+  [MileageRegisterBoard.DESCRIPTION1]: string;
+  [MileageRegisterBoard.POINTS]: number;
+  [MileageRegisterBoard.STUDENTS]: ReactNode;
 }
 
 /**
@@ -71,21 +70,17 @@ interface Data {
 function createData(
   NUM: number,
   SEMESTER: string,
-  CATEGORY_NAME: string,
-  ITEM: string,
-  REGISTER_NUM: number,
-  ADD: ReactNode,
-  STUDENTS: any
+  ITEM_NAME: string,
+  DESCRIPTION1: string,
+  POINTS: number,
+  STUDENTS: ReactNode
 ): Data {
   return {
     [MileageRegisterBoard.NUM]: NUM,
     [MileageRegisterBoard.SEMESTER]: SEMESTER,
-    [MileageRegisterBoard.CATEGORY_NAME]: CATEGORY_NAME,
-    [MileageRegisterBoard.ITEM]: ITEM,
-
-    [MileageRegisterBoard.REGISTER_NUM]: REGISTER_NUM,
-
-    [MileageRegisterBoard.ADD]: ADD,
+    [MileageRegisterBoard.ITEM_NAME]: ITEM_NAME,
+    [MileageRegisterBoard.DESCRIPTION1]: DESCRIPTION1,
+    [MileageRegisterBoard.POINTS]: POINTS,
     [MileageRegisterBoard.STUDENTS]: STUDENTS,
   };
 }
@@ -113,11 +108,55 @@ interface semesterItemsWithStudents {
 
 type semesterItemsWithStudentList = semesterItemsWithStudents[];
 
+/**
+ * @kind [마일리지 학기별 항목]
+ * @brief 테이블 헤더
+ */
+const headCells = [
+  {
+    id: [MileageRegisterBoard.NUM],
+    numeric: false,
+    disablePadding: true,
+    label: '번호',
+  },
+  {
+    id: [MileageRegisterBoard.SEMESTER],
+    numeric: true,
+    disablePadding: false,
+    label: '학기',
+  },
+  {
+    id: [MileageRegisterBoard.ITEM_NAME],
+    numeric: true,
+    disablePadding: false,
+    label: '항목명',
+  },
+  {
+    id: [MileageRegisterBoard.DESCRIPTION1],
+    numeric: true,
+    disablePadding: false,
+    label: '설명',
+  },
+  {
+    id: [MileageRegisterBoard.POINTS],
+    numeric: true,
+    disablePadding: false,
+    label: '포인트',
+  },
+  {
+    id: [MileageRegisterBoard.STUDENTS],
+    numeric: true,
+    disablePadding: false,
+    label: '등록된 학생',
+  },
+];
+
 export const getServerSideProps: GetServerSideProps<{
-  fetchData: semesterItemsWithStudentList;
+  fetchData: ISemesterItemList;
 }> = async () => {
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const res = await axiosInstance.get('/api/mileage/semesters/2022-01/items/records');
+  // const res = await axiosInstance.get('/api/mileage/semesters/2022-01/items/records');
+  const res = await axiosInstance.get(`/api/mileage/semesters/2022-01/items`);
   const fetchData = res.data;
   console.log(fetchData);
   return { props: { fetchData } };
@@ -154,48 +193,61 @@ export default function MileageRegister({
         ]
    */
 
-  const convertedFetchList = fetchData.semesterItemsWithRecords?.map((record, index) => {
-    /**
-     * @brief innerData
-     * @description 2단 테이블의 내부 데이터
-     */
-    const students = record.records?.map((item, index) => {
-      /**
-       * @brief innerData의 update 전달 데이터
-       */
+  // const convertedFetchList = fetchData.semesterItemsWithRecords?.map((record, index) => {
+  //   /**
+  //    * @brief innerData
+  //    * @description 2단 테이블의 내부 데이터
+  //    */
+  //   const students = record.records?.map((item, index) => {
+  //     /**
+  //      * @brief innerData의 update 전달 데이터
+  //      */
 
-      const beforeData = {
-        [SEMESTERITEMID]: record[ID],
-        [STUDENT_ID]: item[ID],
-        [COUNTS]: item[COUNTS],
-        [POINTS]: item[POINTS],
-        [EXTRAPOINTS]: item[EXTRAPOINTS],
-        [DESCRIPTION1]: item[DESCRIPTION1],
-        [DESCRIPTION2]: item[DESCRIPTION2],
-      };
+  //     const beforeData = {
+  //       [SEMESTERITEMID]: record[ID],
+  //       [STUDENT_ID]: item[ID],
+  //       [COUNTS]: item[COUNTS],
+  //       [POINTS]: item[POINTS],
+  //       [EXTRAPOINTS]: item[EXTRAPOINTS],
+  //       [DESCRIPTION1]: item[DESCRIPTION1],
+  //       [DESCRIPTION2]: item[DESCRIPTION2],
+  //     };
 
-      return {
-        [STUDENT_NAME]: item[STUDENT_NAME],
-        [STUDENT_ID]: item[ID],
-        [POINTS]: item[POINTS],
-        [DESCRIPTION1]: item[DESCRIPTION1],
-        [DESCRIPTION2]: item[DESCRIPTION2],
-        edit: <SWModal type={EDITMILEAGEREGISTER} beforeData={beforeData} />,
-      };
-    });
+  //     return {
+  //       [STUDENT_NAME]: item[STUDENT_NAME],
+  //       [STUDENT_ID]: item[ID],
+  //       [POINTS]: item[POINTS],
+  //       [DESCRIPTION1]: item[DESCRIPTION1],
+  //       [DESCRIPTION2]: item[DESCRIPTION2],
+  //       edit: <SWModal type={EDITMILEAGEREGISTER} beforeData={beforeData} />,
+  //     };
+  //   });
 
+  //   return createData(
+  //     index + 1,
+  //     record[SEMESTER_NAME],
+  //     record[CATEGORY_NAME],
+  //     record[ITEM_NAME],
+  //     record.records.length,
+  //     <SWModal type={ADDMILEAGEREGISTER} />,
+  //     students
+  //   );
+  // });
+
+  const convertedFetchList = fetchData.semesterItems?.map((semesterItem, index) => {
     return createData(
       index + 1,
-      record[SEMESTER_NAME],
-      record[CATEGORY_NAME],
-      record[ITEM_NAME],
-      record.records.length,
-      <SWModal type={ADDMILEAGEREGISTER} />,
-      students
+      // semesterItem.item.id,
+      semesterItem.semesterName,
+      semesterItem.item.name,
+      semesterItem.item.description1,
+      semesterItem.points,
+      <SWModal type={ADDMILEAGEREGISTER} />
     );
   });
 
-  console.log(convertedFetchList);
-
-  return <CollapsibleTable rows={convertedFetchList} type="마일리지 등록" />;
+  return (
+    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 등록" />
+  );
+  // <CollapsibleTable rows={convertedFetchList} type="마일리지 등록" />;
 }
