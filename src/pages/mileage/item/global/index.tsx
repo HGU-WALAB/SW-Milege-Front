@@ -37,7 +37,7 @@ import { useEffect } from 'react';
  */
 
 export enum MileageGlobalItemBoard {
-  'ID' = ID,
+  'NUM' = NUM,
   'CATEGORY' = CATEGORY,
   'ITEM' = ITEM,
   'DESCRIPTION1' = DESCRIPTION1,
@@ -67,7 +67,7 @@ interface Data {
  *
  *  */
 function createData(
-  ID: number,
+  NUM: number,
   CATEGORY: string,
   ITEM: string,
   DESCRIPTION1: string,
@@ -77,7 +77,7 @@ function createData(
   MANAGE: string
 ): Data {
   return {
-    [MileageGlobalItemBoard.NUM]: ID,
+    [MileageGlobalItemBoard.NUM]: NUM,
     [MileageGlobalItemBoard.CATEGORY]: CATEGORY,
 
     [MileageGlobalItemBoard.ITEM]: ITEM,
