@@ -18,8 +18,9 @@ import {
   MAJOR,
   LASTLOGINDATE,
   REGDATE,
-  ISAPPROVED,
+  ISCHECKED,
   MOBILE,
+  ID,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -47,7 +48,7 @@ export enum StudentManageBoard {
   'MAJOR' = MAJOR,
   'LASTLOGINDATE' = LASTLOGINDATE,
   'REGDATE' = REGDATE,
-  'ISAPPROVED' = ISAPPROVED,
+  'ISCHECKED' = ISCHECKED,
   'MANAGE' = MANAGE,
 }
 
@@ -59,12 +60,10 @@ interface Data {
   [StudentManageBoard.NAME]: string;
   [StudentManageBoard.SID]: number;
   [StudentManageBoard.GRADE]: number;
-  [StudentManageBoard.MOBILE]: number;
   [StudentManageBoard.DEPARTMENT]: string;
   [StudentManageBoard.MAJOR]: string;
   [StudentManageBoard.LASTLOGINDATE]: string;
-  [StudentManageBoard.REGDATE]: string;
-  [StudentManageBoard.ISAPPROVED]: string;
+  [StudentManageBoard.ISCHECKED]: string;
   [StudentManageBoard.MANAGE]: string;
 }
 /**
@@ -77,12 +76,10 @@ function createData(
   NAME: string,
   SID: number,
   GRADE: number,
-  MOBILE: number,
   DEPARTMENT: string,
   MAJOR: string,
   LASTLOGINDATE: string,
-  REGDATE: string,
-  ISAPPROVED: string,
+  ISCHECKED: string,
   MANAGE: ReactNode
 ): Data {
   return {
@@ -90,12 +87,10 @@ function createData(
     [StudentManageBoard.NAME]: NAME,
     [StudentManageBoard.SID]: SID,
     [StudentManageBoard.GRADE]: GRADE,
-    [StudentManageBoard.MOBILE]: MOBILE,
     [StudentManageBoard.DEPARTMENT]: DEPARTMENT,
     [StudentManageBoard.MAJOR]: MAJOR,
     [StudentManageBoard.LASTLOGINDATE]: LASTLOGINDATE,
-    [StudentManageBoard.REGDATE]: REGDATE,
-    [StudentManageBoard.ISAPPROVED]: ISAPPROVED,
+    [StudentManageBoard.ISCHECKED]: ISCHECKED,
     [StudentManageBoard.MANAGE]: MANAGE,
   };
 }
@@ -129,12 +124,6 @@ function createData(
     label: '학년',
   },
   {
-    id: [StudentManageBoard.MOBILE],
-    numeric: true,
-    disablePadding: false,
-    label: '연락처',
-  },
-  {
     id: [StudentManageBoard.DEPARTMENT],
     numeric: true,
     disablePadding: false,
@@ -153,13 +142,7 @@ function createData(
     label: '빈도수',
   },
   {
-    id: [StudentManageBoard.REGDATE],
-    numeric: true,
-    disablePadding: false,
-    label: '등록일',
-  },
-  {
-    id: [StudentManageBoard.ISAPPROVED],
+    id: [StudentManageBoard.ISCHECKED],
     numeric: true,
     disablePadding: false,
     label: '승인',
@@ -237,15 +220,14 @@ interface IStudent {
   [SID]: string;
   [YEAR]: number;
   [SEMESTERCOUNT]: number;
-  [MOBILE]: string;
   [EMAIL]: string;
   [DEPARTMENT]: string;
   [MAJOR1]: string;
   [MAJOR2]: string;
   [LOGINCOUNT]: number;
   [LASTLOGINDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
-  [REGDATE]: string; // 더 정확한 타입을 원한다면 'Date' 타입을 사용할 수도 있습니다.
-  [ISAPPROVED]: boolean;
+
+  [ISCHECKED]: boolean;
 }
 
 interface IStudentList {
@@ -266,32 +248,30 @@ export const getServerSideProps: GetServerSideProps<{
 export default function StudentManage({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const convertedFetchList = fetchData.students?.map((student) => {
+  const convertedFetchList = fetchData.list?.map((student) => {
     const beforeData = {
+      [ID]: student[ID],
       [NAME]: student[NAME],
       [SID]: student[SID],
-      [YEAR]: student[YEAR],
-      [SEMESTERCOUNT]: student[SEMESTERCOUNT],
-      [MOBILE]: student[MOBILE],
-      [EMAIL]: student[EMAIL],
+
       [DEPARTMENT]: student[DEPARTMENT],
       [MAJOR1]: student[MAJOR1],
       [MAJOR2]: student[MAJOR2],
+
+      [YEAR]: student[YEAR],
+      [SEMESTERCOUNT]: student[SEMESTERCOUNT],
       [LASTLOGINDATE]: student[LASTLOGINDATE],
-      [REGDATE]: student[REGDATE],
-      [ISAPPROVED]: student[ISAPPROVED],
+      [ISCHECKED]: student[ISCHECKED],
     };
     return createData(
-      random(1, 100),
+      student[ID],
       student[NAME],
       student[SID],
-      student[YEAR],
-      student[MOBILE],
+      student[YEAR] + `( ${student[SEMESTERCOUNT]}학기 )`,
       student[DEPARTMENT],
       student[MAJOR1] + ' / ' + student[MAJOR2],
       student[LASTLOGINDATE]?.split('T')[0],
-      student[REGDATE]?.split('T')[0],
-      student[ISAPPROVED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
+      student[ISCHECKED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );
   });

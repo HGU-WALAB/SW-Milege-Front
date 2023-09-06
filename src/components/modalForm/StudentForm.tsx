@@ -39,6 +39,7 @@ import {
   MAJOR2,
   YEAR,
   SEMESTERCOUNT,
+  ID,
 } from 'src/assets/data/fields';
 import { useSelector } from 'react-redux';
 import {
@@ -90,8 +91,6 @@ export default function StudentForm() {
   const StudentSchema = Yup.object().shape({
     [NAME]: Yup.string().required('필수입니다.'),
     [SID]: Yup.number().integer().required('필수입니다.'),
-    [MOBILE]: Yup.number().integer().required('필수입니다.'),
-    [EMAIL]: Yup.string().required('필수입니다.'),
     [DEPARTMENT]: Yup.string().required('필수입니다.'),
     [MAJOR1]: Yup.string().required('필수입니다.'),
     [MAJOR2]: Yup.string().required('필수입니다.'),
@@ -109,8 +108,6 @@ export default function StudentForm() {
     const newData = {
       [NAME]: values[NAME],
       [SID]: values[SID],
-      [MOBILE]: values[MOBILE],
-      [EMAIL]: values[EMAIL],
       [ISAPPROVED]: true,
       [DEPARTMENT]: values[DEPARTMENT],
       [MAJOR1]: values[MAJOR1],
@@ -136,9 +133,9 @@ export default function StudentForm() {
 
       case EDITSTUDENT:
         axiosInstance
-          .patch(`/api/mileage/students/${beforeData[NUM]}`, newData)
+          .patch(`/api/mileage/students/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert(`학생 ${beforeData[NUM]}번이 수정되었습니다.`);
+            alert(`학생 ${beforeData[ID]}번이 수정되었습니다.`);
             router.reload();
           })
           .catch((err) => alert('학생 수정에 실패했습니다.'));
@@ -150,8 +147,6 @@ export default function StudentForm() {
       initialValues={{
         [NAME]: modalType === EDITSTUDENT ? beforeData?.[NAME] : '',
         [SID]: modalType === EDITSTUDENT ? beforeData?.[SID] : '',
-        [MOBILE]: modalType === EDITSTUDENT ? beforeData?.[MOBILE] : '',
-        [EMAIL]: modalType === EDITSTUDENT ? beforeData?.[EMAIL] : '',
         [DEPARTMENT]: modalType === EDITSTUDENT ? beforeData?.[DEPARTMENT] : '',
         [MAJOR1]: modalType === EDITSTUDENT ? beforeData?.[MAJOR1] : '',
         [MAJOR2]: modalType === EDITSTUDENT ? beforeData?.[MAJOR2] : '',
@@ -165,7 +160,7 @@ export default function StudentForm() {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[NAME, SID, MOBILE, EMAIL, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
+              {[NAME, SID, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
                 (field: string, index: number) => (
                   <Box key={index}>
                     <Field

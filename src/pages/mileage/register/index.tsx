@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<{
   fetchData: semesterItemsWithStudentList;
 }> = async () => {
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const res = await axiosInstance.get('/api/mileage/semesters/2023-01/items/records');
+  const res = await axiosInstance.get('/api/mileage/semesters/2022-01/items/records');
   const fetchData = res.data;
   console.log(fetchData);
   return { props: { fetchData } };
@@ -154,7 +154,7 @@ export default function MileageRegister({
         ]
    */
 
-  const convertedFetchList = fetchData.semesterItemsWithRecords?.map((record, index) => {
+  const convertedFetchList = fetchData.list?.map((record, index) => {
     /**
      * @brief innerData
      * @description 2단 테이블의 내부 데이터
