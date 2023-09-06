@@ -60,7 +60,6 @@ const StyleFieldBox = styled(Box)({
   flexDirection: 'column',
   alignItems: ' center',
   margin: '30px 0px',
-
   padding: '0px 20px',
   width: '100%',
   gap: '15px',
@@ -75,7 +74,6 @@ const StyleFieldForm = styled(Form)({
   flexDirection: 'column',
   alignItems: 'center',
   margin: '30px 0px',
-
   padding: '0px 20px',
   width: '100%',
   gap: '20px',
@@ -160,6 +158,7 @@ export default function StudentForm() {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
+              {[NAME, SID, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
               {[NAME, SID, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
                 (field: string, index: number) => (
                   <Box key={index}>

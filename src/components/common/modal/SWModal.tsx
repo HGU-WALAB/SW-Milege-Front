@@ -194,7 +194,7 @@ export const engToKor = (eng) => {
     case SEMESTERITEMID:
       return '학기별 세부 항목 ID';
     case STUDENT_ID:
-      return '학번';
+      return '학생 고유 ID';
     case COUNTS:
       return '등록횟수';
     case POINTS:

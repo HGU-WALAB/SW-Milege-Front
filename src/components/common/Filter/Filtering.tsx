@@ -16,6 +16,10 @@ const ResponsiveFilterBox = styled(Box)({
   gap: '10px',
 });
 
+export function removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
+
 export default function Filtering() {
   const tableNum = useSelector((state) => state.component.componentNum);
 

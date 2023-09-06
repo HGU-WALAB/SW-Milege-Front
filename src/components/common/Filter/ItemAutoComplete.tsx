@@ -2,16 +2,17 @@ import { Autocomplete, TextField, styled } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setItem } from 'src/redux/slices/filter';
+import { removeDuplicates } from './Filtering';
 
 const StyledAutocomplete = styled(Autocomplete)({
   minWidth: '230px',
 });
 
 export default function ItemAutoComplete() {
-  const top100Films = [
+  const top100Films = removeDuplicates([
     '전체',
     ...useSelector((state) => state.filterList.itemList).map((item) => item.name),
-  ];
+  ]);
   const item = useSelector((state) => state.filter.item);
   const dispatch = useDispatch();
 

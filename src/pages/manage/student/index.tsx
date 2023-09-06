@@ -28,6 +28,7 @@ import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY, EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { random } from 'lodash';
 import { ReactNode } from 'react';
+import { ID } from 'src/assets/data/fields';
 
 /**
  * @component [학생 관리] 게시판
@@ -43,7 +44,7 @@ export enum StudentManageBoard {
   'NAME' = NAME,
   'SID' = SID,
   'GRADE' = GRADE,
-  'MOBILE' = MOBILE,
+
   'DEPARTMENT' = DEPARTMENT,
   'MAJOR' = MAJOR,
   'LASTLOGINDATE' = LASTLOGINDATE,
@@ -166,11 +167,11 @@ const rows = [
     '오인혁',
     '21800446',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -179,11 +180,11 @@ const rows = [
     '한시온',
     '21800447',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -192,11 +193,11 @@ const rows = [
     '김민수',
     '21800448',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -205,11 +206,11 @@ const rows = [
     '장유진',
     '21800449',
     '4(8)',
-    '010-6536-6217',
+
     '전산전자공학부',
     'AI 컴퓨터공학심화',
     '2022-08-21',
-    '2022-08-20',
+
     <CheckBoxIcon />,
     <ManageAccountsIcon />
   ),
@@ -264,6 +265,7 @@ export default function StudentManage({
       [ISCHECKED]: student[ISCHECKED],
     };
     return createData(
+      student[ID],
       student[ID],
       student[NAME],
       student[SID],

@@ -92,6 +92,7 @@ export default function GlobalItemForm() {
         return 'C';
       }
     };
+
     const newData = {
       categoryId: 106,
       itemName: values[ITEM],

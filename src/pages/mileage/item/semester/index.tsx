@@ -273,7 +273,7 @@ export default function MileageCategory({
 
   const convertedFetchList = fetchData.list?.map((semesterItem) => {
     const beforeData = {
-      [NUM]: semesterItem.item.id,
+      [NUM]: semesterItem.id,
       [CATEGORY]: semesterItem.category.name,
       [SEMESTER]: semesterItem.semesterName,
       [ITEM]: semesterItem.item.name,
@@ -281,7 +281,7 @@ export default function MileageCategory({
       [MAX_MAILEAGE]: semesterItem.itemMaxPoints,
     };
     return createData(
-      semesterItem.item.id,
+      semesterItem.id,
       semesterItem.category.name,
       semesterItem.semesterName,
       semesterItem.item.name,

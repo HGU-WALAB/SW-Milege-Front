@@ -21,8 +21,10 @@ import { setMileageCategoryList } from 'src/redux/slices/data';
  */
 
 export enum MileageCategoryBoard {
-  'NUM' = NUM,
+  'ID' = ID,
   'CATEGORY' = CATEGORY,
+  'DESCRIPTION1' = DESCRIPTION1,
+  'DESCRIPTION2' = DESCRIPTION2,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
   'MANAGE' = MANAGE,
@@ -34,8 +36,10 @@ export enum MileageCategoryBoard {
  */
 
 interface Data {
-  [MileageCategoryBoard.NUM]: number;
+  [MileageCategoryBoard.ID]: number;
   [MileageCategoryBoard.CATEGORY]: string;
+  [MileageCategoryBoard.DESCRIPTION1]: string;
+  [MileageCategoryBoard.DESCRIPTION2]: string;
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
   [MileageCategoryBoard.MANAGE]: ReactNode;
@@ -69,7 +73,7 @@ function createData(
  */
 const headCells = [
   {
-    id: [MileageCategoryBoard.NUM],
+    id: [MileageCategoryBoard.ID],
     numeric: false,
     disablePadding: true,
     label: '번호',
@@ -79,6 +83,13 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '카테고리명',
+  },
+
+  {
+    id: [MileageCategoryBoard.DESCRIPTION1],
+    numeric: true,
+    disablePadding: false,
+    label: '설명 1',
   },
   {
     id: [MileageCategoryBoard.DESCRIPTION1],

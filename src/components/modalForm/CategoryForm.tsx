@@ -54,6 +54,7 @@ export default function CategoryForm() {
       case EDITCATEGORY:
         axiosInstance
           .patch(`/api/mileage/categories/${beforeData[ID]}`, newData)
+          .patch(`/api/mileage/categories/${beforeData[ID]}`, newData)
           .then((res) => {
             alert('카테고리가 수정되었습니다.');
             router.reload();
