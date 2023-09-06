@@ -5,9 +5,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { openModal, setBeforeData } from 'src/redux/slices/modal';
 import { useDispatch } from 'react-redux';
 
+import PersonIcon from '@mui/icons-material/Person';
 export default function ModalIconButton({ type, beforeData }) {
   const dispatch = useDispatch();
-
   const handleOpen = () => {
     dispatch(openModal(type));
     dispatch(setBeforeData(beforeData));
@@ -22,6 +22,8 @@ export default function ModalIconButton({ type, beforeData }) {
         return <EditIcon />;
       case 'del':
         return <DeleteIcon />;
+      case 'reg':
+        return <PersonIcon />;
     }
   };
 

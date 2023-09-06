@@ -247,7 +247,7 @@ interface ISemesterItem {
   semesterName: string;
   weight: number;
 }
-interface ISemesterItemList {
+export interface ISemesterItemList {
   semesterItems: ISemesterItem[];
 }
 

@@ -15,3 +15,4 @@ export const EDITSTUDENT = 'editStudent';
 
 export const ADDMILEAGEREGISTER = 'addMileageRegister';
 export const EDITMILEAGEREGISTER = 'editMileageRegister';
+export const REGISTEREDSTUDENTS = 'registeredStudents';
