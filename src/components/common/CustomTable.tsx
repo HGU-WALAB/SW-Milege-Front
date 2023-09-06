@@ -89,9 +89,9 @@ const ResponsiveTable = styled(Box)({
 // // const ResponsiveTableBody = styled(TableCell)({
 
 // const ResponsiveTableHeadLabel = styled(TableSortLabel)({
-//   '@media (max-width: 600px)': {
-//     fontSize: '13px',
-//   },
+// '@media (max-width: 600px)': {
+//   fontSize: '13px',
+// },
 // });
 
 // const RsponsiveTableBodyCheckBox = styled(TableCell)({
