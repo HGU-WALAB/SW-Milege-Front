@@ -70,6 +70,8 @@ import {
   COUNTS,
   POINTS,
   EXTRAPOINTS,
+  TITLE,
+  ORDER_IDX,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -137,6 +139,10 @@ const modalForm = (modalType, beforeData) => {
 
 export const engToKor = (eng) => {
   switch (eng) {
+    case TITLE:
+      return '이름';
+    case ORDER_IDX:
+      return '우선 순위';
     case CATEGORY:
       return '카테고리';
     case SEMESTER:

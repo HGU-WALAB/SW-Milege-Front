@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { ButtonFlexBox } from '../common/modal/SWModal';
-import { TITLE, CATEGORY, DESCRIPTION, MAX_MILEAGE, MAX_POINTS, NUM } from 'src/assets/data/fields';
+import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
+import { TITLE, CATEGORY, DESCRIPTION1, DESCRIPTION2, ORDER_IDX, ID } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import { ADDCATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
@@ -18,9 +18,10 @@ export default function CategoryForm({ beforeData }) {
   const router = useRouter();
 
   const CategorySchema = Yup.object().shape({
-    [CATEGORY]: Yup.string().required('필수입니다.'),
-    [DESCRIPTION]: Yup.string(),
-    [MAX_MILEAGE]: Yup.number().integer().required('필수입니다.'),
+    [TITLE]: Yup.string().required('필수입니다.'),
+    [DESCRIPTION1]: Yup.string(),
+    [DESCRIPTION2]: Yup.string(),
+    [ORDER_IDX]: Yup.number().integer().required('필수입니다.'),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -31,9 +32,10 @@ export default function CategoryForm({ beforeData }) {
     // 4) reload
 
     const newData = {
-      [TITLE]: values[CATEGORY],
-      [DESCRIPTION]: values[DESCRIPTION],
-      [MAX_POINTS]: values[MAX_MILEAGE],
+      [TITLE]: values[TITLE],
+      [ORDER_IDX]: values[ORDER_IDX],
+      [DESCRIPTION1]: values[DESCRIPTION1],
+      [DESCRIPTION2]: values[DESCRIPTION2],
     };
 
     switch (modalType) {
@@ -49,7 +51,7 @@ export default function CategoryForm({ beforeData }) {
 
       case EDITCATEGORY:
         axiosInstance
-          .patch(`/api/mileage/categories/${beforeData[NUM]}`, newData)
+          .patch(`/api/mileage/categories/${beforeData[ID]}`, newData)
           .then((res) => {
             alert('카테고리가 수정되었습니다.');
             router.reload();
@@ -62,9 +64,10 @@ export default function CategoryForm({ beforeData }) {
   return (
     <Formik
       initialValues={{
-        [CATEGORY]: modalType === EDITCATEGORY ? beforeData?.[CATEGORY] : '',
-        [DESCRIPTION]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION] : '',
-        [MAX_MILEAGE]: modalType === EDITCATEGORY ? beforeData?.[MAX_MILEAGE] : 0,
+        [TITLE]: modalType === EDITCATEGORY ? beforeData?.[TITLE] : '',
+        [ORDER_IDX]: modalType === EDITCATEGORY ? beforeData?.[ORDER_IDX] : '',
+        [DESCRIPTION1]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION1] : '',
+        [DESCRIPTION2]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION2] : '',
       }}
       validationSchema={CategorySchema}
       onSubmit={handleSubmit}
@@ -81,20 +84,21 @@ export default function CategoryForm({ beforeData }) {
             gap: '30px',
           }}
         >
-          <Field
-            style={{ minWidth: '300px' }}
-            name={CATEGORY}
-            as={TextField}
-            type="text"
-            label="카테고리"
-            variant="standard"
-          />
-          <ErrorMessage name={CATEGORY} />
-          <Field label="설명" name={DESCRIPTION} as={TextField} variant="standard" />
-          <ErrorMessage name={DESCRIPTION} />
+          {[TITLE, ORDER_IDX, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
+            <>
+              <Field
+                key={index}
+                style={{ minWidth: '300px' }}
+                name={field}
+                as={TextField}
+                type="text"
+                label={engToKor(field)}
+                variant="standard"
+              />
+              <ErrorMessage name={field} />
+            </>
+          ))}
 
-          <Field label="최대 마일리지" name={MAX_MILEAGE} as={TextField} variant="standard" />
-          <ErrorMessage name={MAX_MILEAGE} disabled={isSubmitting} />
           <ButtonFlexBox>
             <CancelButton modalType={modalType} />
             <SubmitButton />

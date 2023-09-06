@@ -1,5 +1,15 @@
 import EnhancedTable from 'src/components/common/CustomTable';
-import { MAX_MILEAGE, MANAGE, CHECK_BOX, NUM, DESCRIPTION, NAME, ID } from 'src/assets/data/fields';
+import {
+  MAX_MILEAGE,
+  MANAGE,
+  CHECK_BOX,
+  NUM,
+  DESCRIPTION,
+  NAME,
+  ID,
+  ORDER_IDX,
+  TITLE,
+} from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
 import { useDispatch, useSelector } from 'react-redux';
@@ -148,10 +158,11 @@ export default function MileageCategory({
 
   const convertedFetchList = fetchData.list?.map((item) => {
     const beforeData = {
-      [NUM]: item[ID],
-      [CATEGORY]: item[NAME],
+      [ID]: item[ID],
+      [TITLE]: item[NAME],
       [DESCRIPTION1]: item[DESCRIPTION1],
       [DESCRIPTION2]: item[DESCRIPTION2],
+      [ORDER_IDX]: item[ORDER_IDX],
     };
     return createData(
       item[ID],
