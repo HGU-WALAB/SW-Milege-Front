@@ -316,7 +316,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
   const [rows, setRows] = React.useState(originalRows);
-  console.log('debug', rows, originalRows);
 
   /**
    * @brief 필터링 요소

@@ -19,7 +19,6 @@ import {
   MILEAGE,
   DESCRIPTION1,
   DESCRIPTION2,
-  FILE_DESCRIPTION,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
   ISINPUT_STUDENT,
@@ -28,7 +27,7 @@ import {
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
-  NUM,
+  ID,
 } from 'src/assets/data/fields';
 import { useSelector } from 'react-redux';
 import { ADDGLOBALITEM, EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
@@ -63,10 +62,12 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-export default function GlobalItemForm({ beforeData }) {
+export default function GlobalItemForm() {
   const modalType = useSelector((state) => state.modal.modalType);
-  console.log(modalType, beforeData);
+  // console.log('dbug', modalType, beforeData);
 
+  const beforeData = useSelector((state) => state.modal.beforeData);
+  console.log('d', beforeData);
   const router = useRouter();
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -92,7 +93,7 @@ export default function GlobalItemForm({ beforeData }) {
       }
     };
     const newData = {
-      categoryId: 1,
+      categoryId: 106,
       itemName: values[ITEM],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
@@ -105,6 +106,8 @@ export default function GlobalItemForm({ beforeData }) {
         isPortfolio: values[ISEVALUATE_PORTFOLIO],
       },
     };
+
+    console.log('!', newData);
 
     switch (modalType) {
       case ADDGLOBALITEM:
@@ -122,25 +125,23 @@ export default function GlobalItemForm({ beforeData }) {
 
       case EDITGLOBALITEM:
         axiosInstance
-          .patch(`/api/mileage/items/${beforeData[NUM]}`, newData)
+          .patch(`/api/mileage/items/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert(`글로벌 항목 ${beforeData[NUM]}번이 수정되었습니다.`);
+            alert(`글로벌 항목 ${beforeData[ID]}번이 수정되었습니다.`);
             router.reload();
           })
           .catch((err) => alert('글로벌 항목 수정에 실패했습니다.'));
         break;
     }
   };
+
   return (
     <Formik
       initialValues={{
         [CATEGORY]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORY] : '',
-
         [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
-
         [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
-        [FILE_DESCRIPTION]: modalType === EDITGLOBALITEM ? beforeData?.[FILE_DESCRIPTION] : '',
         [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
         [ISVISIBLE_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
         [ISINPUT_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISINPUT_STUDENT] : false,
@@ -158,21 +159,19 @@ export default function GlobalItemForm({ beforeData }) {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[CATEGORY, ITEM, DESCRIPTION1, DESCRIPTION2, FILE_DESCRIPTION].map(
-                (field: string, index: number) => (
-                  <Box key={index}>
-                    <Field
-                      sx={{ width: '300px' }}
-                      name={field}
-                      as={TextField}
-                      type="text"
-                      label={engToKor(field)}
-                      variant="standard"
-                    />
-                    <ErrorMessage name={field} />
-                  </Box>
-                )
-              )}
+              {[CATEGORY, ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
+                <Box key={index}>
+                  <Field
+                    sx={{ width: '300px' }}
+                    name={field}
+                    as={TextField}
+                    type="text"
+                    label={engToKor(field)}
+                    variant="standard"
+                  />
+                  <ErrorMessage name={field} />
+                </Box>
+              ))}
             </StyleFieldBox>
             <StyleFieldBox>
               {[

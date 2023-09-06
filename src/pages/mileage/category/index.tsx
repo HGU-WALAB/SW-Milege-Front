@@ -3,7 +3,6 @@ import {
   MAX_MILEAGE,
   MANAGE,
   CHECK_BOX,
-  NUM,
   DESCRIPTION,
   NAME,
   ID,
@@ -22,7 +21,7 @@ import { setMileageCategoryList } from 'src/redux/slices/data';
  */
 
 export enum MileageCategoryBoard {
-  'ID' = ID,
+  'NUM' = NUM,
   'CATEGORY' = CATEGORY,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
@@ -35,7 +34,7 @@ export enum MileageCategoryBoard {
  */
 
 interface Data {
-  [MileageCategoryBoard.ID]: number;
+  [MileageCategoryBoard.NUM]: number;
   [MileageCategoryBoard.CATEGORY]: string;
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
@@ -49,14 +48,14 @@ interface Data {
  *  */
 
 function createData(
-  ID: number,
+  NUM: number,
   CATEGORY: string,
   DESCRIPTION1: string,
   DESCRIPTION2: string,
   MANAGE: ReactNode
 ): Data {
   return {
-    [MileageCategoryBoard.ID]: ID,
+    [MileageCategoryBoard.NUM]: NUM,
     [MileageCategoryBoard.CATEGORY]: CATEGORY,
     [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
@@ -70,7 +69,7 @@ function createData(
  */
 const headCells = [
   {
-    id: [MileageCategoryBoard.ID],
+    id: [MileageCategoryBoard.NUM],
     numeric: false,
     disablePadding: true,
     label: '번호',
@@ -106,7 +105,7 @@ const headCells = [
  * 더미 객체
  */
 const IParams = {
-  [ID]: 1,
+  [NUM]: 1,
   [CATEGORY]: '카테고리테스트',
   [DESCRIPTION1]: '설명 테스트',
   [DESCRIPTION2]: '설명 테스트',
@@ -120,7 +119,7 @@ import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setCategoryList } from 'src/redux/slices/filter';
-import { DESCRIPTION1, CATEGORY, DESCRIPTION2 } from '../../../assets/data/fields';
+import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
 
 interface IList {
   id: number;

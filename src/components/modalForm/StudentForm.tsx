@@ -80,7 +80,8 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-export default function StudentForm({ beforeData }) {
+export default function StudentForm() {
+  const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
   console.log('debug2', modalType, beforeData);
 

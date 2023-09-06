@@ -2,14 +2,11 @@ import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from 'src/components/common/CustomTable';
 import {
   MILEAGE,
-  ISVISIBLE,
   REGISTERED_DATE,
   MANAGE,
   CHECK_BOX,
   NUM,
-  CATEGORY,
   SEMESTER,
-  ITEM,
   DESCRIPTION,
   DESCRIPTION1,
   DESCRIPTION2,
@@ -21,6 +18,7 @@ import {
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
+  NAME,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
@@ -39,13 +37,13 @@ import { useEffect } from 'react';
  */
 
 export enum MileageGlobalItemBoard {
-  'NUM' = NUM,
+  'ID' = ID,
   'CATEGORY' = CATEGORY,
-
   'ITEM' = ITEM,
+  'DESCRIPTION1' = DESCRIPTION1,
+  'DESCRIPTION2' = DESCRIPTION2,
 
   'ISVISIBLE' = ISVISIBLE,
-  'REGISTERED_DATE' = REGISTERED_DATE,
   'MANAGE' = MANAGE,
 }
 
@@ -55,11 +53,11 @@ export enum MileageGlobalItemBoard {
  */
 interface Data {
   [MileageGlobalItemBoard.CATEGORY]: string;
-
   [MileageGlobalItemBoard.ITEM]: string;
+  [MileageGlobalItemBoard.DESCRIPTION1]: string;
+  [MileageGlobalItemBoard.DESCRIPTION2]: string;
 
   [MileageGlobalItemBoard.ISVISIBLE]: boolean;
-  [MileageGlobalItemBoard.REGISTERED_DATE]: string;
   [MileageGlobalItemBoard.MANAGE]: string;
 }
 
@@ -69,24 +67,26 @@ interface Data {
  *
  *  */
 function createData(
-  num: number,
-  category: string,
+  ID: number,
+  CATEGORY: string,
+  ITEM: string,
+  DESCRIPTION1: string,
+  DESCRIPTION2: string,
 
-  item: string,
-
-  isVisible: boolean,
-  registeredDate: string,
-  manage: string
+  ISVISIBLE: boolean,
+  MANAGE: string
 ): Data {
   return {
-    [MileageGlobalItemBoard.NUM]: num,
-    [MileageGlobalItemBoard.CATEGORY]: category,
+    [MileageGlobalItemBoard.NUM]: ID,
+    [MileageGlobalItemBoard.CATEGORY]: CATEGORY,
 
-    [MileageGlobalItemBoard.ITEM]: item,
+    [MileageGlobalItemBoard.ITEM]: ITEM,
 
-    [MileageGlobalItemBoard.ISVISIBLE]: isVisible,
-    [MileageGlobalItemBoard.REGISTERED_DATE]: registeredDate,
-    [MileageGlobalItemBoard.MANAGE]: manage,
+    [MileageGlobalItemBoard.DESCRIPTION1]: DESCRIPTION1,
+    [MileageGlobalItemBoard.DESCRIPTION2]: DESCRIPTION2,
+
+    [MileageGlobalItemBoard.ISVISIBLE]: ISVISIBLE,
+    [MileageGlobalItemBoard.MANAGE]: MANAGE,
   };
 }
 
@@ -114,16 +114,22 @@ const headCells = [
     label: '항목명',
   },
   {
+    id: [MileageGlobalItemBoard.DESCRIPTION1],
+    numeric: true,
+    disablePadding: false,
+    label: '설명1',
+  },
+  {
+    id: [MileageGlobalItemBoard.DESCRIPTION2],
+    numeric: true,
+    disablePadding: false,
+    label: '설명2',
+  },
+  {
     id: [MileageGlobalItemBoard.ISVISIBLE],
     numeric: true,
     disablePadding: false,
     label: '보이기',
-  },
-  {
-    id: [MileageGlobalItemBoard.REGISTERED_DATE],
-    numeric: true,
-    disablePadding: false,
-    label: '등록일',
   },
   {
     id: [MileageGlobalItemBoard.MANAGE],
@@ -227,6 +233,7 @@ import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setItemList, setSemesterList } from 'src/redux/slices/filter';
+import { ID, CATEGORY, ITEM, ISVISIBLE } from '../../../../assets/data/fields';
 
 interface ICategory {
   id: number;
@@ -262,30 +269,43 @@ export default function MileageCategory({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const dispatch = useDispatch();
+  console.log('Check', fetchData);
+  const convertedFetchList = fetchData.list?.map((item, index) => {
+    const {
+      id,
+      category: { name: categoryName },
+      name: itemName,
+      description1,
+      description2,
+      isVisible,
+      isStudentVisible,
+      isMulti,
+      stuType,
+      isPortfolio,
+    } = item;
 
-  const convertedFetchList = fetchData.items?.map((item) => {
     const beforeData = {
-      [NUM]: item.id,
-      [CATEGORY]: item.category.name,
-      [ITEM]: item.name,
-      [DESCRIPTION1]: item.description1,
-      [DESCRIPTION2]: item.description2,
-      [FILE_DESCRIPTION]: '첨부파일 설명', // 업서야 되는 듯
-      [ISVISIBLE]: true,
-      [ISVISIBLE_STUDENT]: false,
+      [ID]: id,
+      [CATEGORY]: categoryName,
+      [ITEM]: itemName,
+      [DESCRIPTION1]: description1,
+      [DESCRIPTION2]: description2,
+      [ISVISIBLE]: isVisible,
+      [ISVISIBLE_STUDENT]: isStudentVisible,
       [ISINPUT_STUDENT]: false,
-      [ISDUPLICATE_RECORD]: false,
-      [ISEVALUATE_CSEE]: item.stuType === 'F' ? false : true,
-      [ISEVALUATE_PORTFOLIO]: item.isPortfolio,
-      [ISEVALUATE_FUSION]: item.stuType === 'C' ? false : true,
+      [ISDUPLICATE_RECORD]: isMulti,
+      [ISEVALUATE_CSEE]: stuType === 'F' ? false : true,
+      [ISEVALUATE_PORTFOLIO]: isPortfolio,
+      [ISEVALUATE_FUSION]: stuType === 'C' ? false : true,
     };
-    return createData(
-      item.id,
-      item.category.name,
 
-      item.name,
-      true,
-      '2023-08-21',
+    return createData(
+      item[ID],
+      item[CATEGORY][NAME],
+      item[NAME],
+      item[DESCRIPTION1],
+      item[DESCRIPTION2],
+      item[ISVISIBLE],
       <SWModal type={EDITGLOBALITEM} beforeData={beforeData} />
     );
   });

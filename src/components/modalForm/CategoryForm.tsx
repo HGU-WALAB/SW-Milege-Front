@@ -13,7 +13,9 @@ import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 
-export default function CategoryForm({ beforeData }) {
+export default function CategoryForm() {
+  const beforeData = useSelector((state) => state.modal.beforeData);
+
   const modalType = useSelector((state) => state.modal.modalType);
   const router = useRouter();
 

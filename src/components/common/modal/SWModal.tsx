@@ -78,7 +78,7 @@ import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
 import ModalIconButton from './ModalIconButton';
 import ModalTitle from './ModalTitle';
-import { values } from 'lodash';
+import { before, values } from 'lodash';
 import ItemForm from 'src/components/modalForm/GlobalItemForm';
 import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
 import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
@@ -112,25 +112,25 @@ const style = {
 const modalForm = (modalType, beforeData) => {
   switch (modalType) {
     case ADDCATEGORY:
-      return <CategoryForm beforeData={beforeData} />;
+      return <CategoryForm />;
     case EDITCATEGORY:
-      return <CategoryForm beforeData={beforeData} />;
+      return <CategoryForm />;
     case ADDITEM:
-      return <SemesterItemForm beforeData={beforeData} />;
+      return <SemesterItemForm />;
     case EDITITEM:
-      return <SemesterItemForm beforeData={beforeData} />;
+      return <SemesterItemForm />;
     case ADDGLOBALITEM:
-      return <GlobalItemForm beforeData={beforeData} />;
+      return <GlobalItemForm />;
     case EDITGLOBALITEM:
-      return <GlobalItemForm beforeData={beforeData} />;
+      return <GlobalItemForm />;
     case ADDSTUDENT:
-      return <StudentForm beforeData={beforeData} />;
+      return <StudentForm />;
     case EDITSTUDENT:
-      return <StudentForm beforeData={beforeData} />;
+      return <StudentForm />;
     case ADDMILEAGEREGISTER:
-      return <MileageRegisterForm beforeData={beforeData} />;
+      return <MileageRegisterForm />;
     case EDITMILEAGEREGISTER:
-      return <MileageRegisterForm beforeData={beforeData} />;
+      return <MileageRegisterForm />;
 
     default:
       return <div>default</div>;
@@ -209,8 +209,6 @@ export const engToKor = (eng) => {
 };
 
 export default function SWModal({ type, beforeData }) {
-  console.log('debug', beforeData);
-
   const dispatch = useDispatch();
   const open = useSelector((state) => state.modal.isOpen);
   const modalType = useSelector((state) => state.modal.modalType);
@@ -219,7 +217,7 @@ export default function SWModal({ type, beforeData }) {
 
   return (
     <div>
-      <ModalIconButton type={type} />
+      <ModalIconButton beforeData={beforeData} type={type} />
       <Modal
         open={open}
         onClose={handleClose}
