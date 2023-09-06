@@ -52,15 +52,13 @@ export default function HomePage({ categoryData, globalItemData, studentData }) 
   const dispatch = useDispatch();
   console.log(categoryData);
   dispatch(
-    setCategoryList(
-      categoryData.categories.map((category) => ({ id: category.id, name: category.name }))
-    )
+    setCategoryList(categoryData.list.map((category) => ({ id: category.id, name: category.name })))
   );
-  dispatch(setItemList(globalItemData.items.map((item) => ({ id: item.id, name: item.name }))));
+  dispatch(setItemList(globalItemData.list.map((item) => ({ id: item.id, name: item.name }))));
 
   dispatch(
     setStudentList(
-      studentData.students.map((student) => ({
+      studentData.list.map((student) => ({
         id: student.id,
         name: student.name,
         sid: student.sid,

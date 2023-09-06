@@ -159,7 +159,6 @@ export default function StudentForm() {
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
               {[NAME, SID, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
-              {[NAME, SID, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
                 (field: string, index: number) => (
                   <Box key={index}>
                     <Field

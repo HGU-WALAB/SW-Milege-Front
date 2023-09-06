@@ -20,7 +20,6 @@ import {
   REGDATE,
   ISCHECKED,
   MOBILE,
-  ID,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
