@@ -4,12 +4,9 @@ import {
   MILEAGE,
   ISVISIBLE,
   REGISTERED_DATE,
-  MANAGE,
   CHECK_BOX,
   NUM,
-  CATEGORY,
-  SEMESTER,
-  ITEM,
+  ITEM_MAX_POINTS,
   DESCRIPTION,
   DESCRIPTION1,
   SEMESTERITEM,
@@ -30,6 +27,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setMileageSemesterList } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
+import { CATEGORY, SEMESTER, ITEM, POINTS, MANAGE } from '../../../../assets/data/fields';
 
 /**
  * @component [마일리지 학기별 항목] 게시판
@@ -45,9 +43,8 @@ export enum MileageSemesterItemBoard {
   'CATEGORY' = CATEGORY,
   'SEMESTER' = SEMESTER,
   'ITEM' = ITEM,
-  'MILEAGE' = MILEAGE,
-  'ISVISIBLE' = ISVISIBLE,
-  'REGISTERED_DATE' = REGISTERED_DATE,
+  'POINTS' = POINTS,
+  'ITEM_MAX_POINTS' = ITEM_MAX_POINTS,
   'MANAGE' = MANAGE,
 }
 
@@ -59,9 +56,8 @@ interface Data {
   [MileageSemesterItemBoard.CATEGORY]: string;
   [MileageSemesterItemBoard.SEMESTER]: string;
   [MileageSemesterItemBoard.ITEM]: string;
-  [MileageSemesterItemBoard.MILEAGE]: number;
-  [MileageSemesterItemBoard.ISVISIBLE]: boolean;
-  [MileageSemesterItemBoard.REGISTERED_DATE]: string;
+  [MileageSemesterItemBoard.POINTS]: number;
+  [MileageSemesterItemBoard.ITEM_MAX_POINTS]: number;
   [MileageSemesterItemBoard.MANAGE]: string;
 }
 
@@ -71,24 +67,22 @@ interface Data {
  *
  *  */
 function createData(
-  num: number,
-  category: string,
-  semester: string,
-  item: string,
-  mileage: number,
-  isVisible: boolean,
-  registeredDate: string,
-  manage: string
+  NUM: number,
+  CATEGORY: string,
+  SEMESTER: string,
+  ITEM: string,
+  POINTS: number,
+  ITEM_MAX_POINTS: number,
+  MANAGE: string
 ): Data {
   return {
-    [MileageSemesterItemBoard.NUM]: num,
-    [MileageSemesterItemBoard.CATEGORY]: category,
-    [MileageSemesterItemBoard.SEMESTER]: semester,
-    [MileageSemesterItemBoard.ITEM]: item,
-    [MileageSemesterItemBoard.MILEAGE]: mileage,
-    [MileageSemesterItemBoard.ISVISIBLE]: isVisible,
-    [MileageSemesterItemBoard.REGISTERED_DATE]: registeredDate,
-    [MileageSemesterItemBoard.MANAGE]: manage,
+    [MileageSemesterItemBoard.NUM]: NUM,
+    [MileageSemesterItemBoard.CATEGORY]: CATEGORY,
+    [MileageSemesterItemBoard.SEMESTER]: SEMESTER,
+    [MileageSemesterItemBoard.ITEM]: ITEM,
+    [MileageSemesterItemBoard.POINTS]: POINTS,
+    [MileageSemesterItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
+    [MileageSemesterItemBoard.MANAGE]: MANAGE,
   };
 }
 
@@ -122,22 +116,16 @@ const headCells = [
     label: '항목명',
   },
   {
-    id: [MileageSemesterItemBoard.MILEAGE],
+    id: [MileageSemesterItemBoard.POINTS],
     numeric: true,
     disablePadding: false,
-    label: '마일리지',
+    label: '포인트',
   },
   {
-    id: [MileageSemesterItemBoard.ISVISIBLE],
+    id: [MileageSemesterItemBoard.ITEM_MAX_POINTS],
     numeric: true,
     disablePadding: false,
-    label: '보이기',
-  },
-  {
-    id: [MileageSemesterItemBoard.REGISTERED_DATE],
-    numeric: true,
-    disablePadding: false,
-    label: '등록일',
+    label: '항목 최대 포인트',
   },
   {
     id: [MileageSemesterItemBoard.MANAGE],
@@ -279,13 +267,16 @@ export default function MileageCategory({
   const data = useSelector((state) => state.data.mileageSemesterList);
   const dispatch = useDispatch();
 
+  // const semester = useSelector((state) => state.filter.semester);
+  // console.log(semester);
   console.log(fetchData);
 
-  const convertedFetchList = fetchData.semesterItems?.map((semesterItem) => {
+  const convertedFetchList = fetchData.list?.map((semesterItem) => {
     const beforeData = {
       [NUM]: semesterItem.item.id,
       [CATEGORY]: semesterItem.category.name,
       [SEMESTER]: semesterItem.semesterName,
+      [ITEM]: semesterItem.item.name,
       [MILEAGE]: semesterItem.points,
       [MAX_MAILEAGE]: semesterItem.itemMaxPoints,
     };
@@ -295,8 +286,8 @@ export default function MileageCategory({
       semesterItem.semesterName,
       semesterItem.item.name,
       semesterItem.points,
-      true,
-      '2023-08-21',
+      semesterItem.itemMaxPoints,
+
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );
   });

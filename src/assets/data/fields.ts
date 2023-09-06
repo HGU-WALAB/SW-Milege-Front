@@ -67,3 +67,4 @@ export const STUDENT_ID = 'studentId';
 export const CATEGORY_NAME = 'categoryName';
 
 export const ORDER_IDX = 'orderIdx';
+export const ITEM_MAX_POINTS = 'itemMaxPoints';
