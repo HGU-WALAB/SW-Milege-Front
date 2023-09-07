@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChartNum } from 'src/redux/slices/chart';
 
-export default function index() {
+export default function ReportTabs() {
   const chartNum = useSelector((state) => state.chart.chartNum);
   const dispatch = useDispatch();
 
