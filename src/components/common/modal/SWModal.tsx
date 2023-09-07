@@ -218,7 +218,7 @@ export default function SWModal({ type, beforeData }) {
     boxShadow: 24,
     p: 2,
 
-    width: modalType === REGISTEREDSTUDENTS && '80%',
+    width: modalType === REGISTEREDSTUDENTS ? '80%' : '80%',
   };
   return (
     <div>

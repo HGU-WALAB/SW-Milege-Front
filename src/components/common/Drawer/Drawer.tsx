@@ -124,6 +124,8 @@ export default function MiniDrawer() {
         return '/manage/user';
       case 9:
         return '/mileage/result';
+      case 11:
+        return '/report';
       default:
         return '/';
     }
@@ -143,7 +145,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         {/*  사이드바 리스트 아이템 */}
         <List>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((boardNum, index) => (
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((boardNum, index) => (
             <m.div
               key={index}
               onClick={clearSelected}
