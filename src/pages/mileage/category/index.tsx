@@ -23,8 +23,7 @@ import { setMileageCategoryList } from 'src/redux/slices/data';
 export enum MileageCategoryBoard {
   'ID' = ID,
   'CATEGORY' = CATEGORY,
-  'DESCRIPTION1' = DESCRIPTION1,
-  'DESCRIPTION2' = DESCRIPTION2,
+  'ORDER_IDX' = ORDER_IDX,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
   'MANAGE' = MANAGE,
@@ -38,8 +37,7 @@ export enum MileageCategoryBoard {
 interface Data {
   [MileageCategoryBoard.ID]: number;
   [MileageCategoryBoard.CATEGORY]: string;
-  [MileageCategoryBoard.DESCRIPTION1]: string;
-  [MileageCategoryBoard.DESCRIPTION2]: string;
+  [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
   [MileageCategoryBoard.MANAGE]: ReactNode;
@@ -54,6 +52,7 @@ interface Data {
 function createData(
   NUM: number,
   CATEGORY: string,
+  ORDER_IDX: number,
   DESCRIPTION1: string,
   DESCRIPTION2: string,
   MANAGE: ReactNode
@@ -61,6 +60,7 @@ function createData(
   return {
     [MileageCategoryBoard.NUM]: NUM,
     [MileageCategoryBoard.CATEGORY]: CATEGORY,
+    [MileageCategoryBoard.ORDER_IDX]: ORDER_IDX,
     [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
     [MileageCategoryBoard.MANAGE]: MANAGE,
@@ -86,10 +86,10 @@ const headCells = [
   },
 
   {
-    id: [MileageCategoryBoard.DESCRIPTION1],
+    id: [MileageCategoryBoard.ORDER_IDX],
     numeric: true,
     disablePadding: false,
-    label: '설명 1',
+    label: '우선 순위',
   },
   {
     id: [MileageCategoryBoard.DESCRIPTION1],
@@ -154,6 +154,7 @@ export const getServerSideProps: GetServerSideProps<{
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const res = await axiosInstance.get('/api/mileage/categories');
   const fetchData = res.data;
+  console.log(fetchData);
   return { props: { fetchData } };
 };
 
@@ -177,6 +178,7 @@ export default function MileageCategory({
     return createData(
       item[ID],
       item[NAME],
+      item[ORDER_IDX],
       item[DESCRIPTION1],
       item[DESCRIPTION2],
       <SWModal type={EDITCATEGORY} beforeData={beforeData} />
