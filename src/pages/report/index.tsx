@@ -12,6 +12,10 @@ const LineChart = dynamic(
   () => import('@mui/x-charts/LineChart').then(({ LineChart }) => LineChart),
   { ssr: false }
 );
+const PieChart = dynamic(() => import('@mui/x-charts/PieChart').then(({ PieChart }) => PieChart), {
+  ssr: false,
+});
+
 const sampleX = [
   new Date('2000'),
   new Date('2010'),
@@ -27,10 +31,6 @@ const sample = {
   third: [80, 30, 50, 70, 20, 110, 120],
   fourth: [40, 40, 60, 80, 40, 40, 50],
 };
-
-const PieChart = dynamic(() => import('@mui/x-charts/PieChart').then(({ PieChart }) => PieChart), {
-  ssr: false,
-});
 
 const pieParams = { height: 200, margin: { right: 5 } };
 const palette = ['red', 'blue', 'green'];

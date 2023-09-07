@@ -8,11 +8,25 @@ import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import { HighlightScope } from '@mui/x-charts';
-import { BarChart } from '@mui/x-charts/BarChart';
-import { LineChart } from '@mui/x-charts/LineChart';
-import { ScatterChart } from '@mui/x-charts/ScatterChart';
-import { PieChart } from '@mui/x-charts/PieChart';
-
+import dynamic from 'next/dynamic';
+// import { BarChart } from '@mui/x-charts/BarChart';
+// import { LineChart } from '@mui/x-charts/LineChart';
+// import { ScatterChart } from '@mui/x-charts/ScatterChart';
+// import { PieChart } from '@mui/x-charts/PieChart';
+const ScatterChart = dynamic(
+  () => import('@mui/x-charts/ScatterChart').then(({ ScatterChart }) => ScatterChart),
+  { ssr: false }
+);
+const BarChart = dynamic(() => import('@mui/x-charts/BarChart').then(({ BarChart }) => BarChart), {
+  ssr: false,
+});
+const LineChart = dynamic(
+  () => import('@mui/x-charts/LineChart').then(({ LineChart }) => LineChart),
+  { ssr: false }
+);
+const PieChart = dynamic(() => import('@mui/x-charts/PieChart').then(({ PieChart }) => PieChart), {
+  ssr: false,
+});
 const barChartsParams = {
   series: [
     { data: [3, 4, 1, 6, 5], label: 'A' },
