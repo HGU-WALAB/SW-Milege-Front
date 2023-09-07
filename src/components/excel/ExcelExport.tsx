@@ -42,7 +42,7 @@ export default function ExcelExport() {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', mt: '30px' }}>
       {Excels.map((Excel, index) => (
         /**
          * @brief 엑셀 다운로드 버튼

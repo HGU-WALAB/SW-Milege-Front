@@ -1,4 +1,5 @@
 import { Tab, Tabs } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChartNum } from 'src/redux/slices/chart';
@@ -6,6 +7,7 @@ import { setChartNum } from 'src/redux/slices/chart';
 export default function ReportTabs() {
   const chartNum = useSelector((state) => state.chart.chartNum);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const navigate2Page = (idx) => {
     switch (idx) {
@@ -16,13 +18,13 @@ export default function ReportTabs() {
       case 2:
         return '/report/item';
       case 3:
-        return '/report/ranking';
+        return '/report/rank';
     }
   };
 
   const handleChange = (e, newValue) => {
     dispatch(setChartNum(newValue));
-    navigate2Page(newValue);
+    router.push(navigate2Page(newValue));
   };
 
   function a11yProps(index: number) {
