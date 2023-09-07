@@ -1,10 +1,10 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
 import { useSelector } from 'react-redux';
-import { CATEGORYID, DEPARTMENT, GRADE, SEMESTER } from 'src/assets/data/fields';
+import { CATEGORYID, DEPARTMENT, GRADE, SEMESTER, SEMESTERCOUNT } from 'src/assets/data/fields';
 import { engToKor } from '../modal/SWModal';
 
-export default function semesterCountSelect() {
+export default function SemesterCountSelect() {
   const semesterCounts = [
     {
       id: 1,
@@ -50,9 +50,9 @@ export default function semesterCountSelect() {
 
   const MySelect = ({ field, form, ...props }) => (
     <Select {...field} {...props}>
-      {SemesterNums.map((SemesterNum) => (
-        <MenuItem key={SemesterNum.id} value={SemesterNum.id}>
-          {SemesterNum.name}
+      {semesterCounts.map((semesterCount) => (
+        <MenuItem key={semesterCount.id} value={semesterCount.id}>
+          {semesterCount.name}
         </MenuItem>
       ))}
     </Select>

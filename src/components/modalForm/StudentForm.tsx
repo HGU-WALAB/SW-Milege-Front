@@ -56,6 +56,9 @@ import { useRouter } from 'next/router';
 import { SID } from '../../assets/data/fields';
 import DepartmentSelect from '../common/Select/DepartmentSelect';
 import MajorSelect from '../common/Select/MajorSelect';
+import GradeSelect from '../common/Select/GradeSelect';
+import semesterCountSelect from '../common/Select/SemesterCountSelect';
+import SemesterCountSelect from '../common/Select/SemesterCountSelect';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -160,7 +163,7 @@ export default function StudentForm() {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[NAME, SID, YEAR, SEMESTERCOUNT].map((field: string, index: number) => (
+              {[NAME, SID].map((field: string, index: number) => (
                 <Box key={index} sx={{ width: '100%' }}>
                   <Field
                     name={field}
@@ -172,6 +175,8 @@ export default function StudentForm() {
                   <ErrorMessage name={field} />
                 </Box>
               ))}
+              <GradeSelect />
+              <SemesterCountSelect />
               <DepartmentSelect />
               <MajorSelect name={MAJOR1} />
               <MajorSelect name={MAJOR2} />
