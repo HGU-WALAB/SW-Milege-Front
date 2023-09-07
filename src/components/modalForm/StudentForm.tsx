@@ -54,6 +54,8 @@ import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import { SID } from '../../assets/data/fields';
+import DepartmentSelect from '../common/Select/DepartmentSelect';
+import MajorSelect from '../common/Select/MajorSelect';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -158,21 +160,21 @@ export default function StudentForm() {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[NAME, SID, DEPARTMENT, MAJOR1, MAJOR2, YEAR, SEMESTERCOUNT].map(
-                (field: string, index: number) => (
-                  <Box key={index}>
-                    <Field
-                      sx={{ width: '300px' }}
-                      name={field}
-                      as={TextField}
-                      type="text"
-                      label={engToKor(field)}
-                      variant="standard"
-                    />
-                    <ErrorMessage name={field} />
-                  </Box>
-                )
-              )}
+              {[NAME, SID, YEAR, SEMESTERCOUNT].map((field: string, index: number) => (
+                <Box key={index} sx={{ width: '100%' }}>
+                  <Field
+                    name={field}
+                    as={TextField}
+                    type="text"
+                    label={engToKor(field)}
+                    variant="standard"
+                  />
+                  <ErrorMessage name={field} />
+                </Box>
+              ))}
+              <DepartmentSelect />
+              <MajorSelect name={MAJOR1} />
+              <MajorSelect name={MAJOR2} />
             </StyleFieldBox>
           </Box>
 

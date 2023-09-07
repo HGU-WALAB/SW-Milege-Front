@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { CATEGORYID, DEPARTMENT, SEMESTER } from 'src/assets/data/fields';
 import { engToKor } from '../modal/SWModal';
 
-export default function DepartmentSelect({ name }) {
+export default function MajorSelect({ name }) {
   const majors = [
     'ACE',
     'AI',
@@ -35,8 +35,8 @@ export default function DepartmentSelect({ name }) {
   const MySelect = ({ field, form, ...props }) => (
     <Select {...field} {...props}>
       {majors.map((major, index) => (
-        <MenuItem key={index} value={majors}>
-          {majors}
+        <MenuItem key={index} value={major}>
+          {major}
         </MenuItem>
       ))}
     </Select>
