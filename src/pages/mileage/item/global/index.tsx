@@ -19,6 +19,7 @@ import {
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
   NAME,
+  CATEGORYID,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
@@ -273,7 +274,7 @@ export default function MileageCategory({
   const convertedFetchList = fetchData.list?.map((item, index) => {
     const {
       id,
-      category: { name: categoryName },
+      category,
       name: itemName,
       description1,
       description2,
@@ -286,7 +287,7 @@ export default function MileageCategory({
 
     const beforeData = {
       [ID]: id,
-      [CATEGORY]: categoryName,
+      [CATEGORYID]: category.id,
       [ITEM]: itemName,
       [DESCRIPTION1]: description1,
       [DESCRIPTION2]: description2,

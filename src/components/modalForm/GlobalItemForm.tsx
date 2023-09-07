@@ -4,6 +4,10 @@ import {
   Box,
   Button,
   Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -35,6 +39,8 @@ import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
+import { CATEGORYID } from '../../assets/data/fields';
+import CategorySelect from '../common/Select/CategorySelect';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -94,7 +100,7 @@ export default function GlobalItemForm() {
     };
 
     const newData = {
-      categoryId: 106,
+      [CATEGORYID]: 1,
       itemName: values[ITEM],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
@@ -139,7 +145,7 @@ export default function GlobalItemForm() {
   return (
     <Formik
       initialValues={{
-        [CATEGORY]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORY] : '',
+        [CATEGORYID]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORYID] : '',
         [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
         [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
@@ -160,10 +166,11 @@ export default function GlobalItemForm() {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[CATEGORY, ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
-                <Box key={index}>
+              <CategorySelect />
+              {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
+                <Box key={index} sx={{ width: '100%' }}>
                   <Field
-                    sx={{ width: '300px' }}
+                    sx={{}}
                     name={field}
                     as={TextField}
                     type="text"
