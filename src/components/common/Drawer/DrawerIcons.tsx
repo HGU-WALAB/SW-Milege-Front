@@ -12,7 +12,7 @@ import GavelIcon from '@mui/icons-material/Gavel';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PublicIcon from '@mui/icons-material/Public';
 import { Board } from 'src/assets/data/board/board';
-
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 export const IconReturn = (text) => {
   switch (text) {
     case Board['마일리지 카테고리']:
@@ -37,6 +37,8 @@ export const IconReturn = (text) => {
       return <GavelIcon />;
     case Board['설정']:
       return <SettingsIcon />;
+    case Board['Reporting']:
+      return <EqualizerIcon />;
     default:
       return <div>Not Found </div>;
   }

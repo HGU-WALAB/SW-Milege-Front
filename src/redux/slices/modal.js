@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isOpen: false,
   modalType: null,
+  beforeData: null,
 };
 
 const slice = createSlice({
@@ -17,9 +18,12 @@ const slice = createSlice({
       state.isOpen = false;
       state.modalType = action.payload;
     },
+    setBeforeData: (state, action) => {
+      state.beforeData = action.payload;
+    },
   },
 });
 
 // Reducer
-export const { openModal, closeModal } = slice.actions;
+export const { openModal, closeModal, setBeforeData } = slice.actions;
 export default slice.reducer;

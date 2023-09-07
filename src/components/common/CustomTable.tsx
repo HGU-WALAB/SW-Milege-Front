@@ -89,9 +89,9 @@ const ResponsiveTable = styled(Box)({
 // // const ResponsiveTableBody = styled(TableCell)({
 
 // const ResponsiveTableHeadLabel = styled(TableSortLabel)({
-//   '@media (max-width: 600px)': {
-//     fontSize: '13px',
-//   },
+// '@media (max-width: 600px)': {
+//   fontSize: '13px',
+// },
 // });
 
 // const RsponsiveTableBodyCheckBox = styled(TableCell)({
@@ -193,15 +193,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={'right'}
+            align={'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <ResponsiveHeaderCell
+            <TableSortLabel
               /**
                * @breif 반응형
                */
-              align={'left'}
+              align={'right'}
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
@@ -212,7 +212,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
-            </ResponsiveHeaderCell>
+            </TableSortLabel>
           </TableCell>
         ))}
       </TableRow>

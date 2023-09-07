@@ -23,7 +23,9 @@ import {
 import { STUDENT_ID } from 'src/assets/data/fields';
 import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
 
-export default function MileageRegisterForm({ beforeData }) {
+export default function MileageRegisterForm() {
+  const beforeData = useSelector((state) => state.modal.beforeData);
+
   const modalType = useSelector((state) => state.modal.modalType);
   const router = useRouter();
   console.log('beforeData', beforeData);

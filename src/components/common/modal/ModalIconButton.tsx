@@ -2,11 +2,16 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { dispatch } from 'src/redux/store';
-import { openModal } from 'src/redux/slices/modal';
+import { openModal, setBeforeData } from 'src/redux/slices/modal';
+import { useDispatch } from 'react-redux';
 
-export default function ModalIconButton({ type }) {
-  const handleOpen = () => dispatch(openModal(type));
+import PersonIcon from '@mui/icons-material/Person';
+export default function ModalIconButton({ type, beforeData }) {
+  const dispatch = useDispatch();
+  const handleOpen = () => {
+    dispatch(openModal(type));
+    dispatch(setBeforeData(beforeData));
+  };
 
   const IconConverter = (type) => {
     const slicedType = type?.slice(0, 3);
@@ -17,6 +22,8 @@ export default function ModalIconButton({ type }) {
         return <EditIcon />;
       case 'del':
         return <DeleteIcon />;
+      case 'reg':
+        return <PersonIcon />;
     }
   };
 

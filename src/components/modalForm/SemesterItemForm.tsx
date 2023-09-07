@@ -23,7 +23,8 @@ import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 
-export default function SemesterItemForm({ beforeData }) {
+export default function SemesterItemForm() {
+  const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
   const router = useRouter();
 

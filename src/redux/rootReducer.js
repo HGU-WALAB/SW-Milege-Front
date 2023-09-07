@@ -12,6 +12,7 @@ import filterReducer from './slices/filter';
 import dataReducer from './slices/data';
 import componentReducer from './slices/component';
 import filterListReducer from './slices/filterList';
+import chartReducer from './slices/chart';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +55,7 @@ const rootReducer = combineReducers({
   data: dataReducer,
   component: componentReducer,
   filterList: filterListReducer,
+  chart: chartReducer,
 });
 
 export default rootReducer;
