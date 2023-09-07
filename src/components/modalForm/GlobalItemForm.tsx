@@ -168,9 +168,9 @@ export default function GlobalItemForm() {
             <StyleFieldBox>
               <CategorySelect />
               {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
-                <Box key={index}>
+                <Box key={index} sx={{ width: '100%' }}>
                   <Field
-                    sx={{ width: '300px' }}
+                    sx={{}}
                     name={field}
                     as={TextField}
                     type="text"

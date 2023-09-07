@@ -22,6 +22,7 @@ import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
+import SemesterSelect from '../common/Select/SemesterSelect';
 
 export default function SemesterItemForm() {
   const beforeData = useSelector((state) => state.modal.beforeData);
@@ -100,14 +101,15 @@ export default function SemesterItemForm() {
             gap: '30px',
           }}
         >
-          <Field
+          <SemesterSelect />
+          {/* <Field
             style={{ minWidth: '300px' }}
             name={SEMESTER}
             as={TextField}
             type="text"
             label="학기"
             variant="standard"
-          />
+          /> */}
           <ErrorMessage name={SEMESTER} />
           <Field label="글로벌 항목 번호" name={NUM} as={TextField} variant="standard" />
           <ErrorMessage name={NUM} />
