@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Field } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { CATEGORYID, SEMESTER } from 'src/assets/data/fields';
 
@@ -37,6 +37,7 @@ export default function SemesterSelect() {
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">학기</InputLabel>
       <Field as={MySelect} name={SEMESTER} />
+      <ErrorMessage name={SEMESTER} />
     </FormControl>
   );
 }
