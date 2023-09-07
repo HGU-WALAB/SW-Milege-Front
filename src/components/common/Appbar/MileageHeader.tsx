@@ -40,7 +40,6 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
           color="inherit"
           aria-label="open drawer"
           onClick={() => {
-            console.log('DD');
             handleDrawerOpen();
           }}
           edge="start"

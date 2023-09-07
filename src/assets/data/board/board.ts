@@ -16,6 +16,7 @@ export enum Board {
   '학생별 마일리지 현황',
   '마일리지 선정결과',
   '설정',
+  'Reporting',
 }
 
 /**
@@ -34,4 +35,5 @@ export const BoardList = [
   '학생별 마일리지 현황',
   '마일리지 선정결과',
   '설정',
+  'Reporting',
 ];

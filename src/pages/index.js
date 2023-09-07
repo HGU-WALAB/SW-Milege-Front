@@ -29,6 +29,8 @@ import {
   setStudentList,
   setStudentNameList,
 } from 'src/redux/slices/filterList';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -50,23 +52,33 @@ export const getServerSideProps = async () => {
 
 export default function HomePage({ categoryData, globalItemData, studentData }) {
   const dispatch = useDispatch();
+  const router = useRouter();
   console.log(categoryData);
-  dispatch(
-    setCategoryList(
-      categoryData.categories.map((category) => ({ id: category.id, name: category.name }))
-    )
-  );
-  dispatch(setItemList(globalItemData.items.map((item) => ({ id: item.id, name: item.name }))));
 
-  dispatch(
-    setStudentList(
-      studentData.students.map((student) => ({
-        id: student.id,
-        name: student.name,
-        sid: student.sid,
-      }))
-    )
-  );
+  useEffect(() => {
+    const filteringInit = async () => {
+      await dispatch(
+        setCategoryList(
+          categoryData.list.map((category) => ({ id: category.id, name: category.name }))
+        )
+      );
+      await dispatch(
+        setItemList(globalItemData.list.map((item) => ({ id: item.id, name: item.name })))
+      );
+
+      await dispatch(
+        setStudentList(
+          studentData.list.map((student) => ({
+            id: student.id,
+            name: student.name,
+            sid: student.sid,
+          }))
+        )
+      );
+      router.push('/mileage/category');
+    };
+    filteringInit();
+  }, []);
 
   const componentNum = useSelector((state) => state.component.componentNum);
   return (

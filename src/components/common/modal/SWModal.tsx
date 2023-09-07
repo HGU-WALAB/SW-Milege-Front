@@ -37,6 +37,7 @@ import {
   EDITITEM,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
+  REGISTEREDSTUDENTS,
 } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
@@ -70,19 +71,22 @@ import {
   COUNTS,
   POINTS,
   EXTRAPOINTS,
+  TITLE,
+  ORDER_IDX,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
 import ModalIconButton from './ModalIconButton';
 import ModalTitle from './ModalTitle';
-import { values } from 'lodash';
+import { before, values } from 'lodash';
 import ItemForm from 'src/components/modalForm/GlobalItemForm';
 import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
 import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
 import StudentForm from 'src/components/modalForm/StudentForm';
 import MileageRegisterForm from 'src/components/modalForm/MileageRegisterForm';
 import { STUDENT_ID } from 'src/assets/data/fields';
+import StudentsModal from 'src/components/modalForm/StudentsModal';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -91,44 +95,30 @@ export const ButtonFlexBox = styled(Box)({
   width: '100%',
 });
 
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  borderRadius: '10px',
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  maxHeight: '700px',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 2,
-};
-
 const modalForm = (modalType, beforeData) => {
   switch (modalType) {
     case ADDCATEGORY:
-      return <CategoryForm beforeData={beforeData} />;
+      return <CategoryForm />;
     case EDITCATEGORY:
-      return <CategoryForm beforeData={beforeData} />;
+      return <CategoryForm />;
     case ADDITEM:
-      return <SemesterItemForm beforeData={beforeData} />;
+      return <SemesterItemForm />;
     case EDITITEM:
-      return <SemesterItemForm beforeData={beforeData} />;
+      return <SemesterItemForm />;
     case ADDGLOBALITEM:
-      return <GlobalItemForm beforeData={beforeData} />;
+      return <GlobalItemForm />;
     case EDITGLOBALITEM:
-      return <GlobalItemForm beforeData={beforeData} />;
+      return <GlobalItemForm />;
     case ADDSTUDENT:
-      return <StudentForm beforeData={beforeData} />;
+      return <StudentForm />;
     case EDITSTUDENT:
-      return <StudentForm beforeData={beforeData} />;
+      return <StudentForm />;
     case ADDMILEAGEREGISTER:
-      return <MileageRegisterForm beforeData={beforeData} />;
+      return <MileageRegisterForm />;
     case EDITMILEAGEREGISTER:
-      return <MileageRegisterForm beforeData={beforeData} />;
+      return <MileageRegisterForm />;
+    case REGISTEREDSTUDENTS:
+      return <StudentsModal />;
 
     default:
       return <div>default</div>;
@@ -137,6 +127,10 @@ const modalForm = (modalType, beforeData) => {
 
 export const engToKor = (eng) => {
   switch (eng) {
+    case TITLE:
+      return '이름';
+    case ORDER_IDX:
+      return '우선 순위';
     case CATEGORY:
       return '카테고리';
     case SEMESTER:
@@ -188,7 +182,7 @@ export const engToKor = (eng) => {
     case SEMESTERITEMID:
       return '학기별 세부 항목 ID';
     case STUDENT_ID:
-      return '학번';
+      return '학생 고유 ID';
     case COUNTS:
       return '등록횟수';
     case POINTS:
@@ -203,17 +197,32 @@ export const engToKor = (eng) => {
 };
 
 export default function SWModal({ type, beforeData }) {
-  console.log('debug', beforeData);
-
   const dispatch = useDispatch();
   const open = useSelector((state) => state.modal.isOpen);
   const modalType = useSelector((state) => state.modal.modalType);
 
   const handleClose = () => dispatch(closeModal(type));
+  console.log('DD?', modalType === REGISTEREDSTUDENTS);
+  const style = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: '10px',
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxHeight: '700px',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 2,
 
+    width: modalType === REGISTEREDSTUDENTS ? '80%' : '80%',
+  };
   return (
     <div>
-      <ModalIconButton type={type} />
+      <ModalIconButton beforeData={beforeData} type={type} />
       <Modal
         open={open}
         onClose={handleClose}
