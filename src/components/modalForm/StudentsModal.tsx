@@ -1,6 +1,9 @@
-import { useEffect } from 'react';
+import { use, useEffect, useState } from 'react';
 import CRUDStudentTable from '../common/Table/CRUDStudentTable';
 import { Box } from '@mui/system';
+import axiosInstance from 'src/utils/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setStudentList } from 'src/redux/slices/modal';
 
 const dumi = [
   {
@@ -28,7 +31,18 @@ const dumi = [
 ];
 
 export default function StudentsModal() {
-  useEffect(() => {}, []);
+  const semesterItemId = useSelector((state) => state.modal.clickedItemId);
+  const students = useSelector((state) => state.modal.studentList);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const res = axiosInstance
+      .get(`/api/mileage/records/filter?semesterItemId=${semesterItemId}`)
+      .then((res) => {
+        dispatch(setStudentList(res.data));
+        console.log(res.data);
+      });
+  }, []);
 
   return (
     // <Box sx={{ width: '100%', p: '50px' }}>

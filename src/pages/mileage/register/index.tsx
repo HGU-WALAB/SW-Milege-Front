@@ -160,9 +160,9 @@ export const getServerSideProps: GetServerSideProps<{
   fetchData: ISemesterItemList;
 }> = async () => {
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const res = await axiosInstance.get('/api/mileage/semesters/2022-01/items/records');
+  const res = await axiosInstance.get('/api/mileage/semesters/2022-01/items');
   const fetchData = res.data;
-  console.log(fetchData);
+  console.log('!!!DD', fetchData);
   return { props: { fetchData } };
 };
 export default function MileageRegister({
@@ -240,7 +240,7 @@ export default function MileageRegister({
 
   const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
     const beforeData = {
-      [SEMESTERITEMID]: semesterItem.id,
+      [ID]: semesterItem.id,
     };
 
     return createData(
@@ -250,7 +250,7 @@ export default function MileageRegister({
       semesterItem.item.name,
       semesterItem.item.description1,
       semesterItem.points,
-      <SWModal type={REGISTEREDSTUDENTS} />
+      <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
     );
   });
 

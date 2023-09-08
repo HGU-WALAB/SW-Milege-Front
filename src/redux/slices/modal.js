@@ -4,6 +4,8 @@ const initialState = {
   isOpen: false,
   modalType: null,
   beforeData: null,
+  clickedItemId: null,
+  studentList: [],
 };
 
 const slice = createSlice({
@@ -21,9 +23,16 @@ const slice = createSlice({
     setBeforeData: (state, action) => {
       state.beforeData = action.payload;
     },
+    setClickedItemId: (state, action) => {
+      state.clickedItemId = action.payload;
+    },
+    setStudentList: (state, action) => {
+      state.studentList = action.payload;
+    },
   },
 });
 
 // Reducer
-export const { openModal, closeModal, setBeforeData } = slice.actions;
+export const { openModal, closeModal, setBeforeData, setClickedItemId, setStudentList } =
+  slice.actions;
 export default slice.reducer;

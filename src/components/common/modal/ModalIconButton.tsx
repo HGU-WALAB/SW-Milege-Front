@@ -2,7 +2,7 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { openModal, setBeforeData } from 'src/redux/slices/modal';
+import { openModal, setBeforeData, setClickedItemId, setStudentList } from 'src/redux/slices/modal';
 import { useDispatch } from 'react-redux';
 
 import PersonIcon from '@mui/icons-material/Person';
@@ -11,6 +11,8 @@ export default function ModalIconButton({ type, beforeData }) {
   const handleOpen = () => {
     dispatch(openModal(type));
     dispatch(setBeforeData(beforeData));
+    dispatch(setClickedItemId(beforeData?.id));
+    console.log('ddd', beforeData?.id);
   };
 
   const IconConverter = (type) => {
