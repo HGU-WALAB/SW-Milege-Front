@@ -118,7 +118,7 @@ const modalForm = (modalType, beforeData) => {
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm />;
     case REGISTEREDSTUDENTS:
-      return <StudentsModal />;
+      return <StudentsModal beforeData={beforeData} />;
 
     default:
       return <div>default</div>;
@@ -198,11 +198,12 @@ export const engToKor = (eng) => {
 
 export default function SWModal({ type, beforeData }) {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.modal.isOpen);
+
+  const [open, setOpen] = React.useState(false);
   const modalType = useSelector((state) => state.modal.modalType);
 
-  const handleClose = () => dispatch(closeModal(type));
-  console.log('DD?', modalType === REGISTEREDSTUDENTS);
+  const handleClose = () => setOpen(false);
+
   const style = {
     display: 'flex',
     flexDirection: 'column',
@@ -222,7 +223,7 @@ export default function SWModal({ type, beforeData }) {
   };
   return (
     <div>
-      <ModalIconButton beforeData={beforeData} type={type} />
+      <ModalIconButton setOpen={setOpen} beforeData={beforeData} type={type} />
       <Modal
         open={open}
         onClose={handleClose}

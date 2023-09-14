@@ -19,6 +19,10 @@ import {
   GridRowModel,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import axiosInstance from 'src/utils/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { Select } from '@mui/material';
+import { setEditingStudent, setMode } from 'src/redux/slices/data';
 // import {
 //   randomCreatedDate,
 //   randomTraderName,
@@ -31,40 +35,40 @@ const roles = ['Market', 'Finance', 'Development'];
 //   return randomArrayItem(roles);
 // };
 
-const initialRows: GridRowsProp = [
-  {
-    id: 1,
-    name: '오인혁',
-    sid: '21800446',
-    points: 5,
-    description1: '설명 1',
-    description2: '설명 2',
-  },
-  {
-    id: 2,
-    name: '한시온',
-    sid: '21800447',
-    points: 30,
-    description1: '설명 14',
-    description2: '설명 28',
-  },
-  {
-    id: 3,
-    name: '장유진',
-    sid: '21800448',
-    points: 5,
-    description1: '설명 13',
-    description2: '설명 25',
-  },
-  {
-    id: 4,
-    name: '장유진2',
-    sid: '21800449',
-    points: 5,
-    description1: '설명 11',
-    description2: '설명 22',
-  },
-];
+// const initialRows: GridRowsProp = [
+//   {
+//     id: 1,
+//     name: '오인혁',
+//     sid: '21800446',
+//     points: 5,
+//     description1: '설명 1',
+//     description2: '설명 2',
+//   },
+//   {
+//     id: 2,
+//     name: '한시온',
+//     sid: '21800447',
+//     points: 30,
+//     description1: '설명 14',
+//     description2: '설명 28',
+//   },
+//   {
+//     id: 3,
+//     name: '장유진',
+//     sid: '21800448',
+//     points: 5,
+//     description1: '설명 13',
+//     description2: '설명 25',
+//   },
+//   {
+//     id: 4,
+//     name: '장유진2',
+//     sid: '21800449',
+//     points: 5,
+//     description1: '설명 11',
+//     description2: '설명 22',
+//   },
+// ];
 
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -72,8 +76,13 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
+  // const editingRow = useSelector((state) => state.data.editingStudent);
+  // const mode = useSelector((state) => state.data.mode);
+  const dispatch = useDispatch();
   const { setRows, setRowModesModel } = props;
-
+  const handleAddMode = () => {
+    dispatch(setMode('add'));
+  };
   const handleClick = () => {
     const id = 8;
     setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
@@ -81,6 +90,7 @@ function EditToolbar(props: EditToolbarProps) {
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
     }));
+    handleAddMode();
   };
 
   return (
@@ -92,9 +102,81 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
+function createDate(
+  id: number,
+  name: string,
+  sid: string,
+  counts: number,
+  extraPoints: number,
+  description1: string,
+  description2: string,
+  modDate: string
+) {
+  return {
+    id: id,
+    name: name,
+    sid: sid,
+    counts: counts,
+    extraPoints: extraPoints,
+    description1: description1,
+    description2: description2,
+    modDate: modDate,
+  };
+}
+
+const convertUpdatedData = (editedData) => {
+  const keys = Object.keys(editedData);
+
+  if (keys.length === 0) return; // 키가 없는 경우 반환
+
+  const firstKey = keys[0]; // 첫 번째 키를 가져옵니다.
+  const innerObject = editedData[firstKey];
+
+  if (!innerObject) return; // 해당 키의 객체가 없을 경우 반환
+
+  const extractedValues = Object.keys(innerObject).reduce((accum, key) => {
+    accum[key] = innerObject[key].value;
+    return accum;
+  }, {});
+
+  return extractedValues;
+};
+
 export default function CRUDStudentTable() {
-  const [rows, setRows] = React.useState(initialRows);
+  const dispatch = useDispatch();
+  // const editingRow = useSelector((state) => state.data.editingStudent);
+  // const setEditingRow = () => dispatch(setEditingStudent);
+  const mode = useSelector((state) => state.data.mode);
+  const [editingRow, setEditingRow] = React.useState();
+
+  const semesterItemId = useSelector((state) => state.modal.clickedItemId);
+  React.useEffect(() => {
+    const res = axiosInstance
+      .get(`/api/mileage/records/filter?semesterItemId=${semesterItemId}`)
+      .then((res) => {
+        const data = res.data;
+        const rows = data.list.map((row: any) =>
+          createDate(
+            row.id,
+            row.student.name,
+            row.student.sid,
+            row.counts,
+            row.extraPoints,
+            row.description1,
+            row.description2,
+            row.modDate
+          )
+        );
+        setRows(rows);
+      });
+  }, []);
+
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+
+  const handleEditMode = () => {
+    dispatch(setMode('edit'));
+  };
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -104,14 +186,38 @@ export default function CRUDStudentTable() {
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+    handleEditMode();
   };
 
   const handleSaveClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+
+    const newData = {
+      semesterItemId,
+      studentId: 1,
+      counts: editingRow?.counts,
+      extraPoints: editingRow?.extraPoints,
+      description1: editingRow?.description1,
+      description2: editingRow?.description2,
+    };
+
+    console.log('ㅇㅇ', newData);
+
+    mode === 'add'
+      ? axiosInstance.post('/api/mileage/records', newData).then((res) => {
+          console.log(res);
+        })
+      : axiosInstance.patch(`/api/mileage/records/${id}`, newData).then((res) => {
+          console.log(res);
+        });
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
     setRows(rows.filter((row) => row.id !== id));
+
+    axiosInstance.delete(`/api/mileage/records/${id}`).then((res) => {
+      console.log(res);
+    });
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -129,6 +235,7 @@ export default function CRUDStudentTable() {
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
     return updatedRow;
   };
 
@@ -137,10 +244,19 @@ export default function CRUDStudentTable() {
   };
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: '이름', width: 180, editable: true },
+    { field: 'name', headerName: '이름', width: 80, editable: true },
     {
       field: 'sid',
       headerName: '학번',
+      type: 'string',
+      width: 150,
+      align: 'left',
+      headerAlign: 'left',
+      editable: true,
+    },
+    {
+      field: 'counts',
+      headerName: '포인트',
       type: 'string',
       width: 80,
       align: 'left',
@@ -148,8 +264,8 @@ export default function CRUDStudentTable() {
       editable: true,
     },
     {
-      field: 'points',
-      headerName: '포인트',
+      field: 'extraPoints',
+      headerName: '가산점',
       type: 'string',
       width: 80,
       align: 'left',
@@ -160,14 +276,21 @@ export default function CRUDStudentTable() {
       field: 'description1',
       headerName: '설명1',
       type: 'string',
-      width: 180,
+      width: 200,
       editable: true,
     },
     {
       field: 'description2',
       headerName: '설명2',
       type: 'string',
-      width: 180,
+      width: 200,
+      editable: true,
+    },
+    {
+      field: 'modDate',
+      headerName: '수정일',
+      type: 'string',
+      width: 200,
       editable: true,
     },
     {
@@ -232,6 +355,7 @@ export default function CRUDStudentTable() {
       }}
     >
       <DataGrid
+        onStateChange={(newModel) => setEditingRow(convertUpdatedData(newModel.editRows))}
         rows={rows}
         columns={columns}
         editMode="row"
@@ -239,6 +363,7 @@ export default function CRUDStudentTable() {
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        onRowClick={handleEditMode}
         slots={{
           toolbar: EditToolbar,
         }}

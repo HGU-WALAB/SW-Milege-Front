@@ -27,6 +27,9 @@ module.exports = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
+  reactStrictMode: true,
+
   // async rewrites() {
   //   return [
   //     {

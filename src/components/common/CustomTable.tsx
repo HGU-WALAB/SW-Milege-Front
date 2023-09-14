@@ -136,15 +136,15 @@ function getComparator<Key extends keyof any>(
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
+  const stabilizedThis = array?.map((el, index) => [el, index] as [T, number]);
+  stabilizedThis?.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
       return order;
     }
     return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis?.map((el) => el[0]);
 }
 
 interface HeadCell {
@@ -340,7 +340,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (semester && semester !== '전체') {
       copyRows = copyRows.filter((row) => row.semester === semester);
     }
-    console.log(copyRows[0]?.isVisible, isVisible);
     if (isVisible !== '전체') {
       copyRows = copyRows.filter((row) => row.isVisible === isVisible);
       console.log(copyRows[0]?.isVisible, isVisible);
@@ -431,7 +430,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(rows, getComparator(order, orderBy))?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
@@ -452,18 +451,18 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={rows?.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {visibleRows?.map((row, index) => {
                 const rowValues = Object.values(row);
-                const isItemSelected = isSelected(row.num);
+                const isItemSelected = isSelected(row?.num);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.num)}
+                    onClick={(event) => handleClick(event, row?.num)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -494,7 +493,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                       {rowValues[0]}
                     </TableCell>
 
-                    {rowValues.slice(1).map((rowValue, index) => (
+                    {rowValues.slice(1)?.map((rowValue, index) => (
                       <TableCell
                         align={'left'}
                         /**
@@ -525,7 +524,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
         <CustomTablePagination
           setPage={setPage}
           rowsPerPage={rowsPerPage}
-          count={rows.length}
+          count={rows?.length}
           page={page}
         />
       </Paper>

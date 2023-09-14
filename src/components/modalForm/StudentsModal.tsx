@@ -1,6 +1,9 @@
-import { useEffect } from 'react';
+import { use, useEffect, useState } from 'react';
 import CRUDStudentTable from '../common/Table/CRUDStudentTable';
 import { Box } from '@mui/system';
+import axiosInstance from 'src/utils/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setStudentList } from 'src/redux/slices/modal';
 
 const dumi = [
   {
@@ -28,11 +31,5 @@ const dumi = [
 ];
 
 export default function StudentsModal() {
-  useEffect(() => {}, []);
-
-  return (
-    // <Box sx={{ width: '100%', p: '50px' }}>
-    <CRUDStudentTable />
-    // </Box>
-  );
+  return <CRUDStudentTable />;
 }

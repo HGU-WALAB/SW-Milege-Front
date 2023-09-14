@@ -5,6 +5,7 @@ const initialState = {
   mileageCategoryList: [],
   mileageGlobalList: [],
   mileageSemesterList: [],
+  mode: null,
 };
 
 const slice = createSlice({
@@ -27,6 +28,9 @@ const slice = createSlice({
     setMileageSemesterList: (state, action) => {
       state.mileageSemesterList = action.payload;
     },
+    setMode: (state, action) => {
+      state.editingStudent = action.payload;
+    },
   },
 });
 
@@ -37,5 +41,6 @@ export const {
   setMileageCategoryList,
   setMileageGlobalList,
   setMileageSemesterList,
+  setMode,
 } = slice.actions;
 export default slice.reducer;
