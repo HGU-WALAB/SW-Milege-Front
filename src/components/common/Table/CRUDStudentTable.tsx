@@ -101,61 +101,41 @@ export default function CRUDStudentTable() {
     counts: number,
     extraPoints: number,
     description1: string,
-    description2: string
+    description2: string,
+    modDate: string
   ) {
     return {
       id: id,
       name: name,
       sid: sid,
-      points: counts,
+      counts: counts,
       extraPoints: extraPoints,
       description1: description1,
       description2: description2,
+      modDate: modDate,
     };
   }
 
   React.useEffect(() => {
     const res = axiosInstance.get(`/api/mileage/records/filter?semesterItemId=1`).then((res) => {
-      GridRowsProp;
-
-      console.log('dd', res?.data);
+      const data = res.data;
+      const rows = data.list.map((row: any) =>
+        createDate(
+          row.id,
+          row.student.name,
+          row.student.sid,
+          row.counts,
+          row.extraPoints,
+          row.description1,
+          row.description2,
+          row.modDate
+        )
+      );
+      setRows(rows);
     });
   }, []);
 
-  const [rows, setRows] = React.useState([
-    {
-      id: 1,
-      name: '오인혁',
-      sid: '21800446',
-      points: 5,
-      description1: '설명 1',
-      description2: '설명 2',
-    },
-    {
-      id: 2,
-      name: '한시온',
-      sid: '21800447',
-      points: 30,
-      description1: '설명 14',
-      description2: '설명 28',
-    },
-    {
-      id: 3,
-      name: '장유진',
-      sid: '21800448',
-      points: 5,
-      description1: '설명 13',
-      description2: '설명 25',
-    },
-    {
-      id: 4,
-      name: '장유진2',
-      sid: '21800449',
-      points: 5,
-      description1: '설명 11',
-      description2: '설명 22',
-    },
-  ]);
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
@@ -210,7 +190,7 @@ export default function CRUDStudentTable() {
       editable: true,
     },
     {
-      field: 'points',
+      field: 'counts',
       headerName: '포인트',
       type: 'string',
       width: 80,
@@ -237,6 +217,13 @@ export default function CRUDStudentTable() {
     {
       field: 'description2',
       headerName: '설명2',
+      type: 'string',
+      width: 200,
+      editable: true,
+    },
+    {
+      field: 'modDate',
+      headerName: '수정일',
       type: 'string',
       width: 200,
       editable: true,
