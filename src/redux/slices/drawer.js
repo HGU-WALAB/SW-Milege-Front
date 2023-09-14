@@ -12,7 +12,7 @@ const slice = createSlice({
     setPinned: (state, action) => {
       state.pinned = action.payload;
     },
-    setopen: (state, action) => {
+    setOpen: (state, action) => {
       state.open = action.payload;
     },
   },

@@ -31,6 +31,7 @@ import {
   clearSemester,
   clearStudentName,
 } from 'src/redux/slices/filter';
+import { setOpen, setPinned } from 'src/redux/slices/drawer';
 
 const drawerWidth = 240;
 
