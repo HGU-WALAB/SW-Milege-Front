@@ -19,6 +19,7 @@ import {
   GridRowModel,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import axiosInstance from 'src/utils/axios';
 // import {
 //   randomCreatedDate,
 //   randomTraderName,
@@ -31,40 +32,40 @@ const roles = ['Market', 'Finance', 'Development'];
 //   return randomArrayItem(roles);
 // };
 
-const initialRows: GridRowsProp = [
-  {
-    id: 1,
-    name: '오인혁',
-    sid: '21800446',
-    points: 5,
-    description1: '설명 1',
-    description2: '설명 2',
-  },
-  {
-    id: 2,
-    name: '한시온',
-    sid: '21800447',
-    points: 30,
-    description1: '설명 14',
-    description2: '설명 28',
-  },
-  {
-    id: 3,
-    name: '장유진',
-    sid: '21800448',
-    points: 5,
-    description1: '설명 13',
-    description2: '설명 25',
-  },
-  {
-    id: 4,
-    name: '장유진2',
-    sid: '21800449',
-    points: 5,
-    description1: '설명 11',
-    description2: '설명 22',
-  },
-];
+// const initialRows: GridRowsProp = [
+//   {
+//     id: 1,
+//     name: '오인혁',
+//     sid: '21800446',
+//     points: 5,
+//     description1: '설명 1',
+//     description2: '설명 2',
+//   },
+//   {
+//     id: 2,
+//     name: '한시온',
+//     sid: '21800447',
+//     points: 30,
+//     description1: '설명 14',
+//     description2: '설명 28',
+//   },
+//   {
+//     id: 3,
+//     name: '장유진',
+//     sid: '21800448',
+//     points: 5,
+//     description1: '설명 13',
+//     description2: '설명 25',
+//   },
+//   {
+//     id: 4,
+//     name: '장유진2',
+//     sid: '21800449',
+//     points: 5,
+//     description1: '설명 11',
+//     description2: '설명 22',
+//   },
+// ];
 
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -93,7 +94,68 @@ function EditToolbar(props: EditToolbarProps) {
 }
 
 export default function CRUDStudentTable() {
-  const [rows, setRows] = React.useState(initialRows);
+  function createDate(
+    id: number,
+    name: string,
+    sid: string,
+    counts: number,
+    extraPoints: number,
+    description1: string,
+    description2: string
+  ) {
+    return {
+      id: id,
+      name: name,
+      sid: sid,
+      points: counts,
+      extraPoints: extraPoints,
+      description1: description1,
+      description2: description2,
+    };
+  }
+
+  React.useEffect(() => {
+    const res = axiosInstance.get(`/api/mileage/records/filter?semesterItemId=1`).then((res) => {
+      GridRowsProp;
+
+      console.log('dd', res?.data);
+    });
+  }, []);
+
+  const [rows, setRows] = React.useState([
+    {
+      id: 1,
+      name: '오인혁',
+      sid: '21800446',
+      points: 5,
+      description1: '설명 1',
+      description2: '설명 2',
+    },
+    {
+      id: 2,
+      name: '한시온',
+      sid: '21800447',
+      points: 30,
+      description1: '설명 14',
+      description2: '설명 28',
+    },
+    {
+      id: 3,
+      name: '장유진',
+      sid: '21800448',
+      points: 5,
+      description1: '설명 13',
+      description2: '설명 25',
+    },
+    {
+      id: 4,
+      name: '장유진2',
+      sid: '21800449',
+      points: 5,
+      description1: '설명 11',
+      description2: '설명 22',
+    },
+  ]);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
