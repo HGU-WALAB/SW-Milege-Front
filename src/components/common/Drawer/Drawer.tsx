@@ -31,6 +31,7 @@ import {
   clearSemester,
   clearStudentName,
 } from 'src/redux/slices/filter';
+import { setOpen, setPinned } from 'src/redux/slices/drawer';
 
 const drawerWidth = 240;
 
@@ -94,14 +95,30 @@ export default function MiniDrawer() {
     dispatch(clearDepartment());
   };
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+
+  const pinned = useSelector((state) => state.drawer.pinned);
+  const open = useSelector((state) => state.drawer.open);
+  const drawerPinnedOff = () => dispatch(setPinned(false));
+  const drawerPinnedOn = () => dispatch(setPinned(true));
+  const drawerOpen = () => dispatch(setOpen(true));
+  const drawerClose = () => dispatch(setOpen(false));
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    drawerOpen();
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    if (!pinned) drawerClose();
+  };
+
+  const handleDrawerPinOn = () => {
+    handleDrawerOpen();
+    drawerPinnedOn();
+  };
+
+  const handleDrawerPinOff = () => {
+    handleDrawerClose();
+    drawerPinnedOff();
   };
 
   const linkConverter = (num) => {
@@ -135,11 +152,11 @@ export default function MiniDrawer() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       {/* 메뉴 아이콘과 제목을 가지고 있는 헤더 */}
-      <MileageHeader open={open} handleDrawerOpen={handleDrawerOpen} />
+      <MileageHeader open={open} handleDrawerOpen={handleDrawerPinOn} />
       {/* 사이드바 */}
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerPinOff}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
