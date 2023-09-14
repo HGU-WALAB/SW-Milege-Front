@@ -22,7 +22,7 @@ import {
 import axiosInstance from 'src/utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Select } from '@mui/material';
-import { setEditingStudent, setMode } from 'src/redux/slices/data';
+import { setEditingStudent } from 'src/redux/slices/data';
 // import {
 //   randomCreatedDate,
 //   randomTraderName,
@@ -77,12 +77,10 @@ interface EditToolbarProps {
 
 function EditToolbar(props: EditToolbarProps) {
   // const editingRow = useSelector((state) => state.data.editingStudent);
-  // const mode = useSelector((state) => state.data.mode);
   const dispatch = useDispatch();
+
   const { setRows, setRowModesModel } = props;
-  const handleAddMode = () => {
-    dispatch(setMode('add'));
-  };
+
   const handleClick = () => {
     const id = 8;
     setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
@@ -90,7 +88,6 @@ function EditToolbar(props: EditToolbarProps) {
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
     }));
-    handleAddMode();
   };
 
   return (
@@ -146,7 +143,6 @@ export default function CRUDStudentTable() {
   const dispatch = useDispatch();
   // const editingRow = useSelector((state) => state.data.editingStudent);
   // const setEditingRow = () => dispatch(setEditingStudent);
-  const mode = useSelector((state) => state.data.mode);
   const [editingRow, setEditingRow] = React.useState();
 
   const semesterItemId = useSelector((state) => state.modal.clickedItemId);
@@ -174,10 +170,6 @@ export default function CRUDStudentTable() {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
-  const handleEditMode = () => {
-    dispatch(setMode('edit'));
-  };
-
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -200,10 +192,13 @@ export default function CRUDStudentTable() {
       description1: editingRow?.description1,
       description2: editingRow?.description2,
     };
+    const validateDuplicate = () => {
+      console.log(rows.map((row) => row.sid).includes(editingRow?.sid));
+    };
 
-    console.log('ㅇㅇ', newData);
+    console.log('ㅇㅇ', newData, rows);
 
-    mode === 'add'
+    !validateDuplicate()
       ? axiosInstance.post('/api/mileage/records', newData).then((res) => {
           console.log(res);
         })
@@ -363,7 +358,7 @@ export default function CRUDStudentTable() {
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-        onRowClick={handleEditMode}
+        // onRowClick={handleEditMode}
         slots={{
           toolbar: EditToolbar,
         }}
