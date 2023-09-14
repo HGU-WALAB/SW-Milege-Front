@@ -30,23 +30,8 @@ const dumi = [
   },
 ];
 
-export default function StudentsModal() {
-  const semesterItemId = useSelector((state) => state.modal.clickedItemId);
-  const students = useSelector((state) => state.modal.studentList);
-  const dispatch = useDispatch();
+export default function StudentsModal(beforeData) {
+  console.log('dd', beforeData.beforeData?.id);
 
-  useEffect(() => {
-    const res = axiosInstance
-      .get(`/api/mileage/records/filter?semesterItemId=${semesterItemId}`)
-      .then((res) => {
-        dispatch(setStudentList(res.data));
-        console.log(res.data);
-      });
-  }, []);
-
-  return (
-    // <Box sx={{ width: '100%', p: '50px' }}>
-    <CRUDStudentTable />
-    // </Box>
-  );
+  return <CRUDStudentTable semesterItemId={beforeData.id} />;
 }

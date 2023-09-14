@@ -2,14 +2,22 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { openModal, setBeforeData, setClickedItemId, setStudentList } from 'src/redux/slices/modal';
+import {
+  closeModal,
+  openModal,
+  setBeforeData,
+  setClickedItemId,
+  setStudentList,
+} from 'src/redux/slices/modal';
 import { useDispatch } from 'react-redux';
 
 import PersonIcon from '@mui/icons-material/Person';
-export default function ModalIconButton({ type, beforeData }) {
+export default function ModalIconButton({ setOpen, type, beforeData }) {
   const dispatch = useDispatch();
   const handleOpen = () => {
-    dispatch(openModal(type));
+    // dispatch(openModal(type));
+    dispatch(closeModal(type));
+    setOpen(true);
     dispatch(setBeforeData(beforeData));
     dispatch(setClickedItemId(beforeData?.id));
     console.log('ddd', beforeData?.id);
