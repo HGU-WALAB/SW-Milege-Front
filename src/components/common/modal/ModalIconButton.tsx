@@ -7,19 +7,21 @@ import {
   openModal,
   setBeforeData,
   setClickedItemId,
+  setModalType,
   setStudentList,
 } from 'src/redux/slices/modal';
 import { useDispatch } from 'react-redux';
 
 import PersonIcon from '@mui/icons-material/Person';
+import { REGISTEREDSTUDENTS } from 'src/assets/data/modal/modals';
 export default function ModalIconButton({ setOpen, type, beforeData }) {
   const dispatch = useDispatch();
   const handleOpen = () => {
     // dispatch(openModal(type));
-    dispatch(closeModal(type));
+    dispatch(setModalType(type));
     setOpen(true);
     dispatch(setBeforeData(beforeData));
-    dispatch(setClickedItemId(beforeData?.id));
+    type === REGISTEREDSTUDENTS && dispatch(setClickedItemId(beforeData?.id));
     console.log('ddd', beforeData?.id);
   };
 

@@ -20,6 +20,9 @@ const slice = createSlice({
       state.isOpen = false;
       state.modalType = action.payload;
     },
+    setModalType: (state, action) => {
+      state.modalType = action.payload;
+    },
     setBeforeData: (state, action) => {
       state.beforeData = action.payload;
     },
@@ -33,6 +36,12 @@ const slice = createSlice({
 });
 
 // Reducer
-export const { openModal, closeModal, setBeforeData, setClickedItemId, setStudentList } =
-  slice.actions;
+export const {
+  openModal,
+  closeModal,
+  setBeforeData,
+  setClickedItemId,
+  setStudentList,
+  setModalType,
+} = slice.actions;
 export default slice.reducer;

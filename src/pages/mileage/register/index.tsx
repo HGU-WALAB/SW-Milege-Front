@@ -240,7 +240,7 @@ export default function MileageRegister({
 
   const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
     const beforeData = {
-      [ID]: semesterItem.id,
+      [ID]: semesterItem.item.id,
     };
 
     return createData(

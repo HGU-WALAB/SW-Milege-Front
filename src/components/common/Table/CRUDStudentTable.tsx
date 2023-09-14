@@ -20,6 +20,7 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import axiosInstance from 'src/utils/axios';
+import { useSelector } from 'react-redux';
 // import {
 //   randomCreatedDate,
 //   randomTraderName,
@@ -116,23 +117,27 @@ export default function CRUDStudentTable() {
     };
   }
 
+  const semesterItemId = useSelector((state) => state.modal.clickedItemId);
+  // console.log(semesterItemId, 'semesterItemId');
   React.useEffect(() => {
-    const res = axiosInstance.get(`/api/mileage/records/filter?semesterItemId=1`).then((res) => {
-      const data = res.data;
-      const rows = data.list.map((row: any) =>
-        createDate(
-          row.id,
-          row.student.name,
-          row.student.sid,
-          row.counts,
-          row.extraPoints,
-          row.description1,
-          row.description2,
-          row.modDate
-        )
-      );
-      setRows(rows);
-    });
+    const res = axiosInstance
+      .get(`/api/mileage/records/filter?semesterItemId=${semesterItemId}`)
+      .then((res) => {
+        const data = res.data;
+        const rows = data.list.map((row: any) =>
+          createDate(
+            row.id,
+            row.student.name,
+            row.student.sid,
+            row.counts,
+            row.extraPoints,
+            row.description1,
+            row.description2,
+            row.modDate
+          )
+        );
+        setRows(rows);
+      });
   }, []);
 
   const [rows, setRows] = React.useState([]);

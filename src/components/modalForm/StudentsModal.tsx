@@ -30,8 +30,6 @@ const dumi = [
   },
 ];
 
-export default function StudentsModal(beforeData) {
-  console.log('dd', beforeData.beforeData?.id);
-
-  return <CRUDStudentTable semesterItemId={beforeData.id} />;
+export default function StudentsModal() {
+  return <CRUDStudentTable />;
 }
