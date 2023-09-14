@@ -20,7 +20,9 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import axiosInstance from 'src/utils/axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Select } from '@mui/material';
+import { setEditingStudent, setMode } from 'src/redux/slices/data';
 // import {
 //   randomCreatedDate,
 //   randomTraderName,
@@ -74,8 +76,13 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
+  // const editingRow = useSelector((state) => state.data.editingStudent);
+  // const mode = useSelector((state) => state.data.mode);
+  const dispatch = useDispatch();
   const { setRows, setRowModesModel } = props;
-
+  const handleAddMode = () => {
+    dispatch(setMode('add'));
+  };
   const handleClick = () => {
     const id = 8;
     setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
@@ -83,6 +90,7 @@ function EditToolbar(props: EditToolbarProps) {
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
     }));
+    handleAddMode();
   };
 
   return (
@@ -94,31 +102,54 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
+function createDate(
+  id: number,
+  name: string,
+  sid: string,
+  counts: number,
+  extraPoints: number,
+  description1: string,
+  description2: string,
+  modDate: string
+) {
+  return {
+    id: id,
+    name: name,
+    sid: sid,
+    counts: counts,
+    extraPoints: extraPoints,
+    description1: description1,
+    description2: description2,
+    modDate: modDate,
+  };
+}
+
+const convertUpdatedData = (editedData) => {
+  const keys = Object.keys(editedData);
+
+  if (keys.length === 0) return; // 키가 없는 경우 반환
+
+  const firstKey = keys[0]; // 첫 번째 키를 가져옵니다.
+  const innerObject = editedData[firstKey];
+
+  if (!innerObject) return; // 해당 키의 객체가 없을 경우 반환
+
+  const extractedValues = Object.keys(innerObject).reduce((accum, key) => {
+    accum[key] = innerObject[key].value;
+    return accum;
+  }, {});
+
+  return extractedValues;
+};
+
 export default function CRUDStudentTable() {
-  function createDate(
-    id: number,
-    name: string,
-    sid: string,
-    counts: number,
-    extraPoints: number,
-    description1: string,
-    description2: string,
-    modDate: string
-  ) {
-    return {
-      id: id,
-      name: name,
-      sid: sid,
-      counts: counts,
-      extraPoints: extraPoints,
-      description1: description1,
-      description2: description2,
-      modDate: modDate,
-    };
-  }
+  const dispatch = useDispatch();
+  // const editingRow = useSelector((state) => state.data.editingStudent);
+  // const setEditingRow = () => dispatch(setEditingStudent);
+  const mode = useSelector((state) => state.data.mode);
+  const [editingRow, setEditingRow] = React.useState();
 
   const semesterItemId = useSelector((state) => state.modal.clickedItemId);
-  // console.log(semesterItemId, 'semesterItemId');
   React.useEffect(() => {
     const res = axiosInstance
       .get(`/api/mileage/records/filter?semesterItemId=${semesterItemId}`)
@@ -143,6 +174,10 @@ export default function CRUDStudentTable() {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
+  const handleEditMode = () => {
+    dispatch(setMode('edit'));
+  };
+
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -151,14 +186,38 @@ export default function CRUDStudentTable() {
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+    handleEditMode();
   };
 
   const handleSaveClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+
+    const newData = {
+      semesterItemId,
+      studentId: 1,
+      counts: editingRow?.counts,
+      extraPoints: editingRow?.extraPoints,
+      description1: editingRow?.description1,
+      description2: editingRow?.description2,
+    };
+
+    console.log('ㅇㅇ', newData);
+
+    mode === 'add'
+      ? axiosInstance.post('/api/mileage/records', newData).then((res) => {
+          console.log(res);
+        })
+      : axiosInstance.patch(`/api/mileage/records/${id}`, newData).then((res) => {
+          console.log(res);
+        });
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
     setRows(rows.filter((row) => row.id !== id));
+
+    axiosInstance.delete(`/api/mileage/records/${id}`).then((res) => {
+      console.log(res);
+    });
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -176,6 +235,7 @@ export default function CRUDStudentTable() {
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
     return updatedRow;
   };
 
@@ -295,6 +355,7 @@ export default function CRUDStudentTable() {
       }}
     >
       <DataGrid
+        onStateChange={(newModel) => setEditingRow(convertUpdatedData(newModel.editRows))}
         rows={rows}
         columns={columns}
         editMode="row"
@@ -302,6 +363,7 @@ export default function CRUDStudentTable() {
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        onRowClick={handleEditMode}
         slots={{
           toolbar: EditToolbar,
         }}
