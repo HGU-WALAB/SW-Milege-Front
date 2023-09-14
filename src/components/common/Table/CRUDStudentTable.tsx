@@ -137,12 +137,12 @@ export default function CRUDStudentTable() {
   };
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: '이름', width: 180, editable: true },
+    { field: 'name', headerName: '이름', width: 80, editable: true },
     {
       field: 'sid',
       headerName: '학번',
       type: 'string',
-      width: 80,
+      width: 150,
       align: 'left',
       headerAlign: 'left',
       editable: true,
@@ -169,14 +169,14 @@ export default function CRUDStudentTable() {
       field: 'description1',
       headerName: '설명1',
       type: 'string',
-      width: 180,
+      width: 200,
       editable: true,
     },
     {
       field: 'description2',
       headerName: '설명2',
       type: 'string',
-      width: 180,
+      width: 200,
       editable: true,
     },
     {
