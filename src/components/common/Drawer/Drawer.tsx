@@ -108,7 +108,7 @@ export default function MiniDrawer() {
   };
 
   const handleDrawerClose = () => {
-    drawerClose();
+    if (!pinned) drawerClose();
   };
 
   const handleDrawerPinOn = () => {
