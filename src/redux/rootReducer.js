@@ -13,6 +13,7 @@ import dataReducer from './slices/data';
 import componentReducer from './slices/component';
 import filterListReducer from './slices/filterList';
 import chartReducer from './slices/chart';
+import drawerReducer from './slices/drawer';
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ export const rootPersistConfig = {
   key: 'root',
   storage,
   keyPrefix: 'redux-',
-  blacklist: ['filter', 'modal', 'data'],
+  blacklist: ['filter', 'modal', 'data', 'drawer'],
   whitelist: ['component', 'filterList'],
 };
 
@@ -56,6 +57,7 @@ const rootReducer = combineReducers({
   component: componentReducer,
   filterList: filterListReducer,
   chart: chartReducer,
+  drawer: drawerReducer,
 });
 
 export default rootReducer;

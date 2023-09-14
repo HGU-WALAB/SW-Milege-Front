@@ -7,6 +7,7 @@ import Header from 'src/components/common/Header';
 // @mui
 import { Box } from '@mui/material';
 import ExcelExport from 'src/components/excel/ExcelExport';
+import { useSelector } from 'react-redux';
 //
 
 // const Header = dynamic(() => import('./Header'), { ssr: false });
@@ -19,25 +20,25 @@ MainLayout.propTypes = {
 };
 
 export default function MainLayout({ children }) {
-  // const { pathname } = useRouter();
-
-  // const isHome = pathname === '/';
-
   return (
-    <Box sx={{}}>
+    <Box>
       <Header />
-      <MiniDrawer />
 
-      <Box
-        component="main"
-        sx={{
-          pl: '100px',
-          mr: '40px',
-        }}
-      >
-        {children}
+      <Box sx={{ display: 'flex', width: '100%' }}>
+        <MiniDrawer />
 
-        <ExcelExport />
+        <Box
+          component="main"
+          sx={{
+            pt: '50px',
+            pr: '50px',
+            width: '100%',
+          }}
+        >
+          {children}
+
+          <ExcelExport />
+        </Box>
       </Box>
 
       {/* <Footer /> */}
