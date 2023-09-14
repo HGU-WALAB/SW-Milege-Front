@@ -35,6 +35,9 @@ import {
 } from 'src/assets/data/modal/modals';
 import CollapsibleTable from 'src/components/common/CollapsibleTable';
 import CRUDStudentTable from 'src/components/common/Table/CRUDStudentTable';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import { IconButton, Tooltip } from '@mui/material';
+import { Box } from '@mui/system';
 
 /**
  * @component [마일리지 등록] 게시판
@@ -152,7 +155,7 @@ const headCells = [
     id: [MileageRegisterBoard.STUDENTS],
     numeric: true,
     disablePadding: false,
-    label: '등록된 학생',
+    label: '학생 관리 (조회 , 삭제)',
   },
 ];
 
@@ -238,6 +241,19 @@ export default function MileageRegister({
   //   );
   // });
 
+  const handleAllDelete = (id) => {
+    if (window.confirm('등록된 학생 모두 삭제하시겠습니까?')) {
+      axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
+        console.log(res.data);
+        res.data.list.map((item) => {
+          axiosInstance.delete(`/api/mileage/records/${item.id}`).then((res) => {
+            console.log(res);
+            alert(` ${item.student.name} - ${item.student.sid} 가 삭제 되었습니다.`);
+          });
+        });
+      });
+    }
+  };
   const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
     const beforeData = {
       [ID]: semesterItem.item.id,
@@ -250,7 +266,14 @@ export default function MileageRegister({
       semesterItem.item.name,
       semesterItem.item.description1,
       semesterItem.points,
-      <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
+      <Box sx={{ display: 'flex' }}>
+        <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
+        <Tooltip title="등록된 학생 모두 삭제">
+          <IconButton onClick={() => handleAllDelete(semesterItem.item.id)}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
     );
   });
 
