@@ -29,7 +29,7 @@ const slice = createSlice({
       state.mileageSemesterList = action.payload;
     },
     setMode: (state, action) => {
-      state.editingStudent = action.payload;
+      state.mode = action.payload;
     },
   },
 });
