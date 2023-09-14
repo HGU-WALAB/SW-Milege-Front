@@ -157,6 +157,15 @@ export default function CRUDStudentTable() {
       editable: true,
     },
     {
+      field: 'extraPoints',
+      headerName: '가산점',
+      type: 'string',
+      width: 80,
+      align: 'left',
+      headerAlign: 'left',
+      editable: true,
+    },
+    {
       field: 'description1',
       headerName: '설명1',
       type: 'string',

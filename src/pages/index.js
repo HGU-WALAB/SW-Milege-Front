@@ -59,16 +59,16 @@ export default function HomePage({ categoryData, globalItemData, studentData }) 
     const filteringInit = async () => {
       await dispatch(
         setCategoryList(
-          categoryData.list.map((category) => ({ id: category.id, name: category.name }))
+          categoryData.list?.map((category) => ({ id: category.id, name: category.name }))
         )
       );
       await dispatch(
-        setItemList(globalItemData.list.map((item) => ({ id: item.id, name: item.name })))
+        setItemList(globalItemData.list?.map((item) => ({ id: item.id, name: item.name })))
       );
 
       await dispatch(
         setStudentList(
-          studentData.list.map((student) => ({
+          studentData.list?.map((student) => ({
             id: student.id,
             name: student.name,
             sid: student.sid,
