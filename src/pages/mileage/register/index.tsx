@@ -155,7 +155,7 @@ const headCells = [
     id: [MileageRegisterBoard.STUDENTS],
     numeric: true,
     disablePadding: false,
-    label: '학생 관리 (조회 , 삭제)',
+    label: '학생 관리 (조회 , 추가 , 모두 삭제)',
   },
 ];
 
