@@ -21,7 +21,7 @@ import { setMileageCategoryList } from 'src/redux/slices/data';
  */
 
 export enum MileageCategoryBoard {
-  'ID' = ID,
+  'NUM' = NUM,
   'CATEGORY' = CATEGORY,
   'ORDER_IDX' = ORDER_IDX,
   'DESCRIPTION1' = DESCRIPTION1,
@@ -35,7 +35,7 @@ export enum MileageCategoryBoard {
  */
 
 interface Data {
-  [MileageCategoryBoard.ID]: number;
+  [MileageCategoryBoard.NUM]: number;
   [MileageCategoryBoard.CATEGORY]: string;
   [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.DESCRIPTION1]: string;
@@ -73,7 +73,7 @@ function createData(
  */
 const headCells = [
   {
-    id: [MileageCategoryBoard.ID],
+    id: [MileageCategoryBoard.NUM],
     numeric: false,
     disablePadding: true,
     label: '번호',
@@ -154,6 +154,7 @@ export const getServerSideProps: GetServerSideProps<{
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const res = await axiosInstance.get('/api/mileage/categories');
   const fetchData = res.data;
+  console.log(fetchData);
   return { props: { fetchData } };
 };
 

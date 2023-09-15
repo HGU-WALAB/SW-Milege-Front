@@ -65,6 +65,7 @@ import Filtering from './Filter/Filtering';
 import Link from 'next/link';
 import { setComponentNum } from 'src/redux/slices/component';
 import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 /**
  *  @brief 반응형 구축
@@ -437,6 +438,10 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     [order, orderBy, page, rowsPerPage, rows]
   );
 
+  const handleDragEnd = (result) => {
+    console.log(result);
+  };
+
   return (
     <ResponsiveTable>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -453,71 +458,107 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
               onRequestSort={handleRequestSort}
               rowCount={rows?.length}
             />
-            <TableBody>
-              {visibleRows?.map((row, index) => {
-                const rowValues = Object.values(row);
-                const isItemSelected = isSelected(row?.num);
-                const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row?.num)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={rowValues[0]}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId={`${type} + list`}>
+                {(provided) => (
+                  <div
+                    className={`${type} + list`}
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
+                    <TableBody>
+                      {visibleRows?.map((row, index) => {
+                        const rowValues = Object.values(row);
+                        const isItemSelected = isSelected(row?.num);
+                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                    <TableCell
-                      /**
-                       * @brief 반응형
-                       */
+                        return (
+                          <Draggable
+                            draggableId={String(type + row?.num)}
+                            index={index}
+                            key={String(type + row?.num)}
+                          >
+                            {(provided, snapshot) => {
+                              return (
+                                <div
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                >
+                                  <TableRow
+                                    hover
+                                    onClick={(event) => handleClick(event, row?.num)}
+                                    role="checkbox"
+                                    aria-checked={isItemSelected}
+                                    tabIndex={-1}
+                                    key={rowValues[0]}
+                                    selected={isItemSelected}
+                                    sx={{ cursor: 'pointer' }}
+                                    isDragging={snapshot.isDragging}
+                                  >
+                                    <TableCell padding="checkbox">
+                                      <Checkbox
+                                        color="primary"
+                                        checked={isItemSelected}
+                                        inputProps={{
+                                          'aria-labelledby': labelId,
+                                        }}
+                                      />
+                                    </TableCell>
 
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {rowValues[0]}
-                    </TableCell>
+                                    <TableCell
+                                      /**
+                                       * @brief 반응형
+                                       */
 
-                    {rowValues.slice(1)?.map((rowValue, index) => (
-                      <TableCell
-                        align={'left'}
-                        /**
-                         * @brief 반응형
-                         */
-                        // sx={{ fontSize: '5px' }}
-                        // sx={{ padding: 1 }}
-                      >
-                        {rowValue === true ? 'Y' : rowValue === false ? 'N' : rowValue}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
+                                      component="th"
+                                      id={labelId}
+                                      scope="row"
+                                      padding="none"
+                                    >
+                                      {rowValues[0]}
+                                    </TableCell>
+
+                                    {rowValues.slice(1)?.map((rowValue, index) => (
+                                      <TableCell
+                                        align={'left'}
+                                        /**
+                                         * @brief 반응형
+                                         */
+                                        // sx={{ fontSize: '5px' }}
+                                        // sx={{ padding: 1 }}
+                                      >
+                                        {rowValue === true
+                                          ? 'Y'
+                                          : rowValue === false
+                                          ? 'N'
+                                          : rowValue}
+                                      </TableCell>
+                                    ))}
+                                  </TableRow>
+                                </div>
+                              );
+                            }}
+                          </Draggable>
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow
+                          style={{
+                            height: (dense ? 33 : 53) * emptyRows,
+                          }}
+                        >
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
           </Table>
         </TableContainer>
 
