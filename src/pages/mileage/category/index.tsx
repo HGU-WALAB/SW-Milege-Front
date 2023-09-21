@@ -175,6 +175,7 @@ export default function MileageCategory({
       [DESCRIPTION2]: item[DESCRIPTION2],
       [ORDER_IDX]: item[ORDER_IDX],
     };
+
     return createData(
       item[ID],
       item[NAME],

@@ -442,10 +442,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const router = useRouter();
 
   const updateNewOrderIdx = (target, newOrderIdx) => {
-    console.log(rows);
-
-    target.orderIdx = newOrderIdx;
-
     const newData = {
       title: target.category,
       orderIdx: newOrderIdx,
@@ -464,39 +460,74 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     return target[0];
   };
 
+  // const handleDragEnd = async (result) => {
+  //   console.log(result);
+  //   const { source, destination } = result;
+
+  //   if (!destination) return;
+
+  //   // Copy the current rows
+  //   const updatedRows = [...rows];
+
+  //   // Remove the dragged item from source and insert it into destination
+  //   const [movedRow] = updatedRows.splice(source.index, 1);
+  //   updatedRows.splice(destination.index, 0, movedRow);
+
+  //   if (source.index === destination.index) return;
+  //   else if (source.index > destination.index) {
+  //     let target = rows[source.index];
+  //     let newOrderIdx = rows[destination.index].orderIdx;
+
+  //     updateNewOrderIdx(target, newOrderIdx);
+
+  //     for (let i = destination.index; i < source.index; ++i) {
+  //       target = rows[i];
+  //       if (target) {
+  //         newOrderIdx = rows[i + 1].orderIdx;
+  //         updateNewOrderIdx(target, newOrderIdx);
+  //       }
+  //     }
+  //   } else if (source.index < destination.index) {
+  //     let target = rows[source.index];
+  //     let newOrderIdx = rows[destination.index].orderIdx;
+  //     updateNewOrderIdx(target, newOrderIdx);
+
+  //     for (let i = destination.index; i > source.index; --i) {
+  //       target = rows[i];
+  //       if (target) {
+  //         newOrderIdx = rows[i - 1].orderIdx;
+  //         updateNewOrderIdx(target, newOrderIdx);
+  //       }
+  //     }
+  //   }
+  //   setRows(updatedRows);
+  // };
   const handleDragEnd = async (result) => {
     console.log(result);
     const { source, destination } = result;
 
     if (!destination) return;
 
-    if (source.index === destination.index) return;
-    else if (source.index > destination.index) {
-      let target = findRowByIndex(rows, source.index);
-      let newOrderIdx = findRowByIndex(rows, destination.index).orderIdx;
+    // Copy the current rows for manipulation
+    const updatedRows = [...rows];
 
-      updateNewOrderIdx(target, newOrderIdx);
+    // Remove the dragged item from source and insert it into destination
+    const [movedRow] = updatedRows.splice(source.index, 1);
+    updatedRows.splice(destination.index, 0, movedRow);
 
-      for (let i = destination.index; i < source.index; ++i) {
-        target = findRowByIndex(rows, i);
-        if (target) {
-          newOrderIdx = target.orderIdx + 1;
-          updateNewOrderIdx(target, newOrderIdx);
-        }
-      }
-    } else if (source.index < destination.index) {
-      let target = findRowByIndex(rows, source.index);
-      let newOrderIdx = findRowByIndex(rows, destination.index).orderIdx;
-      updateNewOrderIdx(target, newOrderIdx);
+    const startIdx = Math.min(source.index, destination.index);
+    const endIdx = Math.max(source.index, destination.index);
 
-      for (let i = source.index + 1; i <= destination.index; ++i) {
-        target = findRowByIndex(rows, i);
-        if (target) {
-          newOrderIdx = target.orderIdx - 1;
-          updateNewOrderIdx(target, newOrderIdx);
-        }
+    for (let i = startIdx; i <= endIdx; i++) {
+      const target = updatedRows[i];
+      if (target) {
+        console.log(rows[i], updatedRows[i].orderIdx);
+        updateNewOrderIdx(rows[i], updatedRows[i].orderIdx);
+        // target.orderIdx = newOrderIdx; // Update the local state as well
       }
     }
+
+    setRows(updatedRows);
   };
 
   return (
@@ -529,7 +560,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                         return (
                           <Draggable
                             draggableId={type + row?.num}
-                            index={row?.num}
+                            index={index}
                             key={type + row?.num}
                           >
                             {(provided, snapshot) => {
