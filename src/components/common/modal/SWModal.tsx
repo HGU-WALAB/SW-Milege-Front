@@ -118,7 +118,7 @@ const modalForm = (modalType, beforeData) => {
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm />;
     case REGISTEREDSTUDENTS:
-      return <StudentsModal beforeData={beforeData} />;
+      return <StudentsModal  />;
 
     default:
       return <div>default</div>;

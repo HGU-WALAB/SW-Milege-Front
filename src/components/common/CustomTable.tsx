@@ -65,6 +65,8 @@ import Filtering from './Filter/Filtering';
 import Link from 'next/link';
 import { setComponentNum } from 'src/redux/slices/component';
 import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import axiosInstance from 'src/utils/axios';
 
 /**
  *  @brief 반응형 구축
@@ -312,10 +314,15 @@ const typeConverter = (type) => {
  */
 
 export default function EnhancedTable({ originalRows, headCells, type }) {
+  function sortByOrderIdx(data) {
+    return data.sort((a, b) => a.orderIdx - b.orderIdx);
+  }
+
   /**
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
-  const [rows, setRows] = React.useState(originalRows);
+
+  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
   console.log('debug', rows, originalRows);
 
   /**
@@ -329,9 +336,11 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const studentName = useSelector((state) => state.filter.studentName);
   const grade = useSelector((state) => state.filter.grade);
   const department = useSelector((state) => state.filter.department);
+
   /**
    * @brief 필터링
    */
+
   useEffect(() => {
     let copyRows = originalRows;
     if (category && category !== '전체') {
@@ -437,89 +446,218 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     [order, orderBy, page, rowsPerPage, rows]
   );
 
+  const router = useRouter();
+
+  const updateNewOrderIdx = (target, newOrderIdx) => {
+    const newData = {
+      title: target.category,
+      orderIdx: newOrderIdx,
+      description1: target.description1,
+      description2: target.description2,
+    };
+
+    axiosInstance.patch(`/api/mileage/categories/${target.num}`, newData).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const findRowByIndex = (rows, index) => {
+    const target = rows.filter((row) => row.num === index);
+
+    return target[0];
+  };
+
+  // const handleDragEnd = async (result) => {
+  //   console.log(result);
+  //   const { source, destination } = result;
+
+  //   if (!destination) return;
+
+  //   // Copy the current rows
+  //   const updatedRows = [...rows];
+
+  //   // Remove the dragged item from source and insert it into destination
+  //   const [movedRow] = updatedRows.splice(source.index, 1);
+  //   updatedRows.splice(destination.index, 0, movedRow);
+
+  //   if (source.index === destination.index) return;
+  //   else if (source.index > destination.index) {
+  //     let target = rows[source.index];
+  //     let newOrderIdx = rows[destination.index].orderIdx;
+
+  //     updateNewOrderIdx(target, newOrderIdx);
+
+  //     for (let i = destination.index; i < source.index; ++i) {
+  //       target = rows[i];
+  //       if (target) {
+  //         newOrderIdx = rows[i + 1].orderIdx;
+  //         updateNewOrderIdx(target, newOrderIdx);
+  //       }
+  //     }
+  //   } else if (source.index < destination.index) {
+  //     let target = rows[source.index];
+  //     let newOrderIdx = rows[destination.index].orderIdx;
+  //     updateNewOrderIdx(target, newOrderIdx);
+
+  //     for (let i = destination.index; i > source.index; --i) {
+  //       target = rows[i];
+  //       if (target) {
+  //         newOrderIdx = rows[i - 1].orderIdx;
+  //         updateNewOrderIdx(target, newOrderIdx);
+  //       }
+  //     }
+  //   }
+  //   setRows(updatedRows);
+  // };
+  const handleDragEnd = async (result) => {
+    const { source, destination } = result;
+
+    if (!destination) return;
+
+    // Copy the current rows for manipulation
+    let updatedRows = [...rows];
+
+    // Remove the dragged item from source and insert it into destination
+    const [movedRow] = updatedRows.splice(source.index, 1);
+    updatedRows.splice(destination.index, 0, movedRow);
+
+    const startIdx = Math.min(source.index, destination.index);
+    const endIdx = Math.max(source.index, destination.index);
+    for (let i = startIdx; i <= endIdx; i++) {
+      console.log(startIdx, endIdx);
+      const updateRow = {
+        num: updatedRows[i].num,
+        category: updatedRows[i].category,
+        orderIdx: rows[i].orderIdx,
+        description1: updatedRows[i].description1,
+        description2: updatedRows[i].description2,
+        manage: updatedRows[i].manage,
+      };
+      updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
+
+      // updatedRows[i].orderIdx = rows[i].orderIdx;
+      console.log(updatedRows[i].orderIdx, rows[i].orderIdx);
+    }
+
+    for (let i = startIdx; i <= endIdx; i++) {
+      const target = updatedRows[i];
+      if (target) {
+        console.log(rows[i], updatedRows[i].orderIdx);
+        updateNewOrderIdx(updatedRows[i], updatedRows[i].orderIdx);
+        // target.orderIdx = newOrderIdx; // Update the local state as well
+      }
+    }
+
+    setRows(updatedRows);
+  };
+
   return (
     <ResponsiveTable>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+      <Paper>
         <EnhancedTableToolbar numSelected={selected.length} type={type} />
 
-        <TableContainer>
-          <Table sx={{}} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-            <EnhancedTableHead
-              headCells={headCells}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows?.length}
-            />
-            <TableBody>
-              {visibleRows?.map((row, index) => {
-                const rowValues = Object.values(row);
-                const isItemSelected = isSelected(row?.num);
-                const labelId = `enhanced-table-checkbox-${index}`;
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId={type}>
+            {(provided) => (
+              <div className={type} {...provided.droppableProps} ref={provided.innerRef}>
+                <TableContainer>
+                  <Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
+                    <EnhancedTableHead
+                      headCells={headCells}
+                      numSelected={selected.length}
+                      order={order}
+                      orderBy={orderBy}
+                      onSelectAllClick={handleSelectAllClick}
+                      onRequestSort={handleRequestSort}
+                      rowCount={rows?.length}
+                    />
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row?.num)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={rowValues[0]}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
+                    <TableBody>
+                      {visibleRows?.map((row, index) => {
+                        const rowValues = Object.values(row);
+                        const isItemSelected = isSelected(row?.num);
+                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                    <TableCell
-                      /**
-                       * @brief 반응형
-                       */
+                        return (
+                          <Draggable
+                            draggableId={type + row?.num}
+                            index={index}
+                            key={type + row?.num}
+                          >
+                            {(provided, snapshot) => {
+                              return (
+                                <TableRow
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  style={{
+                                    cursor: 'pointer',
+                                    ...provided.draggableProps.style, // react-beautiful-dnd에서 제공하는 기본 스타일
+                                  }}
+                                  ref={provided.innerRef}
+                                  hover
+                                  onClick={(event) => handleClick(event, row?.num)}
+                                  role="checkbox"
+                                  aria-checked={isItemSelected}
+                                  tabIndex={-1}
+                                  key={rowValues[0]}
+                                  selected={isItemSelected}
+                                  isDragging={snapshot.isDragging}
+                                >
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      color="primary"
+                                      checked={isItemSelected}
+                                      inputProps={{
+                                        'aria-labelledby': labelId,
+                                      }}
+                                    />
+                                  </TableCell>
 
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {rowValues[0]}
-                    </TableCell>
+                                  <TableCell
+                                    /**
+                                     * @brief 반응형
+                                     */
 
-                    {rowValues.slice(1)?.map((rowValue, index) => (
-                      <TableCell
-                        align={'left'}
-                        /**
-                         * @brief 반응형
-                         */
-                        // sx={{ fontSize: '5px' }}
-                        // sx={{ padding: 1 }}
-                      >
-                        {rowValue === true ? 'Y' : rowValue === false ? 'N' : rowValue}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                                    component="th"
+                                    id={labelId}
+                                    scope="row"
+                                    padding="none"
+                                  >
+                                    {rowValues[0]}
+                                  </TableCell>
+
+                                  {rowValues.slice(1)?.map((rowValue, index) => (
+                                    <TableCell align={'left'}>
+                                      {rowValue === true
+                                        ? 'Y'
+                                        : rowValue === false
+                                        ? 'N'
+                                        : rowValue}
+                                    </TableCell>
+                                  ))}
+                                </TableRow>
+                              );
+                            }}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                      {emptyRows > 0 && (
+                        <TableRow
+                          style={{
+                            height: (dense ? 33 : 53) * emptyRows,
+                          }}
+                        >
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
 
         <CustomTablePagination
           setPage={setPage}

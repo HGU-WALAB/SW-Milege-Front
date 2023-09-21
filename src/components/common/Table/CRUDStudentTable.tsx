@@ -178,7 +178,7 @@ export default function CRUDStudentTable() {
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-    handleEditMode();
+    // handleEditMode();
   };
 
   const handleSaveClick = (id: GridRowId) => () => {
