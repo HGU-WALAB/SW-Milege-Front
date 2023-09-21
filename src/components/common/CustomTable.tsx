@@ -314,10 +314,15 @@ const typeConverter = (type) => {
  */
 
 export default function EnhancedTable({ originalRows, headCells, type }) {
+  function sortByOrderIdx(data) {
+    return data.sort((a, b) => a.orderIdx - b.orderIdx);
+  }
+
   /**
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
-  const [rows, setRows] = React.useState(originalRows);
+
+  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
   console.log('debug', rows, originalRows);
 
   /**
@@ -331,9 +336,11 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const studentName = useSelector((state) => state.filter.studentName);
   const grade = useSelector((state) => state.filter.grade);
   const department = useSelector((state) => state.filter.department);
+
   /**
    * @brief 필터링
    */
+
   useEffect(() => {
     let copyRows = originalRows;
     if (category && category !== '전체') {
@@ -503,13 +510,12 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   //   setRows(updatedRows);
   // };
   const handleDragEnd = async (result) => {
-    console.log(result);
     const { source, destination } = result;
 
     if (!destination) return;
 
     // Copy the current rows for manipulation
-    const updatedRows = [...rows];
+    let updatedRows = [...rows];
 
     // Remove the dragged item from source and insert it into destination
     const [movedRow] = updatedRows.splice(source.index, 1);
@@ -517,12 +523,27 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
     const startIdx = Math.min(source.index, destination.index);
     const endIdx = Math.max(source.index, destination.index);
+    for (let i = startIdx; i <= endIdx; i++) {
+      console.log(startIdx, endIdx);
+      const updateRow = {
+        num: updatedRows[i].num,
+        category: updatedRows[i].category,
+        orderIdx: rows[i].orderIdx,
+        description1: updatedRows[i].description1,
+        description2: updatedRows[i].description2,
+        manage: updatedRows[i].manage,
+      };
+      updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
+
+      // updatedRows[i].orderIdx = rows[i].orderIdx;
+      console.log(updatedRows[i].orderIdx, rows[i].orderIdx);
+    }
 
     for (let i = startIdx; i <= endIdx; i++) {
       const target = updatedRows[i];
       if (target) {
         console.log(rows[i], updatedRows[i].orderIdx);
-        updateNewOrderIdx(rows[i], updatedRows[i].orderIdx);
+        updateNewOrderIdx(updatedRows[i], updatedRows[i].orderIdx);
         // target.orderIdx = newOrderIdx; // Update the local state as well
       }
     }
