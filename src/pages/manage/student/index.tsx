@@ -20,6 +20,7 @@ import {
   REGDATE,
   ISCHECKED,
   MOBILE,
+  MOD_DATE,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -49,6 +50,7 @@ export enum StudentManageBoard {
   'LASTLOGINDATE' = LASTLOGINDATE,
   'REGDATE' = REGDATE,
   'ISCHECKED' = ISCHECKED,
+  'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
 }
 
@@ -64,6 +66,7 @@ interface Data {
   [StudentManageBoard.MAJOR]: string;
   [StudentManageBoard.LASTLOGINDATE]: string;
   [StudentManageBoard.ISCHECKED]: string;
+  [StudentManageBoard.MOD_DATE]: string;
   [StudentManageBoard.MANAGE]: string;
 }
 /**
@@ -80,6 +83,7 @@ function createData(
   MAJOR: string,
   LASTLOGINDATE: string,
   ISCHECKED: string,
+  MOD_DATE: string,
   MANAGE: ReactNode
 ): Data {
   return {
@@ -91,6 +95,7 @@ function createData(
     [StudentManageBoard.MAJOR]: MAJOR,
     [StudentManageBoard.LASTLOGINDATE]: LASTLOGINDATE,
     [StudentManageBoard.ISCHECKED]: ISCHECKED,
+    [StudentManageBoard.MOD_DATE]: MOD_DATE,
     [StudentManageBoard.MANAGE]: MANAGE,
   };
 }
@@ -146,6 +151,12 @@ function createData(
     numeric: true,
     disablePadding: false,
     label: '승인',
+  },
+  {
+    id: [StudentManageBoard.MOD_DATE],
+    numeric: true,
+    disablePadding: false,
+    label: '최근 수정일',
   },
   {
     id: [StudentManageBoard.MANAGE],
@@ -265,7 +276,6 @@ export default function StudentManage({
     };
     return createData(
       student[ID],
-      student[ID],
       student[NAME],
       student[SID],
       student[YEAR] + `( ${student[SEMESTERCOUNT]}학기 )`,
@@ -273,6 +283,7 @@ export default function StudentManage({
       student[MAJOR1] + ' / ' + student[MAJOR2],
       student[LASTLOGINDATE]?.split('T')[0],
       student[ISCHECKED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
+      student[MOD_DATE],
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );
   });
