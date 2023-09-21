@@ -19,6 +19,7 @@ import {
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
   NAME,
+  MOD_DATE,
   CATEGORYID,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
@@ -45,6 +46,7 @@ export enum MileageGlobalItemBoard {
   'DESCRIPTION2' = DESCRIPTION2,
 
   'ISVISIBLE' = ISVISIBLE,
+  'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
 }
 
@@ -59,6 +61,7 @@ interface Data {
   [MileageGlobalItemBoard.DESCRIPTION2]: string;
 
   [MileageGlobalItemBoard.ISVISIBLE]: boolean;
+  [MileageGlobalItemBoard.MOD_DATE]: string;
   [MileageGlobalItemBoard.MANAGE]: string;
 }
 
@@ -75,6 +78,7 @@ function createData(
   DESCRIPTION2: string,
 
   ISVISIBLE: boolean,
+  MOD_DATE: string,
   MANAGE: string
 ): Data {
   return {
@@ -87,6 +91,7 @@ function createData(
     [MileageGlobalItemBoard.DESCRIPTION2]: DESCRIPTION2,
 
     [MileageGlobalItemBoard.ISVISIBLE]: ISVISIBLE,
+    [MileageGlobalItemBoard.MOD_DATE]: MOD_DATE,
     [MileageGlobalItemBoard.MANAGE]: MANAGE,
   };
 }
@@ -131,6 +136,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '보이기',
+  },
+  {
+    id: [MileageGlobalItemBoard.MOD_DATE],
+    numeric: true,
+    disablePadding: false,
+    label: '최근 수정일',
   },
   {
     id: [MileageGlobalItemBoard.MANAGE],
@@ -307,6 +318,7 @@ export default function MileageCategory({
       item[DESCRIPTION1],
       item[DESCRIPTION2],
       item[ISVISIBLE],
+      item[MOD_DATE],
       <SWModal type={EDITGLOBALITEM} beforeData={beforeData} />
     );
   });
