@@ -441,41 +441,62 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const router = useRouter();
 
+  const updateNewOrderIdx = (target, newOrderIdx) => {
+    console.log(rows);
+
+    target.orderIdx = newOrderIdx;
+
+    const newData = {
+      title: target.category,
+      orderIdx: newOrderIdx,
+      description1: target.description1,
+      description2: target.description2,
+    };
+
+    axiosInstance.patch(`/api/mileage/categories/${target.num}`, newData).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const findRowByIndex = (rows, index) => {
+    const target = rows.filter((row) => row.num === index);
+
+    return target[0];
+  };
+
   const handleDragEnd = async (result) => {
+    console.log(result);
     const { source, destination } = result;
+
     if (!destination) return;
 
     if (source.index === destination.index) return;
+    else if (source.index > destination.index) {
+      let target = findRowByIndex(rows, source.index);
+      let newOrderIdx = findRowByIndex(rows, destination.index).orderIdx;
 
-    let newRow = rows[source.index];
-    let newRow2 = rows[destination.index];
+      updateNewOrderIdx(target, newOrderIdx);
 
-    const tempOrderIdx = newRow.orderIdx;
+      for (let i = destination.index; i < source.index; ++i) {
+        target = findRowByIndex(rows, i);
+        if (target) {
+          newOrderIdx = target.orderIdx + 1;
+          updateNewOrderIdx(target, newOrderIdx);
+        }
+      }
+    } else if (source.index < destination.index) {
+      let target = findRowByIndex(rows, source.index);
+      let newOrderIdx = findRowByIndex(rows, destination.index).orderIdx;
+      updateNewOrderIdx(target, newOrderIdx);
 
-    newRow.orderIdx = newRow2.orderIdx;
-    newRow2.orderIdx = tempOrderIdx;
-
-    console.log(newRow, newRow2);
-
-    let newData = {
-      title: newRow.category,
-      orderIdx: newRow.orderIdx,
-      description1: newRow.description1,
-      description2: newRow.description2,
-    };
-    let newData2 = {
-      title: newRow2.category,
-      orderIdx: newRow2.orderIdx,
-      description1: newRow2.description1,
-      description2: newRow2.description2,
-    };
-
-    await axiosInstance.patch(`/api/mileage/categories/${newRow.num}`, newData).then((res) => {
-      console.log(res);
-    });
-    await axiosInstance.patch(`/api/mileage/categories/${newRow2.num}`, newData2).then((res) => {
-      console.log(res);
-    });
+      for (let i = source.index + 1; i <= destination.index; ++i) {
+        target = findRowByIndex(rows, i);
+        if (target) {
+          newOrderIdx = target.orderIdx - 1;
+          updateNewOrderIdx(target, newOrderIdx);
+        }
+      }
+    }
   };
 
   return (
@@ -508,7 +529,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                         return (
                           <Draggable
                             draggableId={type + row?.num}
-                            index={index}
+                            index={row?.num}
                             key={type + row?.num}
                           >
                             {(provided, snapshot) => {
