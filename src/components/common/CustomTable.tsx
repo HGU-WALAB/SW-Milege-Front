@@ -315,9 +315,14 @@ const typeConverter = (type) => {
 
 export default function EnhancedTable({ originalRows, headCells, type }) {
   function sortByOrderIdx(data) {
-    return data.sort((a, b) => a.orderIdx - b.orderIdx);
-  }
+    if (!data) return;
 
+    // Create a shallow copy of the array
+    const sortedData = [...data];
+
+    // Sort the copied array
+    return sortedData.sort((a, b) => (a?.orderIdx ?? 0) - (b?.orderIdx ?? 0));
+  }
   /**
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
