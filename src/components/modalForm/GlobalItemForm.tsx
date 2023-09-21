@@ -100,7 +100,7 @@ export default function GlobalItemForm() {
     };
 
     const newData = {
-      [CATEGORYID]: 1,
+      [CATEGORYID]: values[CATEGORYID],
       itemName: values[ITEM],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
