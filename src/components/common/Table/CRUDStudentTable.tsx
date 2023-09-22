@@ -154,7 +154,7 @@ export default function CRUDStudentTable() {
         const rows = data.list.map((row: any) =>
           createDate(
             row.id,
-            row.name,
+            row.studentName,
             row.sid,
             row.counts,
             row.extraPoints,
@@ -194,7 +194,7 @@ export default function CRUDStudentTable() {
       description2: editingRow?.description2,
     };
     const validateDuplicate = () => {
-      console.log(rows.map((row) => row.sid).includes(editingRow?.sid));
+      return rows.map((row) => row.sid).includes(editingRow?.sid);
     };
 
     console.log('ㅇㅇ', newData, rows);
