@@ -18,6 +18,7 @@ import {
   ISEVALUATE_CSEE,
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
+  MOD_DATE,
   MAX_MAILEAGE,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
@@ -45,6 +46,7 @@ export enum MileageSemesterItemBoard {
   'ITEM' = ITEM,
   'POINTS' = POINTS,
   'ITEM_MAX_POINTS' = ITEM_MAX_POINTS,
+  'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
 }
 
@@ -58,6 +60,7 @@ interface Data {
   [MileageSemesterItemBoard.ITEM]: string;
   [MileageSemesterItemBoard.POINTS]: number;
   [MileageSemesterItemBoard.ITEM_MAX_POINTS]: number;
+  [MileageSemesterItemBoard.MOD_DATE]: string;
   [MileageSemesterItemBoard.MANAGE]: string;
 }
 
@@ -73,6 +76,7 @@ function createData(
   ITEM: string,
   POINTS: number,
   ITEM_MAX_POINTS: number,
+  MOD_DATE: string,
   MANAGE: string
 ): Data {
   return {
@@ -82,6 +86,7 @@ function createData(
     [MileageSemesterItemBoard.ITEM]: ITEM,
     [MileageSemesterItemBoard.POINTS]: POINTS,
     [MileageSemesterItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
+    [MileageSemesterItemBoard.MOD_DATE]: MOD_DATE,
     [MileageSemesterItemBoard.MANAGE]: MANAGE,
   };
 }
@@ -126,6 +131,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '항목 최대 포인트',
+  },
+  {
+    id: [MileageSemesterItemBoard.MOD_DATE],
+    numeric: true,
+    disablePadding: false,
+    label: '최큰 수정일',
   },
   {
     id: [MileageSemesterItemBoard.MANAGE],
@@ -287,7 +298,7 @@ export default function MileageCategory({
       semesterItem.item.name,
       semesterItem.points,
       semesterItem.itemMaxPoints,
-
+      semesterItem.modDate,
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );
   });

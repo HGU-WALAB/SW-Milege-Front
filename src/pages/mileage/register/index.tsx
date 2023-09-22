@@ -21,6 +21,7 @@ import {
   SEMESTER_NAME,
   ITEM_NAME,
   CATEGORY_NAME,
+  MOD_DATE,
 } from 'src/assets/data/fields';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { REGISTER_NUM, STUDENT_NAME, DESCRIPTION1 } from '../../../assets/data/fields';
@@ -54,6 +55,7 @@ export enum MileageRegisterBoard {
   'ITEM_NAME' = ITEM_NAME,
   'DESCRIPTION1' = DESCRIPTION1,
   'POINTS' = POINTS,
+  'MOD_DATE' = MOD_DATE,
   'STUDENTS' = STUDENTS,
 }
 
@@ -67,6 +69,7 @@ interface Data {
   [MileageRegisterBoard.ITEM_NAME]: string;
   [MileageRegisterBoard.DESCRIPTION1]: string;
   [MileageRegisterBoard.POINTS]: number;
+  [MileageRegisterBoard.MOD_DATE]: string;
   [MileageRegisterBoard.STUDENTS]: ReactNode;
 }
 
@@ -81,6 +84,7 @@ function createData(
   ITEM_NAME: string,
   DESCRIPTION1: string,
   POINTS: number,
+  MOD_DATE: string,
   STUDENTS: ReactNode
 ): Data {
   return {
@@ -89,6 +93,7 @@ function createData(
     [MileageRegisterBoard.ITEM_NAME]: ITEM_NAME,
     [MileageRegisterBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageRegisterBoard.POINTS]: POINTS,
+    [MileageRegisterBoard.MOD_DATE]: MOD_DATE,
     [MileageRegisterBoard.STUDENTS]: STUDENTS,
   };
 }
@@ -150,6 +155,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '포인트',
+  },
+  {
+    id: [MileageRegisterBoard.MOD_DATE],
+    numeric: true,
+    disablePadding: false,
+    label: '최근 수정일',
   },
   {
     id: [MileageRegisterBoard.STUDENTS],
@@ -266,6 +277,7 @@ export default function MileageRegister({
       semesterItem.item.name,
       semesterItem.item.description1,
       semesterItem.points,
+      semesterItem.modDate,
       <Box sx={{ display: 'flex' }}>
         <Tooltip title="등록된 학생 리스트 확인">
           <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />

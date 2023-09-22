@@ -8,6 +8,7 @@ import {
   ID,
   ORDER_IDX,
   TITLE,
+  MOD_DATE,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
@@ -26,6 +27,7 @@ export enum MileageCategoryBoard {
   'ORDER_IDX' = ORDER_IDX,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
+  'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
 }
 
@@ -40,6 +42,7 @@ interface Data {
   [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
+  [MileageCategoryBoard.MOD_DATE]: string;
   [MileageCategoryBoard.MANAGE]: ReactNode;
 }
 
@@ -55,6 +58,7 @@ function createData(
   ORDER_IDX: number,
   DESCRIPTION1: string,
   DESCRIPTION2: string,
+  MOD_DATE: string,
   MANAGE: ReactNode
 ): Data {
   return {
@@ -63,6 +67,7 @@ function createData(
     [MileageCategoryBoard.ORDER_IDX]: ORDER_IDX,
     [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
+    [MileageCategoryBoard.MOD_DATE]: MOD_DATE,
     [MileageCategoryBoard.MANAGE]: MANAGE,
   };
 }
@@ -103,6 +108,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '설명2',
+  },
+  {
+    id: [MileageCategoryBoard.MOD_DATE],
+    numeric: true,
+    disablePadding: false,
+    label: '최근 수정일',
   },
   {
     id: [MileageCategoryBoard.MANAGE],
@@ -182,6 +193,7 @@ export default function MileageCategory({
       item[ORDER_IDX],
       item[DESCRIPTION1],
       item[DESCRIPTION2],
+      item[MOD_DATE],
       <SWModal type={EDITCATEGORY} beforeData={beforeData} />
     );
   });
