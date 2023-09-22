@@ -327,7 +327,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
 
-  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
+  const [rows, setRows] = React.useState(originalRows);
   console.log('debug', rows, originalRows);
 
   /**
@@ -595,7 +595,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   style={{
-                                    cursor: 'pointer',
+                                    cursor: 'move',
                                     ...provided.draggableProps.style, // react-beautiful-dnd에서 제공하는 기본 스타일
                                   }}
                                   ref={provided.innerRef}

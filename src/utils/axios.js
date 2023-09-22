@@ -13,7 +13,11 @@ axiosInstance.interceptors.response.use(
     const errorMessageToShow = serverErrorMessage || 'Something went wrong';
 
     // 여기서 alert나 다른 방법으로 errorMessageToShow를 사용자에게 보여줄 수 있습니다.
-    alert(errorMessageToShow);
+    if (typeof window !== 'undefined') {
+      alert(errorMessageToShow);
+    } else {
+      console.error(errorMessageToShow);
+    }
 
     // 동일한 메시지로 reject
     return Promise.reject(errorMessageToShow);
