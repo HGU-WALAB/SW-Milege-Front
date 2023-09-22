@@ -9,6 +9,7 @@ import {
   AUTHORITY,
   FREQUENCY,
   ID,
+  MANAGE,
   TITLE,
   DESCRIPTION1,
   DESCRIPTION2,
@@ -21,6 +22,7 @@ import UserManage from '../../../components/board/UserManage';
 import axiosInstance from 'src/utils/axios';
 import { MOD_DATE } from '../../../assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
+import { EDITMANAGER } from 'src/assets/data/modal/modals';
 
 /**
  * @component [사용자 관리] 게시판
@@ -38,6 +40,7 @@ export enum UserManageBoard {
   'AUTHORITY' = AUTHORITY,
   'FREQUENCY' = FREQUENCY,
   'MOD_DATE' = MOD_DATE,
+  'MANAGE' = MANAGE,
 }
 
 /**
@@ -50,6 +53,7 @@ interface Data {
   [UserManageBoard.AUTHORITY]: string;
   [UserManageBoard.FREQUENCY]: string;
   [UserManageBoard.MOD_DATE]: string;
+  [UserManageBoard.MANAGE]: ReactNode;
 }
 /**
  * @kind [사용자 관리]
@@ -62,7 +66,8 @@ function createData(
   email: string,
   authority: string,
   frequency: string,
-  modDate: string
+  modDate: string,
+  manage: ReactNode
 ): Data {
   return {
     [UserManageBoard.NUM]: num,
@@ -71,6 +76,7 @@ function createData(
     [UserManageBoard.AUTHORITY]: authority,
     [UserManageBoard.FREQUENCY]: frequency,
     [UserManageBoard.MOD_DATE]: modDate,
+    [UserManageBoard.MANAGE]: manage,
   };
 }
 
@@ -115,6 +121,12 @@ const headCells = [
     disablePadding: false,
     label: '최근 수정일',
   },
+  {
+    id: [UserManageBoard.MANAGE],
+    numeric: true,
+    disablePadding: false,
+    label: '수정',
+  },
 ];
 
 /**
@@ -150,7 +162,7 @@ export default function UserManage({
   const convertedFetchList = fetchData.list?.map((item) => {
     const beforeData = {
       [ID]: item[ID],
-      [TITLE]: item[NAME],
+      [NAME]: item[NAME],
       [EMAIL]: item[EMAIL],
       [LEVEL]: item[LEVEL],
       [LASTLOGINDATE]: item[LASTLOGINDATE],
@@ -162,8 +174,8 @@ export default function UserManage({
       item[EMAIL],
       item[LEVEL],
       item[LASTLOGINDATE] + ` ( ${item[LOGINCOUNT]} )`,
-      item[MOD_DATE]
-      // <SWModal type={EDITCATEGORY} beforeData={beforeData} />
+      item[MOD_DATE],
+      <SWModal type={EDITMANAGER} beforeData={beforeData} />
     );
   });
 

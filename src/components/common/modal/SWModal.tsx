@@ -29,12 +29,14 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMANAGER,
   ADDMILEAGEREGISTER,
   ADDSTUDENT,
   DELETECATEGORY,
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
+  EDITMANAGER,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
   REGISTEREDSTUDENTS,
@@ -87,6 +89,7 @@ import StudentForm from 'src/components/modalForm/StudentForm';
 import MileageRegisterForm from 'src/components/modalForm/MileageRegisterForm';
 import { STUDENT_ID } from 'src/assets/data/fields';
 import StudentsModal from 'src/components/modalForm/StudentsModal';
+import ManagerForm from 'src/components/modalForm/ManagerForm';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -118,8 +121,11 @@ const modalForm = (modalType, beforeData) => {
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm />;
     case REGISTEREDSTUDENTS:
-      return <StudentsModal  />;
-
+      return <StudentsModal />;
+    case ADDMANAGER:
+      return <ManagerForm />;
+    case EDITMANAGER:
+      return <ManagerForm />;
     default:
       return <div>default</div>;
   }

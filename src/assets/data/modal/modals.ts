@@ -13,6 +13,9 @@ export const DELETEGLOBALITEM = 'deleteGlobalItem';
 export const ADDSTUDENT = 'addStudent';
 export const EDITSTUDENT = 'editStudent';
 
+export const ADDMANAGER = 'addManager';
+export const EDITMANAGER = 'editManager';
+
 export const ADDMILEAGEREGISTER = 'addMileageRegister';
 export const EDITMILEAGEREGISTER = 'editMileageRegister';
 export const REGISTEREDSTUDENTS = 'registeredStudents';

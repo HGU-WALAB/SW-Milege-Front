@@ -8,6 +8,7 @@ const initialState = {
   studentName: '전체',
   grade: '전체',
   department: '전체',
+  level: '0',
 };
 
 const slice = createSlice({
@@ -56,6 +57,12 @@ const slice = createSlice({
     clearDepartment: (state) => {
       state.department = '전체';
     },
+    setLevel: (state, action) => {
+      state.level = action.payload;
+    },
+    clearLevel: (state) => {
+      state.level = '0';
+    },
   },
 });
 
@@ -75,5 +82,7 @@ export const {
   clearGrade,
   setDepartment,
   clearDepartment,
+  setLevel,
+  clearLevel,
 } = slice.actions;
 export default slice.reducer;

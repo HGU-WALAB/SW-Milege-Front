@@ -42,6 +42,7 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMANAGER,
   ADDSTUDENT,
   EDITCATEGORY,
 } from 'src/assets/data/modal/modals';
@@ -302,6 +303,8 @@ const typeConverter = (type) => {
       return ADDGLOBALITEM;
     case '학생 관리':
       return ADDSTUDENT;
+    case '사용자 관리':
+      return ADDMANAGER;
   }
 };
 
