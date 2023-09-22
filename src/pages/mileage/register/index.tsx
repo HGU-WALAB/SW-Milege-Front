@@ -16,7 +16,7 @@ import {
   EXTRAPOINTS,
   COUNTS,
   ID,
-  RECORD_ID,
+  RECORD_NAME,
   SEMESTERITEMID,
   SEMESTER_NAME,
   ITEM_NAME,
@@ -268,6 +268,7 @@ export default function MileageRegister({
   const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
     const beforeData = {
       [ID]: semesterItem.item.id,
+      [RECORD_NAME]: semesterItem.item.name,
     };
 
     return createData(

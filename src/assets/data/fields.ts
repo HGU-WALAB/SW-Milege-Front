@@ -71,3 +71,4 @@ export const ITEM_MAX_POINTS = 'itemMaxPoints';
 export const ISCHECKED = 'isChecked';
 export const CATEGORYID = 'categoryId';
 export const MOD_DATE = 'modDate';
+export const RECORD_NAME = 'recordName';

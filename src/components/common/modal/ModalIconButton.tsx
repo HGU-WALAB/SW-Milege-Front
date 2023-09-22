@@ -13,7 +13,7 @@ import {
 import { useDispatch } from 'react-redux';
 
 import PersonIcon from '@mui/icons-material/Person';
-import { REGISTEREDSTUDENTS } from 'src/assets/data/modal/modals';
+import { ADDMILEAGEREGISTER, REGISTEREDSTUDENTS } from 'src/assets/data/modal/modals';
 export default function ModalIconButton({ setOpen, type, beforeData }) {
   const dispatch = useDispatch();
   const handleOpen = () => {
@@ -22,6 +22,7 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
     setOpen(true);
     dispatch(setBeforeData(beforeData));
     type === REGISTEREDSTUDENTS && dispatch(setClickedItemId(beforeData?.id));
+    // type === ADDMILEAGEREGISTER && dispatch(setClickedRecordId(beforeData?.id));
     console.log('ddd', beforeData?.id);
   };
 
