@@ -98,6 +98,7 @@ export default function ManagerForm() {
   const StudentSchema = Yup.object().shape({
     [NAME]: Yup.string().required('필수입니다.'),
     [EMAIL]: Yup.string().required('필수입니다.'),
+    [LEVEL]: Yup.number().required('필수입니다.'),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -110,7 +111,7 @@ export default function ManagerForm() {
     const newData = {
       [NAME]: values[NAME],
       [EMAIL]: values[EMAIL],
-      [LEVEL]: +values[LEVEL],
+      [LEVEL]: values[LEVEL],
     };
     console.log(newData);
 
@@ -133,7 +134,7 @@ export default function ManagerForm() {
           .patch(`/api/mileage/admins/${beforeData[ID]}`, newData)
           .then((res) => {
             alert(`관리자 ${beforeData[ID]}번이 수정되었습니다.`);
-            router.reload();
+            // router.reload();
           })
           .catch((err) => alert('관리자 수정에 실패했습니다.'));
         break;
@@ -142,9 +143,9 @@ export default function ManagerForm() {
   return (
     <Formik
       initialValues={{
-        [NAME]: modalType === EDITSTUDENT ? beforeData?.[NAME] : '',
-        [EMAIL]: modalType === EDITSTUDENT ? beforeData?.[EMAIL] : '',
-        [LEVEL]: modalType === EDITSTUDENT ? beforeData?.[LEVEL] : '',
+        [NAME]: modalType === EDITMANAGER ? beforeData?.[NAME] : '',
+        [EMAIL]: modalType === EDITMANAGER ? beforeData?.[EMAIL] : '',
+        [LEVEL]: modalType === EDITMANAGER ? beforeData?.[LEVEL] : '',
       }}
       validationSchema={StudentSchema}
       onSubmit={handleSubmit}

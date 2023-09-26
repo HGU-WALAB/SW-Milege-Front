@@ -609,7 +609,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   tabIndex={-1}
                                   key={rowValues[0]}
                                   selected={isItemSelected}
-                                  isDragging={snapshot.isDragging}
+                                  // isDragging={snapshot.isDragging}
                                 >
                                   <TableCell padding="checkbox">
                                     <Checkbox
@@ -635,7 +635,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   </TableCell>
 
                                   {rowValues.slice(1)?.map((rowValue, index) => (
-                                    <TableCell align={'left'}>
+                                    <TableCell key={index} align={'left'}>
                                       {rowValue === true
                                         ? 'Y'
                                         : rowValue === false
