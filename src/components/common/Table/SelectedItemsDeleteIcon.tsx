@@ -20,6 +20,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return '/api/mileage/items';
       case '사용자 관리':
         return '/api/mileage/admins';
+      case '학생 관리':
+        return '/api/mileage/students';
     }
   };
 
