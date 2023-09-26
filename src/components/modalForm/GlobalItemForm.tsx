@@ -68,7 +68,7 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-export default function GlobalItemForm() {
+export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
   // console.log('dbug', modalType, beforeData);
 
@@ -224,7 +224,7 @@ export default function GlobalItemForm() {
           </Box>
 
           <ButtonFlexBox>
-            <CancelButton modalType={modalType} />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
           </ButtonFlexBox>
         </StyleFieldForm>

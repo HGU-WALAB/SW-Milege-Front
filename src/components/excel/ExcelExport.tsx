@@ -48,7 +48,7 @@ export default function ExcelExport() {
          * @brief 엑셀 다운로드 버튼
          * @description Link Masking (서버의 링크를 숨긴다.)
          */
-        <Link as="/" href={'http://walab.handong.edu:8080/sw_mileage' + Excel.endPoint}>
+        <Link key={index} as="/" href={'http://walab.handong.edu:8080/sw_mileage' + Excel.endPoint}>
           <Button
             variant="contained"
             key={index}

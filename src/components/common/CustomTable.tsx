@@ -607,7 +607,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   role="checkbox"
                                   aria-checked={isItemSelected}
                                   tabIndex={-1}
-                                  key={rowValues[0]}
                                   selected={isItemSelected}
                                   // isDragging={snapshot.isDragging}
                                 >
