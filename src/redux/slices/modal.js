@@ -6,6 +6,7 @@ const initialState = {
   beforeData: null,
   clickedItemId: null,
   studentList: [],
+  clickedRecordId: null,
 };
 
 const slice = createSlice({
@@ -32,6 +33,9 @@ const slice = createSlice({
     setStudentList: (state, action) => {
       state.studentList = action.payload;
     },
+    setClickedRecordId: (state, action) => {
+      state.clickedRecordId = action.payload;
+    },
   },
 });
 
@@ -43,5 +47,6 @@ export const {
   setClickedItemId,
   setStudentList,
   setModalType,
+  setClickedRecordId,
 } = slice.actions;
 export default slice.reducer;

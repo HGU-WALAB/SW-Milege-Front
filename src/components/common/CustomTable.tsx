@@ -42,6 +42,7 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMANAGER,
   ADDSTUDENT,
   EDITCATEGORY,
 } from 'src/assets/data/modal/modals';
@@ -302,6 +303,8 @@ const typeConverter = (type) => {
       return ADDGLOBALITEM;
     case '학생 관리':
       return ADDSTUDENT;
+    case '사용자 관리':
+      return ADDMANAGER;
   }
 };
 
@@ -327,7 +330,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
 
-  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
+  const [rows, setRows] = React.useState(originalRows);
   console.log('debug', rows, originalRows);
 
   /**
@@ -595,7 +598,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   style={{
-                                    cursor: 'pointer',
+                                    cursor: 'move',
                                     ...provided.draggableProps.style, // react-beautiful-dnd에서 제공하는 기본 스타일
                                   }}
                                   ref={provided.innerRef}
@@ -606,7 +609,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   tabIndex={-1}
                                   key={rowValues[0]}
                                   selected={isItemSelected}
-                                  isDragging={snapshot.isDragging}
+                                  // isDragging={snapshot.isDragging}
                                 >
                                   <TableCell padding="checkbox">
                                     <Checkbox
@@ -632,7 +635,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   </TableCell>
 
                                   {rowValues.slice(1)?.map((rowValue, index) => (
-                                    <TableCell align={'left'}>
+                                    <TableCell key={index} align={'left'}>
                                       {rowValue === true
                                         ? 'Y'
                                         : rowValue === false

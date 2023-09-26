@@ -29,12 +29,14 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMANAGER,
   ADDMILEAGEREGISTER,
   ADDSTUDENT,
   DELETECATEGORY,
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
+  EDITMANAGER,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
   REGISTEREDSTUDENTS,
@@ -87,6 +89,7 @@ import StudentForm from 'src/components/modalForm/StudentForm';
 import MileageRegisterForm from 'src/components/modalForm/MileageRegisterForm';
 import { STUDENT_ID } from 'src/assets/data/fields';
 import StudentsModal from 'src/components/modalForm/StudentsModal';
+import ManagerForm from 'src/components/modalForm/ManagerForm';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -118,8 +121,11 @@ const modalForm = (modalType, beforeData) => {
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm />;
     case REGISTEREDSTUDENTS:
-      return <StudentsModal  />;
-
+      return <StudentsModal />;
+    case ADDMANAGER:
+      return <ManagerForm />;
+    case EDITMANAGER:
+      return <ManagerForm />;
     default:
       return <div>default</div>;
   }
@@ -199,10 +205,15 @@ export const engToKor = (eng) => {
 export default function SWModal({ type, beforeData }) {
   const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
+
+  const open = useSelector((state) => state.modal.isOpen);
+  const handleClose = (type) => dispatch(closeModal(type));
+  const handleOpen = (type) => dispatch(openModal(type));
+
   const modalType = useSelector((state) => state.modal.modalType);
 
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
 
   const style = {
     display: 'flex',
@@ -223,10 +234,11 @@ export default function SWModal({ type, beforeData }) {
   };
   return (
     <div>
-      <ModalIconButton setOpen={setOpen} beforeData={beforeData} type={type} />
+      <ModalIconButton setOpen={() => handleOpen(type)} beforeData={beforeData} type={type} />
       <Modal
+        key={type + beforeData?.id}
         open={open}
-        onClose={handleClose}
+        onClose={() => handleClose(type)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

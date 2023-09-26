@@ -5,26 +5,32 @@ import { setGrade } from 'src/redux/slices/filter';
 
 const GRADES = [
   {
+    id: 0,
     text: '전체',
     value: '전체',
   },
   {
+    id: 1,
     text: '1학년',
     value: '1',
   },
   {
+    id: 2,
     text: '2학년',
     value: '2',
   },
   {
+    id: 3,
     text: '3학년',
     value: '3',
   },
   {
+    id: 4,
     text: '4학년',
     value: '4',
   },
   {
+    id: 5,
     text: '5학년',
     value: '5',
   },
@@ -52,7 +58,9 @@ export default function GradeDropdown() {
           onChange={handleChange}
         >
           {GRADES.map((grade, index) => (
-            <MenuItem value={grade.value}>{grade.text}</MenuItem>
+            <MenuItem key={grade.id} value={grade.value}>
+              {grade.text}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

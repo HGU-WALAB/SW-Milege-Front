@@ -4,7 +4,7 @@ import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 
-import { TextField, styled } from '@mui/material';
+import { Box, Chip, TextField, Typography, styled } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
 import { closeModal } from 'src/redux/slices/modal';
@@ -17,22 +17,30 @@ import {
   DESCRIPTION1,
   DESCRIPTION2,
   EXTRAPOINTS,
+  NAME,
   POINTS,
   SEMESTERITEMID,
+  SID,
+  STUDENT_NAME,
 } from '../../assets/data/fields';
 import { STUDENT_ID } from 'src/assets/data/fields';
 import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
+import { RECORD_NAME } from '../../assets/data/fields';
 
 export default function MileageRegisterForm() {
   const beforeData = useSelector((state) => state.modal.beforeData);
 
   const modalType = useSelector((state) => state.modal.modalType);
+
+  console.log('!!');
   const router = useRouter();
   console.log('beforeData', beforeData);
 
   const MileageRegisterSchema = Yup.object().shape({
-    [SEMESTERITEMID]: Yup.string().required('필수입니다.'),
-    [STUDENT_ID]: Yup.number().integer().required('필수입니다.'),
+    // [SEMESTERITEMID]: Yup.string().required('필수입니다.'),
+    // [STUDENT_ID]: Yup.number().integer().required('필수입니다.'),
+    [NAME]: Yup.string().required('필수입니다.'),
+    [SID]: Yup.string().required('필수입니다.'),
     [COUNTS]: Yup.number().integer().required('필수입니다.'),
     [POINTS]: Yup.number().integer().required('필수입니다.'),
     [EXTRAPOINTS]: Yup.number().integer().required('필수입니다.'),
@@ -48,8 +56,10 @@ export default function MileageRegisterForm() {
     // 4) reload
 
     const newData = {
-      [SEMESTERITEMID]: values[SEMESTERITEMID],
-      [STUDENT_ID]: values[STUDENT_ID],
+      [SEMESTERITEMID]: beforeData.id,
+      [SID]: values[SID],
+      [STUDENT_NAME]: values[NAME],
+      // [STUDENT_ID]: values[STUDENT_ID],
       [COUNTS]: values[COUNTS],
       [POINTS]: values[POINTS],
       [EXTRAPOINTS]: values[EXTRAPOINTS],
@@ -57,7 +67,6 @@ export default function MileageRegisterForm() {
       [DESCRIPTION2]: values[DESCRIPTION2],
     };
 
-    console.log(newData);
     switch (modalType) {
       case ADDMILEAGEREGISTER:
         axiosInstance
@@ -96,7 +105,9 @@ export default function MileageRegisterForm() {
          */
 
         [SEMESTERITEMID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SEMESTERITEMID] : '',
-        [STUDENT_ID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[STUDENT_ID] : '',
+        // [STUDENT_ID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[STUDENT_ID] : '',
+        [NAME]: modalType === EDITMILEAGEREGISTER ? beforeData?.[NAME] : '',
+        [SID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SID] : '',
         [COUNTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[COUNTS] : 0,
         [POINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[POINTS] : 0,
         [EXTRAPOINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[EXTRAPOINTS] : 0,
@@ -118,15 +129,8 @@ export default function MileageRegisterForm() {
             gap: '30px',
           }}
         >
-          {[
-            SEMESTERITEMID,
-            STUDENT_ID,
-            COUNTS,
-            POINTS,
-            EXTRAPOINTS,
-            DESCRIPTION1,
-            DESCRIPTION2,
-          ].map((field) => (
+          <Chip label={`항목명 : ${beforeData.recordName}`} color="primary" />
+          {[NAME, SID, COUNTS, POINTS, EXTRAPOINTS, DESCRIPTION1, DESCRIPTION2].map((field) => (
             <>
               <Field
                 style={{ minWidth: '300px' }}
