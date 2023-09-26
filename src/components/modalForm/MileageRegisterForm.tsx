@@ -42,7 +42,7 @@ export default function MileageRegisterForm() {
     [NAME]: Yup.string().required('필수입니다.'),
     [SID]: Yup.string().required('필수입니다.'),
     [COUNTS]: Yup.number().integer().required('필수입니다.'),
-    [POINTS]: Yup.number().integer().required('필수입니다.'),
+    // [POINTS]: Yup.number().integer().required('필수입니다.'),
     [EXTRAPOINTS]: Yup.number().integer().required('필수입니다.'),
     [DESCRIPTION1]: Yup.string().required('필수입니다.'),
     [DESCRIPTION2]: Yup.string().required('필수입니다.'),
@@ -61,7 +61,7 @@ export default function MileageRegisterForm() {
       [STUDENT_NAME]: values[NAME],
       // [STUDENT_ID]: values[STUDENT_ID],
       [COUNTS]: values[COUNTS],
-      [POINTS]: values[POINTS],
+      // [POINTS]: values[POINTS],
       [EXTRAPOINTS]: values[EXTRAPOINTS],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
@@ -109,7 +109,7 @@ export default function MileageRegisterForm() {
         [NAME]: modalType === EDITMILEAGEREGISTER ? beforeData?.[NAME] : '',
         [SID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SID] : '',
         [COUNTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[COUNTS] : 0,
-        [POINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[POINTS] : 0,
+        // [POINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[POINTS] : 0,
         [EXTRAPOINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[EXTRAPOINTS] : 0,
         [DESCRIPTION1]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION2] : '',
@@ -130,7 +130,7 @@ export default function MileageRegisterForm() {
           }}
         >
           <Chip label={`항목명 : ${beforeData.recordName}`} color="primary" />
-          {[NAME, SID, COUNTS, POINTS, EXTRAPOINTS, DESCRIPTION1, DESCRIPTION2].map((field) => (
+          {[NAME, SID, COUNTS, EXTRAPOINTS, DESCRIPTION1, DESCRIPTION2].map((field) => (
             <>
               <Field
                 style={{ minWidth: '300px' }}
