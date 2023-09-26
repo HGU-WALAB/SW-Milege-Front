@@ -60,7 +60,8 @@ import MajorSelect from '../common/Select/MajorSelect';
 import GradeSelect from '../common/Select/GradeSelect';
 import semesterCountSelect from '../common/Select/SemesterCountSelect';
 import SemesterCountSelect from '../common/Select/SemesterCountSelect';
-import LevelDropdown from '../common/Filter/LevelDropdown';
+import LevelDropdown from '../common/Filter/LevelSelect';
+import LevelSelect from '../common/Filter/LevelSelect';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -134,7 +135,7 @@ export default function ManagerForm() {
           .patch(`/api/mileage/admins/${beforeData[ID]}`, newData)
           .then((res) => {
             alert(`관리자 ${beforeData[ID]}번이 수정되었습니다.`);
-            // router.reload();
+            router.reload();
           })
           .catch((err) => alert('관리자 수정에 실패했습니다.'));
         break;
@@ -168,7 +169,7 @@ export default function ManagerForm() {
               ))}
             </StyleFieldBox>
           </Box>
-          <LevelDropdown />
+          <LevelSelect />
 
           <ButtonFlexBox>
             <CancelButton modalType={modalType} />
