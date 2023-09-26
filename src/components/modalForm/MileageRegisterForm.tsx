@@ -27,7 +27,7 @@ import { STUDENT_ID } from 'src/assets/data/fields';
 import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
 import { RECORD_NAME } from '../../assets/data/fields';
 
-export default function MileageRegisterForm() {
+export default function MileageRegisterForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
 
   const modalType = useSelector((state) => state.modal.modalType);
@@ -144,7 +144,7 @@ export default function MileageRegisterForm() {
             </>
           ))}
           <ButtonFlexBox>
-            <CancelButton modalType={modalType} />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
           </ButtonFlexBox>
         </Form>

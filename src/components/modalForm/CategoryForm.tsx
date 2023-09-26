@@ -13,7 +13,7 @@ import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 
-export default function CategoryForm() {
+export default function CategoryForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
 
   const modalType = useSelector((state) => state.modal.modalType);
@@ -103,7 +103,7 @@ export default function CategoryForm() {
           ))}
 
           <ButtonFlexBox>
-            <CancelButton modalType={modalType} />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
           </ButtonFlexBox>
         </Form>
