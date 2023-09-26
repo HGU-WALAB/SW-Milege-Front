@@ -155,6 +155,18 @@ export const getServerSideProps: GetServerSideProps<{
 export default function UserManage({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const levelConverter = (level) => {
+    switch (level) {
+      case 0:
+        return '관리자';
+      case 1:
+        return '담당자';
+      case 2:
+        return '일반';
+      case 3:
+        return '미등록';
+    }
+  };
   /**
    * @brief 마일리지 관리자 데이터
    */
@@ -172,7 +184,7 @@ export default function UserManage({
       item[ID],
       item[NAME],
       item[EMAIL],
-      item[LEVEL],
+      levelConverter(item[LEVEL]),
       item[LASTLOGINDATE] + ` ( ${item[LOGINCOUNT]} )`,
       item[MOD_DATE],
       <SWModal type={EDITMANAGER} beforeData={beforeData} />
