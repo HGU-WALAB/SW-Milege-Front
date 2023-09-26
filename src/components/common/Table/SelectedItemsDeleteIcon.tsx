@@ -12,6 +12,23 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
   const router = useRouter();
   console.log(type);
 
+  const showDescendants = (id) => {
+    axiosInstance.get(showDescendantsEndPoint(id)).then((res) => {
+      alert(
+        `${res.data.list.map((item) => item.name + '\n')} 등 ${
+          res.data.list.length
+        }개의 하위 마일리지 항목 때문에 삭제할 수 없습니다.`
+      );
+    });
+  };
+
+  const showDescendantsEndPoint = (id) => {
+    switch (type) {
+      case '마일리지 카테고리':
+        return `/api/mileage/items/categories/${id}`;
+    }
+  };
+
   const deleteEndPoint = () => {
     switch (type) {
       case '마일리지 카테고리':
@@ -22,6 +39,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return '/api/mileage/admins';
       case '학생 관리':
         return '/api/mileage/students';
+      case '마일리지 학기별 항목':
+        return '/api/mileage/semesters';
     }
   };
 
@@ -41,7 +60,9 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
               })
               .catch((err) => {
                 console.log(err);
-                alert('삭제에 실패하였습니다.');
+                console.log('Current ID:', id);
+                showDescendants(id);
+                // alert('삭제에 실패하였습니다.');
               });
           });
         } else {
