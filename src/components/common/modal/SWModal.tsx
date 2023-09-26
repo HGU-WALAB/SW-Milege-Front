@@ -205,15 +205,16 @@ export const engToKor = (eng) => {
 export default function SWModal({ type, beforeData }) {
   const dispatch = useDispatch();
 
-  // const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  const open = useSelector((state) => state.modal.isOpen);
-  const handleClose = (type) => dispatch(closeModal(type));
-  const handleOpen = (type) => dispatch(openModal(type));
+  // const open = useSelector((state) => state.modal.isOpen);
+  // const handleClose = (type) => dispatch(closeModal(type));
+  // const handleOpen = (type) => dispatch(openModal(type));
 
   const modalType = useSelector((state) => state.modal.modalType);
 
-  // const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
 
   const style = {
     display: 'flex',
@@ -234,11 +235,11 @@ export default function SWModal({ type, beforeData }) {
   };
   return (
     <div>
-      <ModalIconButton setOpen={() => handleOpen(type)} beforeData={beforeData} type={type} />
+      <ModalIconButton setOpen={handleOpen} beforeData={beforeData} type={type} />
       <Modal
         key={type + beforeData?.id}
         open={open}
-        onClose={() => handleClose(type)}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
