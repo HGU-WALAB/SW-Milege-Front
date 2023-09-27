@@ -291,17 +291,17 @@ export default function MileageRegister({
       semesterItem.id, //  학생수가 들어가야함
       semesterItem.modDate,
       <Box sx={{ display: 'flex' }}>
-        <Tooltip title="등록된 학생 리스트 확인">
-          <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
-        </Tooltip>
-        <Tooltip title="학생 추가">
-          <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
-        </Tooltip>
-        <Tooltip title="등록된 학생 모두 삭제">
-          <IconButton onClick={() => handleAllDelete(semesterItem.item.id)}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        {/* <Tooltip title="등록된 학생 리스트 확인"> */}
+        <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
+        {/* </Tooltip> */}
+        {/* <Tooltip title="학생 추가"> */}
+        <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
+        {/* </Tooltip> */}
+        {/* <Tooltip title="등록된 학생 모두 삭제"> */}
+        <IconButton onClick={() => handleAllDelete(semesterItem.item.id)}>
+          <DeleteIcon />
+        </IconButton>
+        {/* </Tooltip> */}
       </Box>
     );
   });

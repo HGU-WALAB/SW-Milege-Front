@@ -42,7 +42,6 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
-  ADDMANAGER,
   ADDSTUDENT,
   EDITCATEGORY,
 } from 'src/assets/data/modal/modals';
@@ -51,7 +50,7 @@ import { dispatch } from 'src/redux/store';
 import { setCategory } from 'src/redux/slices/filter';
 import CategoryAutoComplete from './Filter/CategoryAutoComplete';
 import { useEffect } from 'react';
-import { setMileageCategoryList, setSelectedId } from 'src/redux/slices/data';
+import { setMileageCategoryList } from 'src/redux/slices/data';
 import SemesterDropdown from './Filter/SemesterDropdown';
 import { id } from 'date-fns/locale';
 
@@ -68,6 +67,7 @@ import { setComponentNum } from 'src/redux/slices/component';
 import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axiosInstance from 'src/utils/axios';
+import { setSelectedId } from 'src/redux/slices/table';
 
 /**
  *  @brief 반응형 구축
@@ -303,8 +303,6 @@ const typeConverter = (type) => {
       return ADDGLOBALITEM;
     case '학생 관리':
       return ADDSTUDENT;
-    case '사용자 관리':
-      return ADDMANAGER;
   }
 };
 
@@ -330,7 +328,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
 
-  const [rows, setRows] = React.useState(originalRows);
+  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
   console.log('debug', rows, originalRows);
 
   /**
@@ -384,7 +382,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
 
   // selected를 redux로 전역 상태 관리
-  const selected = useSelector((state) => state.data.selectedId);
+  const selected = useSelector((state) => state.table.selectedId);
   const dispatch = useDispatch();
   const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
 
@@ -598,7 +596,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   style={{
-                                    cursor: 'move',
+                                    cursor: 'pointer',
                                     ...provided.draggableProps.style, // react-beautiful-dnd에서 제공하는 기본 스타일
                                   }}
                                   ref={provided.innerRef}
@@ -608,7 +606,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   aria-checked={isItemSelected}
                                   tabIndex={-1}
                                   selected={isItemSelected}
-                                  // isDragging={snapshot.isDragging}
                                 >
                                   <TableCell padding="checkbox">
                                     <Checkbox
