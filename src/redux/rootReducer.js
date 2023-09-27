@@ -40,7 +40,7 @@ export const rootPersistConfig = {
   storage,
   keyPrefix: 'redux-',
   blacklist: ['filter', 'modal', 'data', 'drawer'],
-  whitelist: ['component', 'filterList', 'table'],
+  whitelist: ['component', 'filterList'],
 };
 
 /**

@@ -8,7 +8,7 @@ interface ISelectedItemsDeleteIcon {
 }
 
 export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIcon) {
-  const selected = useSelector((state) => state.data.selectedId);
+  const selected = useSelector((state) => state.table.selectedId);
   const router = useRouter();
   console.log(type);
 

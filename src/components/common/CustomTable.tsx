@@ -234,11 +234,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
   // example
 
-  const value = useSelector((state) => state.filter.category);
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   return (
     <Box>
@@ -532,12 +528,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     for (let i = startIdx; i <= endIdx; i++) {
       console.log(startIdx, endIdx);
       const updateRow = {
-        num: updatedRows[i].num,
-        category: updatedRows[i].category,
-        orderIdx: rows[i].orderIdx,
-        description1: updatedRows[i].description1,
-        description2: updatedRows[i].description2,
-        manage: updatedRows[i].manage,
+        ...updatedRows[i], // <- 먼저 기존 행의 모든 필드를 복사합니다.
+        orderIdx: rows[i].orderIdx, // 그 다음 orderIdx만 업데이트합니다.
       };
       updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
 
@@ -555,6 +547,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     }
 
     setRows(updatedRows);
+
+    console.log(updatedRows);
   };
 
   return (
@@ -596,7 +590,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   style={{
-                                    cursor: 'pointer',
+                                    cursor: 'move',
                                     ...provided.draggableProps.style, // react-beautiful-dnd에서 제공하는 기본 스타일
                                   }}
                                   ref={provided.innerRef}

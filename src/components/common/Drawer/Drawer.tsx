@@ -21,7 +21,6 @@ import { ComponentReturn } from 'src/components/common/Table/TableComponents';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
-import { clearSelectedId } from 'src/redux/slices/data';
 import {
   clearCategory,
   clearDepartment,
@@ -32,6 +31,7 @@ import {
   clearStudentName,
 } from 'src/redux/slices/filter';
 import { setOpen, setPinned } from 'src/redux/slices/drawer';
+import { clearSelectedId } from 'src/redux/slices/table';
 
 const drawerWidth = 240;
 
@@ -93,6 +93,7 @@ export default function MiniDrawer() {
     dispatch(clearStudentName());
     dispatch(clearGrade());
     dispatch(clearDepartment());
+    dispatch(clearSelectedId());
   };
   const theme = useTheme();
 
