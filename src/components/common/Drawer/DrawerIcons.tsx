@@ -29,7 +29,7 @@ export const IconReturn = (text) => {
       return <AssignmentIndIcon />;
     case Board['학생 관리']:
       return <Face6Icon />;
-    case Board['사용자 관리']:
+    case Board['관리자']:
       return <PersonIcon />;
     case Board['학생별 마일리지 현황']:
       return <DonutSmallIcon />;
