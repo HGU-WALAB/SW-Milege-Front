@@ -288,7 +288,7 @@ export default function MileageRegister({
       semesterItem.item.name,
       semesterItem.item.description1,
       semesterItem.points,
-      semesterItem.id, //  학생수가 들어가야함
+      semesterItem.recordCount, //  학생수가 들어가야함
       semesterItem.modDate,
       <Box sx={{ display: 'flex' }}>
         {/* <Tooltip title="등록된 학생 리스트 확인"> */}
