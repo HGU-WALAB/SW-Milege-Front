@@ -25,6 +25,7 @@ export default function SemesterMagicianSelect({ semester, setSemester }) {
 
   return (
     <Select
+      sx={{ width: '100%', mb: '10px' }}
       value={semester}
       onChange={(e) => {
         setSemester(e.target.value);

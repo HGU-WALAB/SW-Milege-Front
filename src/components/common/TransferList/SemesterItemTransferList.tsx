@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import { last } from 'lodash';
 import SemesterMagicianSelect from '../Select/SemesterMagicianSelect';
 import axiosInstance from 'src/utils/axios';
+import { Box, Chip, Typography } from '@mui/material';
 
 function not(a: readonly number[], b: readonly number[]) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -91,7 +92,7 @@ export default function SemesterItemTransferList({
   const customList = (title: React.ReactNode, items: ILastSemesterItem[]) => (
     <Card>
       <CardHeader
-        sx={{ px: 2, py: 1 }}
+        sx={{ px: 2, py: 1, color: 'primary.main' }}
         avatar={
           <Checkbox
             onClick={handleToggleAll(items)}
@@ -148,39 +149,54 @@ export default function SemesterItemTransferList({
   }, [lastSemester]);
 
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item>
-        <SemesterMagicianSelect semester={lastSemester} setSemester={setLastSemester} />
-        {customList(lastSemester, left)}
-      </Grid>
-      <Grid item>
-        <Grid container direction="column" alignItems="center">
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
-            onClick={handleCheckedRight}
-            disabled={leftChecked.length === 0}
-            aria-label="move selected right"
-          >
-            &gt;
-          </Button>
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
-            onClick={handleCheckedLeft}
-            disabled={rightChecked.length === 0}
-            aria-label="move selected left"
-          >
-            &lt;
-          </Button>
+    <Box sx={{ mb: '30px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Chip
+          sx={{ scale: '1.2', my: '30px' }}
+          label="마일리지 학기별 항목 다중 이전 마법사"
+          color="primary"
+        />
+      </Box>
+      <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid item>
+          <Typography variant="h6" sx={{ my: '10px' }}>
+            복사할 학기 선택
+          </Typography>
+          <SemesterMagicianSelect semester={lastSemester} setSemester={setLastSemester} />
+          {customList(`복사할 학기별 항목 (${lastSemester})`, left)}
+        </Grid>
+        <Grid item>
+          <Grid container direction="column" alignItems="center">
+            <Button
+              sx={{ my: 0.5 }}
+              variant="outlined"
+              size="small"
+              onClick={handleCheckedRight}
+              disabled={leftChecked.length === 0}
+              aria-label="move selected right"
+            >
+              &gt;
+            </Button>
+            <Button
+              sx={{ my: 0.5 }}
+              variant="outlined"
+              size="small"
+              onClick={handleCheckedLeft}
+              disabled={rightChecked.length === 0}
+              aria-label="move selected left"
+            >
+              &lt;
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Typography variant="h6" sx={{ my: '10px' }}>
+            붙여넣을 학기 선택
+          </Typography>
+          <SemesterMagicianSelect semester={thisSemester} setSemester={setThisSemester} />
+          {customList(`붙여 넣을 학기별 항목 (${thisSemester})`, right)}
         </Grid>
       </Grid>
-      <Grid item>
-        <SemesterMagicianSelect semester={thisSemester} setSemester={setThisSemester} />
-        {customList(thisSemester, right)}
-      </Grid>
-    </Grid>
+    </Box>
   );
 }

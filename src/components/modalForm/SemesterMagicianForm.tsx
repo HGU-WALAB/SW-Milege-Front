@@ -48,19 +48,21 @@ export default function SemesterMagicianForm({ handleClose }) {
   const [lastSemester, setLastSemester] = React.useState('2023-02');
   const [thisSemester, setThisSemester] = React.useState('2023-02');
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const bodyData = {
+      copyFrom: right.map((item) => item.id),
+      copyTo: thisSemester,
+    };
+
+    axiosInstance.post(`/api/mileage/semesters/multiple`, bodyData).then((res) => {
+      alert(res.data);
+      handleClose();
+    });
+  };
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        const bodyData = {
-          copyFrom: right.map((item) => item.id),
-          copyTo: thisSemester,
-        };
-        axiosInstance.post(`/api/mileage/semesters/multiple`, bodyData).then((res) => {
-          alert(res.data);
-        });
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <SemesterItemTransferList
         right={right}
         setRight={setRight}
