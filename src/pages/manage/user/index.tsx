@@ -191,7 +191,5 @@ export default function UserManage({
     );
   });
 
-  return (
-    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="사용자 관리" />
-  );
+  return <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="관리자" />;
 }

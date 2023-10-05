@@ -5,14 +5,17 @@ import { setIsVisible, setSemester } from 'src/redux/slices/filter';
 
 const ISVISIBLES = [
   {
+    id: 0,
     text: '전체',
     value: '전체',
   },
   {
+    id: 1,
     text: 'Y',
     value: true,
   },
   {
+    id: 2,
     text: 'N',
     value: false,
   },
@@ -40,7 +43,9 @@ export default function IsVisibleDropdown() {
           onChange={handleChange}
         >
           {ISVISIBLES.map((isVisible, index) => (
-            <MenuItem value={isVisible.value}>{isVisible.text}</MenuItem>
+            <MenuItem key={isVisible.id} value={isVisible.value}>
+              {isVisible.text}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

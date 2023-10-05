@@ -25,7 +25,7 @@ import { useRouter } from 'next/router';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
 
-export default function SemesterItemForm() {
+export default function SemesterItemForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
   const router = useRouter();
@@ -119,7 +119,7 @@ export default function SemesterItemForm() {
           <Field label="최대 마일리지" name={MAX_MILEAGE} as={TextField} variant="standard" />
           <ErrorMessage name={MAX_MILEAGE} disabled={isSubmitting} />
           <ButtonFlexBox>
-            <CancelButton modalType={modalType} />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
           </ButtonFlexBox>
         </Form>

@@ -51,7 +51,7 @@ import { dispatch } from 'src/redux/store';
 import { setCategory } from 'src/redux/slices/filter';
 import CategoryAutoComplete from './Filter/CategoryAutoComplete';
 import { useEffect } from 'react';
-import { setMileageCategoryList, setSelectedId } from 'src/redux/slices/data';
+import { setMileageCategoryList } from 'src/redux/slices/data';
 import SemesterDropdown from './Filter/SemesterDropdown';
 import { id } from 'date-fns/locale';
 
@@ -68,6 +68,7 @@ import { setComponentNum } from 'src/redux/slices/component';
 import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axiosInstance from 'src/utils/axios';
+import { setSelectedId } from 'src/redux/slices/table';
 
 /**
  *  @brief 반응형 구축
@@ -234,11 +235,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
   // example
 
-  const value = useSelector((state) => state.filter.category);
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   return (
     <Box>
@@ -303,7 +300,7 @@ const typeConverter = (type) => {
       return ADDGLOBALITEM;
     case '학생 관리':
       return ADDSTUDENT;
-    case '사용자 관리':
+    case '관리자':
       return ADDMANAGER;
   }
 };
@@ -330,7 +327,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
 
-  const [rows, setRows] = React.useState(originalRows);
+  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
   console.log('debug', rows, originalRows);
 
   /**
@@ -384,7 +381,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
 
   // selected를 redux로 전역 상태 관리
-  const selected = useSelector((state) => state.data.selectedId);
+  const selected = useSelector((state) => state.table.selectedId);
   const dispatch = useDispatch();
   const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
 
@@ -534,12 +531,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     for (let i = startIdx; i <= endIdx; i++) {
       console.log(startIdx, endIdx);
       const updateRow = {
-        num: updatedRows[i].num,
-        category: updatedRows[i].category,
-        orderIdx: rows[i].orderIdx,
-        description1: updatedRows[i].description1,
-        description2: updatedRows[i].description2,
-        manage: updatedRows[i].manage,
+        ...updatedRows[i], // <- 먼저 기존 행의 모든 필드를 복사합니다.
+        orderIdx: rows[i].orderIdx, // 그 다음 orderIdx만 업데이트합니다.
       };
       updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
 
@@ -557,6 +550,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     }
 
     setRows(updatedRows);
+
+    console.log(updatedRows);
   };
 
   return (
@@ -607,9 +602,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   role="checkbox"
                                   aria-checked={isItemSelected}
                                   tabIndex={-1}
-                                  key={rowValues[0]}
                                   selected={isItemSelected}
-                                  // isDragging={snapshot.isDragging}
                                 >
                                   <TableCell padding="checkbox">
                                     <Checkbox

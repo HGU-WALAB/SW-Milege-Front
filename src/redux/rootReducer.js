@@ -14,7 +14,7 @@ import componentReducer from './slices/component';
 import filterListReducer from './slices/filterList';
 import chartReducer from './slices/chart';
 import drawerReducer from './slices/drawer';
-
+import tableReducer from './slices/table';
 // ----------------------------------------------------------------------
 
 export const createNoopStorage = () => ({
@@ -58,6 +58,7 @@ const rootReducer = combineReducers({
   filterList: filterListReducer,
   chart: chartReducer,
   drawer: drawerReducer,
+  table: tableReducer,
 });
 
 export default rootReducer;

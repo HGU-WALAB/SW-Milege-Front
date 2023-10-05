@@ -41,6 +41,7 @@ import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import { CATEGORYID } from '../../assets/data/fields';
 import CategorySelect from '../common/Select/CategorySelect';
+import MultiTap from './MultiTap';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -68,12 +69,11 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-export default function GlobalItemForm() {
+export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
   // console.log('dbug', modalType, beforeData);
 
   const beforeData = useSelector((state) => state.modal.beforeData);
-  console.log('d', beforeData);
   const router = useRouter();
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -143,92 +143,96 @@ export default function GlobalItemForm() {
   };
 
   return (
-    <Formik
-      initialValues={{
-        [CATEGORYID]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORYID] : '',
-        [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
-        [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
-        [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
-        [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
-        [ISVISIBLE_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
-        [ISINPUT_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISINPUT_STUDENT] : false,
-        [ISDUPLICATE_RECORD]:
-          modalType === EDITGLOBALITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
-        [ISEVALUATE_CSEE]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
-        [ISEVALUATE_PORTFOLIO]:
-          modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
-        [ISEVALUATE_FUSION]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
-      }}
-      // validationSchema={CategorySchema}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting, errors, touched }) => (
-        <StyleFieldForm>
-          <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
-            <StyleFieldBox>
-              <CategorySelect />
-              {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
-                <Box key={index} sx={{ width: '100%' }}>
-                  <Field
-                    sx={{}}
-                    name={field}
-                    as={TextField}
-                    type="text"
-                    label={engToKor(field)}
-                    variant="standard"
-                  />
-                  <ErrorMessage name={field} />
-                </Box>
-              ))}
-            </StyleFieldBox>
-            <StyleFieldBox>
-              {[
-                ISVISIBLE,
-                ISVISIBLE_STUDENT,
-                ISINPUT_STUDENT,
-                ISDUPLICATE_RECORD,
-                ISEVALUATE_CSEE,
-                ISEVALUATE_PORTFOLIO,
-                ISEVALUATE_FUSION,
-              ].map((inputName: string, index: number) => (
-                <Box key={index} sx={{ display: 'flex', gap: 2 }}>
-                  <Chip
-                    color="primary"
-                    sx={{ px: 1, borderRadius: '10px', height: '40px' }}
-                    label={engToKor(inputName)}
-                    variant="outlined"
-                  />
+    <>
+      <Formik
+        initialValues={{
+          [CATEGORYID]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORYID] : '',
+          [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
+          [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
+          [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
+          [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
+          [ISVISIBLE_STUDENT]:
+            modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
+          [ISINPUT_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISINPUT_STUDENT] : false,
+          [ISDUPLICATE_RECORD]:
+            modalType === EDITGLOBALITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
+          [ISEVALUATE_CSEE]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
+          [ISEVALUATE_PORTFOLIO]:
+            modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
+          [ISEVALUATE_FUSION]:
+            modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
+        }}
+        // validationSchema={CategorySchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, errors, touched }) => (
+          <StyleFieldForm>
+            <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
+              <StyleFieldBox>
+                <CategorySelect />
+                {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
+                  <Box key={index} sx={{ width: '100%' }}>
+                    <Field
+                      sx={{}}
+                      name={field}
+                      as={TextField}
+                      type="text"
+                      label={engToKor(field)}
+                      variant="standard"
+                    />
+                    <ErrorMessage name={field} />
+                  </Box>
+                ))}
+              </StyleFieldBox>
+              <StyleFieldBox>
+                {[
+                  ISVISIBLE,
+                  ISVISIBLE_STUDENT,
+                  ISINPUT_STUDENT,
+                  ISDUPLICATE_RECORD,
+                  ISEVALUATE_CSEE,
+                  ISEVALUATE_PORTFOLIO,
+                  ISEVALUATE_FUSION,
+                ].map((inputName: string, index: number) => (
+                  <Box key={index} sx={{ display: 'flex', gap: 2 }}>
+                    <Chip
+                      color="primary"
+                      sx={{ px: 1, borderRadius: '10px', height: '40px' }}
+                      label={engToKor(inputName)}
+                      variant="outlined"
+                    />
 
-                  <Field name={inputName}>
-                    {({ field, form }) => (
-                      <ToggleButtonGroup
-                        sx={{ height: '40px' }}
-                        color="primary"
-                        value={field.value}
-                        exclusive
-                        onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
-                        aria-label="toggle value"
-                      >
-                        <ToggleButton value={true} aria-label="true">
-                          O
-                        </ToggleButton>
-                        <ToggleButton value={false} aria-label="false">
-                          X
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    )}
-                  </Field>
-                </Box>
-              ))}
-            </StyleFieldBox>
-          </Box>
+                    <Field name={inputName}>
+                      {({ field, form }) => (
+                        <ToggleButtonGroup
+                          sx={{ height: '40px' }}
+                          color="primary"
+                          value={field.value}
+                          exclusive
+                          onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
+                          aria-label="toggle value"
+                        >
+                          <ToggleButton value={true} aria-label="true">
+                            O
+                          </ToggleButton>
+                          <ToggleButton value={false} aria-label="false">
+                            X
+                          </ToggleButton>
+                        </ToggleButtonGroup>
+                      )}
+                    </Field>
+                  </Box>
+                ))}
+              </StyleFieldBox>
+            </Box>
 
-          <ButtonFlexBox>
-            <CancelButton modalType={modalType} />
-            <SubmitButton />
-          </ButtonFlexBox>
-        </StyleFieldForm>
-      )}
-    </Formik>
+            <ButtonFlexBox>
+              <CancelButton modalType={modalType} handleClose={handleClose} />
+              <SubmitButton />
+            </ButtonFlexBox>
+          </StyleFieldForm>
+        )}
+      </Formik>
+    </>
   );
 }

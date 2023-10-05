@@ -48,7 +48,9 @@ export default function SemesterDropdown() {
           onChange={handleChange}
         >
           {SEMESTERS.map((semester, index) => (
-            <MenuItem value={semester}>{semester}</MenuItem>
+            <MenuItem key={index} value={semester}>
+              {semester}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

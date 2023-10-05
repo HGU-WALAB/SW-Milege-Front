@@ -87,7 +87,7 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-export default function ManagerForm() {
+export default function ManagerForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
   const level = useSelector((state) => state.filter.level);
@@ -172,7 +172,7 @@ export default function ManagerForm() {
           <LevelSelect />
 
           <ButtonFlexBox>
-            <CancelButton modalType={modalType} />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
           </ButtonFlexBox>
         </StyleFieldForm>

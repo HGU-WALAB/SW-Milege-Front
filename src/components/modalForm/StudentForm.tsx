@@ -84,7 +84,7 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-export default function StudentForm() {
+export default function StudentForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
   console.log('debug2', modalType, beforeData);
@@ -184,7 +184,7 @@ export default function StudentForm() {
           </Box>
 
           <ButtonFlexBox>
-            <CancelButton modalType={modalType} />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
           </ButtonFlexBox>
         </StyleFieldForm>
