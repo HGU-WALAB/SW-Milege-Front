@@ -51,7 +51,6 @@ export default function ExcelExport() {
         <Link key={index} as="/" href={'http://walab.handong.edu:8080/sw_mileage' + Excel.endPoint}>
           <Button
             variant="contained"
-            key={index}
             id={Excel.name}
             onClick={(e) => handleExcelExport(e, Excel.endPoint)}
           >

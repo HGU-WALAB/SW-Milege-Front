@@ -24,6 +24,7 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
     type === REGISTEREDSTUDENTS && dispatch(setClickedItemId(beforeData?.id));
     // type === ADDMILEAGEREGISTER && dispatch(setClickedRecordId(beforeData?.id));
     console.log('ddd', beforeData?.id);
+    
   };
 
   const IconConverter = (type) => {
