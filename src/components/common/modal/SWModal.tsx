@@ -39,6 +39,7 @@ import {
   EDITMANAGER,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
+  MAGICIANSEMESTERITEM,
   REGISTEREDSTUDENTS,
 } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -90,6 +91,7 @@ import MileageRegisterForm from 'src/components/modalForm/MileageRegisterForm';
 import { STUDENT_ID } from 'src/assets/data/fields';
 import StudentsModal from 'src/components/modalForm/StudentsModal';
 import ManagerForm from 'src/components/modalForm/ManagerForm';
+import SemesterMagicianForm from 'src/components/modalForm/SemesterMagicianForm';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -126,6 +128,8 @@ const modalForm = (modalType, handleClose) => {
       return <ManagerForm handleClose={handleClose} />;
     case EDITMANAGER:
       return <ManagerForm handleClose={handleClose} />;
+    case MAGICIANSEMESTERITEM:
+      return <SemesterMagicianForm handleClose={handleClose} />;
     default:
       return <div>default</div>;
   }
