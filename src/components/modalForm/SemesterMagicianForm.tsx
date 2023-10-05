@@ -175,8 +175,14 @@ export default function SemesterMagicianForm({ handleClose }) {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-
-        console.log();
+        const bodyData = {
+          copyFrom: right.map((item) => item.id),
+          copyTo: thisSemester,
+        };
+        axiosInstance.post(`/api/mileage/semesters/multiple`, bodyData).then((res) => {
+          alert(res.data);
+          // handleClose();
+        });
       }}
     >
       <Grid container spacing={2} justifyContent="center" alignItems="center">
