@@ -463,6 +463,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     const newData = {
       title: target.category,
       orderIdx: newOrderIdx,
+      type: target.type,
       description1: target.description1,
       description2: target.description2,
     };
