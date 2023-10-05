@@ -6,6 +6,7 @@ import {
   DESCRIPTION,
   NAME,
   ID,
+  TYPE,
   ORDER_IDX,
   TITLE,
   MOD_DATE,
@@ -24,6 +25,7 @@ import { setMileageCategoryList } from 'src/redux/slices/data';
 export enum MileageCategoryBoard {
   'NUM' = NUM,
   'CATEGORY' = CATEGORY,
+  'TYPE' = TYPE,
   'ORDER_IDX' = ORDER_IDX,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
@@ -39,6 +41,7 @@ export enum MileageCategoryBoard {
 interface Data {
   [MileageCategoryBoard.NUM]: number;
   [MileageCategoryBoard.CATEGORY]: string;
+  [MileageCategoryBoard.TYPE]: string;
   [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
@@ -55,6 +58,7 @@ interface Data {
 function createData(
   NUM: number,
   CATEGORY: string,
+  TYPE: string,
   ORDER_IDX: number,
   DESCRIPTION1: string,
   DESCRIPTION2: string,
@@ -64,6 +68,7 @@ function createData(
   return {
     [MileageCategoryBoard.NUM]: NUM,
     [MileageCategoryBoard.CATEGORY]: CATEGORY,
+    [MileageCategoryBoard.TYPE]: TYPE,
     [MileageCategoryBoard.ORDER_IDX]: ORDER_IDX,
     [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
@@ -89,7 +94,12 @@ const headCells = [
     disablePadding: false,
     label: '카테고리명',
   },
-
+  {
+    id: [MileageCategoryBoard.TYPE],
+    numeric: true,
+    disablePadding: false,
+    label: '타입',
+  },
   {
     id: [MileageCategoryBoard.ORDER_IDX],
     numeric: true,
@@ -182,6 +192,7 @@ export default function MileageCategory({
     const beforeData = {
       [ID]: item[ID],
       [TITLE]: item[NAME],
+      [TYPE]: item[TYPE],
       [DESCRIPTION1]: item[DESCRIPTION1],
       [DESCRIPTION2]: item[DESCRIPTION2],
       [ORDER_IDX]: item[ORDER_IDX],
@@ -190,6 +201,7 @@ export default function MileageCategory({
     return createData(
       item[ID],
       item[NAME],
+      item[TYPE],
       item[ORDER_IDX],
       item[DESCRIPTION1],
       item[DESCRIPTION2],

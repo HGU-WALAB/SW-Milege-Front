@@ -1,6 +1,14 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
-import { TITLE, CATEGORY, DESCRIPTION1, DESCRIPTION2, ORDER_IDX, ID } from 'src/assets/data/fields';
+import {
+  TITLE,
+  CATEGORY,
+  DESCRIPTION1,
+  DESCRIPTION2,
+  ORDER_IDX,
+  ID,
+  TYPE,
+} from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import { ADDCATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
@@ -12,6 +20,7 @@ import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
+import TypeSelect from '../common/Filter/TypeSelect';
 
 export default function CategoryForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
@@ -21,6 +30,7 @@ export default function CategoryForm({ handleClose }) {
 
   const CategorySchema = Yup.object().shape({
     [TITLE]: Yup.string().required('필수입니다.'),
+    [TYPE]: Yup.string(),
     [DESCRIPTION1]: Yup.string(),
     [DESCRIPTION2]: Yup.string(),
     [ORDER_IDX]: Yup.number().integer().required('필수입니다.'),
@@ -36,6 +46,7 @@ export default function CategoryForm({ handleClose }) {
     const newData = {
       [TITLE]: values[TITLE],
       [ORDER_IDX]: values[ORDER_IDX],
+      [TYPE]: values[TYPE],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
     };
@@ -69,6 +80,7 @@ export default function CategoryForm({ handleClose }) {
       initialValues={{
         [TITLE]: modalType === EDITCATEGORY ? beforeData?.[TITLE] : '',
         [ORDER_IDX]: modalType === EDITCATEGORY ? beforeData?.[ORDER_IDX] : '',
+        [TYPE]: modalType === EDITCATEGORY ? beforeData?.[TYPE] : '',
         [DESCRIPTION1]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION2] : '',
       }}
@@ -87,6 +99,7 @@ export default function CategoryForm({ handleClose }) {
             gap: '30px',
           }}
         >
+          <TypeSelect />
           {[TITLE, ORDER_IDX, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
             <>
               <Field
@@ -101,7 +114,6 @@ export default function CategoryForm({ handleClose }) {
               <ErrorMessage name={field} />
             </>
           ))}
-
           <ButtonFlexBox>
             <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
