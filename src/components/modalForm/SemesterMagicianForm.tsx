@@ -38,6 +38,20 @@ import Divider from '@mui/material/Divider';
 import SemesterMagicianSelect from '../common/Select/SemesterMagicianSelect';
 import { last } from 'lodash';
 
+interface ILastSemesterItem {
+  id: number;
+  category: {
+    id: number;
+    name: string;
+  };
+  item: {
+    id: number;
+    name: string;
+  };
+  itemMaxPoints: number;
+  points: number;
+}
+
 function not(a: readonly number[], b: readonly number[]) {
   return a.filter((value) => b.indexOf(value) === -1);
 }
@@ -51,18 +65,14 @@ function union(a: readonly number[], b: readonly number[]) {
 }
 
 export default function SemesterMagicianForm({ handleClose }) {
-  // React.useEffect( () => {
-  //     axiosInstance.get()
-  // }, [lastSemester])
-
   const modalType = useSelector((state) => state.modal.modalType);
 
   const [lastSemester, setLastSemester] = React.useState('2023-02');
   const [thisSemester, setThisSemester] = React.useState('2023-02');
 
-  const [checked, setChecked] = React.useState<readonly number[]>([]);
-  const [left, setLeft] = React.useState<readonly number[]>([0, 1, 2, 3]);
-  const [right, setRight] = React.useState<readonly number[]>([4, 5, 6, 7]);
+  const [checked, setChecked] = React.useState<ILastSemesterItem[]>([]);
+  const [left, setLeft] = React.useState<ILastSemesterItem[]>();
+  const [right, setRight] = React.useState<ILastSemesterItem[]>([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -80,9 +90,9 @@ export default function SemesterMagicianForm({ handleClose }) {
     setChecked(newChecked);
   };
 
-  const numberOfChecked = (items: readonly number[]) => intersection(checked, items).length;
+  const numberOfChecked = (items: ILastSemesterItem[]) => intersection(checked, items).length;
 
-  const handleToggleAll = (items: readonly number[]) => () => {
+  const handleToggleAll = (items: ILastSemesterItem[]) => () => {
     if (numberOfChecked(items) === items.length) {
       setChecked(not(checked, items));
     } else {
@@ -102,23 +112,23 @@ export default function SemesterMagicianForm({ handleClose }) {
     setChecked(not(checked, rightChecked));
   };
 
-  const customList = (title: React.ReactNode, items: readonly number[]) => (
+  const customList = (title: React.ReactNode, items: ILastSemesterItem[]) => (
     <Card>
       <CardHeader
         sx={{ px: 2, py: 1 }}
         avatar={
           <Checkbox
             onClick={handleToggleAll(items)}
-            checked={numberOfChecked(items) === items.length && items.length !== 0}
-            indeterminate={numberOfChecked(items) !== items.length && numberOfChecked(items) !== 0}
-            disabled={items.length === 0}
+            checked={numberOfChecked(items) === items?.length && items.length !== 0}
+            indeterminate={numberOfChecked(items) !== items?.length && numberOfChecked(items) !== 0}
+            disabled={items?.length === 0}
             inputProps={{
               'aria-label': 'all items selected',
             }}
           />
         }
         title={title}
-        subheader={`${numberOfChecked(items)}/${items.length} selected`}
+        subheader={`${numberOfChecked(items)}/${items?.length} selected`}
       />
       <Divider />
       <List
@@ -132,22 +142,22 @@ export default function SemesterMagicianForm({ handleClose }) {
         component="div"
         role="list"
       >
-        {items.map((value: number) => {
-          const labelId = `transfer-list-all-item-${value}-label`;
+        {items?.map((item: ILastSemesterItem) => {
+          const labelId = `transfer-list-all-item-${item.item.name}-label`;
 
           return (
-            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+            <ListItem key={item.id} role="listitem" button onClick={handleToggle(item)}>
               <ListItemIcon>
                 <Checkbox
-                  checked={checked.indexOf(value) !== -1}
+                  checked={checked.indexOf(item) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{
-                    'aria-labelledby': labelId,
+                    'aria-labelledby': item.id,
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={item.id} primary={`${item.item.name + 1}`} />
             </ListItem>
           );
         })}
@@ -155,11 +165,18 @@ export default function SemesterMagicianForm({ handleClose }) {
     </Card>
   );
 
+  React.useEffect(() => {
+    axiosInstance.get(`/api/mileage/semesters/${lastSemester}/items`).then((res) => {
+      setLeft(res.data.list);
+    });
+  }, [lastSemester]);
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(right);
+
+        console.log();
       }}
     >
       <Grid container spacing={2} justifyContent="center" alignItems="center">
