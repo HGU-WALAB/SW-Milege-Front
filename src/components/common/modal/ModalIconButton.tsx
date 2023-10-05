@@ -2,6 +2,7 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal';
 import {
   closeModal,
   openModal,
@@ -24,7 +25,6 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
     type === REGISTEREDSTUDENTS && dispatch(setClickedItemId(beforeData?.id));
     // type === ADDMILEAGEREGISTER && dispatch(setClickedRecordId(beforeData?.id));
     console.log('ddd', beforeData?.id);
-    
   };
 
   const IconConverter = (type) => {
@@ -38,6 +38,8 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
         return <DeleteIcon />;
       case 'reg':
         return <PersonIcon />;
+      case 'mag':
+        return <AutoFixNormalIcon />;
     }
   };
 

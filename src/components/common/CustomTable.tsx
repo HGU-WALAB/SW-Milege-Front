@@ -45,6 +45,7 @@ import {
   ADDMANAGER,
   ADDSTUDENT,
   EDITCATEGORY,
+  MAGICIANSEMESTERITEM,
 } from 'src/assets/data/modal/modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
@@ -281,6 +282,9 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           </Tooltip>
         )}
 
+        {type === '마일리지 학기별 항목' && (
+          <SWModal type={typeConverter('마일리지 학기별 항목 마법사')} />
+        )}
         <SWModal type={typeConverter(type)} />
       </Toolbar>
     </Box>
@@ -302,6 +306,8 @@ const typeConverter = (type) => {
       return ADDSTUDENT;
     case '관리자':
       return ADDMANAGER;
+    case '마일리지 학기별 항목 마법사':
+      return MAGICIANSEMESTERITEM;
   }
 };
 
