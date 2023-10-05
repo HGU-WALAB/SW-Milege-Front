@@ -478,48 +478,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     return target[0];
   };
 
-  // const handleDragEnd = async (result) => {
-  //   console.log(result);
-  //   const { source, destination } = result;
-
-  //   if (!destination) return;
-
-  //   // Copy the current rows
-  //   const updatedRows = [...rows];
-
-  //   // Remove the dragged item from source and insert it into destination
-  //   const [movedRow] = updatedRows.splice(source.index, 1);
-  //   updatedRows.splice(destination.index, 0, movedRow);
-
-  //   if (source.index === destination.index) return;
-  //   else if (source.index > destination.index) {
-  //     let target = rows[source.index];
-  //     let newOrderIdx = rows[destination.index].orderIdx;
-
-  //     updateNewOrderIdx(target, newOrderIdx);
-
-  //     for (let i = destination.index; i < source.index; ++i) {
-  //       target = rows[i];
-  //       if (target) {
-  //         newOrderIdx = rows[i + 1].orderIdx;
-  //         updateNewOrderIdx(target, newOrderIdx);
-  //       }
-  //     }
-  //   } else if (source.index < destination.index) {
-  //     let target = rows[source.index];
-  //     let newOrderIdx = rows[destination.index].orderIdx;
-  //     updateNewOrderIdx(target, newOrderIdx);
-
-  //     for (let i = destination.index; i > source.index; --i) {
-  //       target = rows[i];
-  //       if (target) {
-  //         newOrderIdx = rows[i - 1].orderIdx;
-  //         updateNewOrderIdx(target, newOrderIdx);
-  //       }
-  //     }
-  //   }
-  //   setRows(updatedRows);
-  // };
   const handleDragEnd = async (result) => {
     const { source, destination } = result;
 
@@ -592,6 +550,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                             draggableId={type + row?.num}
                             index={index}
                             key={type + row?.num}
+                            isDragDisabled={type !== '마일리지 카테고리'}
                           >
                             {(provided, snapshot) => {
                               return (
@@ -599,7 +558,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   style={{
-                                    cursor: 'move',
+                                    cursor: type === '마일리지 카테고리' ? 'move' : 'pointer',
                                     ...provided.draggableProps.style, // react-beautiful-dnd에서 제공하는 기본 스타일
                                   }}
                                   ref={provided.innerRef}
