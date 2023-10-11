@@ -44,7 +44,7 @@ export enum MileageGlobalItemBoard {
   'ITEM' = ITEM,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
-
+  'SEMESTER_ITEM_COUNT' = SEMESTER_ITEM_COUNT,
   'ISVISIBLE' = ISVISIBLE,
   'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
@@ -59,7 +59,7 @@ interface Data {
   [MileageGlobalItemBoard.ITEM]: string;
   [MileageGlobalItemBoard.DESCRIPTION1]: string;
   [MileageGlobalItemBoard.DESCRIPTION2]: string;
-
+  [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
   [MileageGlobalItemBoard.ISVISIBLE]: boolean;
   [MileageGlobalItemBoard.MOD_DATE]: string;
   [MileageGlobalItemBoard.MANAGE]: string;
@@ -76,7 +76,7 @@ function createData(
   ITEM: string,
   DESCRIPTION1: string,
   DESCRIPTION2: string,
-
+  SEMESTER_ITEM_COUNT: number,
   ISVISIBLE: boolean,
   MOD_DATE: string,
   MANAGE: string
@@ -89,7 +89,7 @@ function createData(
 
     [MileageGlobalItemBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageGlobalItemBoard.DESCRIPTION2]: DESCRIPTION2,
-
+    [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: SEMESTER_ITEM_COUNT,
     [MileageGlobalItemBoard.ISVISIBLE]: ISVISIBLE,
     [MileageGlobalItemBoard.MOD_DATE]: MOD_DATE,
     [MileageGlobalItemBoard.MANAGE]: MANAGE,
@@ -130,6 +130,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '설명2',
+  },
+  {
+    id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
+    numeric: true,
+    disablePadding: false,
+    label: '학기별 항목 수',
   },
   {
     id: [MileageGlobalItemBoard.ISVISIBLE],
@@ -245,7 +251,7 @@ import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setItemList, setSemesterList } from 'src/redux/slices/filter';
-import { ID, CATEGORY, ITEM, ISVISIBLE } from '../../../../assets/data/fields';
+import { ID, CATEGORY, ITEM, ISVISIBLE, SEMESTER_ITEM_COUNT } from '../../../../assets/data/fields';
 
 interface ICategory {
   id: number;
@@ -317,6 +323,7 @@ export default function MileageCategory({
       item[NAME],
       item[DESCRIPTION1],
       item[DESCRIPTION2],
+      item[SEMESTER_ITEM_COUNT],
       item[ISVISIBLE],
       item[MOD_DATE],
       <SWModal type={EDITGLOBALITEM} beforeData={beforeData} />
