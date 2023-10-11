@@ -89,6 +89,13 @@ export default function SemesterItemTransferList({
     setChecked(not(checked, rightChecked));
   };
 
+  const checkListDuplicated = (id: number) => {
+    if (right.some((item) => item.item.id === id) && left.some((item) => item.item.id === id)) {
+      return true;
+    }
+    return false;
+  };
+
   const customList = (title: React.ReactNode, items: ILastSemesterItem[]) => (
     <Card>
       <CardHeader
@@ -110,10 +117,12 @@ export default function SemesterItemTransferList({
       <Divider />
       <List
         sx={{
-          width: 200,
-          height: 230,
+          minHeight: 230,
           bgcolor: 'background.paper',
           overflow: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2px',
         }}
         dense
         component="div"
@@ -123,7 +132,16 @@ export default function SemesterItemTransferList({
           const labelId = `transfer-list-all-item-${item.item.name}-label`;
 
           return (
-            <ListItem key={item.id} role="listitem" button onClick={handleToggle(item)}>
+            <ListItem
+              disabled={checkListDuplicated(item.item.id)}
+              key={item.id}
+              role="listitem"
+              button
+              onClick={handleToggle(item)}
+              sx={{
+                backgroundColor: checkListDuplicated(item.item.id) ? 'lightGray' : 'none',
+              }}
+            >
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(item) !== -1}
@@ -134,7 +152,9 @@ export default function SemesterItemTransferList({
                   }}
                 />
               </ListItemIcon>
+
               <ListItemText id={item.id} primary={`${item.item.name + 1}`} />
+              {checkListDuplicated(item.item.id) && '! 중복'}
             </ListItem>
           );
         })}
