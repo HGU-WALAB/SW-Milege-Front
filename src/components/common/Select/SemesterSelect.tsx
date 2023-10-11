@@ -2,22 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { CATEGORYID, SEMESTER } from 'src/assets/data/fields';
-
-const generateSemesters = (currentYear) => {
-  const startYear = currentYear - 4;
-  const endYear = currentYear + 4;
-  const semesters = [];
-
-  for (let year = startYear; year <= endYear; year++) {
-    semesters.push(`${year}-01`);
-    semesters.push(`${year}-02`);
-  }
-
-  return semesters;
-};
-
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
+import { generateSemesters, currentYear } from 'src/utils/semesterAutoGenerate';
 
 export default function SemesterSelect() {
   // const semesters = [
