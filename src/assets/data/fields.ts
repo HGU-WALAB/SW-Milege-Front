@@ -76,3 +76,4 @@ export const LEVEL = 'level';
 export const TYPE = 'type';
 
 export const ITEM_COUNT = 'itemCount';
+export const SEMESTER_ITEM_COUNT = 'semesterItemCount';
