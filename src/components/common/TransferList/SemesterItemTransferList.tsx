@@ -70,10 +70,12 @@ export default function SemesterItemTransferList({
   const numberOfChecked = (items: ILastSemesterItem[]) => intersection(checked, items).length;
 
   const handleToggleAll = (items: ILastSemesterItem[]) => () => {
-    if (numberOfChecked(items) === items.length) {
+    if (
+      numberOfChecked(items) === items.filter((item) => !checkListDuplicated(item.item.id)).length
+    ) {
       setChecked(not(checked, items));
     } else {
-      setChecked(union(checked, items));
+      setChecked(items.filter((item) => !checkListDuplicated(item.item.id)));
     }
   };
 
