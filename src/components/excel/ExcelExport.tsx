@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setComponentNum } from 'src/redux/slices/component';
 import { setSelectedId } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
+import ExcelImport from './ExcelImport';
 
 export default function ExcelExport() {
   const semester = useSelector((state) => state.data.semester);
@@ -58,6 +59,8 @@ export default function ExcelExport() {
           </Button>
         </Link>
       ))}
+
+      <ExcelImport />
     </Box>
   );
 }

@@ -1,8 +1,8 @@
 import { Box, Chip } from '@mui/material';
 import ReportTabs from 'src/components/common/report/ReportTabs';
-import dynamic from 'next/dynamic';
 import SemesterDropdown from 'src/components/common/Filter/SemesterDropdown';
 import { useSelector } from 'react-redux';
+import dynamic from 'next/dynamic';
 const BarChart = dynamic(() => import('@mui/x-charts/BarChart').then(({ BarChart }) => BarChart), {
   ssr: false,
 });
