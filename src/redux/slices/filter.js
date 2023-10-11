@@ -9,6 +9,7 @@ const initialState = {
   grade: '전체',
   department: '전체',
   level: '0',
+  
 };
 
 const slice = createSlice({

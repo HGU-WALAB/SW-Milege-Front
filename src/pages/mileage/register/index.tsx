@@ -272,7 +272,7 @@ export default function MileageRegister({
             alert(` ${item.student.name} - ${item.student.sid} 가 삭제 되었습니다.`);
           });
         });
-      });
+    });
     }
   };
   const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
