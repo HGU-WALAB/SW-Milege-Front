@@ -148,6 +148,12 @@ export default function SemesterItemTransferList({
     });
   }, [lastSemester]);
 
+  React.useEffect(() => {
+    axiosInstance.get(`/api/mileage/semesters/${thisSemester}/items`).then((res) => {
+      setRight(res.data.list);
+    });
+  }, [thisSemester]);
+
   return (
     <Box sx={{ mb: '30px' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
