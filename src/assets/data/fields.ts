@@ -74,3 +74,5 @@ export const MOD_DATE = 'modDate';
 export const RECORD_NAME = 'recordName';
 export const LEVEL = 'level';
 export const TYPE = 'type';
+
+export const ITEM_COUNT = 'itemCount';
