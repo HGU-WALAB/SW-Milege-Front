@@ -1,24 +1,46 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { Button } from '@mui/material';
+import axiosInstance from 'src/utils/axios';
 
-export default function ExcelImport() {
-  const [selectedFile, setSelectedFile] = useState();
+interface IProps {
+  type: string;
+  label: string;
+}
+
+export default function ExcelImport({ type, label }: IProps) {
   const inputRef = useRef(null); // useRef 추가
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleExcelImport = async (selectedFile) => {
     const formData = new FormData();
 
     formData.append('file', selectedFile);
 
     console.log(selectedFile);
-    // console.log(importCourses(formData));
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    // excelType
+    // 1) semesterIn
+    // 2) mileageRecord
+    axiosInstance.post(`/api/excel/upload/${type}`, formData, config).then(
+      (response) => {
+        alert('엑셀 업로드에 성공했습니다.');
+        console.log(response);
+      },
+      (error) => {
+        alert('엑셀 업로드에 실패했습니다.');
+        console.log(error);
+      }
+    );
   };
 
-  const handleChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const handleChange = async (e) => {
+    handleExcelImport(e.target.files[0]);
   };
 
   const handleButtonClick = () => {
@@ -30,9 +52,7 @@ export default function ExcelImport() {
       <input type="file" style={{ display: 'none' }} onChange={handleChange} ref={inputRef} />{' '}
       {/* input 태그를 숨김 */}
       <Button variant="contained" onClick={handleButtonClick}>
-        {' '}
-        {/* 버튼 클릭 핸들러 수정 */}
-        엑셀 업로드
+        {label}
       </Button>
     </>
   );
