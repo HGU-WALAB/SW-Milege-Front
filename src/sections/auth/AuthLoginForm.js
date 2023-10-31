@@ -15,16 +15,21 @@ import { useAuthContext } from '../../auth/useAuthContext';
 // components
 import Iconify from '../../components/iconify';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
-
+import axiosInstance from '../../utils/axios';
+import { parseSetCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { setCookie } from 'src/auth/jwtCookie';
+import { useRouter } from 'next/router';
 // ----------------------------------------------------------------------
 
 export default function AuthLoginForm() {
   const { login } = useAuthContext();
 
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    email: Yup.string().required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
@@ -47,7 +52,17 @@ export default function AuthLoginForm() {
 
   const onSubmit = async (data) => {
     try {
-      await login(data.email, data.password);
+      // await login(data.email, data.password);
+
+      const loginData = {
+        uniqueId: data.email,
+        password: data.password,
+      };
+
+      axiosInstance.post(`api/admin/login`, loginData).then((res) => {
+        setCookie('accessToken', res.config.headers.Authorization.split('Bearer ')[1], 1);
+        router.push('/mileage/category');
+      });
     } catch (error) {
       console.error(error);
       reset();

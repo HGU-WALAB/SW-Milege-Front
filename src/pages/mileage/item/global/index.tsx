@@ -252,6 +252,7 @@ import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setItemList, setSemesterList } from 'src/redux/slices/filter';
 import { ID, CATEGORY, ITEM, ISVISIBLE, SEMESTER_ITEM_COUNT } from '../../../../assets/data/fields';
+import { setServerSideCookie } from 'src/auth/jwtCookie';
 
 interface ICategory {
   id: number;
@@ -275,8 +276,8 @@ interface IGlobalItemList {
 
 export const getServerSideProps: GetServerSideProps<{
   fetchData: IGlobalItemList;
-}> = async () => {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
+}> = async (context) => {
+  setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/items');
   const fetchData = res.data;
   console.log(fetchData);

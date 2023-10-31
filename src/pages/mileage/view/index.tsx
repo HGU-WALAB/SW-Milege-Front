@@ -12,6 +12,8 @@ import {
   REGISTERED_DATE,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 /**
  * @component [마일리지 조회] 게시판
@@ -215,7 +217,27 @@ interface Data {
   [MileageViewBoard.POINT]: number;
   [MileageViewBoard.REGISTERED_DATE]: string;
 }
+export function setCookie(name, value, days) {
+  let expires = '';
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = '; expires=' + date.toUTCString();
+  }
+  document.cookie = name + '=' + (value || '') + expires + '; path=/';
+}
+
+export function getCookie(name) {
+  var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  return value ? value[2] : null;
+}
 
 export default function MileageView() {
+  setCookie(
+    'accessToken',
+    `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRob3JpdGllcyI6IlJPTEVfQURNSU5fRCxST0xFX0FETUlOX0MsUk9MRV9BRE1JTl9CLFJPTEVfQURNSU5fQSIsImV4cCI6MTcwMTUwMjQ4OCwiaWF0IjoxNjk2MzE4NDg4fQ.LnWCsVUPPtrPRtUwOUZgqiCtDCd3j3pbw0G1-Ht1v8Kpl54VVTUmcVzw0dVJnm9iTTJ_ZJzYK1PhqThCMJmRAw`,
+    7
+  );
+
   return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 조회" />;
 }

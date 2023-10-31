@@ -23,7 +23,7 @@ import axiosInstance from 'src/utils/axios';
 import { MOD_DATE } from '../../../assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITMANAGER } from 'src/assets/data/modal/modals';
-
+import { setServerSideCookie } from 'src/auth/jwtCookie';
 /**
  * @component [사용자 관리] 게시판
  */
@@ -144,7 +144,8 @@ const rows = [
 
 export const getServerSideProps: GetServerSideProps<{
   fetchData: any;
-}> = async () => {
+}> = async (context) => {
+  setServerSideCookie(context);
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const res = await axiosInstance.get('/api/mileage/admins');
   const fetchData = res.data;

@@ -30,6 +30,7 @@ import { random } from 'lodash';
 import { ReactNode } from 'react';
 import { ID } from 'src/assets/data/fields';
 
+import { setServerSideCookie } from 'src/auth/jwtCookie';
 /**
  * @component [학생 관리] 게시판
  */
@@ -247,7 +248,8 @@ interface IStudentList {
 
 export const getServerSideProps: GetServerSideProps<{
   fetchData: IStudentList;
-}> = async () => {
+}> = async (context) => {
+  setServerSideCookie(context);
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const res = await axiosInstance.get(`/api/mileage/students`);
   const fetchData = res.data;

@@ -39,6 +39,7 @@ import CRUDStudentTable from 'src/components/common/Table/CRUDStudentTable';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { IconButton, Tooltip } from '@mui/material';
 import { Box } from '@mui/system';
+import { setServerSideCookie } from 'src/auth/jwtCookie';
 
 /**
  * @component [마일리지 등록] 게시판
@@ -182,7 +183,8 @@ const headCells = [
 
 export const getServerSideProps: GetServerSideProps<{
   fetchData: ISemesterItemList;
-}> = async () => {
+}> = async (context) => {
+  setServerSideCookie(context);
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const res = await axiosInstance.get('/api/mileage/semesters/2022-01/items');
   const fetchData = res.data;
@@ -272,7 +274,7 @@ export default function MileageRegister({
             alert(` ${item.student.name} - ${item.student.sid} 가 삭제 되었습니다.`);
           });
         });
-    });
+      });
     }
   };
   const convertedFetchList = fetchData.list?.map((semesterItem, index) => {

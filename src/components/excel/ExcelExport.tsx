@@ -35,11 +35,11 @@ export default function ExcelExport() {
 
   const handleExcelExport = (e, endPoint) => {
     console.log(e.target.id, endPoint);
-    setMenuButton(0);
-    // axiosInstance.get(endPoint).then((res) => {
-    //   console.log(res);
-    //   alert(`${e.target.id} 다운로드가 완료되었습니다.`);
-    // });
+    // setMenuButton(0);
+    axiosInstance.get(endPoint).then((res) => {
+      console.log(res);
+      alert(`${e.target.id} 다운로드가 완료되었습니다.`);
+    });
   };
 
   return (
@@ -49,8 +49,9 @@ export default function ExcelExport() {
          * @brief 엑셀 다운로드 버튼
          * @description Link Masking (서버의 링크를 숨긴다.)
          */
-        <Link key={index} as="/" href={'http://walab.handong.edu:8080/sw_mileage' + Excel.endPoint}>
+        <Link key={index} href={'http://walab.handong.edu:8080/sw_mileage' + Excel.endPoint}>
           <Button
+            type="button"
             variant="contained"
             id={Excel.name}
             onClick={(e) => handleExcelExport(e, Excel.endPoint)}
