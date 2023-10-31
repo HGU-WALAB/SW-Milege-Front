@@ -163,6 +163,8 @@ import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setCategoryList } from 'src/redux/slices/filter';
 import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
+import axios from 'axios';
+import { getCookie } from '../view';
 
 interface IList {
   id: number;
@@ -182,8 +184,15 @@ interface IGetMileageCategory {
 
 export const getServerSideProps: GetServerSideProps<{
   fetchData: IGetMileageCategory[];
-}> = async () => {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
+}> = async (context) => {
+  let { cookie } = context.req.headers;
+
+  cookie = cookie ? cookie.split('=')[1] : '';
+
+  if (cookie !== '') {
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${cookie}`;
+  }
+
   const res = await axiosInstance.get('/api/mileage/categories');
   const fetchData = res.data;
   console.log(fetchData);
