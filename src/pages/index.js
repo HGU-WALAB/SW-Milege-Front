@@ -31,15 +31,17 @@ import {
 } from 'src/redux/slices/filterList';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { set } from 'lodash';
+import { setServerSideCookie } from 'src/auth/jwtCookie';
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  setServerSideCookie(context);
+
   const resCategory = await axiosInstance.get('/api/mileage/categories');
   const categoryData = await resCategory.data;
-
-  // console.log(categoryData);
 
   const resGlobalItem = await axiosInstance.get('/api/mileage/items');
   const globalItemData = await resGlobalItem.data;
