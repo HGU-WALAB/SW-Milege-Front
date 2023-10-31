@@ -7,12 +7,12 @@ const axiosInstance = axios.create({ baseURL: HOST_API_KEY });
 axiosInstance.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const token = getCookie('accessToken');
-    // const token = '!!=@';
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      // config.withCredentials = true; // withCredentials 옵션 추가
     }
   }
+  config.withCredentials = true; // withCredentials 옵션 추가
+
   return config;
 });
 

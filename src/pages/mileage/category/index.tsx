@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { dispatch } from 'src/redux/store';
 import { setMileageCategoryList } from 'src/redux/slices/data';
-
+import { setServerSideCookie } from 'src/auth/jwtCookie';
 /**
  * @breif [마일리지 카테고리] 게시판
  */
@@ -185,14 +185,7 @@ interface IGetMileageCategory {
 export const getServerSideProps: GetServerSideProps<{
   fetchData: IGetMileageCategory[];
 }> = async (context) => {
-  let { cookie } = context.req.headers;
-
-  cookie = cookie ? cookie.split('=')[1] : '';
-
-  if (cookie !== '') {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${cookie}`;
-  }
-
+  setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/categories');
   const fetchData = res.data;
   console.log(fetchData);
