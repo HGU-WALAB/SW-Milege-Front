@@ -50,7 +50,6 @@ export default function CategoryForm({ handleClose }) {
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
     };
-
     switch (modalType) {
       case ADDCATEGORY:
         axiosInstance

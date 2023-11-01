@@ -25,3 +25,34 @@ export function fToNow(date) {
       })
     : '';
 }
+
+// export function formatDateToISOString(date) {
+//   const now = new Date(date).toISOString();
+//   return now.slice(0, 19);
+// }
+
+// export function formatDateToISOStringExceptT(date) {
+//   const now = new Date(date).toISOString();
+//   return now.slice(0, 16); // 초를 제거하고 T를 포함한 형식으로 반환
+// }
+
+export function getCurrentKST() {
+  const now = new Date();
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Seoul',
+  };
+
+  const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(now);
+  const { year, month, day, hour, minute, second } = Object.fromEntries(
+    parts.map(({ type, value }) => [type, value])
+  );
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+}

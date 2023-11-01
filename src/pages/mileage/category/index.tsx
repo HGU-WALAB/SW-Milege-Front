@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { dispatch } from 'src/redux/store';
 import { setMileageCategoryList } from 'src/redux/slices/data';
-
+import { setServerSideCookie } from 'src/auth/jwtCookie';
 /**
  * @breif [마일리지 카테고리] 게시판
  */
@@ -163,6 +163,8 @@ import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setCategoryList } from 'src/redux/slices/filter';
 import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
+import axios from 'axios';
+import { getCookie } from '../view';
 
 interface IList {
   id: number;
@@ -182,8 +184,8 @@ interface IGetMileageCategory {
 
 export const getServerSideProps: GetServerSideProps<{
   fetchData: IGetMileageCategory[];
-}> = async () => {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
+}> = async (context) => {
+  setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/categories');
   const fetchData = res.data;
   console.log(fetchData);

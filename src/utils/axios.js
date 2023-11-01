@@ -1,7 +1,22 @@
 import axios from 'axios';
 import { HOST_API_KEY } from '../config-global';
+import { getCookie } from 'src/auth/jwtCookie';
 
 const axiosInstance = axios.create({ baseURL: HOST_API_KEY });
+
+axiosInstance.interceptors.request.use((config) => {
+  console.log('TOKEN');
+
+  if (typeof window !== 'undefined') {
+    const token = getCookie('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  config.withCredentials = true; // withCredentials 옵션 추가
+
+  return config;
+});
 
 axiosInstance.interceptors.response.use(
   (response) => response,
