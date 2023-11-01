@@ -14,7 +14,7 @@ import {
 import axiosInstance from 'src/utils/axios';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { setCookie } from 'src/auth/jwtCookie';
+import { getCookie, setCookie } from 'src/auth/jwtCookie';
 
 /**
  * @component [마일리지 조회] 게시판

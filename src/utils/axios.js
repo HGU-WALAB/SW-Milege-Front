@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HOST_API_KEY } from '../config-global';
-import { getCookie } from 'src/pages/mileage/view';
+import { getCookie } from 'src/auth/jwtCookie';
 
 const axiosInstance = axios.create({ baseURL: HOST_API_KEY });
 
