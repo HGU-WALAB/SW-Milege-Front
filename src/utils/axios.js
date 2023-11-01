@@ -5,6 +5,8 @@ import { getCookie } from 'src/auth/jwtCookie';
 const axiosInstance = axios.create({ baseURL: HOST_API_KEY });
 
 axiosInstance.interceptors.request.use((config) => {
+  console.log('TOKEN');
+
   if (typeof window !== 'undefined') {
     const token = getCookie('accessToken');
     if (token) {

@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: 'gray',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -27,18 +27,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 interface IGetAllSemesterWithStatus {
   count: number;
@@ -58,22 +46,22 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
-          <TableRow>
-            {headRow.map((e, index) => {
-              <StyledTableCell key={index} align="right">
-                {e}
-              </StyledTableCell>;
-            })}
-          </TableRow>
+          <StyledTableRow>
+            {headRow.map((elem, index) => (
+              <StyledTableCell key={index} align="left">
+                {elem}
+              </StyledTableCell>
+            ))}
+          </StyledTableRow>
         </TableHead>
         <TableBody>
           {data.list.map((row, idx) => (
             <StyledTableRow key={row.id}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component="th" scope="row" align="left">
                 {idx + 1}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.status}</StyledTableCell>
+              <StyledTableCell align="left">{row.name}</StyledTableCell>
+              <StyledTableCell align="left">{row.status}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

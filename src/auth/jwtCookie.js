@@ -1,3 +1,4 @@
+import { accessToken } from 'mapbox-gl';
 import axiosInstance from 'src/utils/axios';
 
 export function setCookie(name, value, days) {
@@ -10,17 +11,41 @@ export function setCookie(name, value, days) {
   document.cookie = `${name}=${value || ''}${expires}; path=/`;
 }
 
-export function getCookie(name) {
-  const value = document.cookie.match(`(^|;) ?${name}=([^;]*)(;|$)`);
-  return value ? value[2] : null;
-}
-
 export function setServerSideCookie(context) {
   let { cookie } = context.req.headers;
 
-  cookie = cookie ? cookie.split('=')[1] : '';
+  cookie = getKeyFromPairString(cookie, 'accessToken');
 
   if (cookie !== '') {
     axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookie}`;
   }
+}
+
+export function getKeyFromPairString(pairString, key) {
+  const pairArr = pairString.split(';').map((pair) => pair.trim());
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const pair of pairArr) {
+    const [pairKey, pairValue] = pair.split('=').map((c) => c.trim());
+
+    if (pairKey === key) {
+      return pairValue;
+    }
+  }
+
+  return '';
+}
+
+export function getCookie(key) {
+  const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
+  console.log(cookies);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const cookie of cookies) {
+    const [cookieKey, cookieValue] = cookie.split('=').map((c) => c.trim());
+    if (cookieKey === key) {
+      console.log(cookieValue);
+      return cookieValue;
+    }
+  }
+  return null;
 }
