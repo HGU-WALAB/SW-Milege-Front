@@ -25,3 +25,8 @@ export function fToNow(date) {
       })
     : '';
 }
+
+export function formatDateToISOString() {
+  const now = new Date().toISOString();
+  return now.slice(0, 19);
+}
