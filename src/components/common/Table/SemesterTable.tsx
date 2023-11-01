@@ -8,9 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box, Button } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import axiosInstance from 'src/utils/axios';
-import { formatDateToISOString } from 'src/utils/formatTime';
+import { formatDateToISOString, formatDateToISOStringExceptT } from 'src/utils/formatTime';
 import { rowSelectionStateInitializer } from '@mui/x-data-grid/internals';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -50,14 +50,14 @@ const FlexBox = styled(Box)({
   alignItems: 'center',
 });
 
-const headRow = ['번호', '학기 이름', '신청 상태', '설정'];
+const headRow = ['번호', '학기 이름', '시작일', '마감일', '신청 상태', '설정'];
 
 export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
   const [isModifying, setIsModifying] = React.useState<boolean[]>(
     new Array(data.list.length).fill(false)
   );
-  const [startDate, setStartDate] = React.useState(null);
-  const [endDate, setEndDate] = React.useState(null);
+  const [startDate, setStartDate] = React.useState(formatDateToISOStringExceptT(new Date()));
+  const [endDate, setEndDate] = React.useState(formatDateToISOStringExceptT(new Date()));
 
   const handleModify = (semesterId: number, rowIdx: number) => {
     if (isModifying[rowIdx]) {
@@ -82,7 +82,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
       applyEnd: endDate,
     };
     if (window.confirm('정말 수정하시겠습니까??')) {
-      axiosInstance.patch('/api/mileage/semesters/period', endData).then((res) => {
+      axiosInstance.patch('/api/mileage/semesters/period', modifyData).then((res) => {
         console.log(res);
         setIsModifying(new Array(data.list.length).fill(false));
       });
@@ -122,6 +122,29 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                 {idx + 1}
               </StyledTableCell>
               <StyledTableCell align="left">{row.name}</StyledTableCell>
+              {isModifying[idx] ? (
+                <StyledTableCell align="left">
+                  <TextField
+                    type="datetime-local"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </StyledTableCell>
+              ) : (
+                <StyledTableCell align="left">{row.status}</StyledTableCell>
+              )}
+              {isModifying[idx] ? (
+                <StyledTableCell align="left">
+                  <TextField
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </StyledTableCell>
+              ) : (
+                <StyledTableCell align="left">{row.status}</StyledTableCell>
+              )}
+
               <StyledTableCell align="left">{row.status}</StyledTableCell>
               <StyledTableCell align="left">
                 {isModifying[idx] ? (

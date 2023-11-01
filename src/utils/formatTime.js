@@ -30,3 +30,8 @@ export function formatDateToISOString() {
   const now = new Date().toISOString();
   return now.slice(0, 19);
 }
+
+export function formatDateToISOStringExceptT() {
+  const now = new Date().toISOString();
+  return now.slice(0, 16); // 초를 제거하고 T를 포함한 형식으로 반환
+}
