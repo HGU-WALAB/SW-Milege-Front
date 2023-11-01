@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -49,56 +50,59 @@ const FlexBox = styled(Box)({
   alignItems: 'center',
 });
 
-const [isModifing, setIsModifing] = React.useState(false);
-const [startDate, setStartDate] = React.useState();
-const [endDate, setEndDate] = React.useState();
+const headRow = ['번호', '학기 이름', '신청 상태', '설정'];
 
-const handleModify = (semesterId: number) => {
-  if (isModifing) {
-    modifyApply(semesterId);
-  }
-
-  setIsModifing(true);
-};
-
-const handleCancel = () => {
-    setIsModifing(false);
-}
-
-const modifyApply = (semesterId : number) => {
-  const modifyData = {
-    semesterId: semesterId,
-    applyStart: startDate,
-    applyEnd: endDate,
-  };
-  if(window.confirm("정말 수정하시겠습니까??")){
-    axiosInstance.patch('/api/mileage/semesters/period', endData).then((res) => 
-    console.log(res);
-    setIsModifing(false);
+export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
+  const [isModifying, setIsModifying] = React.useState<boolean[]>(
+    new Array(data.list.length).fill(false)
   );
-  }
-  
-};
+  const [startDate, setStartDate] = React.useState(null);
+  const [endDate, setEndDate] = React.useState(null);
 
-const handleEnd = (row) => {
-  console.log(formatDateToISOString(new Date()));
+  const handleModify = (semesterId: number, rowIdx: number) => {
+    if (isModifying[rowIdx]) {
+      modifyApply(semesterId);
+    }
 
-  if(window.confirm("정말 마감하시겠습니까??")){
-    const endData = {
+    let newIsModifying = new Array(data.list.length).fill(false);
+    newIsModifying[rowIdx] = true;
+
+    setIsModifying(newIsModifying);
+  };
+
+  const handleCancel = (rowIdx: number) => {
+    console.log(data.list.length);
+    setIsModifying(new Array(data.list.length).fill(false));
+  };
+
+  const modifyApply = (semesterId: number) => {
+    const modifyData = {
+      semesterId: semesterId,
+      applyStart: startDate,
+      applyEnd: endDate,
+    };
+    if (window.confirm('정말 수정하시겠습니까??')) {
+      axiosInstance.patch('/api/mileage/semesters/period', endData).then((res) => {
+        console.log(res);
+        setIsModifying(new Array(data.list.length).fill(false));
+      });
+    }
+  };
+
+  const handleEnd = (row) => {
+    console.log(formatDateToISOString(new Date()));
+
+    if (window.confirm('정말 마감하시겠습니까??')) {
+      const endData = {
         semesterId: row.id,
         applyStart: row.applyStart,
         applyEnd: formatDateToISOString(new Date()),
       };
       console.log(endData);
-    
+
       axiosInstance.patch('/api/mileage/semesters/period', endData).then((res) => console.log(res));
-  }
-  
-};
-
-const headRow = ['번호', '학기 이름', '신청 상태', '설정'];
-
-export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
+    }
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -120,25 +124,33 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
               <StyledTableCell align="left">{row.name}</StyledTableCell>
               <StyledTableCell align="left">{row.status}</StyledTableCell>
               <StyledTableCell align="left">
-                {isModifing ? ( 
-                <FlexBox>
-                    <Button type="button" onClick={handleCancel} variant="contained">
-                       취소
-                     </Button>
-                     <Button type="button" onClick={() => handleModify(row.id)} variant="outlined">
-                       확인
-                     </Button>
-                   </FlexBox>) : (
-                     <FlexBox>
-                     <Button type="button" onClick={() => handleModify(row.id)} variant="contained">
-                       수정
-                     </Button>
-                     <Button type="button" onClick={() => handleEnd(row)} variant="outlined">
-                       마감
-                     </Button>
-                   </FlexBox>
+                {isModifying[idx] ? (
+                  <FlexBox>
+                    <Button type="button" onClick={() => handleCancel(idx)} variant="contained">
+                      취소
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => handleModify(row.id, idx)}
+                      variant="outlined"
+                    >
+                      확인
+                    </Button>
+                  </FlexBox>
+                ) : (
+                  <FlexBox>
+                    <Button
+                      type="button"
+                      onClick={() => handleModify(row.id, idx)}
+                      variant="contained"
+                    >
+                      수정
+                    </Button>
+                    <Button type="button" onClick={() => handleEnd(row)} variant="outlined">
+                      마감
+                    </Button>
+                  </FlexBox>
                 )}
-               
               </StyledTableCell>
             </StyledTableRow>
           ))}
