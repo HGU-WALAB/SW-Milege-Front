@@ -140,8 +140,11 @@ export default function MiniDrawer() {
         return '/manage/student';
       case 7:
         return '/manage/user';
+
       case 9:
         return '/mileage/result';
+      case 10:
+        return '/manage/setting';
       case 11:
         return '/report';
       default:

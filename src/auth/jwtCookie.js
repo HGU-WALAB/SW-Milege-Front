@@ -22,7 +22,7 @@ export function setServerSideCookie(context) {
 }
 
 export function getKeyFromPairString(pairString, key) {
-  const pairArr = pairString.split(';').map((pair) => pair.trim());
+  const pairArr = pairString ? pairString?.split(';').map((pair) => pair.trim()) : [];
 
   // eslint-disable-next-line no-restricted-syntax
   for (const pair of pairArr) {

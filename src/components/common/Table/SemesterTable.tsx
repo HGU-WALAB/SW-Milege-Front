@@ -39,7 +39,7 @@ interface IISemesterWithStatus {
   status: string;
 }
 
-const headRow = ['번호', '학기 이름', '신청 상태'];
+const headRow = ['번호', '학기 이름', '신청 상태', '설정'];
 
 export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
   return (
@@ -62,6 +62,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
               </StyledTableCell>
               <StyledTableCell align="left">{row.name}</StyledTableCell>
               <StyledTableCell align="left">{row.status}</StyledTableCell>
+              <StyledTableCell align="left">마감</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
