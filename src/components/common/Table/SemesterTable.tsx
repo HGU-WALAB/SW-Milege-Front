@@ -10,7 +10,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, Button, TextField } from '@mui/material';
 import axiosInstance from 'src/utils/axios';
-import { formatDateToISOString, formatDateToISOStringExceptT } from 'src/utils/formatTime';
+import {
+  //   formatDateToISOString,
+  //   formatDateToISOStringExceptT,
+  getCurrentKST,
+} from 'src/utils/formatTime';
 import { rowSelectionStateInitializer } from '@mui/x-data-grid/internals';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -42,6 +46,8 @@ interface IISemesterWithStatus {
   id: number;
   name: string;
   status: string;
+  applyStart: string;
+  applyEnd: string;
 }
 
 const FlexBox = styled(Box)({
@@ -56,13 +62,16 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
   const [isModifying, setIsModifying] = React.useState<boolean[]>(
     new Array(data.list.length).fill(false)
   );
-  const [startDate, setStartDate] = React.useState(formatDateToISOStringExceptT(new Date()));
-  const [endDate, setEndDate] = React.useState(formatDateToISOStringExceptT(new Date()));
+  const [startDate, setStartDate] = React.useState();
+  const [endDate, setEndDate] = React.useState();
 
   const handleModify = (semesterId: number, rowIdx: number) => {
     if (isModifying[rowIdx]) {
       modifyApply(semesterId);
     }
+
+    setStartDate(data.list[rowIdx].applyStart);
+    setEndDate(data.list[rowIdx].applyEnd);
 
     let newIsModifying = new Array(data.list.length).fill(false);
     newIsModifying[rowIdx] = true;
@@ -75,7 +84,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
     setIsModifying(new Array(data.list.length).fill(false));
   };
 
-  const modifyApply = (semesterId: number) => {
+  const modifyApply = async (semesterId: number) => {
     const modifyData = {
       semesterId: semesterId,
       applyStart: startDate,
@@ -83,24 +92,27 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
     };
     if (window.confirm('정말 수정하시겠습니까??')) {
       axiosInstance.patch('/api/mileage/semesters/period', modifyData).then((res) => {
-        alert('수정 되었습니다.');
         setIsModifying(new Array(data.list.length).fill(false));
+
+        window.location.reload();
       });
     }
   };
 
   const handleEnd = (row) => {
-    console.log(formatDateToISOString(new Date()));
+    // console.log(formatDateToISOStringExceptT(getCurrentKST()));
 
     if (window.confirm('정말 마감하시겠습니까??')) {
       const endData = {
         semesterId: row.id,
         applyStart: row.applyStart,
-        applyEnd: formatDateToISOString(new Date()),
+        applyEnd: getCurrentKST(),
       };
       console.log(endData);
 
-      axiosInstance.patch('/api/mileage/semesters/period', endData).then((res) => console.log(res));
+      axiosInstance.patch('/api/mileage/semesters/period', endData).then((res) => {
+        window.location.reload();
+      });
     }
   };
   return (
@@ -131,7 +143,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                   />
                 </StyledTableCell>
               ) : (
-                <StyledTableCell align="left">{row.status}</StyledTableCell>
+                <StyledTableCell align="left">{row?.applyStart}</StyledTableCell>
               )}
               {isModifying[idx] ? (
                 <StyledTableCell align="left">
@@ -142,7 +154,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                   />
                 </StyledTableCell>
               ) : (
-                <StyledTableCell align="left">{row.status}</StyledTableCell>
+                <StyledTableCell align="left">{row?.applyEnd}</StyledTableCell>
               )}
 
               <StyledTableCell align="left">{row.status}</StyledTableCell>
