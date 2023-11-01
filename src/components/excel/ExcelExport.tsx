@@ -31,6 +31,10 @@ export default function ExcelExport() {
       name: '학기별 항목 엑셀 다운로드',
       endPoint: `/api/excel/download/semesterIn?semester=${semester}`,
     },
+    {
+      name: '선정 결과 양식 다운로드',
+      endPoint: `api/excel/downlaod/mileageRecordFormat`,
+    },
   ];
 
   const handleExcelExport = (e, endPoint) => {
@@ -63,6 +67,7 @@ export default function ExcelExport() {
 
       <ExcelImport type="semesterIn" label="학기별 항목 엑셀 업로드" />
       <ExcelImport type="mileageRecord" label="마일리지 기록 업로드" />
+      <ExcelImport type="mileageScholarShip" label="선정 결과 업로드" />
     </Box>
   );
 }
