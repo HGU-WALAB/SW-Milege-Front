@@ -83,7 +83,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
     };
     if (window.confirm('정말 수정하시겠습니까??')) {
       axiosInstance.patch('/api/mileage/semesters/period', modifyData).then((res) => {
-        console.log(res);
+        alert('수정 되었습니다.');
         setIsModifying(new Array(data.list.length).fill(false));
       });
     }
@@ -162,16 +162,20 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                   </FlexBox>
                 ) : (
                   <FlexBox>
-                    <Button
-                      type="button"
-                      onClick={() => handleModify(row.id, idx)}
-                      variant="contained"
-                    >
-                      수정
-                    </Button>
-                    <Button type="button" onClick={() => handleEnd(row)} variant="outlined">
-                      마감
-                    </Button>
+                    {row.status !== '선정 완료' && (
+                      <Button
+                        type="button"
+                        onClick={() => handleModify(row.id, idx)}
+                        variant="contained"
+                      >
+                        수정
+                      </Button>
+                    )}
+                    {row.status === '신청 가능' && (
+                      <Button type="button" onClick={() => handleEnd(row)} variant="outlined">
+                        마감
+                      </Button>
+                    )}
                   </FlexBox>
                 )}
               </StyledTableCell>
