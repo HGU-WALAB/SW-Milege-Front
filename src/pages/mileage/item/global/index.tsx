@@ -253,6 +253,7 @@ import MileageCategory from 'src/components/board/MileageCategory';
 import { setItemList, setSemesterList } from 'src/redux/slices/filter';
 import { ID, CATEGORY, ITEM, ISVISIBLE, SEMESTER_ITEM_COUNT } from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 interface ICategory {
   id: number;
@@ -326,7 +327,7 @@ export default function MileageCategory({
       item[DESCRIPTION2],
       item[SEMESTER_ITEM_COUNT],
       item[ISVISIBLE],
-      item[MOD_DATE],
+      formatDateToKorean(item[MOD_DATE]),
       <SWModal type={EDITGLOBALITEM} beforeData={beforeData} />
     );
   });

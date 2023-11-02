@@ -40,6 +40,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { IconButton, Tooltip } from '@mui/material';
 import { Box } from '@mui/system';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 /**
  * @component [마일리지 등록] 게시판
@@ -291,7 +292,7 @@ export default function MileageRegister({
       semesterItem.item.description1,
       semesterItem.points,
       semesterItem.recordCount, //  학생수가 들어가야함
-      semesterItem.modDate,
+      formatDateToKorean(semesterItem.modDate),
       <Box sx={{ display: 'flex' }}>
         {/* <Tooltip title="등록된 학생 리스트 확인"> */}
         <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
