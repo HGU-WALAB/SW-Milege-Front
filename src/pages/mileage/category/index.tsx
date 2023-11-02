@@ -165,6 +165,7 @@ import { setCategoryList } from 'src/redux/slices/filter';
 import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
 import axios from 'axios';
 import { getCookie } from '../view';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 interface IList {
   id: number;
@@ -219,7 +220,7 @@ export default function MileageCategory({
       item[DESCRIPTION1],
       item[DESCRIPTION2],
       item[ITEM_COUNT],
-      item[MOD_DATE],
+      formatDateToKorean(item[MOD_DATE]),
       <SWModal type={EDITCATEGORY} beforeData={beforeData} />
     );
   });
