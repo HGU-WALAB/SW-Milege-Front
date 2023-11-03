@@ -2,6 +2,7 @@ import { Button, IconButton, Toolbar, Typography, styled } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box } from '@mui/system';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -54,8 +55,17 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
           SW중심대 마일리지 시스템
         </Typography>
       </Toolbar>
+
       <Box sx={{ position: 'absolute', right: '30px', top: '13px' }}>
-        <Button color="inherit">Login</Button>
+        <Link
+          href="/auth/login"
+          style={{
+            textDecoration: 'none',
+            color: 'inherit',
+          }}
+        >
+          <Button color="inherit">Login</Button>
+        </Link>
       </Box>
     </AppBar>
   );
