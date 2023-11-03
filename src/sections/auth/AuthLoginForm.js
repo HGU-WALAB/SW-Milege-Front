@@ -61,7 +61,7 @@ export default function AuthLoginForm() {
 
       axiosInstance.post(`api/admin/login`, loginData).then((res) => {
         setCookie('accessToken', res.config.headers.Authorization.split('Bearer ')[1], 1);
-        router.push('/mileage/category');
+        router.push('/');
       });
     } catch (error) {
       console.error(error);
