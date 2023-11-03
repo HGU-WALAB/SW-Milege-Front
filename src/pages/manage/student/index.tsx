@@ -29,7 +29,7 @@ import { EDITCATEGORY, EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { random } from 'lodash';
 import { ReactNode } from 'react';
 import { ID } from 'src/assets/data/fields';
-
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 /**
  * @component [학생 관리] 게시판
@@ -285,7 +285,7 @@ export default function StudentManage({
       student[MAJOR1] + ' / ' + student[MAJOR2],
       student[LASTLOGINDATE]?.split('T')[0],
       student[ISCHECKED] ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />,
-      student[MOD_DATE],
+      formatDateToKorean(student[MOD_DATE]),
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );
   });

@@ -30,6 +30,7 @@ import { setMileageSemesterList } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
 import { CATEGORY, SEMESTER, ITEM, POINTS, MANAGE } from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 /**
  * @component [마일리지 학기별 항목] 게시판
@@ -300,7 +301,7 @@ export default function MileageCategory({
       semesterItem.item.name,
       semesterItem.points,
       semesterItem.itemMaxPoints,
-      semesterItem.modDate,
+      formatDateToKorean(semesterItem.modDate),
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );
   });

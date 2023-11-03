@@ -24,6 +24,7 @@ import { MOD_DATE } from '../../../assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITMANAGER } from 'src/assets/data/modal/modals';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 /**
  * @component [사용자 관리] 게시판
  */
@@ -187,7 +188,7 @@ export default function UserManage({
       item[EMAIL],
       levelConverter(item[LEVEL]),
       item[LASTLOGINDATE] + ` ( ${item[LOGINCOUNT]} )`,
-      item[MOD_DATE],
+      formatDateToKorean(item[MOD_DATE]),
       <SWModal type={EDITMANAGER} beforeData={beforeData} />
     );
   });

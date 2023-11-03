@@ -35,6 +35,10 @@ export default function ExcelExport() {
       name: '선정 결과 양식 다운로드',
       endPoint: `api/excel/downlaod/mileageRecordFormat`,
     },
+    {
+      name: '신청 학생 목록 내보내기',
+      endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
+    },
   ];
 
   const handleExcelExport = (e, endPoint) => {
