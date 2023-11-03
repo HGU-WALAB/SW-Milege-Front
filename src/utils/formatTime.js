@@ -26,10 +26,10 @@ export function fToNow(date) {
     : '';
 }
 
-// export function formatDateToISOString(date) {
-//   const now = new Date(date).toISOString();
-//   return now.slice(0, 19);
-// }
+export function formatDateToISOString(date) {
+  const now = new Date(date).toISOString();
+  return now.slice(0, 19);
+}
 
 // export function formatDateToISOStringExceptT(date) {
 //   const now = new Date(date).toISOString();
