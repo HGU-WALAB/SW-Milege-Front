@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { InferGetServerSidePropsType } from 'next';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
-import SemesterTable from 'src/components/common/Table/semesterTable';
+import SemesterTable from 'src/components/common/Table/SemesterTable';
 import axiosInstance from 'src/utils/axios';
 
 interface IGetAllSemesterWithStatus {
