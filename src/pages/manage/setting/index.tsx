@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { InferGetServerSidePropsType } from 'next';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import SemesterTable from 'src/components/common/Table/semesterTable';
 import axiosInstance from 'src/utils/axios';
