@@ -6,6 +6,7 @@ import { useAuthContext } from '../../auth/useAuthContext';
 import Iconify from '../../components/iconify';
 import MailModalForm from '../../components/modalForm/MailModalForm';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 // ----------------------------------------------------------------------
 
 export default function AuthWithSocial() {
@@ -44,20 +45,24 @@ export default function AuthWithSocial() {
     }
   };
 
+  const { pathname } = useRouter();
+
   return (
     <div>
-      <Divider
-        sx={{
-          my: 2.5,
-          typography: 'overline',
-          color: 'text.disabled',
-          '&::before, ::after': {
-            borderTopStyle: 'dashed',
-          },
-        }}
-      >
-        OR
-      </Divider>
+      {pathname === '/auth/login' && (
+        <Divider
+          sx={{
+            my: 2.5,
+            typography: 'overline',
+            color: 'text.disabled',
+            '&::before, ::after': {
+              borderTopStyle: 'dashed',
+            },
+          }}
+        >
+          contact
+        </Divider>
+      )}
 
       <Stack direction="row" justifyContent="center" spacing={2}>
         <MailModalForm />
