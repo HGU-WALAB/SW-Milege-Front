@@ -22,15 +22,12 @@ MainLayout.propTypes = {
 export default function MainLayout({ children }) {
   return (
     <Box>
-      <Header />
-
-      <Box sx={{ display: 'flex', width: '100%' }}>
+      <Box sx={{ display: 'flex', width: '100%', py: '100px' }}>
         <MiniDrawer />
 
         <Box
           component="main"
           sx={{
-            pt: '50px',
             pr: '50px',
             width: '100%',
           }}
