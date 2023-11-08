@@ -635,7 +635,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+        label="폭 좁게"
       />
     </ResponsiveTable>
   );

@@ -6,7 +6,6 @@ import {
   REGISTERED_DATE,
   CHECK_BOX,
   NUM,
-  ITEM_MAX_POINTS,
   DESCRIPTION,
   DESCRIPTION1,
   SEMESTERITEM,
@@ -20,6 +19,7 @@ import {
   ISEVALUATE_FUSION,
   MOD_DATE,
   MAX_MAILEAGE,
+  SEMESTERITEMID,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITITEM } from 'src/assets/data/modal/modals';
@@ -28,7 +28,14 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setMileageSemesterList } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
-import { CATEGORY, SEMESTER, ITEM, POINTS, MANAGE } from '../../../../assets/data/fields';
+import {
+  CATEGORY,
+  SEMESTER,
+  ITEM,
+  POINTS,
+  MANAGE,
+  ITEM_MAX_POINTS,
+} from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
@@ -287,12 +294,13 @@ export default function MileageCategory({
 
   const convertedFetchList = fetchData.list?.map((semesterItem) => {
     const beforeData = {
-      [NUM]: semesterItem.id,
+      [SEMESTERITEMID]: semesterItem.id,
+      itemId: semesterItem.item.id,
       [CATEGORY]: semesterItem.category.name,
       [SEMESTER]: semesterItem.semesterName,
       [ITEM]: semesterItem.item.name,
       [MILEAGE]: semesterItem.points,
-      [MAX_MAILEAGE]: semesterItem.itemMaxPoints,
+      [ITEM_MAX_POINTS]: semesterItem.itemMaxPoints,
     };
     return createData(
       semesterItem.id,

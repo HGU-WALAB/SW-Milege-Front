@@ -78,10 +78,11 @@ export default function ExcelExport() {
           </Button>
         </Link>
       ))}
-
+      <ExcelImport />
+      {/* 
       <ExcelImport type="semesterIn" label="학기별 항목 엑셀 업로드" />
       <ExcelImport type="mileageRecord" label="마일리지 기록 업로드" />
-      <ExcelImport type="mileageScholarShip" label="선정 결과 업로드" />
+      <ExcelImport type="mileageScholarShip" label="선정 결과 업로드" /> */}
     </Box>
   );
 }
