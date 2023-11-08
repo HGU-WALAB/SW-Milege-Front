@@ -7,6 +7,7 @@ import GradeDropdown from './GradeDropdown';
 import DepartmentDropdown from './DepartmentDropDown';
 import StudentNameAutoComplete from './StudentNameAutoComplete';
 import { useSelector } from 'react-redux';
+import CategoryTypeDropDown from './CategoryTypeDropDown';
 
 const ResponsiveFilterBox = styled(Box)({
   padding: '10px 0px',
@@ -35,6 +36,7 @@ export default function Filtering() {
       {renderComponentsForTableNums([3, 5, 6, 7, 8, 9, 10], <StudentNameAutoComplete />)}
       {renderComponentsForTableNums([5, 6], <GradeDropdown />)}
       {renderComponentsForTableNums([5, 6, 9], <DepartmentDropdown />)}
+      {renderComponentsForTableNums([0], <CategoryTypeDropDown />)}
     </ResponsiveFilterBox>
   );
 }

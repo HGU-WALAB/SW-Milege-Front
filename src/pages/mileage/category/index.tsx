@@ -147,12 +147,14 @@ const headCells = [
 /**
  * 더미 객체
  */
+
 const IParams = {
   [NUM]: 1,
   [CATEGORY]: '카테고리테스트',
   [DESCRIPTION1]: '설명 테스트',
   [DESCRIPTION2]: '설명 테스트',
 };
+
 /**
  * @number 1번 목록
  * @description 마일리지 카테고리 리스트
