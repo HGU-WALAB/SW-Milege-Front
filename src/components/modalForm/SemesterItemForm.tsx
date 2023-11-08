@@ -4,12 +4,13 @@ import {
   TITLE,
   CATEGORY,
   DESCRIPTION,
-  MAX_MILEAGE,
   MAX_POINTS,
   NUM,
   POINT,
   SEMESTER,
   MILEAGE,
+  ITEM_MAX_POINTS,
+  SEMESTERITEMID,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
@@ -24,7 +25,6 @@ import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
-
 export default function SemesterItemForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
@@ -32,10 +32,12 @@ export default function SemesterItemForm({ handleClose }) {
 
   const SemesterItemSchema = Yup.object().shape({
     [SEMESTER]: Yup.string().required('필수입니다.'),
-    [NUM]: Yup.number().integer().required('필수입니다.'),
+    itemId: Yup.number().integer().required('필수입니다.'),
     [MILEAGE]: Yup.number().integer().required('필수입니다.'),
-    [MAX_MILEAGE]: Yup.number().integer().required('필수입니다.'),
+    [ITEM_MAX_POINTS]: Yup.number().integer().required('필수입니다.'),
   });
+
+  console.log('Dddd', beforeData);
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     // 카테고리 추가
@@ -45,10 +47,13 @@ export default function SemesterItemForm({ handleClose }) {
     // 4) reload
 
     const newData = {
-      itemId: values[NUM],
+      itemId: values.itemId,
       points: values[MILEAGE],
-      [MAX_POINTS]: values[MAX_MILEAGE],
+      semesterName: values[SEMESTER],
+      [ITEM_MAX_POINTS]: +values[ITEM_MAX_POINTS],
     };
+
+    console.log('ss', newData);
 
     switch (modalType) {
       case ADDITEM:
@@ -63,7 +68,7 @@ export default function SemesterItemForm({ handleClose }) {
 
       case EDITITEM:
         axiosInstance
-          .patch(`/api/mileage/semesters/${values[SEMESTER]}/items`, newData)
+          .patch(`/api/mileage/semesters/${beforeData[SEMESTERITEMID]}`, newData)
           .then((res) => {
             alert('학기별 항목이 수정되었습니다.');
             router.reload();
@@ -82,10 +87,11 @@ export default function SemesterItemForm({ handleClose }) {
          * points
          * maxPoints
          */
+
         [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
-        [NUM]: modalType === EDITITEM ? beforeData?.[NUM] : 0,
+        itemId: modalType === EDITITEM ? beforeData?.itemId : 0,
         [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : '',
-        [MAX_MILEAGE]: modalType === EDITITEM ? beforeData?.[MAX_MILEAGE] : 0,
+        [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
       }}
       validationSchema={SemesterItemSchema}
       onSubmit={handleSubmit}
@@ -113,11 +119,11 @@ export default function SemesterItemForm({ handleClose }) {
           /> */}
 
           {/* <Field label="글로벌 항목 번호" name={NUM} as={TextField} variant="standard" /> */}
-          <GlobalItemSelect />
+          <GlobalItemSelect itemId={beforeData?.itemId} />
           <Field label="마일리지" name={MILEAGE} as={TextField} variant="standard" />
           <ErrorMessage name={MILEAGE} disabled={isSubmitting} />
-          <Field label="최대 마일리지" name={MAX_MILEAGE} as={TextField} variant="standard" />
-          <ErrorMessage name={MAX_MILEAGE} disabled={isSubmitting} />
+          <Field label="최대 마일리지" name={ITEM_MAX_POINTS} as={TextField} variant="standard" />
+          <ErrorMessage name={ITEM_MAX_POINTS} disabled={isSubmitting} />
           <ButtonFlexBox>
             <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
