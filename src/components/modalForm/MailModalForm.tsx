@@ -3,11 +3,18 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import Iconify from '../../components/iconify';
 import { useRef } from 'react';
 import { styled } from 'styled-components';
 import emailjs from '@emailjs/browser';
-import { FormLabel, InputLabel, Paper, TextField, TextareaAutosize } from '@mui/material';
+import {
+  FormLabel,
+  IconButton,
+  InputLabel,
+  Paper,
+  TextField,
+  TextareaAutosize,
+} from '@mui/material';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -52,7 +59,9 @@ export default function MailModalForm() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <IconButton onClick={handleOpen}>
+        <Iconify icon="eva:google-fill" color="#DF3E30" />
+      </IconButton>
       <Modal
         open={open}
         onClose={handleClose}

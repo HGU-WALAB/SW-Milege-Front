@@ -60,16 +60,13 @@ export default function AuthWithSocial() {
       </Divider>
 
       <Stack direction="row" justifyContent="center" spacing={2}>
-        <IconButton onClick={handleGoogleLogin}>
-          <Iconify icon="eva:google-fill" color="#DF3E30" />
-        </IconButton>
+        <MailModalForm />
 
         <Link href="https://github.com/HGU-WALAB/SW-Milege-Front" target="_blank">
           <IconButton color="inherit" onClick={handleGithubLogin}>
             <Iconify icon="eva:github-fill" />
           </IconButton>
         </Link>
-        <MailModalForm />
       </Stack>
     </div>
   );
