@@ -10,6 +10,7 @@ export default function ExcelExport() {
   const semester = useSelector((state) => state.data.semester);
   const dispatch = useDispatch();
   const setMenuButton = (data) => dispatch(setComponentNum(data));
+
   const Excels = [
     {
       name: '카테고리 엑셀 다운로드',

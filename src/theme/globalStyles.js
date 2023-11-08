@@ -40,6 +40,10 @@ export default function GlobalStyles() {
             },
           },
         },
+        a: {
+          'text-decoration': 'none',
+          color: 'inherit',
+        },
         img: {
           display: 'block',
           maxWidth: '100%',
