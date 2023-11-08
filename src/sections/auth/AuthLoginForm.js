@@ -29,8 +29,8 @@ export default function AuthLoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    uniqueId: Yup.number().required('아이디를 입력하세요'),
+    password: Yup.string().required('비밀번호를 입력하세요'),
   });
 
   const defaultValues = {
@@ -55,7 +55,7 @@ export default function AuthLoginForm() {
       // await login(data.email, data.password);
 
       const loginData = {
-        uniqueId: data.email,
+        uniqueId: +data.uniqueId,
         password: data.password,
       };
 
