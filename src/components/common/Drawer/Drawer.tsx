@@ -109,17 +109,19 @@ export default function MiniDrawer() {
   };
 
   const handleDrawerClose = () => {
-    if (!pinned) drawerClose();
+    if (!pinned) {
+      drawerClose();
+    }
   };
 
   const handleDrawerPinOn = () => {
-    handleDrawerOpen();
     drawerPinnedOn();
+    handleDrawerOpen();
   };
 
   const handleDrawerPinOff = () => {
-    handleDrawerClose();
     drawerPinnedOff();
+    drawerClose();
   };
 
   const linkConverter = (num) => {
