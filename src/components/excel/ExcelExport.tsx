@@ -49,6 +49,10 @@ export default function ExcelExport() {
       endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
       pathname: ['/manage/register'],
     },
+    {
+      name: '신청 학생 목록 내보내기',
+      endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
+    },
   ];
 
   const handleExcelExport = (e, endPoint) => {
@@ -62,7 +66,7 @@ export default function ExcelExport() {
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', mt: '30px' }}>
-      {Excels.filter((AllExcel) => AllExcel.pathname.includes(pathname)).map((Excel, index) => (
+      {Excels.filter((AllExcel) => AllExcel.pathname?.includes(pathname)).map((Excel, index) => (
         /**
          * @brief 엑셀 다운로드 버튼
          * @description Link Masking (서버의 링크를 숨긴다.)
