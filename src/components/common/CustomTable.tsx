@@ -75,9 +75,10 @@ import { setSelectedId } from 'src/redux/slices/table';
  *  @brief 반응형 구축
  */
 
-const ResponsiveTable = styled(Box)({
+const ResponsiveTable = styled(Paper)({
   minWidth: '1200px',
   overflowX: 'scroll',
+  padding: '20px',
 });
 // const ResponsiveTableHeadCheckBox = styled(TableCell)({
 //   '@media (max-width: 600px)': {
@@ -251,6 +252,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
       <Toolbar
         sx={{
+          display: 'flex',
+          justifyContent: 'end',
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
           ...(numSelected > 0 && {
@@ -259,25 +262,15 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           }),
         }}
       >
-        {numSelected > 0 ? (
+        {numSelected > 0 && (
           <Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="subtitle1" component="div">
             {numSelected} selected
           </Typography>
-        ) : (
-          <Typography sx={{ flex: '1 1 100%' }} variant="h6" id="tableTitle" component="div">
-            번호
-          </Typography>
         )}
-        {numSelected > 0 ? (
+        {numSelected > 0 && (
           <Tooltip title="Delete">
             <IconButton>
               <SelectedItemsDeleteIcon type={type} />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <FilterListIcon />
             </IconButton>
           </Tooltip>
         )}
@@ -522,7 +515,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   return (
     <ResponsiveTable>
-      <Paper>
+      <Box>
         <EnhancedTableToolbar numSelected={selected.length} type={type} />
 
         <DragDropContext onDragEnd={handleDragEnd}>
@@ -633,7 +626,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
           count={rows?.length}
           page={page}
         />
-      </Paper>
+      </Box>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="폭 좁게"
