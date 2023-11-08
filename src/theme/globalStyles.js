@@ -41,7 +41,7 @@ export default function GlobalStyles() {
           },
         },
         a: {
-          'text-decoration': 'none',
+          textDecoration: 'none',
           color: 'inherit',
         },
         img: {
