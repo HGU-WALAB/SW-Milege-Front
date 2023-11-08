@@ -79,6 +79,7 @@ const ResponsiveTable = styled(Paper)({
   minWidth: '1200px',
   overflowX: 'scroll',
   padding: '20px',
+  margin: '50px 0px',
 });
 // const ResponsiveTableHeadCheckBox = styled(TableCell)({
 //   '@media (max-width: 600px)': {

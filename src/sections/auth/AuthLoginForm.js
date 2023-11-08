@@ -34,8 +34,8 @@ export default function AuthLoginForm() {
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    uniqueId: '',
+    password: '',
   };
 
   const methods = useForm({
@@ -78,11 +78,11 @@ export default function AuthLoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="uniqueId" label="관리자 아이디" />
 
         <RHFTextField
           name="password"
-          label="Password"
+          label="관리자 비밀번호"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -99,12 +99,13 @@ export default function AuthLoginForm() {
       <Stack alignItems="flex-end" sx={{ my: 2 }}>
         <Link
           component={NextLink}
-          href={PATH_AUTH.resetPassword}
+          href="https://hisnet.handong.edu/"
+          target="_blank"
           variant="body2"
           color="inherit"
           underline="always"
         >
-          Forgot password?
+          히즈넷 가기
         </Link>
       </Stack>
 
@@ -124,7 +125,7 @@ export default function AuthLoginForm() {
           },
         }}
       >
-        Login
+        로그인
       </LoadingButton>
     </FormProvider>
   );
