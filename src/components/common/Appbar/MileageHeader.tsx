@@ -64,7 +64,7 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
             color: 'inherit',
           }}
         >
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">로그아웃</Button>
         </Link>
       </Box>
     </AppBar>

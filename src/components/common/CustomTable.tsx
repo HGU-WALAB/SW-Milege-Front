@@ -75,9 +75,10 @@ import { setSelectedId } from 'src/redux/slices/table';
  *  @brief 반응형 구축
  */
 
-const ResponsiveTable = styled(Box)({
-  // minWidth: '1000px',
+const ResponsiveTable = styled(Paper)({
+  minWidth: '1200px',
   overflowX: 'scroll',
+  padding: '20px',
 });
 // const ResponsiveTableHeadCheckBox = styled(TableCell)({
 //   '@media (max-width: 600px)': {
@@ -251,6 +252,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
       <Toolbar
         sx={{
+          display: 'flex',
+          justifyContent: 'end',
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
           ...(numSelected > 0 && {
@@ -259,25 +262,15 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           }),
         }}
       >
-        {numSelected > 0 ? (
+        {numSelected > 0 && (
           <Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="subtitle1" component="div">
             {numSelected} selected
           </Typography>
-        ) : (
-          <Typography sx={{ flex: '1 1 100%' }} variant="h6" id="tableTitle" component="div">
-            번호
-          </Typography>
         )}
-        {numSelected > 0 ? (
+        {numSelected > 0 && (
           <Tooltip title="Delete">
             <IconButton>
               <SelectedItemsDeleteIcon type={type} />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <FilterListIcon />
             </IconButton>
           </Tooltip>
         )}
@@ -329,6 +322,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     // Sort the copied array
     return sortedData.sort((a, b) => (a?.orderIdx ?? 0) - (b?.orderIdx ?? 0));
   }
+
   /**
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
@@ -347,6 +341,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const studentName = useSelector((state) => state.filter.studentName);
   const grade = useSelector((state) => state.filter.grade);
   const department = useSelector((state) => state.filter.department);
+  const categoryType = useSelector((state) => state.filter.categoryType);
 
   /**
    * @brief 필터링
@@ -376,12 +371,11 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (department && department !== '전체') {
       copyRows = copyRows.filter((row) => row.department === department);
     }
+    if (categoryType && categoryType !== '전체') {
+      copyRows = copyRows.filter((row) => row.type === categoryType);
+    }
     setRows(copyRows);
-
-    // !category
-    //   ? setRows(originalRows)
-    //   : setRows(originalRows.filter((row) => row.category === category));
-  }, [category, semester, isVisible, item, studentName, grade, department]);
+  }, [category, semester, isVisible, item, studentName, grade, department, categoryType]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
@@ -521,7 +515,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   return (
     <ResponsiveTable>
-      <Paper>
+      <Box>
         <EnhancedTableToolbar numSelected={selected.length} type={type} />
 
         <DragDropContext onDragEnd={handleDragEnd}>
@@ -632,10 +626,10 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
           count={rows?.length}
           page={page}
         />
-      </Paper>
+      </Box>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+        label="폭 좁게"
       />
     </ResponsiveTable>
   );

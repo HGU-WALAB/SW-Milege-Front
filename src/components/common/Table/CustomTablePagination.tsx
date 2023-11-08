@@ -37,6 +37,7 @@ export default function CustomTablePagination({ setPage, page, count, rowsPerPag
       count={count}
       rowsPerPage={rowsPerPage}
       page={page}
+      labelRowsPerPage="페이지당 행 수"
       onPageChange={handleChangePage}
       onRowsPerPageChange={handleChangeRowsPerPage}
     />

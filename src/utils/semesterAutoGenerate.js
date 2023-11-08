@@ -1,7 +1,7 @@
 export const generateSemesters = (currentYear) => {
   const startYear = currentYear - 4;
   const endYear = currentYear + 1;
-  const semesters = [];
+  const semesters = ['전체'];
 
   for (let year = startYear; year <= endYear; year += 1) {
     semesters.push(`${year}-01`);

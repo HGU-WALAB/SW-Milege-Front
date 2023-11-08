@@ -9,7 +9,7 @@ const initialState = {
   grade: '전체',
   department: '전체',
   level: '0',
-  
+  categoryType: '전체',
 };
 
 const slice = createSlice({
@@ -64,6 +64,12 @@ const slice = createSlice({
     clearLevel: (state) => {
       state.level = '0';
     },
+    setCategoryType: (state, action) => {
+      state.categoryType = action.payload;
+    },
+    clearCategoryType: (state) => {
+      state.categoryType = '전체';
+    },
   },
 });
 
@@ -85,5 +91,7 @@ export const {
   clearDepartment,
   setLevel,
   clearLevel,
+  setCategoryType,
+  clearCategoryType,
 } = slice.actions;
 export default slice.reducer;
