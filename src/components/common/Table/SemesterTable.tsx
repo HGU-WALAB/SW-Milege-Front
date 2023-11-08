@@ -140,7 +140,11 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                   <TextField
                     type="datetime-local"
                     value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
+                    onChange={(e) => {
+                      // console.log('D', startDate);
+                      // console.log('ss', e.target.value);
+                      setStartDate(e.target.value + ':00');
+                    }}
                   />
                 </StyledTableCell>
               ) : (
@@ -151,7 +155,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                   <TextField
                     type="datetime-local"
                     value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
+                    onChange={(e) => setEndDate(e.target.value + ':00')}
                   />
                 </StyledTableCell>
               ) : (
