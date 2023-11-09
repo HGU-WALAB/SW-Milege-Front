@@ -108,9 +108,10 @@ export default function CategoryForm({ handleClose }) {
                 as={TextField}
                 type="text"
                 label={engToKor(field)}
-                variant="standard"
+                variant="outlined"
+                error={errors[field] && touched[field] ? true : false}
+                helperText={<ErrorMessage name={field} />}
               />
-              <ErrorMessage name={field} />
             </>
           ))}
           <ButtonFlexBox>

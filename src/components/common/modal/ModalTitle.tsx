@@ -4,6 +4,7 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMANAGER,
   ADDMILEAGEREGISTER,
   ADDSTUDENT,
   DELETECATEGORY,
@@ -13,6 +14,7 @@ import {
   EDITITEM,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
+  MAGICIANSEMESTERITEM,
 } from 'src/assets/data/modal/modals';
 
 export default function ModalTitle() {
@@ -44,11 +46,17 @@ export default function ModalTitle() {
         return '마일리지 등록';
       case EDITMILEAGEREGISTER:
         return '마일리지 수정';
+      case MAGICIANSEMESTERITEM:
+        return '마일리지 학기별 항목 마법사';
+      case ADDMANAGER:
+        return '관리자 추가';
+      case 'EDITMANAGER':
+        return '관리자 수정';
     }
   };
 
   return (
-    <Typography color="primary" id="modal-modal-title" variant="h6" component="h2">
+    <Typography color="primary" id="modal-modal-title" variant="h5">
       {titleConverter(modalType)}
     </Typography>
   );

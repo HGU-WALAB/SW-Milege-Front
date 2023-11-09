@@ -178,9 +178,10 @@ export default function GlobalItemForm({ handleClose }) {
                       as={TextField}
                       type="text"
                       label={engToKor(field)}
-                      variant="standard"
+                      variant="outlined"
+                      error={errors[field] && touched[field] ? true : false}
+                      helperText={<ErrorMessage name={field} />}
                     />
-                    <ErrorMessage name={field} />
                   </Box>
                 ))}
               </StyleFieldBox>
@@ -194,10 +195,13 @@ export default function GlobalItemForm({ handleClose }) {
                   ISEVALUATE_PORTFOLIO,
                   ISEVALUATE_FUSION,
                 ].map((inputName: string, index: number) => (
-                  <Box key={index} sx={{ display: 'flex', gap: 2 }}>
+                  <Box
+                    key={index}
+                    sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}
+                  >
                     <Chip
                       color="primary"
-                      sx={{ px: 1, borderRadius: '10px', height: '40px' }}
+                      sx={{ px: 1, borderRadius: '10px', height: '40px', width: '100%' }}
                       label={engToKor(inputName)}
                       variant="outlined"
                     />
@@ -223,13 +227,13 @@ export default function GlobalItemForm({ handleClose }) {
                     </Field>
                   </Box>
                 ))}
+                <Box sx={{ height: '10px' }} />
+                <ButtonFlexBox>
+                  <CancelButton modalType={modalType} handleClose={handleClose} />
+                  <SubmitButton />
+                </ButtonFlexBox>
               </StyleFieldBox>
             </Box>
-
-            <ButtonFlexBox>
-              <CancelButton modalType={modalType} handleClose={handleClose} />
-              <SubmitButton />
-            </ButtonFlexBox>
           </StyleFieldForm>
         )}
       </Formik>
