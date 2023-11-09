@@ -13,6 +13,7 @@ import {
   EDITITEM,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
+  MAGICIANSEMESTERITEM,
 } from 'src/assets/data/modal/modals';
 
 export default function ModalTitle() {
@@ -44,6 +45,8 @@ export default function ModalTitle() {
         return '마일리지 등록';
       case EDITMILEAGEREGISTER:
         return '마일리지 수정';
+      case MAGICIANSEMESTERITEM:
+        return '마일리지 학기별 항목 마법사';
     }
   };
 
