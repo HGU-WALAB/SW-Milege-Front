@@ -31,7 +31,7 @@ export default function DepartmentSelect() {
   return (
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">학부</InputLabel>
-      <Field as={MySelect} name={DEPARTMENT} />
+      <Field as={MySelect} name={DEPARTMENT} variant="outlined" />
       <ErrorMessage name={DEPARTMENT} />
     </FormControl>
   );

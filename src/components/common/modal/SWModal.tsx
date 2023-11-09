@@ -76,6 +76,7 @@ import {
   EXTRAPOINTS,
   TITLE,
   ORDER_IDX,
+  ITEM_MAX_POINTS,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -203,6 +204,8 @@ export const engToKor = (eng) => {
       return '설명1';
     case DESCRIPTION2:
       return '설명2';
+    case ITEM_MAX_POINTS:
+      return '항목 최대 포인트';
   }
 };
 

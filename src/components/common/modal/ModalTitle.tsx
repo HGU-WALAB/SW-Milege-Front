@@ -4,6 +4,7 @@ import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
+  ADDMANAGER,
   ADDMILEAGEREGISTER,
   ADDSTUDENT,
   DELETECATEGORY,
@@ -47,6 +48,10 @@ export default function ModalTitle() {
         return '마일리지 수정';
       case MAGICIANSEMESTERITEM:
         return '마일리지 학기별 항목 마법사';
+      case ADDMANAGER:
+        return '관리자 추가';
+      case 'EDITMANAGER':
+        return '관리자 수정';
     }
   };
 

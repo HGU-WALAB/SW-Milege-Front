@@ -59,6 +59,7 @@ import MajorSelect from '../common/Select/MajorSelect';
 import GradeSelect from '../common/Select/GradeSelect';
 import semesterCountSelect from '../common/Select/SemesterCountSelect';
 import SemesterCountSelect from '../common/Select/SemesterCountSelect';
+import RHFTextField from 'src/components/hook-form';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
@@ -67,7 +68,7 @@ const StyleFieldBox = styled(Box)({
   margin: '30px 0px',
   padding: '0px 20px',
   width: '100%',
-  gap: '15px',
+  gap: '10px',
 });
 
 const StyleFieldForm = styled(Form)({
@@ -170,9 +171,10 @@ export default function StudentForm({ handleClose }) {
                     as={TextField}
                     type="text"
                     label={engToKor(field)}
-                    variant="standard"
+                    variant="outlined"
+                    error={errors[field] && touched[field] ? true : false}
+                    helperText={<ErrorMessage name={field} />}
                   />
-                  <ErrorMessage name={field} />
                 </Box>
               ))}
               <GradeSelect />

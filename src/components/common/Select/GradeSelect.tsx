@@ -37,7 +37,7 @@ export default function GradeSelect() {
   return (
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">학년</InputLabel>
-      <Field as={MySelect} name={YEAR} />
+      <Field as={MySelect} name={YEAR} variant="outlined" />
       <ErrorMessage name={YEAR} />
     </FormControl>
   );

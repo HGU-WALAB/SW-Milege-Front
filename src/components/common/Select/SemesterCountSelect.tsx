@@ -61,7 +61,7 @@ export default function SemesterCountSelect() {
   return (
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">학기 수</InputLabel>
-      <Field as={MySelect} name={SEMESTERCOUNT} />
+      <Field as={MySelect} name={SEMESTERCOUNT} variant="outlined" />
       <ErrorMessage name={SEMESTERCOUNT} />
     </FormControl>
   );

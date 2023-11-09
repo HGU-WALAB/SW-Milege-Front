@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { ButtonFlexBox } from '../common/modal/SWModal';
+import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
   TITLE,
   CATEGORY,
@@ -90,7 +90,7 @@ export default function SemesterItemForm({ handleClose }) {
 
         [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
         itemId: modalType === EDITITEM ? beforeData?.itemId : 0,
-        [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : '',
+        [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
         [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
       }}
       validationSchema={SemesterItemSchema}
@@ -119,11 +119,22 @@ export default function SemesterItemForm({ handleClose }) {
           /> */}
 
           {/* <Field label="글로벌 항목 번호" name={NUM} as={TextField} variant="standard" /> */}
+
           <GlobalItemSelect itemId={beforeData?.itemId} />
-          <Field label="마일리지" name={MILEAGE} as={TextField} variant="standard" />
+          {[MILEAGE, ITEM_MAX_POINTS].map((field, index) => (
+            <Field
+              label={engToKor(field)}
+              name={field}
+              as={TextField}
+              variant="outlined"
+              error={errors[field] && touched[field] ? true : false}
+              helperText={<ErrorMessage name={field} />}
+            />
+          ))}
+          {/* <Field label="마일리지" name={MILEAGE} as={TextField} variant="standard" />
           <ErrorMessage name={MILEAGE} disabled={isSubmitting} />
           <Field label="최대 마일리지" name={ITEM_MAX_POINTS} as={TextField} variant="standard" />
-          <ErrorMessage name={ITEM_MAX_POINTS} disabled={isSubmitting} />
+          <ErrorMessage name={ITEM_MAX_POINTS} disabled={isSubmitting} /> */}
           <ButtonFlexBox>
             <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
