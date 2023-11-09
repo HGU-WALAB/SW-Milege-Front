@@ -49,22 +49,6 @@ export default function ExcelExport() {
       endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
       pathname: ['/manage/register'],
     },
-    {
-      name: '신청 학생 목록 내보내기',
-      endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
-    },
-    {
-      name: '신청 학생 목록 내보내기',
-      endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
-    },
-    {
-      name: '신청 학생 목록 내보내기',
-      endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
-    },
-    {
-      name: '신청 학생 목록 내보내기',
-      endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
-    },
   ];
 
   const handleExcelExport = (e, endPoint) => {

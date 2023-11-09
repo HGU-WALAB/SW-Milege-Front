@@ -3,7 +3,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Box } from '@mui/system';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Link from 'next/link';
-
+import AuthWithSocial from 'src/sections/auth/AuthWithSocial';
+import { useRouter } from 'next/router';
 const drawerWidth = 240;
 
 interface DrawerHeaderProps {
@@ -34,6 +35,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderProps) {
+  const { pathname } = useRouter();
   return (
     <AppBar position="fixed" open={open}>
       <Toolbar>
@@ -56,7 +58,8 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
         </Typography>
       </Toolbar>
 
-      <Box sx={{ position: 'absolute', right: '30px', top: '13px' }}>
+      <Box sx={{ position: 'absolute', right: '30px', top: '13px', display: 'flex', gap: '50px' }}>
+        {pathname !== '/auth/login' && <AuthWithSocial />}
         <Link
           href="/auth/login"
           style={{
