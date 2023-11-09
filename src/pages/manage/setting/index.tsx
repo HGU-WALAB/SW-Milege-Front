@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { InferGetServerSidePropsType } from 'next';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
@@ -34,6 +35,10 @@ export default function SettingPage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
+      <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
+        설정
+      </Typography>
+      <Box sx={{ height: '30px' }} />
       <SemesterTable data={fetchData} />
     </>
   );

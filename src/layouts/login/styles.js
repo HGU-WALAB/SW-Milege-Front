@@ -6,7 +6,7 @@ import { bgGradient } from '../../utils/cssStyles';
 // ----------------------------------------------------------------------
 
 export const StyledRoot = styled('main')(() => ({
-  height: '100%',
+  height: '90%',
   display: 'flex',
   position: 'relative',
 }));

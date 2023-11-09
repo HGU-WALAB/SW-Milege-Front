@@ -220,12 +220,27 @@ export default function SWModal({ type, beforeData }) {
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
 
+  const modalMinWidth = (type) => {
+    switch (type) {
+      case ADDGLOBALITEM:
+      case EDITGLOBALITEM:
+        return '700px';
+      case MAGICIANSEMESTERITEM:
+        return '1000px';
+      case REGISTEREDSTUDENTS:
+        return '1200px';
+      default:
+        return '500px';
+    }
+  };
+
   const style = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     borderRadius: '10px',
     position: 'absolute' as 'absolute',
+    maxWidth: modalMinWidth(type),
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -233,7 +248,8 @@ export default function SWModal({ type, beforeData }) {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    p: 5,
+    overflowY: 'scroll',
 
     width: modalType === REGISTEREDSTUDENTS ? '80%' : '80%',
   };

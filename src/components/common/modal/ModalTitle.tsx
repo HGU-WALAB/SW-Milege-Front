@@ -48,7 +48,7 @@ export default function ModalTitle() {
   };
 
   return (
-    <Typography color="primary" id="modal-modal-title" variant="h6" component="h2">
+    <Typography color="primary" id="modal-modal-title" variant="h5">
       {titleConverter(modalType)}
     </Typography>
   );
