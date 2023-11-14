@@ -165,7 +165,15 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                 <StyledTableCell align="left">{formatDateToKorean(row?.applyEnd)}</StyledTableCell>
               )}
 
-              <StyledTableCell align="left">{row.status}</StyledTableCell>
+              <StyledTableCell
+                align="left"
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 'bold',
+                }}
+              >
+                {row.status}
+              </StyledTableCell>
               <StyledTableCell align="left">
                 {isModifying[idx] ? (
                   <FlexBox>

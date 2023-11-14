@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { setComponentNum } from 'src/redux/slices/component';
 import { dispatch } from 'src/redux/store';
 
+const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
+
 export default function TitleAndRefreshButton({ type }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -10,7 +12,7 @@ export default function TitleAndRefreshButton({ type }) {
         {type} {' 리스트'}
       </Typography>
 
-      <Link href="/">
+      <Link href={`${DOMAIN}/`}>
         <Button
           variant="outlined"
           sx={{ padding: '2px 10px' }}
