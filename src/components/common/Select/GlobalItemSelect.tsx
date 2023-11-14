@@ -3,11 +3,11 @@ import { ErrorMessage, Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { CATEGORYID, NUM } from 'src/assets/data/fields';
 
-export default function GlobalItemSelect() {
+export default function GlobalItemSelect({ itemId }: { itemId?: number }) {
   const globalItemList = useSelector((state) => state.filterList.itemList);
 
   const MySelect = ({ field, form, ...props }) => (
-    <Select {...field} {...props}>
+    <Select {...field} {...props} defaultValue={itemId}>
       {globalItemList.map((globalItem) => (
         <MenuItem key={globalItem.id} value={globalItem.id}>
           {globalItem.name}
@@ -19,8 +19,8 @@ export default function GlobalItemSelect() {
   return (
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">글로벌 항목</InputLabel>
-      <Field as={MySelect} name={NUM} />
-      <ErrorMessage name={NUM} />
+      <Field as={MySelect} name={'itemId'} variant="outlined" />
+      <ErrorMessage name={'itemId'} />
     </FormControl>
   );
 }

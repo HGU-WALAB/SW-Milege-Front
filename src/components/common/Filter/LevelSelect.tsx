@@ -42,7 +42,7 @@ export default function LevelSelect() {
   return (
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">권한</InputLabel>
-      <Field as={MySelect} name={LEVEL} />
+      <Field as={MySelect} name={LEVEL} variant="outlined" />
       <ErrorMessage name={LEVEL} />
     </FormControl>
   );

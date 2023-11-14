@@ -9,7 +9,7 @@ export default function LoginUnprotectedPage() {
   return (
     <>
       <Head>
-        <title> Login Unprotected | Minimal UI</title>
+        <title>SW 마일리지 관리자 로그인</title>
       </Head>
 
       <Login />

@@ -13,6 +13,7 @@ import { last } from 'lodash';
 import SemesterMagicianSelect from '../Select/SemesterMagicianSelect';
 import axiosInstance from 'src/utils/axios';
 import { Box, Chip, Typography } from '@mui/material';
+import ModalTitle from '../modal/ModalTitle';
 
 function not(a: readonly number[], b: readonly number[]) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -178,13 +179,7 @@ export default function SemesterItemTransferList({
 
   return (
     <Box sx={{ mb: '30px' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Chip
-          sx={{ scale: '1.2', my: '30px' }}
-          label="마일리지 학기별 항목 다중 이전 마법사"
-          color="primary"
-        />
-      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', height: '30px' }}></Box>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
         <Grid item>
           <Typography variant="h6" sx={{ my: '10px' }}>

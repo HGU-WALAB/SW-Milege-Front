@@ -45,7 +45,7 @@ export default function MajorSelect({ name }) {
   return (
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">{engToKor(name)}</InputLabel>
-      <Field as={MySelect} name={name} />
+      <Field as={MySelect} name={name} variant="outlined" />
       <ErrorMessage name={name} />
     </FormControl>
   );

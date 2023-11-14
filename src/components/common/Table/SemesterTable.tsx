@@ -17,11 +17,12 @@ import {
   getCurrentKST,
 } from 'src/utils/formatTime';
 import { rowSelectionStateInitializer } from '@mui/x-data-grid/internals';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: 'darkGray',
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.background.neutral,
+    color: theme.palette.text.secondary,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -30,11 +31,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+    // backgroundColor: theme.palette.action.hover,
   },
   // hide last border
   '&:last-child td, &:last-child th': {
-    border: 0,
+    // border: 1,
   },
 }));
 
@@ -140,22 +141,28 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                   <TextField
                     type="datetime-local"
                     value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
+                    onChange={(e) => {
+                      // console.log('D', startDate);
+                      // console.log('ss', e.target.value);
+                      setStartDate(e.target.value + ':00');
+                    }}
                   />
                 </StyledTableCell>
               ) : (
-                <StyledTableCell align="left">{row?.applyStart}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {formatDateToKorean(row?.applyStart)}
+                </StyledTableCell>
               )}
               {isModifying[idx] ? (
                 <StyledTableCell align="left">
                   <TextField
                     type="datetime-local"
                     value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
+                    onChange={(e) => setEndDate(e.target.value + ':00')}
                   />
                 </StyledTableCell>
               ) : (
-                <StyledTableCell align="left">{row?.applyEnd}</StyledTableCell>
+                <StyledTableCell align="left">{formatDateToKorean(row?.applyEnd)}</StyledTableCell>
               )}
 
               <StyledTableCell align="left">{row.status}</StyledTableCell>
