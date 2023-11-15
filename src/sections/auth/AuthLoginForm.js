@@ -21,6 +21,8 @@ import { setCookie } from 'src/auth/jwtCookie';
 import { useRouter } from 'next/router';
 // ----------------------------------------------------------------------
 
+const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
+
 export default function AuthLoginForm() {
   const { login } = useAuthContext();
 
@@ -61,7 +63,7 @@ export default function AuthLoginForm() {
 
       axiosInstance.post(`api/admin/login`, loginData).then((res) => {
         setCookie('accessToken', res.config.headers.Authorization.split('Bearer ')[1], 1);
-        router.push('/');
+        router.push(`${DOMAIN}/`);
       });
     } catch (error) {
       console.error(error);
