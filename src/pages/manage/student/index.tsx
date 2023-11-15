@@ -284,13 +284,11 @@ export default function StudentManage({
       student[DEPARTMENT],
       student[MAJOR1] + ' / ' + student[MAJOR2],
       student[LASTLOGINDATE]?.split('T')[0],
-
       student[ISCHECKED] ? (
         <CheckBoxIcon color="primary" />
       ) : (
         <CheckBoxOutlineBlankIcon color="primary" />
       ),
-
       formatDateToKorean(student[MOD_DATE]),
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );
