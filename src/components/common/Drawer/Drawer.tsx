@@ -33,6 +33,8 @@ import {
 import { setOpen, setPinned } from 'src/redux/slices/drawer';
 import { clearSelectedId } from 'src/redux/slices/table';
 
+const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -127,30 +129,29 @@ export default function MiniDrawer() {
   const linkConverter = (num) => {
     switch (num) {
       case 0:
-        return '/mileage/category';
+        return `${DOMAIN}/mileage/category`;
       case 1:
-        return '/mileage/item/global';
+        return `${DOMAIN}/mileage/item/global`;
       case 2:
-        return '/mileage/item/semester';
+        return `${DOMAIN}/mileage/item/semester`;
       case 3:
-        return '/mileage/view';
+        return `${DOMAIN}/mileage/view`;
       case 4:
-        return '/mileage/register';
+        return `${DOMAIN}/mileage/register`;
       case 5:
-        return '/manage/register';
+        return `${DOMAIN}/manage/register`;
       case 6:
-        return '/manage/student';
+        return `${DOMAIN}/manage/student`;
       case 7:
-        return '/manage/user';
-
+        return `${DOMAIN}/manage/user`;
       case 9:
-        return '/mileage/result';
+        return `${DOMAIN}/mileage/result`;
       case 10:
-        return '/manage/setting';
+        return `${DOMAIN}/manage/setting`;
       case 11:
-        return '/report';
+        return `${DOMAIN}/report`;
       default:
-        return '/';
+        return `${DOMAIN}/`;
     }
   };
 

@@ -51,14 +51,63 @@ export default function ExcelExport() {
     },
   ];
 
-  const handleExcelExport = (e, endPoint) => {
+  const handleExcelExport = async (e, endPoint) => {
     console.log(e.target.id, endPoint);
     // setMenuButton(0);
-    axiosInstance.get(endPoint).then((res) => {
-      console.log(res);
-      alert(`${e.target.id} 다운로드가 완료되었습니다.`);
-    });
+    // const response = await axiosInstance.get(endPoint , {
+    //   responseType: 'blob',
+    // });
+
+    try {
+      // 파일 데이터 요청
+      const response = await axiosInstance.get(endPoint, {
+        responseType: 'blob',
+      });
+
+      // Blob에서 URL 생성
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // 가상의 a 태그를 생성하여 다운로드
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', '학기별 항목 엑셀.xls'); // 파일 이름 설정
+      document.body.appendChild(link);
+      link.click();
+
+      // 가상의 a 태그 제거
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('다운로드 중 에러 발생', error);
+    }
+    // .then((res) => {
+    //   console.log(res);
+    //   alert(`${e.target.id} 다운로드가 완료되었습니다.`);
+    // });
   };
+
+  //   const downloadFile = async () => {
+  //     try {
+  //         // 파일 데이터 요청
+  //         const response = await axiosInstance.get('/your-endpoint', {
+  //             responseType: 'blob', // 중요: Blob 형태로 응답 받음
+  //         });
+
+  //         // Blob에서 URL 생성
+  //         const url = window.URL.createObjectURL(new Blob([response.data]));
+
+  //         // 가상의 a 태그를 생성하여 다운로드
+  //         const link = document.createElement('a');
+  //         link.href = url;
+  //         link.setAttribute('download', 'your_filename.xlsx'); // 파일 이름 설정
+  //         document.body.appendChild(link);
+  //         link.click();
+
+  //         // 가상의 a 태그 제거
+  //         document.body.removeChild(link);
+  //     } catch (error) {
+  //         console.error('다운로드 중 에러 발생', error);
+  //     }
+  // };
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', mt: '30px' }}>
@@ -67,16 +116,16 @@ export default function ExcelExport() {
          * @brief 엑셀 다운로드 버튼
          * @description Link Masking (서버의 링크를 숨긴다.)
          */
-        <Link key={index} href={'http://walab.handong.edu:8080/sw_mileage' + Excel.endPoint}>
-          <Button
-            type="button"
-            variant="contained"
-            id={Excel.name}
-            onClick={(e) => handleExcelExport(e, Excel.endPoint)}
-          >
-            {Excel.name}
-          </Button>
-        </Link>
+        // <Link key={index} href={'http://walab.handong.edu:8080/sw_mileage' + Excel.endPoint}>
+        <Button
+          type="button"
+          variant="contained"
+          id={Excel.name}
+          onClick={(e) => handleExcelExport(e, Excel.endPoint)}
+        >
+          {Excel.name}
+        </Button>
+        // </Link>
       ))}
       <ExcelImport />
       {/* 

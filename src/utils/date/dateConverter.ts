@@ -1,4 +1,5 @@
 export function formatDateToKorean(inputDate: string) {
+  if (!inputDate) return '미정';
   // 주어진 날짜 형식을 Date 객체로 변환
   let parsedDate = new Date(inputDate);
 

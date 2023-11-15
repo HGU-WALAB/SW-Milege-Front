@@ -29,7 +29,7 @@ export default function AuthLoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    uniqueId: Yup.number().required('아이디를 입력하세요'),
+    uniqueId: Yup.string().required('학번을 입력하세요'),
     password: Yup.string().required('비밀번호를 입력하세요'),
   });
 
@@ -55,7 +55,7 @@ export default function AuthLoginForm() {
       // await login(data.email, data.password);
 
       const loginData = {
-        uniqueId: +data.uniqueId,
+        uniqueId: data.uniqueId,
         password: data.password,
       };
 
@@ -78,11 +78,11 @@ export default function AuthLoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="uniqueId" label="관리자 아이디" />
+        <RHFTextField name="uniqueId" label="학번" />
 
         <RHFTextField
           name="password"
-          label="관리자 비밀번호"
+          label="히즈넷 비밀번호"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -101,11 +101,13 @@ export default function AuthLoginForm() {
           component={NextLink}
           href="https://hisnet.handong.edu/"
           target="_blank"
+          href="https://hisnet.handong.edu/"
+          target="_blank"
           variant="body2"
           color="inherit"
           underline="always"
         >
-          히즈넷 가기
+          히즈넷 가기 히즈넷 가기
         </Link>
       </Stack>
 
@@ -125,7 +127,7 @@ export default function AuthLoginForm() {
           },
         }}
       >
-        로그인
+        로그인 로그인
       </LoadingButton>
     </FormProvider>
   );
