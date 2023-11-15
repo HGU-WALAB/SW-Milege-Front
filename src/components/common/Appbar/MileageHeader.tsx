@@ -35,6 +35,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderProps) {
+  const { pathname } = useRouter();
   return (
     <AppBar position="fixed" open={open}>
       <Toolbar>
