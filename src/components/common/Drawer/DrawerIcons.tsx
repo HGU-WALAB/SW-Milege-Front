@@ -35,9 +35,9 @@ export const IconReturn = (text) => {
       return <DonutSmallIcon />;
     case Board['마일리지 선정결과']:
       return <GavelIcon />;
-    case Board['설정']:
+    case Board['신청 기간 설정']:
       return <SettingsIcon />;
-    case Board['Reporting']:
+    case Board['통계']:
       return <EqualizerIcon />;
     default:
       return <div>Not Found </div>;

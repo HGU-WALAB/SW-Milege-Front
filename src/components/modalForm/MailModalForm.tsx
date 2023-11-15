@@ -7,6 +7,7 @@ import Iconify from '../../components/iconify';
 import { useRef } from 'react';
 import { styled } from 'styled-components';
 import emailjs from '@emailjs/browser';
+import EmailIcon from '@mui/icons-material/Email';
 import {
   FormLabel,
   IconButton,
@@ -60,7 +61,7 @@ export default function MailModalForm() {
   return (
     <div>
       <IconButton onClick={handleOpen}>
-        <Iconify icon="eva:google-fill" color="#DF3E30" />
+        <EmailIcon sx={{ color: 'white' }} />
       </IconButton>
       <Modal
         open={open}

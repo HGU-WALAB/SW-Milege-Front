@@ -70,7 +70,7 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
             color: 'inherit',
           }}
         >
-          <Button color="inherit">로그아웃</Button>
+          {pathname !== `${DOMAIN}/auth/login` && <Button color="inherit">로그아웃</Button>}
         </Link>
       </Box>
     </AppBar>
