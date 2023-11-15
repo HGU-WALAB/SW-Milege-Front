@@ -156,7 +156,7 @@ export default function SemesterItemTransferList({
                 />
               </ListItemIcon>
 
-              <ListItemText id={item.id} primary={`${item.item.name + 1}`} />
+              <ListItemText id={item.id} primary={`${item.item.name}`} />
               {checkListDuplicated(item.item.id) && '! 중복'}
             </ListItem>
           );

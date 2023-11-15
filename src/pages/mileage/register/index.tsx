@@ -268,11 +268,11 @@ export default function MileageRegister({
   const handleAllDelete = (id) => {
     if (window.confirm('등록된 학생 모두 삭제하시겠습니까?')) {
       axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
-        console.log(res.data);
+        console.log('ddsss', res.data);
         res.data.list.map((item) => {
           axiosInstance.delete(`/api/mileage/records/${item.id}`).then((res) => {
-            console.log(res);
-            alert(` ${item.student.name} - ${item.student.sid} 가 삭제 되었습니다.`);
+            console.log('1', res);
+            alert(` ${item.student?.name} - ${item.student?.sid} 가 삭제 되었습니다.`);
           });
         });
       });
