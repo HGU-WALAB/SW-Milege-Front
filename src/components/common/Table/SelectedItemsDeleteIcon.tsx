@@ -25,9 +25,9 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
           res.data.list.length
         }개의 하위 항목 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요.`;
       case '마일리지 글로벌 항목':
-        return `${res.data.list.map((item) => item.semesterName + ' ')} \n 등 ${
+        return `[ ${res.data.list.map((item) => item.semesterName + ' ')} ] 등 ${
           res.data.list.length
-        }개의 학기에서 사용 중이기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
+        } 개의 학기에서 사용 중이기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
       case '마일리지 학기별 항목':
         return `${res.data.count} 곳에서 사용 중입니다. \n ${res.data.list.map(
           (item) =>
@@ -80,27 +80,59 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
     }
   };
 
+  async function deleteSelectedItems() {
+    for (let i = 0; i < selected.length; ++i) {
+      try {
+        const res = await axiosInstance.delete(`${deleteEndPoint()}/${selected[i]}`);
+        console.log(res);
+        router.reload();
+      } catch (err) {
+        console.log(err);
+        console.log('Current ID:', selected[i]);
+        showDescendants(selected[i]);
+        // alert('삭제에 실패하였습니다.');
+        break; // 예외가 발생하면 루프를 중단
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+
   return (
     <DeleteIcon
       onClick={() => {
-        if (
-          window.confirm(`${selected}번 (총 ${selected.length}개) 항목을 정말 삭제하시겠습니까?`)
-        ) {
-          selected.map((id) => {
-            axiosInstance
-              .delete(`${deleteEndPoint()}/${id}`)
-              .then((res) => {
-                console.log(res);
-                alert(`항목 ${id}번이 삭제되었습니다.`);
-                router.reload();
-              })
-              .catch((err) => {
-                console.log(err);
-                console.log('Current ID:', id);
-                showDescendants(id);
-                // alert('삭제에 실패하였습니다.');
-              });
-          });
+        if (window.confirm(`총 ${selected.length}개 항목을 정말 삭제하시겠습니까?`)) {
+          deleteSelectedItems();
+          // axiosInstance
+          //   .delete(`${deleteEndPoint()}/${selected[i]}`)
+          //   .then((res) => {
+          //     console.log(res);
+          //     router.reload();
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //     console.log('Current ID:', selected[i]);
+          //     return;
+          //     showDescendants(selected[i]);
+
+          //     // alert('삭제에 실패하였습니다.');
+          //   });
+          // sleep(1);
+
+          // selected.map(async (id) => {
+          //   await axiosInstance
+          //     .delete(`${deleteEndPoint()}/${id}`)
+          //     .then((res) => {
+          //       console.log(res);
+          //       router.reload();
+          //     })
+          //     .catch((err) => {
+          //       console.log(err);
+          //       console.log('Current ID:', id);
+          //       showDescendants(id);
+          //       // alert('삭제에 실패하였습니다.');
+          //     });
+          // });
         } else {
           return;
         }

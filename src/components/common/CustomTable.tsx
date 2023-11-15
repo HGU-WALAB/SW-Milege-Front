@@ -584,7 +584,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                     scope="row"
                                     padding="none"
                                   >
-                                    {rowValues[0]}
+                                    {/* {rowValues[0]} */}
+                                    {index + 1}
                                   </TableCell>
 
                                   {rowValues.slice(1)?.map((rowValue, index) => (

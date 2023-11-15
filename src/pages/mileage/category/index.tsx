@@ -204,7 +204,7 @@ export default function MileageCategory({
    * @brief 마일리지 카테고리 리스트 데이터
    */
 
-  const convertedFetchList = fetchData.list?.map((item) => {
+  const convertedFetchList = fetchData.list?.map((item, index) => {
     const beforeData = {
       [ID]: item[ID],
       [TITLE]: item[NAME],
