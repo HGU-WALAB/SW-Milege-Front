@@ -5,6 +5,9 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Link from 'next/link';
 import AuthWithSocial from 'src/sections/auth/AuthWithSocial';
 import { useRouter } from 'next/router';
+
+export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
+
 const drawerWidth = 240;
 
 interface DrawerHeaderProps {
@@ -61,7 +64,7 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
       <Box sx={{ position: 'absolute', right: '30px', top: '13px', display: 'flex', gap: '50px' }}>
         {pathname !== '/auth/login' && <AuthWithSocial />}
         <Link
-          href="/auth/login"
+          href={`${DOMAIN}/auth/login`}
           style={{
             textDecoration: 'none',
             color: 'inherit',

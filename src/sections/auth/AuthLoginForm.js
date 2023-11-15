@@ -21,7 +21,7 @@ import { setCookie } from 'src/auth/jwtCookie';
 import { useRouter } from 'next/router';
 // ----------------------------------------------------------------------
 
-const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
+export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
 export default function AuthLoginForm() {
   const { login } = useAuthContext();
@@ -129,7 +129,7 @@ export default function AuthLoginForm() {
           },
         }}
       >
-        로그인 로그인
+        로그인
       </LoadingButton>
     </FormProvider>
   );
