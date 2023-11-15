@@ -375,7 +375,17 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       copyRows = copyRows.filter((row) => row.type === categoryType);
     }
     setRows(copyRows);
-  }, [category, semester, isVisible, item, studentName, grade, department, categoryType]);
+  }, [
+    category,
+    semester,
+    originalRows,
+    isVisible,
+    item,
+    studentName,
+    grade,
+    department,
+    categoryType,
+  ]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
