@@ -47,6 +47,7 @@
     "@mui/x-data-grid": "^6.12.1",
     "@mui/x-data-grid-generator": "^6.12.1",
     "@mui/x-date-pickers": "^5.0.14",
+    "@netlify/plugin-nextjs": "^4.41.2",
     "@nivo/colors": "^0.83.0",
     "@nivo/core": "^0.83.0",
     "@nivo/line": "^0.83.0",
