@@ -101,11 +101,13 @@ export default function AuthLoginForm() {
           component={NextLink}
           href="https://hisnet.handong.edu/"
           target="_blank"
+          href="https://hisnet.handong.edu/"
+          target="_blank"
           variant="body2"
           color="inherit"
           underline="always"
         >
-          히즈넷 가기
+          히즈넷 가기 히즈넷 가기
         </Link>
       </Stack>
 
@@ -125,7 +127,7 @@ export default function AuthLoginForm() {
           },
         }}
       >
-        로그인
+        로그인 로그인
       </LoadingButton>
     </FormProvider>
   );
