@@ -13,12 +13,12 @@ export default function ReportTabs() {
     switch (idx) {
       case 0:
         return '/report';
+      // case 1:
+      //   return '/report/category';
       case 1:
-        return '/report/category';
-      case 2:
         return '/report/item';
-      case 3:
-        return '/report/rank';
+      // case 3:
+      //   return '/report/rank';
     }
   };
 
@@ -39,9 +39,9 @@ export default function ReportTabs() {
       {' '}
       <Tabs value={chartNum} onChange={handleChange} aria-label="basic tabs example">
         <Tab label="신청 현황" {...a11yProps(0)} />
-        <Tab label="카테 고리" {...a11yProps(1)} />
-        <Tab label="세부 항목" {...a11yProps(2)} />
-        <Tab label="Ranking" {...a11yProps(3)} />
+        {/* <Tab label="카테 고리" {...a11yProps(1)} /> */}
+        <Tab label="세부 항목" {...a11yProps(1)} />
+        {/* <Tab label="Ranking" {...a11yProps(3)} /> */}
       </Tabs>
     </div>
   );

@@ -10,6 +10,7 @@ export const ISVISIBLE = 'isVisible';
 export const REGISTERED_DATE = 'registeredDate';
 export const TITLE = 'title';
 export const ITEM = 'item';
+export const AID = 'aid';
 // export const NAME = 'name';
 export const STUDENT_NAME = 'studentName';
 export const POINT = 'point';

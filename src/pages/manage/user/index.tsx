@@ -5,7 +5,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {
   NUM,
   NAME,
-  EMAIL,
+  AID,
   AUTHORITY,
   FREQUENCY,
   ID,
@@ -37,7 +37,7 @@ import { formatDateToKorean } from 'src/utils/date/dateConverter';
 export enum UserManageBoard {
   'NUM' = NUM,
   'NAME' = NAME,
-  'EMAIL' = EMAIL,
+  'AID' = AID,
   'AUTHORITY' = AUTHORITY,
   'FREQUENCY' = FREQUENCY,
   'MOD_DATE' = MOD_DATE,
@@ -50,7 +50,7 @@ export enum UserManageBoard {
  */
 interface Data {
   [UserManageBoard.NAME]: string;
-  [UserManageBoard.EMAIL]: string;
+  [UserManageBoard.AID]: string;
   [UserManageBoard.AUTHORITY]: string;
   [UserManageBoard.FREQUENCY]: string;
   [UserManageBoard.MOD_DATE]: string;
@@ -64,7 +64,7 @@ interface Data {
 function createData(
   num: number,
   name: string,
-  email: string,
+  aid: string,
   authority: string,
   frequency: string,
   modDate: string,
@@ -73,7 +73,7 @@ function createData(
   return {
     [UserManageBoard.NUM]: num,
     [UserManageBoard.NAME]: name,
-    [UserManageBoard.EMAIL]: email,
+    [UserManageBoard.AID]: aid,
     [UserManageBoard.AUTHORITY]: authority,
     [UserManageBoard.FREQUENCY]: frequency,
     [UserManageBoard.MOD_DATE]: modDate,
@@ -99,10 +99,10 @@ const headCells = [
     label: '이름',
   },
   {
-    id: [UserManageBoard.EMAIL],
+    id: [UserManageBoard.AID],
     numeric: true,
     disablePadding: false,
-    label: '이메일',
+    label: '학번',
   },
   {
     id: [UserManageBoard.AUTHORITY],
@@ -114,7 +114,7 @@ const headCells = [
     id: [UserManageBoard.FREQUENCY],
     numeric: true,
     disablePadding: false,
-    label: '최근 로그인 ( 로그인 횟수 )',
+    label: '최근 로그인 날짜 ( 로그인 횟수 )',
   },
   {
     id: [UserManageBoard.MOD_DATE],
@@ -177,7 +177,7 @@ export default function UserManage({
     const beforeData = {
       [ID]: item[ID],
       [NAME]: item[NAME],
-      [EMAIL]: item[EMAIL],
+      [AID]: item[AID],
       [LEVEL]: item[LEVEL],
       [LASTLOGINDATE]: item[LASTLOGINDATE],
     };
@@ -185,7 +185,7 @@ export default function UserManage({
     return createData(
       item[ID],
       item[NAME],
-      item[EMAIL],
+      item[AID],
       levelConverter(item[LEVEL]),
       item[LASTLOGINDATE] + ` ( ${item[LOGINCOUNT]} )`,
       formatDateToKorean(item[MOD_DATE]),

@@ -363,7 +363,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
     }
     if (studentName && studentName !== '전체') {
-      copyRows = copyRows.filter((row) => row.studentName === studentName);
+      copyRows = copyRows.filter((row) => row.name === studentName);
     }
     if (grade && grade !== '전체') {
       copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
