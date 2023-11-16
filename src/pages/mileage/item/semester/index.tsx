@@ -38,6 +38,7 @@ import {
 } from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { setSemester } from 'src/redux/slices/filter';
 
 /**
  * @component [마일리지 학기별 항목] 게시판
@@ -322,6 +323,7 @@ export default function MileageCategory({
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
 
   const semester = useSelector((state) => state.filter.semester);
+  dispatch(setSemester(semester === '전체' ? nowSemester : semester));
 
   useEffect(() => {
     axiosInstance

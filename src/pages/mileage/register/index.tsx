@@ -25,7 +25,7 @@ import {
 } from 'src/assets/data/fields';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { REGISTER_NUM, STUDENT_NAME, DESCRIPTION1 } from '../../../assets/data/fields';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Link from 'next/link';
 import axiosInstance from 'src/utils/axios';
 import SWModal from 'src/components/common/modal/SWModal';
@@ -41,6 +41,9 @@ import { IconButton, Tooltip } from '@mui/material';
 import { Box } from '@mui/system';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { setSemester } from 'src/redux/slices/filter';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 /**
  * @component [마일리지 등록] 게시판
@@ -186,99 +189,21 @@ export const getServerSideProps: GetServerSideProps<{
   fetchData: ISemesterItemList;
 }> = async (context) => {
   setServerSideCookie(context);
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const res = await axiosInstance.get('/api/mileage/semesters/2022-01/items');
-  const fetchData = res.data;
-  console.log('!!!DD', fetchData);
-  return { props: { fetchData } };
+
+  const semesterRes = await axiosInstance.get(`api/mileage/semesters/currentSemester`);
+  const nowSemester = semesterRes.data.data.name;
+  const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
+  // const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
+
+  console.log(nowSemester);
+
+  let fetchData = res.data;
+  console.log(fetchData);
+  return { props: { fetchData, nowSemester } };
 };
-export default function MileageRegister({
-  fetchData,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  /**
-   * @brief outerData + innerData
-   * @description 2단 테이블의 모든 데이터
-   * @schema
-      const convertedFetchList = 
-        [
-          {
-            num,
-            semester,
-            categoryName
-            item,
-            registerNum,
-            add,      // 학생 추가 모달
-            students: 
-            [
-              {
-                studentName,
-                studentId,
-                point,
-                description1,
-                description2,
-                edit, //학생 정보 수정 모달
-              }
-            ]
-          },
-          ...
-        ]
-   */
 
-  // const convertedFetchList = fetchData.semesterItemsWithRecords?.map((record, index) => {
-  //   /**
-  //    * @brief innerData
-  //    * @description 2단 테이블의 내부 데이터
-  //    */
-  //   const students = record.records?.map((item, index) => {
-  //     /**
-  //      * @brief innerData의 update 전달 데이터
-  //      */
-
-  //     const beforeData = {
-  //       [SEMESTERITEMID]: record[ID],
-  //       [STUDENT_ID]: item[ID],
-  //       [COUNTS]: item[COUNTS],
-  //       [POINTS]: item[POINTS],
-  //       [EXTRAPOINTS]: item[EXTRAPOINTS],
-  //       [DESCRIPTION1]: item[DESCRIPTION1],
-  //       [DESCRIPTION2]: item[DESCRIPTION2],
-  //     };
-
-  //     return {
-  //       [STUDENT_NAME]: item[STUDENT_NAME],
-  //       [STUDENT_ID]: item[ID],
-  //       [POINTS]: item[POINTS],
-  //       [DESCRIPTION1]: item[DESCRIPTION1],
-  //       [DESCRIPTION2]: item[DESCRIPTION2],
-  //       edit: <SWModal type={EDITMILEAGEREGISTER} beforeData={beforeData} />,
-  //     };
-  //   });
-
-  //   return createData(
-  //     index + 1,
-  //     record[SEMESTER_NAME],
-  //     record[CATEGORY_NAME],
-  //     record[ITEM_NAME],
-  //     record.records.length,
-  //     <SWModal type={ADDMILEAGEREGISTER} />,
-  //     students
-  //   );
-  // });
-
-  const handleAllDelete = (id) => {
-    if (window.confirm('등록된 학생 모두 삭제하시겠습니까?')) {
-      axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
-        console.log('ddsss', res.data);
-        res.data.list.map((item) => {
-          axiosInstance.delete(`/api/mileage/records/${item.id}`).then((res) => {
-            console.log('1', res);
-            alert(` ${item.student?.name} - ${item.student?.sid} 가 삭제 되었습니다.`);
-          });
-        });
-      });
-    }
-  };
-  const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
+const fetchToUseData = (data) => {
+  return data.list.map((semesterItem, index) => {
     const beforeData = {
       [ID]: semesterItem.id,
       [RECORD_NAME]: semesterItem.item.name,
@@ -308,6 +233,70 @@ export default function MileageRegister({
       </Box>
     );
   });
+};
+
+const handleAllDelete = (id) => {
+  if (window.confirm('등록된 학생 모두 삭제하시겠습니까?')) {
+    axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
+      console.log('ddsss', res.data);
+      res.data.list.map((item) => {
+        axiosInstance.delete(`/api/mileage/records/${item.id}`).then((res) => {
+          console.log('1', res);
+          alert(` ${item.student?.name} - ${item.student?.sid} 가 삭제 되었습니다.`);
+        });
+      });
+    });
+  }
+};
+// const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
+//   const beforeData = {
+//     [ID]: semesterItem.id,
+//     [RECORD_NAME]: semesterItem.item.name,
+//   };
+
+//   return createData(
+//     semesterItem.id,
+//     // semesterItem.item.id,
+//     semesterItem.semesterName,
+//     semesterItem.item.name,
+//     semesterItem.item.description1,
+//     semesterItem.points,
+//     semesterItem.recordCount, //  학생수가 들어가야함
+//     formatDateToKorean(semesterItem.modDate),
+//     <Box sx={{ display: 'flex' }}>
+//       {/* <Tooltip title="등록된 학생 리스트 확인"> */}
+//       <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
+//       {/* </Tooltip> */}
+//       {/* <Tooltip title="학생 추가"> */}
+//       <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
+//       {/* </Tooltip> */}
+//       {/* <Tooltip title="등록된 학생 모두 삭제"> */}
+//       <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
+//         <DeleteIcon />
+//       </IconButton>
+//       {/* </Tooltip> */}
+//     </Box>
+//   );
+// });
+export default function MileageRegister({
+  fetchData,
+  nowSemester,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  // const data = useSelector((state) => state.data.mileageSemesterList);
+  const dispatch = useDispatch();
+  // const [updatedData, setUpdatedData] = useState(fetchToUseData(fetchData));
+  const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
+
+  const semester = useSelector((state) => state.filter.semester);
+  dispatch(setSemester(semester === '전체' ? nowSemester : semester));
+
+  useEffect(() => {
+    axiosInstance
+      .get(`/api/mileage/semesters/${semester === '전체' ? nowSemester : semester}/items`)
+      .then((res) => {
+        setConvertedFetchList(fetchToUseData(res.data));
+      });
+  }, [semester]);
 
   return (
     <>
