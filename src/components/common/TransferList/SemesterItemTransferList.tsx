@@ -157,7 +157,18 @@ export default function SemesterItemTransferList({
               </ListItemIcon>
 
               <ListItemText id={item.id} primary={`${item.item.name}`} />
-              {checkListDuplicated(item.item.id) && '! 중복'}
+              {checkListDuplicated(item.item.id) && (
+                <Typography
+                  color="primary"
+                  variant="body2"
+                  sx={{
+                    ml: 2,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  중복
+                </Typography>
+              )}
             </ListItem>
           );
         })}

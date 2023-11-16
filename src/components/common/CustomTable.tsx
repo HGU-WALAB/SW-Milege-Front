@@ -360,7 +360,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       console.log(copyRows[0]?.isVisible, isVisible);
     }
     if (item && item !== '전체') {
-      copyRows = copyRows.filter((row) => row.item === item);
+      copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
     }
     if (studentName && studentName !== '전체') {
       copyRows = copyRows.filter((row) => row.studentName === studentName);
