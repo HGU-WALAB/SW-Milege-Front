@@ -33,7 +33,7 @@ export default function LoginLayout({ children, illustration, title }) {
           color="primary"
           sx={{ mb: 10, maxWidth: 480, textAlign: 'center' }}
         >
-          {title || 'SW 마일리지 관리자 페이지'}
+          {title || 'SW 소중대 마일리지 시스템'}
         </Typography>
 
         <Image

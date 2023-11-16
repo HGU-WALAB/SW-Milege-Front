@@ -23,11 +23,11 @@ export default function Login() {
         <Typography variant="h4">관리자 로그인</Typography>
 
         <Stack direction="row" spacing={0.5}>
-          <Typography variant="body2">처음이신가요?</Typography>
+          {/* <Typography variant="body2">처음이신가요?</Typography>
 
           <Link component={NextLink} href={PATH_AUTH.register} variant="subtitle2">
             이곳에서 회원 가입을 진행하세요
-          </Link>
+          </Link> */}
         </Stack>
 
         {/* <Tooltip title={method} placement="left">

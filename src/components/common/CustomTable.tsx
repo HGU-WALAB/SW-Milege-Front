@@ -595,7 +595,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                     padding="none"
                                   >
                                     {/* {rowValues[0]} */}
-                                    {index + 1}
+                                    {index + 1 + page * rowsPerPage}
                                   </TableCell>
 
                                   {rowValues.slice(1)?.map((rowValue, index) => (
