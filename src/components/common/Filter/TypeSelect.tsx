@@ -7,28 +7,28 @@ export default function TypeSelect() {
   const TYPES = [
     {
       id: 0,
-      text: 'A타입',
-      value: 'A',
+      text: '창의적문제해결역량',
+      value: '창의적문제해결역량',
     },
     {
       id: 1,
-      text: 'B타입',
-      value: 'B',
+      text: '글로벌역량',
+      value: '글로벌역량',
     },
     {
       id: 2,
-      text: 'C타입',
-      value: 'C',
+      text: '논리적사고와소통능력',
+      value: '논리적사고와소통능력',
     },
     {
       id: 3,
-      text: 'D타입',
-      value: 'D',
+      text: '다학제융합능력',
+      value: '다학제융합능력',
     },
     {
       id: 4,
-      text: 'E타입',
-      value: 'E',
+      text: '인성 및 영성',
+      value: '인성 및 영성',
     },
   ];
 
