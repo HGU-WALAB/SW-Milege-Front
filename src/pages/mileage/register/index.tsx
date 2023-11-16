@@ -301,7 +301,7 @@ export default function MileageRegister({
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
         {/* </Tooltip> */}
         {/* <Tooltip title="등록된 학생 모두 삭제"> */}
-        <IconButton onClick={() => handleAllDelete(semesterItem.item.id)}>
+        <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />
         </IconButton>
         {/* </Tooltip> */}
