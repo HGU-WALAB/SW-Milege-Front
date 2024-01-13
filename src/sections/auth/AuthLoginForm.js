@@ -110,7 +110,7 @@ export default function AuthLoginForm() {
           color="inherit"
           underline="always"
         >
-          히즈넷 가기 히즈넷 가기
+          히즈넷 가기
         </Link>
       </Stack>
 
@@ -129,7 +129,7 @@ export default function AuthLoginForm() {
           },
         }}
       >
-        로그인 로그인
+        로그인
       </LoadingButton>
     </FormProvider>
   );

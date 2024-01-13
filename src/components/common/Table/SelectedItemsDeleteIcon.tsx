@@ -100,21 +100,25 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
   };
 
   async function deleteSelectedItems() {
-    for (let i = 0; i < selected.length; ++i) {
-      try {
-        const res = await axiosInstance.delete(`${deleteEndPoint()}/${selected[i]}`);
-        console.log(res);
-        router.reload();
-      } catch (err) {
-        console.log(err);
-        console.log('Current ID:', selected[i]);
-        showDescendants(selected[i]);
-        // alert('삭제에 실패하였습니다.');
-        break; // 예외가 발생하면 루프를 중단
-      }
+    const allDelete = async () => {
+      for (let i = 0; i < selected.length; ++i) {
+        try {
+          const res = await axiosInstance.delete(`${deleteEndPoint()}/${selected[i]}`);
+        } catch (err) {
+          console.log(err);
+          console.log('Current ID:', selected[i]);
+          showDescendants(selected[i]);
+          // alert('삭제에 실패하였습니다.');
+          break; // 예외가 발생하면 루프를 중단
+        }
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
+        // await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    };
+    allDelete().then(() => {
+      alert(selected.length + '개 항목 삭제 되었습니다.');
+      router.reload();
+    });
   }
 
   return (
