@@ -33,6 +33,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { set } from 'lodash';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
+import { DOMAIN } from '../sections/auth/AuthLoginForm';
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -77,7 +78,7 @@ export default function HomePage({ categoryData, globalItemData, studentData }) 
           }))
         )
       );
-      router.push('/mileage/category');
+      router.push(`${DOMAIN}/mileage/category`);
     };
     filteringInit();
   }, []);

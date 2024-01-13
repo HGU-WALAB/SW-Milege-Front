@@ -360,10 +360,10 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       console.log(copyRows[0]?.isVisible, isVisible);
     }
     if (item && item !== '전체') {
-      copyRows = copyRows.filter((row) => row.item === item);
+      copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
     }
     if (studentName && studentName !== '전체') {
-      copyRows = copyRows.filter((row) => row.studentName === studentName);
+      copyRows = copyRows.filter((row) => row.name === studentName);
     }
     if (grade && grade !== '전체') {
       copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
@@ -375,7 +375,17 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       copyRows = copyRows.filter((row) => row.type === categoryType);
     }
     setRows(copyRows);
-  }, [category, semester, isVisible, item, studentName, grade, department, categoryType]);
+  }, [
+    category,
+    semester,
+    originalRows,
+    isVisible,
+    item,
+    studentName,
+    grade,
+    department,
+    categoryType,
+  ]);
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
@@ -584,7 +594,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                     scope="row"
                                     padding="none"
                                   >
-                                    {rowValues[0]}
+                                    {/* {rowValues[0]} */}
+                                    {index + 1 + page * rowsPerPage}
                                   </TableCell>
 
                                   {rowValues.slice(1)?.map((rowValue, index) => (

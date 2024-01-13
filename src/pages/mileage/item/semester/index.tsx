@@ -25,7 +25,7 @@ import SWModal from 'src/components/common/modal/SWModal';
 import { EDITITEM } from 'src/assets/data/modal/modals';
 import { useSelector, dispatch } from 'src/redux/store';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setMileageSemesterList } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
 import {
@@ -38,6 +38,7 @@ import {
 } from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { setSemester } from 'src/redux/slices/filter';
 
 /**
  * @component [마일리지 학기별 항목] 게시판
@@ -273,26 +274,23 @@ export interface ISemesterItemList {
 
 export const getServerSideProps: GetServerSideProps<{
   fetchData: ISemesterItemList;
+  nowSemester?: string;
 }> = async (context) => {
   setServerSideCookie(context);
 
-  const res = await axiosInstance.get(`/api/mileage/semesters/2022-01/items`);
-  const fetchData = res.data;
+  const semesterRes = await axiosInstance.get(`api/mileage/semesters/currentSemester`);
+  const nowSemester = semesterRes.data.data.name;
+  const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
+
+  console.log(nowSemester);
+
+  let fetchData = res.data;
   console.log(fetchData);
-  return { props: { fetchData } };
+  return { props: { fetchData, nowSemester } };
 };
 
-export default function MileageCategory({
-  fetchData,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const data = useSelector((state) => state.data.mileageSemesterList);
-  const dispatch = useDispatch();
-
-  // const semester = useSelector((state) => state.filter.semester);
-  // console.log(semester);
-  console.log(fetchData);
-
-  const convertedFetchList = fetchData.list?.map((semesterItem) => {
+const fetchToUseData = (data) => {
+  return data.list.map((semesterItem) => {
     const beforeData = {
       [SEMESTERITEMID]: semesterItem.id,
       itemId: semesterItem.item.id,
@@ -313,7 +311,29 @@ export default function MileageCategory({
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );
   });
+};
 
+export default function MileageCategory({
+  fetchData,
+  nowSemester,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  // const data = useSelector((state) => state.data.mileageSemesterList);
+  const dispatch = useDispatch();
+  // const [updatedData, setUpdatedData] = useState(fetchToUseData(fetchData));
+  const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
+
+  const semester = useSelector((state) => state.filter.semester);
+  dispatch(setSemester(semester === '전체' ? nowSemester : semester));
+
+  useEffect(() => {
+    axiosInstance
+      .get(`/api/mileage/semesters/${semester === '전체' ? nowSemester : semester}/items`)
+      .then((res) => {
+        setConvertedFetchList(fetchToUseData(res.data));
+      });
+  }, [semester]);
+
+  console.log(convertedFetchList);
   return (
     <EnhancedTable
       originalRows={convertedFetchList}

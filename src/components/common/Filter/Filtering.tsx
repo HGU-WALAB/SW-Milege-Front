@@ -29,9 +29,9 @@ export default function Filtering() {
   }
   return (
     <ResponsiveFilterBox>
-      {renderComponentsForTableNums([0, 1, 2, 3, 4], <CategoryAutoComplete />)}
+      {renderComponentsForTableNums([0, 1, 2, 3], <CategoryAutoComplete />)}
       {renderComponentsForTableNums([2, 3, 4, 9], <SemesterDropdown />)}
-      {renderComponentsForTableNums([1, 2], <IsVisibleDropdown />)}
+      {renderComponentsForTableNums([1], <IsVisibleDropdown />)}
       {renderComponentsForTableNums([1, 2, 3, 4], <ItemAutoComplete />)}
       {renderComponentsForTableNums([3, 5, 6, 7, 8, 9, 10], <StudentNameAutoComplete />)}
       {renderComponentsForTableNums([5, 6], <GradeDropdown />)}

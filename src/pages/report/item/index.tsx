@@ -1,4 +1,4 @@
-import { Box, Chip } from '@mui/material';
+import { Box, Chip, Typography, useTheme } from '@mui/material';
 import ReportTabs from 'src/components/common/report/ReportTabs';
 import SemesterDropdown from 'src/components/common/Filter/SemesterDropdown';
 import { useSelector } from 'react-redux';
@@ -44,29 +44,42 @@ export default function index() {
       data: [10, 90, 90, 20, 70],
     },
     '2024-01': {
-      data: [90, 100, 110, 100, 100],
+      data: [10, 20, 30, 40, 50],
     },
     '2024-02': {
-      data: [100, 110, 120, 130, 140],
+      data: [20, 30, 40, 50, 60],
     },
   };
 
   const semester = useSelector((state) => state.filter.semester);
-
+  const theme = useTheme();
   return (
-    <Box>
+    <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '30px' }}>
       <ReportTabs />
-      <Box sx={{ height: '100px' }}></Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: '30px' }}>
-        <Chip label="학기별 maxPoints 합산 분포" color="primary" />
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Typography color="primary" variant="h6">
+          학기별 maxPoints 합산 분포
+        </Typography>
       </Box>
       <SemesterDropdown />
 
       <BarChart
-        xAxis={[{ scaleType: 'band', data: ['A', 'B', 'C', 'D', 'E'] }]}
-        series={[{ data: SemesterData[semester].data }]}
+        xAxis={[
+          {
+            scaleType: 'band',
+            data: [
+              '창의적문제해결역량',
+              '글로벌역량',
+              '논리적사고와소통능력',
+              '다학제융합능력',
+              '인성 및 영성',
+            ],
+          },
+        ]}
+        series={[{ data: SemesterData[semester]?.data }]}
         width={1000}
-        height={500}
+        height={300}
+        colors={[theme.palette.primary.main]}
       />
     </Box>
   );

@@ -51,14 +51,24 @@ const pieParams = { height: 200, margin: { right: 5 } };
 const palette = ['red', 'blue', 'green'];
 export default function index() {
   return (
-    <div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '30px',
+      }}
+    >
       <ReportTabs />
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: '30px' }}>
-        <Chip label="항목 별 등록된 학생 수" color="primary" />
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Typography color="primary" variant="h6">
+          항목 별 등록된 학생 수
+        </Typography>
       </Box>
+
       <LineChart
-        width={1300}
+        width={1000}
         height={300}
         series={[{ data: Data, label: '등록된 학생 수' }]}
         xAxis={[{ scaleType: 'point', data: xLabels }]}
@@ -108,6 +118,6 @@ export default function index() {
           />
         </Box>
       </Box> */}
-    </div>
+    </Box>
   );
 }

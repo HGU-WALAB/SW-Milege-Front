@@ -36,9 +36,9 @@ export default function SettingPage({
   return (
     <>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        설정
+        신청 결과 설정
       </Typography>
-      <Box sx={{ height: '30px' }} />
+      <Box sx={{ height: '50px' }} />
       <SemesterTable data={fetchData} />
     </>
   );

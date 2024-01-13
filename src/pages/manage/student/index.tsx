@@ -163,7 +163,7 @@ function createData(
     id: [StudentManageBoard.MANAGE],
     numeric: true,
     disablePadding: false,
-    label: '신청 취소',
+    label: '수정',
   },
 ];
 

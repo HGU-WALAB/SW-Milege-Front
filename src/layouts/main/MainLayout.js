@@ -8,6 +8,7 @@ import Header from 'src/components/common/Header';
 import { Box } from '@mui/material';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import { useSelector } from 'react-redux';
+import { DOMAIN } from '../../sections/auth/AuthLoginForm';
 //
 
 // const Header = dynamic(() => import('./Header'), { ssr: false });
@@ -20,6 +21,7 @@ MainLayout.propTypes = {
 };
 
 export default function MainLayout({ children }) {
+  const { pathname } = useRouter();
   return (
     <Box>
       <Box sx={{ display: 'flex', width: '100%', py: '100px' }}>

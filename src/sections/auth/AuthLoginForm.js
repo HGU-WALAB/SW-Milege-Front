@@ -21,6 +21,8 @@ import { setCookie } from 'src/auth/jwtCookie';
 import { useRouter } from 'next/router';
 // ----------------------------------------------------------------------
 
+export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
+
 export default function AuthLoginForm() {
   const { login } = useAuthContext();
 
@@ -60,16 +62,17 @@ export default function AuthLoginForm() {
       };
 
       axiosInstance.post(`api/admin/login`, loginData).then((res) => {
-        setCookie('accessToken', res.config.headers.Authorization.split('Bearer ')[1], 1);
-        router.push('/');
+        // console.log(res.data.token.split('Bearer ')[1]);
+        setCookie('accessToken', res.data.token, 1);
+        router.push(`${DOMAIN}/`);
       });
     } catch (error) {
-      console.error(error);
-      reset();
-      setError('afterSubmit', {
-        ...error,
-        message: error.message || error,
-      });
+      // console.error(error);
+      // reset();
+      // setError('afterSubmit', {
+      //   ...error,
+      //   message: error.message || error,
+      // });
     }
   };
 
@@ -117,7 +120,6 @@ export default function AuthLoginForm() {
         size="large"
         type="submit"
         variant="contained"
-        loading={isSubmitSuccessful || isSubmitting}
         sx={{
           bgcolor: 'text.primary',
           color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),

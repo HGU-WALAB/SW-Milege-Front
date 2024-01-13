@@ -79,7 +79,7 @@ export default function CategoryForm({ handleClose }) {
       initialValues={{
         [TITLE]: modalType === EDITCATEGORY ? beforeData?.[TITLE] : '',
         [ORDER_IDX]: modalType === EDITCATEGORY ? beforeData?.[ORDER_IDX] : '',
-        [TYPE]: modalType === EDITCATEGORY ? beforeData?.[TYPE] : '',
+        [TYPE]: modalType === EDITCATEGORY ? beforeData?.[TYPE] : '없음',
         [DESCRIPTION1]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION2] : '',
       }}

@@ -41,11 +41,11 @@ export default function ExcelExport() {
     },
     {
       name: '선정 결과 양식 다운로드',
-      endPoint: `api/excel/downlaod/mileageRecordFormat`,
+      endPoint: `api/excel/download/mileageRecordFormat`,
       pathname: ['/mileage/result'],
     },
     {
-      name: '신청 학생 목록 내보내기',
+      name: '신청 학생 목록 다운로드',
       endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
       pathname: ['/manage/register'],
     },
@@ -70,7 +70,10 @@ export default function ExcelExport() {
       // 가상의 a 태그를 생성하여 다운로드
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', '학기별 항목 엑셀.xls'); // 파일 이름 설정
+      link.setAttribute(
+        'download',
+        `${Excels.find((excel) => excel.endPoint === endPoint).name}.xls`
+      ); // 파일 이름 설정
       document.body.appendChild(link);
       link.click();
 
