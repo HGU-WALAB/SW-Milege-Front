@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
+import { all } from 'axios';
 
 interface ISelectedItemsDeleteIcon {
   type: string;
@@ -99,7 +100,7 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
     }
   };
 
-  async function deleteSelectedItems() {
+  function deleteSelectedItems() {
     const allDelete = async () => {
       for (let i = 0; i < selected.length; ++i) {
         try {
@@ -108,17 +109,17 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
           console.log(err);
           console.log('Current ID:', selected[i]);
           showDescendants(selected[i]);
-          // alert('삭제에 실패하였습니다.');
-          break; // 예외가 발생하면 루프를 중단
+          alert('삭제에 실패하였습니다.');
+          return; // 예외가 발생하면 루프를 중단
         }
 
         // await new Promise((resolve) => setTimeout(resolve, 1000));
       }
-    };
-    allDelete().then(() => {
-      alert(selected.length + '개 항목 삭제 되었습니다.');
+      await alert(selected.length + '개 항목 삭제 되었습니다.');
       router.reload();
-    });
+    };
+
+    allDelete();
   }
 
   return (
@@ -126,36 +127,6 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
       onClick={() => {
         if (window.confirm(`총 ${selected.length}개 항목을 정말 삭제하시겠습니까?`)) {
           deleteSelectedItems();
-          // axiosInstance
-          //   .delete(`${deleteEndPoint()}/${selected[i]}`)
-          //   .then((res) => {
-          //     console.log(res);
-          //     router.reload();
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //     console.log('Current ID:', selected[i]);
-          //     return;
-          //     showDescendants(selected[i]);
-
-          //     // alert('삭제에 실패하였습니다.');
-          //   });
-          // sleep(1);
-
-          // selected.map(async (id) => {
-          //   await axiosInstance
-          //     .delete(`${deleteEndPoint()}/${id}`)
-          //     .then((res) => {
-          //       console.log(res);
-          //       router.reload();
-          //     })
-          //     .catch((err) => {
-          //       console.log(err);
-          //       console.log('Current ID:', id);
-          //       showDescendants(id);
-          //       // alert('삭제에 실패하였습니다.');
-          //     });
-          // });
         } else {
           return;
         }
