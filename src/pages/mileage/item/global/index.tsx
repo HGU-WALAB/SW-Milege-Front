@@ -319,7 +319,7 @@ export default function MileageCategory({
       [ISEVALUATE_FUSION]: stuType === 'C' ? false : true,
     };
 
-    return createData(
+  return createData(
       item[ID],
       item[CATEGORY][NAME],
       item[NAME],

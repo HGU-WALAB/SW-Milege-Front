@@ -12,16 +12,6 @@ import { useRouter } from 'next/router';
 export default function AuthWithSocial() {
   const { loginWithGoogle, loginWithGithub, loginWithTwitter } = useAuthContext();
 
-  const handleGoogleLogin = async () => {
-    try {
-      if (loginWithGoogle) {
-        loginWithGoogle();
-      }
-      console.log('GOOGLE LOGIN');
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleGithubLogin = async () => {
     try {
@@ -34,17 +24,7 @@ export default function AuthWithSocial() {
     }
   };
 
-  const handleTwitterLogin = async () => {
-    try {
-      if (loginWithTwitter) {
-        loginWithTwitter();
-      }
-      console.log('TWITTER LOGIN');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+ 
   const { pathname } = useRouter();
 
   return (
