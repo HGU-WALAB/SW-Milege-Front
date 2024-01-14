@@ -26,6 +26,7 @@ import {
   MOD_DATE,
   SEMESTER_NAME,
   SEMESTER,
+  ISAPPROVED,
 } from 'src/assets/data/fields';
 import { EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
@@ -296,7 +297,7 @@ export const getServerSideProps: GetServerSideProps<{
 const fetchToUseData = (data, semester) => {
   return data.list.map((regData, index) => {
     const beforeData = {
-      [ID]: regData[ID],
+      [ID]: regData.student[ID],
       [NAME]: regData.student[NAME],
       [SID]: regData.student[SID],
       [DEPARTMENT]: regData.student[DEPARTMENT],
@@ -305,7 +306,7 @@ const fetchToUseData = (data, semester) => {
       [YEAR]: regData.student[YEAR],
       [SEMESTERCOUNT]: regData.student[SEMESTERCOUNT],
       [LASTLOGINDATE]: regData.student[LASTLOGINDATE],
-      [ISCHECKED]: regData.student[ISCHECKED],
+      [ISAPPROVED]: regData.student[ISAPPROVED],
     };
     return createData(
       regData[ID],
@@ -316,7 +317,7 @@ const fetchToUseData = (data, semester) => {
       regData.student[DEPARTMENT],
       regData.student[MAJOR1] + ` ${regData.student[MAJOR2]}`,
       regData.student[LASTLOGINDATE]?.split('T')[0],
-      regData.student[ISCHECKED] ? (
+      regData.student[ISAPPROVED] ? (
         <CheckBoxIcon color="primary" />
       ) : (
         <CheckBoxOutlineBlankIcon color="primary" />
