@@ -68,7 +68,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
     }
   };
 
-  const showDescendantsEndPoint = (id) => {
+  const showDescendantsEndPoint = (id: number) => {
+    console.log(type);
     switch (type) {
       case '마일리지 카테고리':
         return `/api/mileage/items/categories/${id}`;
@@ -100,26 +101,25 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
     }
   };
 
-  function deleteSelectedItems() {
+  async function deleteSelectedItems() {
     const allDelete = async () => {
       for (let i = 0; i < selected.length; ++i) {
         try {
           const res = await axiosInstance.delete(`${deleteEndPoint()}/${selected[i]}`);
+          alert(`총 ${selected.length}개 항목 삭제 되었습니다.`);
+          router.reload();
         } catch (err) {
           console.log(err);
           console.log('Current ID:', selected[i]);
-          showDescendants(selected[i]);
-          alert('삭제에 실패하였습니다.');
-          return; // 예외가 발생하면 루프를 중단
+          await showDescendants(selected[i]);
+          alert(`총 ${i}개의 항목이 삭제 되었습니다.`);
         }
 
         // await new Promise((resolve) => setTimeout(resolve, 1000));
       }
-      await alert(selected.length + '개 항목 삭제 되었습니다.');
-      router.reload();
     };
 
-    allDelete();
+    await allDelete();
   }
 
   return (
