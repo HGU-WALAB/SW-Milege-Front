@@ -314,7 +314,7 @@ export default function MileageView({
     };
 
     return createData(
-      index + 1,
+      item[ID],
       item.category.name,
       item.semesterItem.semesterName,
       item.semesterItem.item.name,

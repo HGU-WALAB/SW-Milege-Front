@@ -98,6 +98,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return '/api/mileage/semesters';
       case '마일리지 등록':
         return `/api/mileage/semesters`;
+      case '마일리지 조회':
+        return '/api/mileage/records';
     }
   };
 
@@ -114,7 +116,6 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
           await showDescendants(selected[i]);
           alert(`총 ${i}개의 항목이 삭제 되었습니다.`);
         }
-
         // await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     };
