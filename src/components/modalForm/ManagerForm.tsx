@@ -134,7 +134,7 @@ export default function ManagerForm({ handleClose }) {
         axiosInstance
           .patch(`/api/mileage/admins/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert(`관리자 ${beforeData[ID]}번이 수정되었습니다.`);
+            alert(`관리자 ${beforeData[NAME]}가 수정되었습니다.`);
             router.reload();
           })
           .catch((err) => alert('관리자 수정에 실패했습니다.'));

@@ -104,6 +104,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return '/api/mileage/records';
       case '신청자 관리':
         return '/api/mileage/students';
+      case '관리자':
+        return `/api/mileage/admins`;
     }
   };
 
