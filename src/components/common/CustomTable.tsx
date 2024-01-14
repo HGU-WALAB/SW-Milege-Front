@@ -43,6 +43,7 @@ import {
   ADDGLOBALITEM,
   ADDITEM,
   ADDMANAGER,
+  ADDMILEAGEREGISTER,
   ADDSTUDENT,
   EDITCATEGORY,
   MAGICIANSEMESTERITEM,
@@ -301,6 +302,8 @@ const typeConverter = (type) => {
       return ADDMANAGER;
     case '마일리지 학기별 항목 마법사':
       return MAGICIANSEMESTERITEM;
+    case '마일리지 조회':
+      return ADDMILEAGEREGISTER;
   }
 };
 

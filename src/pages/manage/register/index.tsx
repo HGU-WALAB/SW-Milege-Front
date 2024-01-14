@@ -24,6 +24,8 @@ import {
   LASTLOGINDATE,
   ISCHECKED,
   MOD_DATE,
+  SEMESTER_NAME,
+  SEMESTER,
 } from 'src/assets/data/fields';
 import { EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
@@ -31,6 +33,10 @@ import axiosInstance from 'src/utils/axios';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import SWModal from 'src/components/common/modal/SWModal';
+import { useSelector } from 'react-redux';
+import { dispatch } from 'src/redux/store';
+import { setSemester } from 'src/redux/slices/filter';
+import { useEffect, useState } from 'react';
 
 /**
  * @component [신청자 관리] 게시판
@@ -43,6 +49,7 @@ import SWModal from 'src/components/common/modal/SWModal';
 
 export enum RegisterManageBoard {
   'NUM' = NUM,
+  'SEMESTER' = SEMESTER,
   'STUDENT_NAME' = STUDENT_NAME,
   'STUDENT_ID' = STUDENT_ID,
   'GRADE' = GRADE,
@@ -61,6 +68,7 @@ export enum RegisterManageBoard {
  */
 interface Data {
   [RegisterManageBoard.STUDENT_NAME]: string;
+  [RegisterManageBoard.SEMESTER]: string;
   [RegisterManageBoard.STUDENT_ID]: number;
   [RegisterManageBoard.GRADE]: number;
   [RegisterManageBoard.CONTACT]: number;
@@ -79,6 +87,7 @@ interface Data {
  *  */
 function createData(
   num: number,
+  semester: string,
   studentName: string,
   studentId: number,
   grade: number,
@@ -92,6 +101,7 @@ function createData(
 ): Data {
   return {
     [RegisterManageBoard.NUM]: num,
+    [RegisterManageBoard.SEMESTER]: semester,
     [RegisterManageBoard.STUDENT_NAME]: studentName,
     [RegisterManageBoard.STUDENT_ID]: studentId,
     [RegisterManageBoard.GRADE]: grade,
@@ -115,6 +125,12 @@ const headCells = [
     numeric: false,
     disablePadding: true,
     label: '번호',
+  },
+  {
+    id: [RegisterManageBoard.SEMESTER],
+    numeric: true,
+    disablePadding: false,
+    label: '학기',
   },
   {
     id: [RegisterManageBoard.STUDENT_NAME],
@@ -274,13 +290,11 @@ export const getServerSideProps: GetServerSideProps<{
   const fetchData = res.data;
   console.log(fetchData);
 
-  return { props: { fetchData } };
+  return { props: { fetchData, nowSemester } };
 };
 
-export default function RegisterManage({
-  fetchData,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const convertedFetchList = fetchData.list?.map((regData) => {
+const fetchToUseData = (data, semester) => {
+  return data.list.map((regData, index) => {
     const beforeData = {
       [ID]: regData[ID],
       [NAME]: regData.student[NAME],
@@ -295,6 +309,7 @@ export default function RegisterManage({
     };
     return createData(
       regData[ID],
+      semester,
       regData.student[NAME],
       regData.student[SID],
       regData.student[YEAR] + `( ${regData.student[SEMESTERCOUNT]}학기 )`,
@@ -310,6 +325,28 @@ export default function RegisterManage({
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );
   });
+};
+
+export default function RegisterManage({
+  fetchData,
+  nowSemester,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [convertedFetchList, setConvertedFetchList] = useState(
+    fetchToUseData(fetchData, nowSemester)
+  );
+
+  const semester = useSelector((state) => state.filter.semester);
+
+  useEffect(() => {
+    axiosInstance
+      .get(`/api/mileage/apply/semester/${semester === '전체' ? nowSemester : semester}`)
+      .then((res) => {
+        setConvertedFetchList(
+          fetchToUseData(res.data, semester === '전체' ? nowSemester : semester)
+        );
+      });
+  }, [semester]);
+
   return (
     <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="신청자 관리" />
   );

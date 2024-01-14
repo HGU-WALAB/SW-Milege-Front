@@ -261,7 +261,6 @@ export default function MileageRegister({
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
 
   const semester = useSelector((state) => state.filter.semester);
-  dispatch(setSemester(semester === '전체' ? nowSemester : semester));
 
   useEffect(() => {
     axiosInstance
