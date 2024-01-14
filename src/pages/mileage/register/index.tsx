@@ -22,6 +22,7 @@ import {
   ITEM_NAME,
   CATEGORY_NAME,
   MOD_DATE,
+  SEMESTER_ITEM_ID,
 } from 'src/assets/data/fields';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { REGISTER_NUM, STUDENT_NAME, DESCRIPTION1 } from '../../../assets/data/fields';
@@ -207,6 +208,10 @@ const fetchToUseData = (data) => {
     const beforeData = {
       [ID]: semesterItem.id,
       [RECORD_NAME]: semesterItem.item.name,
+      [SEMESTER_ITEM_ID]: semesterItem.id,
+      [SEMESTER]: semesterItem.semesterName,
+      [ITEM_NAME]: semesterItem.item.name,
+      [CATEGORY_NAME]: semesterItem.category.name,
     };
 
     return createData(
