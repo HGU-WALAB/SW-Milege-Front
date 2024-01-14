@@ -81,6 +81,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return `/api/mileage/records/students/${id}`;
       case '마일리지 등록':
         return `/api/mileage/records/semesterItems/${id}`;
+      case '신청자 관리':
+        return `/api/mileage/records/students/${id}`;
     }
   };
 
@@ -100,6 +102,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return `/api/mileage/semesters`;
       case '마일리지 조회':
         return '/api/mileage/records';
+      case '신청자 관리':
+        return '/api/mileage/students';
     }
   };
 

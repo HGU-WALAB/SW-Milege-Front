@@ -77,6 +77,7 @@ import {
   TITLE,
   ORDER_IDX,
   ITEM_MAX_POINTS,
+  AID,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -138,6 +139,8 @@ const modalForm = (modalType, handleClose) => {
 
 export const engToKor = (eng) => {
   switch (eng) {
+    case AID:
+      return '직번';
     case TITLE:
       return '이름';
     case ORDER_IDX:

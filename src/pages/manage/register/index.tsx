@@ -309,7 +309,7 @@ const fetchToUseData = (data, semester) => {
       [ISAPPROVED]: regData.student[ISAPPROVED],
     };
     return createData(
-      regData[ID],
+      regData.student[ID],
       semester,
       regData.student[NAME],
       regData.student[SID],
