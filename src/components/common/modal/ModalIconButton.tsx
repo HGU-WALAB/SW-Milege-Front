@@ -19,6 +19,7 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
   const dispatch = useDispatch();
   const handleOpen = () => {
     // dispatch(openModal(type));
+
     dispatch(setModalType(type));
     setOpen(true);
     dispatch(setBeforeData(beforeData));

@@ -17,15 +17,18 @@ import {
   DESCRIPTION1,
   DESCRIPTION2,
   EXTRAPOINTS,
+  ID,
   NAME,
   POINTS,
   SEMESTERITEMID,
+  SEMESTER_ITEM_ID,
   SID,
   STUDENT_NAME,
 } from '../../assets/data/fields';
 import { STUDENT_ID } from 'src/assets/data/fields';
 import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
 import { RECORD_NAME } from '../../assets/data/fields';
+import { Stack } from '@mui/system';
 
 export default function MileageRegisterForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
@@ -45,7 +48,6 @@ export default function MileageRegisterForm({ handleClose }) {
     // [POINTS]: Yup.number().integer().required('필수입니다.'),
     [EXTRAPOINTS]: Yup.number().integer().required('필수입니다.'),
     [DESCRIPTION1]: Yup.string().required('필수입니다.'),
-    [DESCRIPTION2]: Yup.string().required('필수입니다.'),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -56,7 +58,7 @@ export default function MileageRegisterForm({ handleClose }) {
     // 4) reload
 
     const newData = {
-      [SEMESTERITEMID]: beforeData.id,
+      [SEMESTERITEMID]: beforeData[SEMESTER_ITEM_ID],
       [SID]: values[SID],
       [STUDENT_NAME]: values[NAME],
       // [STUDENT_ID]: values[STUDENT_ID],
@@ -80,7 +82,7 @@ export default function MileageRegisterForm({ handleClose }) {
 
       case EDITMILEAGEREGISTER:
         axiosInstance
-          .patch(`/api/mileage/records/${beforeData.semesterItemId}`, newData)
+          .patch(`/api/mileage/records/${beforeData[ID]}`, newData)
           .then((res) => {
             alert('마일리지 등록 리스트가 수정되었습니다.');
             router.reload();
@@ -112,7 +114,6 @@ export default function MileageRegisterForm({ handleClose }) {
         // [POINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[POINTS] : 0,
         [EXTRAPOINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[EXTRAPOINTS] : 0,
         [DESCRIPTION1]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION1] : '',
-        [DESCRIPTION2]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION2] : '',
       }}
       validationSchema={MileageRegisterSchema}
       onSubmit={handleSubmit}
@@ -129,8 +130,12 @@ export default function MileageRegisterForm({ handleClose }) {
             gap: '30px',
           }}
         >
-          <Chip label={`항목명 : ${beforeData.recordName}`} color="primary" />
-          {[NAME, SID, COUNTS, EXTRAPOINTS, DESCRIPTION1, DESCRIPTION2].map((field) => (
+          <Stack direction="row" gap={1}>
+            <Chip label={` ${beforeData.categoryName}`} color="primary" variant="outlined" />
+            <Chip label={`${beforeData.itemName}`} color="primary" variant="outlined" />
+            <Chip label={` ${beforeData.semester}`} color="primary" variant="outlined" />
+          </Stack>
+          {[NAME, SID, COUNTS, EXTRAPOINTS, DESCRIPTION1].map((field) => (
             <>
               <Field
                 style={{ minWidth: '300px' }}

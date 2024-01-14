@@ -16,6 +16,12 @@ import {
   POINTS,
   MOD_DATE,
   CATEGORY_NAME,
+  NAME,
+  COUNTS,
+  EXTRAPOINTS,
+  DESCRIPTION1,
+  DESCRIPTION2,
+  SEMESTER_ITEM_ID,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import React, { useEffect } from 'react';
@@ -298,9 +304,13 @@ export default function MileageView({
       [SEMESTER]: item.semesterItem.semesterName,
       [ITEM_NAME]: item.semesterItem.item.name,
       [SID]: item.sid,
-      [STUDENT_NAME]: item.studentName,
+      [NAME]: item.studentName,
       [POINTS]: item.points,
       [MOD_DATE]: item.modDate,
+      [COUNTS]: item.counts,
+      [EXTRAPOINTS]: item.extraPoints,
+      [DESCRIPTION1]: item.description1,
+      [SEMESTER_ITEM_ID]: item.semesterItem.id,
     };
 
     return createData(

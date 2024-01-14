@@ -213,7 +213,6 @@ export default function SWModal({ type, beforeData }) {
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
-
   // const open = useSelector((state) => state.modal.isOpen);
   // const handleClose = (type) => dispatch(closeModal(type));
   // const handleOpen = (type) => dispatch(openModal(type));
