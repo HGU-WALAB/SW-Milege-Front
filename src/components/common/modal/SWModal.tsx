@@ -77,6 +77,7 @@ import {
   TITLE,
   ORDER_IDX,
   ITEM_MAX_POINTS,
+  AID,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -138,6 +139,8 @@ const modalForm = (modalType, handleClose) => {
 
 export const engToKor = (eng) => {
   switch (eng) {
+    case AID:
+      return '직번';
     case TITLE:
       return '이름';
     case ORDER_IDX:
@@ -213,7 +216,6 @@ export default function SWModal({ type, beforeData }) {
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
-
   // const open = useSelector((state) => state.modal.isOpen);
   // const handleClose = (type) => dispatch(closeModal(type));
   // const handleOpen = (type) => dispatch(openModal(type));

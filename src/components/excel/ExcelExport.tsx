@@ -6,9 +6,11 @@ import { setSelectedId } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
 import ExcelImport from './ExcelImport';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function ExcelExport() {
   const semester = useSelector((state) => state.data.semester);
+
   const dispatch = useDispatch();
   const setMenuButton = (data) => dispatch(setComponentNum(data));
   const { pathname } = useRouter();
@@ -46,17 +48,21 @@ export default function ExcelExport() {
     },
     {
       name: '신청 학생 목록 다운로드',
-      endPoint: `/api/excel/download/applyIn?semeseter=2022-01`,
+      endPoint: `/api/excel/download/applyIn?semester=${semester}`,
       pathname: ['/manage/register'],
     },
   ];
 
-  const handleExcelExport = async (e, endPoint) => {
+  const handleExcelExport = async (e, endPoint, name) => {
     console.log(e.target.id, endPoint);
-    // setMenuButton(0);
-    // const response = await axiosInstance.get(endPoint , {
-    //   responseType: 'blob',
-    // });
+
+    const replaceNotAllowedEndPoint = async (notAllowedSemester: string) => {
+      const semesterRes = await axiosInstance.get(`api/mileage/semesters/currentSemester`);
+      return endPoint.replace(notAllowedSemester, semesterRes.data.data.name);
+    };
+
+    if (endPoint.includes('전체')) endPoint = await replaceNotAllowedEndPoint('전체');
+    if (endPoint.includes('undefined')) endPoint = await replaceNotAllowedEndPoint('undefined');
 
     try {
       // 파일 데이터 요청
@@ -70,10 +76,7 @@ export default function ExcelExport() {
       // 가상의 a 태그를 생성하여 다운로드
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute(
-        'download',
-        `${Excels.find((excel) => excel.endPoint === endPoint).name}.xls`
-      ); // 파일 이름 설정
+      link.setAttribute('download', `${name}.xls`); // 파일 이름 설정
       document.body.appendChild(link);
       link.click();
 
@@ -124,7 +127,7 @@ export default function ExcelExport() {
           type="button"
           variant="contained"
           id={Excel.name}
-          onClick={(e) => handleExcelExport(e, Excel.endPoint)}
+          onClick={(e) => handleExcelExport(e, Excel.endPoint, Excel.name)}
         >
           {Excel.name}
         </Button>

@@ -43,6 +43,7 @@ import {
   ADDGLOBALITEM,
   ADDITEM,
   ADDMANAGER,
+  ADDMILEAGEREGISTER,
   ADDSTUDENT,
   EDITCATEGORY,
   MAGICIANSEMESTERITEM,
@@ -301,6 +302,8 @@ const typeConverter = (type) => {
       return ADDMANAGER;
     case '마일리지 학기별 항목 마법사':
       return MAGICIANSEMESTERITEM;
+    case '마일리지 조회':
+      return ADDMILEAGEREGISTER;
   }
 };
 
@@ -363,7 +366,9 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
     }
     if (studentName && studentName !== '전체') {
-      copyRows = copyRows.filter((row) => row.name === studentName);
+      copyRows = copyRows.filter(
+        (row) => row.name === studentName || row.studentName === studentName
+      );
     }
     if (grade && grade !== '전체') {
       copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);

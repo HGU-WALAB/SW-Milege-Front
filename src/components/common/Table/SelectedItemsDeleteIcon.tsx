@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
+import { all } from 'axios';
 
 interface ISelectedItemsDeleteIcon {
   type: string;
@@ -67,7 +68,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
     }
   };
 
-  const showDescendantsEndPoint = (id) => {
+  const showDescendantsEndPoint = (id: number) => {
+    console.log(type);
     switch (type) {
       case '마일리지 카테고리':
         return `/api/mileage/items/categories/${id}`;
@@ -79,6 +81,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return `/api/mileage/records/students/${id}`;
       case '마일리지 등록':
         return `/api/mileage/records/semesterItems/${id}`;
+      case '신청자 관리':
+        return `/api/mileage/records/students/${id}`;
     }
   };
 
@@ -96,25 +100,33 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return '/api/mileage/semesters';
       case '마일리지 등록':
         return `/api/mileage/semesters`;
+      case '마일리지 조회':
+        return '/api/mileage/records';
+      case '신청자 관리':
+        return '/api/mileage/students';
+      case '관리자':
+        return `/api/mileage/admins`;
     }
   };
 
   async function deleteSelectedItems() {
-    for (let i = 0; i < selected.length; ++i) {
-      try {
-        const res = await axiosInstance.delete(`${deleteEndPoint()}/${selected[i]}`);
-        console.log(res);
-        router.reload();
-      } catch (err) {
-        console.log(err);
-        console.log('Current ID:', selected[i]);
-        showDescendants(selected[i]);
-        // alert('삭제에 실패하였습니다.');
-        break; // 예외가 발생하면 루프를 중단
+    const allDelete = async () => {
+      for (let i = 0; i < selected.length; ++i) {
+        try {
+          const res = await axiosInstance.delete(`${deleteEndPoint()}/${selected[i]}`);
+          alert(`총 ${selected.length}개 항목 삭제 되었습니다.`);
+          router.reload();
+        } catch (err) {
+          console.log(err);
+          console.log('Current ID:', selected[i]);
+          await showDescendants(selected[i]);
+          alert(`총 ${i}개의 항목이 삭제 되었습니다.`);
+        }
+        // await new Promise((resolve) => setTimeout(resolve, 1000));
       }
+    };
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
+    await allDelete();
   }
 
   return (
@@ -122,36 +134,6 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
       onClick={() => {
         if (window.confirm(`총 ${selected.length}개 항목을 정말 삭제하시겠습니까?`)) {
           deleteSelectedItems();
-          // axiosInstance
-          //   .delete(`${deleteEndPoint()}/${selected[i]}`)
-          //   .then((res) => {
-          //     console.log(res);
-          //     router.reload();
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //     console.log('Current ID:', selected[i]);
-          //     return;
-          //     showDescendants(selected[i]);
-
-          //     // alert('삭제에 실패하였습니다.');
-          //   });
-          // sleep(1);
-
-          // selected.map(async (id) => {
-          //   await axiosInstance
-          //     .delete(`${deleteEndPoint()}/${id}`)
-          //     .then((res) => {
-          //       console.log(res);
-          //       router.reload();
-          //     })
-          //     .catch((err) => {
-          //       console.log(err);
-          //       console.log('Current ID:', id);
-          //       showDescendants(id);
-          //       // alert('삭제에 실패하였습니다.');
-          //     });
-          // });
         } else {
           return;
         }

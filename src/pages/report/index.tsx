@@ -73,7 +73,6 @@ export default function index() {
         series={[{ data: Data, label: '등록된 학생 수' }]}
         xAxis={[{ scaleType: 'point', data: xLabels }]}
       />
-
       {/* <Box
         sx={{
           display: 'flex',

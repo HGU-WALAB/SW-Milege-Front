@@ -54,7 +54,7 @@ import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
-import { EMAIL } from '../../assets/data/fields';
+import { AID } from '../../assets/data/fields';
 import LEVELSelect from '../common/Select/LEVELSelect';
 import MajorSelect from '../common/Select/MajorSelect';
 import GradeSelect from '../common/Select/GradeSelect';
@@ -98,7 +98,7 @@ export default function ManagerForm({ handleClose }) {
 
   const StudentSchema = Yup.object().shape({
     [NAME]: Yup.string().required('필수입니다.'),
-    [EMAIL]: Yup.string().required('필수입니다.'),
+    [AID]: Yup.string().required('필수입니다.'),
     [LEVEL]: Yup.number().required('필수입니다.'),
   });
 
@@ -111,7 +111,7 @@ export default function ManagerForm({ handleClose }) {
 
     const newData = {
       [NAME]: values[NAME],
-      [EMAIL]: values[EMAIL],
+      [AID]: values[AID],
       [LEVEL]: values[LEVEL],
     };
     console.log(newData);
@@ -134,7 +134,7 @@ export default function ManagerForm({ handleClose }) {
         axiosInstance
           .patch(`/api/mileage/admins/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert(`관리자 ${beforeData[ID]}번이 수정되었습니다.`);
+            alert(`관리자 ${beforeData[NAME]}가 수정되었습니다.`);
             router.reload();
           })
           .catch((err) => alert('관리자 수정에 실패했습니다.'));
@@ -145,7 +145,7 @@ export default function ManagerForm({ handleClose }) {
     <Formik
       initialValues={{
         [NAME]: modalType === EDITMANAGER ? beforeData?.[NAME] : '',
-        [EMAIL]: modalType === EDITMANAGER ? beforeData?.[EMAIL] : '',
+        [AID]: modalType === EDITMANAGER ? beforeData?.[AID] : '',
         [LEVEL]: modalType === EDITMANAGER ? beforeData?.[LEVEL] : '',
       }}
       validationSchema={StudentSchema}
@@ -155,7 +155,7 @@ export default function ManagerForm({ handleClose }) {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[NAME, EMAIL].map((field: string, index: number) => (
+              {[NAME, AID].map((field: string, index: number) => (
                 <Box key={index} sx={{ width: '100%' }}>
                   <Field
                     name={field}

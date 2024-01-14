@@ -2,6 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { CATEGORYID, SEMESTER, TYPE } from 'src/assets/data/fields';
+import { id } from 'date-fns/locale';
 
 export default function TypeSelect() {
   const TYPES = [
@@ -29,6 +30,11 @@ export default function TypeSelect() {
       id: 4,
       text: '인성 및 영성',
       value: '인성 및 영성',
+    },
+    {
+      id: 5,
+      text: '없음',
+      value: '없음',
     },
   ];
 

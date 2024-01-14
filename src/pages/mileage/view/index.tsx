@@ -2,19 +2,35 @@ import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from 'src/components/common/CustomTable';
 
 import {
-  NUM,
+  ID,
   CATEGORY,
   SEMESTER,
   ITEM,
+  NUM,
   STUDENT_ID,
   STUDENT_NAME,
   POINT,
   REGISTERED_DATE,
+  ITEM_NAME,
+  SID,
+  POINTS,
+  MOD_DATE,
+  CATEGORY_NAME,
+  NAME,
+  COUNTS,
+  EXTRAPOINTS,
+  DESCRIPTION1,
+  DESCRIPTION2,
+  SEMESTER_ITEM_ID,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import { getCookie, setCookie } from 'src/auth/jwtCookie';
+import { getCookie, setCookie, setServerSideCookie } from 'src/auth/jwtCookie';
+import { useDispatch } from 'react-redux';
+import { EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import SWModal from 'src/components/common/modal/SWModal';
 
 /**
  * @component [마일리지 조회] 게시판
@@ -49,7 +65,8 @@ function createData(
   studentId: number,
   studentName: string,
   point: number,
-  registeredDate: string
+  registeredDate: string,
+  edit: React.ReactNode
 ): Data {
   return {
     [MileageViewBoard.NUM]: num,
@@ -60,6 +77,7 @@ function createData(
     [MileageViewBoard.STUDENT_NAME]: studentName,
     [MileageViewBoard.POINT]: point,
     [MileageViewBoard.REGISTERED_DATE]: registeredDate,
+    edit,
   };
 }
 
@@ -115,6 +133,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '등록일',
+  },
+  {
+    id: 'edit',
+    numeric: true,
+    disablePadding: false,
+    label: '수정',
   },
 ];
 
@@ -219,12 +243,90 @@ interface Data {
   [MileageViewBoard.REGISTERED_DATE]: string;
 }
 
-export default function MileageView() {
-  setCookie(
-    'accessToken',
-    `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRob3JpdGllcyI6IlJPTEVfQURNSU5fRCxST0xFX0FETUlOX0MsUk9MRV9BRE1JTl9CLFJPTEVfQURNSU5fQSIsImV4cCI6MTcwMTUwMjQ4OCwiaWF0IjoxNjk2MzE4NDg4fQ.LnWCsVUPPtrPRtUwOUZgqiCtDCd3j3pbw0G1-Ht1v8Kpl54VVTUmcVzw0dVJnm9iTTJ_ZJzYK1PhqThCMJmRAw`,
-    7
-  );
+interface IGetMileageRegisterList {
+  description: string;
+  count: number;
+  list: Array<{
+    id: number;
+    semesterItem: {
+      id: number;
+      item: {
+        id: number;
+        name: string;
+        modDate: string;
+      };
+      semesterName: string;
+      points: number;
+      itemMaxPoints: number;
+      isMulti: boolean;
+      modDate: string;
+    };
+    category: {
+      id: number;
+      name: string;
+      categoryMaxPoints: number;
+      modDate: string;
+    };
+    studentName: string;
+    sid: string;
+    counts: number;
+    points: number;
+    extraPoints: number;
+    description1: string;
+    modDate: string;
+  }>;
+}
 
-  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 조회" />;
+export const getServerSideProps: GetServerSideProps<{
+  fetchData: any;
+}> = async (context) => {
+  console.log(context);
+  setServerSideCookie(context);
+  const res = await axiosInstance.get('/api/mileage/records');
+  console.log(res);
+  const fetchData = res.data;
+  console.log(fetchData);
+  return { props: { fetchData } };
+};
+
+export default function MileageView({
+  fetchData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const dispatch = useDispatch();
+
+  /**
+   * @brief 마일리지 카테고리 리스트 데이터
+   */
+  const convertedFetchList = fetchData.list?.map((item, index) => {
+    const beforeData = {
+      [ID]: item.id,
+      [CATEGORY_NAME]: item.category.name,
+      [SEMESTER]: item.semesterItem.semesterName,
+      [ITEM_NAME]: item.semesterItem.item.name,
+      [SID]: item.sid,
+      [NAME]: item.studentName,
+      [POINTS]: item.points,
+      [MOD_DATE]: item.modDate,
+      [COUNTS]: item.counts,
+      [EXTRAPOINTS]: item.extraPoints,
+      [DESCRIPTION1]: item.description1,
+      [SEMESTER_ITEM_ID]: item.semesterItem.id,
+    };
+
+    return createData(
+      item[ID],
+      item.category.name,
+      item.semesterItem.semesterName,
+      item.semesterItem.item.name,
+      item[SID],
+      item[STUDENT_NAME],
+      item[POINTS],
+      formatDateToKorean(item[MOD_DATE]),
+      <SWModal type={EDITMILEAGEREGISTER} beforeData={beforeData} />
+    );
+  });
+
+  return (
+    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 조회" />
+  );
 }

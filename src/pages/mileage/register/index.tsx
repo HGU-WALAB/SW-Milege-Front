@@ -22,6 +22,7 @@ import {
   ITEM_NAME,
   CATEGORY_NAME,
   MOD_DATE,
+  SEMESTER_ITEM_ID,
 } from 'src/assets/data/fields';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { REGISTER_NUM, STUDENT_NAME, DESCRIPTION1 } from '../../../assets/data/fields';
@@ -207,6 +208,10 @@ const fetchToUseData = (data) => {
     const beforeData = {
       [ID]: semesterItem.id,
       [RECORD_NAME]: semesterItem.item.name,
+      [SEMESTER_ITEM_ID]: semesterItem.id,
+      [SEMESTER]: semesterItem.semesterName,
+      [ITEM_NAME]: semesterItem.item.name,
+      [CATEGORY_NAME]: semesterItem.category.name,
     };
 
     return createData(
@@ -248,47 +253,14 @@ const handleAllDelete = (id) => {
     });
   }
 };
-// const convertedFetchList = fetchData.list?.map((semesterItem, index) => {
-//   const beforeData = {
-//     [ID]: semesterItem.id,
-//     [RECORD_NAME]: semesterItem.item.name,
-//   };
-
-//   return createData(
-//     semesterItem.id,
-//     // semesterItem.item.id,
-//     semesterItem.semesterName,
-//     semesterItem.item.name,
-//     semesterItem.item.description1,
-//     semesterItem.points,
-//     semesterItem.recordCount, //  학생수가 들어가야함
-//     formatDateToKorean(semesterItem.modDate),
-//     <Box sx={{ display: 'flex' }}>
-//       {/* <Tooltip title="등록된 학생 리스트 확인"> */}
-//       <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
-//       {/* </Tooltip> */}
-//       {/* <Tooltip title="학생 추가"> */}
-//       <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
-//       {/* </Tooltip> */}
-//       {/* <Tooltip title="등록된 학생 모두 삭제"> */}
-//       <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
-//         <DeleteIcon />
-//       </IconButton>
-//       {/* </Tooltip> */}
-//     </Box>
-//   );
-// });
 export default function MileageRegister({
   fetchData,
   nowSemester,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // const data = useSelector((state) => state.data.mileageSemesterList);
   const dispatch = useDispatch();
-  // const [updatedData, setUpdatedData] = useState(fetchToUseData(fetchData));
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
 
   const semester = useSelector((state) => state.filter.semester);
-  dispatch(setSemester(semester === '전체' ? nowSemester : semester));
 
   useEffect(() => {
     axiosInstance
@@ -303,5 +275,4 @@ export default function MileageRegister({
       <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 등록" />
     </>
   );
-  // <CollapsibleTable rows={convertedFetchList} type="마일리지 등록" />;
 }
