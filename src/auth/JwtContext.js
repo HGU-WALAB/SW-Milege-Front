@@ -74,6 +74,7 @@ export function AuthProvider({ children }) {
     const checkAuthStatus = async () => {
       const isLogined = getSession();
 
+      alert('!!');
       if (isLogined) {
         dispatch({ type: 'LOGIN' });
       }

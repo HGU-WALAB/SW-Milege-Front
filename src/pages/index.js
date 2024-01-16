@@ -18,6 +18,7 @@ import {
   HomeCleanInterfaces,
   HomeHugePackElements,
 } from '../sections/home';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 
 import { ComponentReturn } from 'src/components/common/Table/TableComponents';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,11 +35,12 @@ import { useRouter } from 'next/router';
 import { set } from 'lodash';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { DOMAIN } from '../sections/auth/AuthLoginForm';
+import { handleServerAuth403Error } from '../auth/utils';
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
-export const getServerSideProps = async (context) => {
+const getServerSidePropsFunction = async (context) => {
   setServerSideCookie(context);
 
   const resCategory = await axiosInstance.get('/api/mileage/categories');
@@ -53,7 +55,21 @@ export const getServerSideProps = async (context) => {
   return { props: { categoryData, globalItemData, studentData } };
 };
 
-export default function HomePage({ categoryData, globalItemData, studentData }) {
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
+
+export default function HomePage({
+  categoryData,
+  globalItemData,
+  studentData,
+  error,
+  requireLogin,
+}) {
+  const { push } = useRouter();
+  if (requireLogin) {
+    push(`${DOMAIN}/auth/login`);
+    return;
+  }
+
   const dispatch = useDispatch();
   const router = useRouter();
   console.log(categoryData);

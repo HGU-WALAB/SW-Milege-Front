@@ -16,20 +16,19 @@ AuthGuard.propTypes = {
 };
 
 export default function AuthGuard({ children }) {
-  const { isLogined, isInitialized } = useAuthContext();
-  const { pathname, push } = useRouter();
+  // const { isLogined, isInitialized } = useAuthContext();
+  // const { pathname, push } = useRouter();
   // const [requestedLocation, setRequestedLocation] = useState(null);
 
-  useEffect(() => {
-    console.log('dd', isInitialized, isLogined, pathname);
-    if (isInitialized && !isLogined && pathname !== '/auth/login') {
-      push('/auth/login');
-    }
-  }, [isInitialized, isLogined, pathname, push]);
+  // useEffect(() => {
+  //   if (isInitialized && !isLogined && pathname !== '/auth/login') {
+  //     push('/auth/login');
+  //   }
+  // }, [isInitialized, isLogined, pathname, push]);
 
-  if (!isInitialized) {
-    return <LoadingScreen />;
-  }
+  // if (!isInitialized) {
+  //   return <LoadingScreen />;
+  // }
   // if (!isLogined) {
   //   if (pathname === '/auth/login') {
   //     return <Login />;

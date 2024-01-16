@@ -10,21 +10,6 @@ import { useRouter } from 'next/router';
 // ----------------------------------------------------------------------
 
 export default function AuthWithSocial() {
-  const { loginWithGoogle, loginWithGithub, loginWithTwitter } = useAuthContext();
-
-
-  const handleGithubLogin = async () => {
-    try {
-      if (loginWithGithub) {
-        loginWithGithub();
-      }
-      console.log('GITHUB LOGIN');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
- 
   const { pathname } = useRouter();
 
   return (
@@ -48,7 +33,7 @@ export default function AuthWithSocial() {
         <MailModalForm />
 
         <Link href="https://github.com/HGU-WALAB/SW-Milege-Front" target="_blank">
-          <IconButton color="inherit" onClick={handleGithubLogin}>
+          <IconButton color="inherit">
             <Iconify icon="eva:github-fill" />
           </IconButton>
         </Link>
