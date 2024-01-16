@@ -27,9 +27,6 @@ import {
   SEMESTER_NAME,
   SEMESTER,
   ISAPPROVED,
-  SEMESTER_NAME,
-  SEMESTER,
-  ISAPPROVED,
 } from 'src/assets/data/fields';
 import { EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
