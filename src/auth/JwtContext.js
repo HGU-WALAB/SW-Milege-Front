@@ -49,40 +49,41 @@ export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // LOGIN
-  const login = useCallback(async (loginData) => {
-    const response = await axiosInstance.post('/api/admin/login', loginData);
-    const { token } = response.data;
 
-    setSession(token);
+  // const login = useCallback(async (loginData) => {
+  //   const response = await axiosInstance.post('/api/admin/login', loginData);
+  //   const { token } = response.data;
 
-    await dispatch({
-      type: 'LOGIN',
-    });
-    push(`${DOMAIN}/`);
-  }, []);
+  //   setSession(token);
 
-  // LOGOUT
-  const logout = useCallback(() => {
-    setSession(null);
-    dispatch({
-      type: 'LOGOUT',
-    });
-    push(`${DOMAIN}/auth/login`);
-  }, []);
+  //   await dispatch({
+  //     type: 'LOGIN',
+  //   });
+  //   push(`${DOMAIN}/`);
+  // }, []);
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      const isLogined = getSession();
+  // // LOGOUT
+  // const logout = useCallback(() => {
+  //   setSession(null);
+  //   dispatch({
+  //     type: 'LOGOUT',
+  //   });
+  //   push(`${DOMAIN}/auth/login`);
+  // }, []);
 
-      alert('!!');
-      if (isLogined) {
-        dispatch({ type: 'LOGIN' });
-      }
-      dispatch({ type: 'SET_INITIALIZED' });
-    };
+  // useEffect(() => {
+  //   const checkAuthStatus = async () => {
+  //     const isLogined = getSession();
 
-    checkAuthStatus();
-  }, [pathname, push, dispatch]);
+  //     alert('!!');
+  //     if (isLogined) {
+  //       dispatch({ type: 'LOGIN' });
+  //     }
+  //     dispatch({ type: 'SET_INITIALIZED' });
+  //   };
+
+  //   checkAuthStatus();
+  // }, [pathname, push, dispatch]);
 
   const memoizedValue = useMemo(
     () => ({
@@ -90,10 +91,11 @@ export function AuthProvider({ children }) {
       isLogined: state.isLogined,
       user: state.user,
       method: 'jwt',
-      login,
-      logout,
+      // login,
+      // logout,
     }),
-    [state.isLogined, state.isInitialized, state.user, login, logout]
+    [state.isInitialized, state.isLogined, state.user]
+    // state.isLogined, state.isInitialized, state.user, login, logout
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
