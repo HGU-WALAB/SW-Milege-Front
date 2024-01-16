@@ -49,6 +49,7 @@ export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // LOGIN
+
   // const login = useCallback(async (loginData) => {
   //   const response = await axiosInstance.post('/api/admin/login', loginData);
   //   const { token } = response.data;
