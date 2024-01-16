@@ -39,6 +39,9 @@ import {
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { setSemester } from 'src/redux/slices/filter';
+import { handleServerAuth403Error } from 'src/auth/utils';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import MileageSemesterItem from '../../../../components/board/MileageSemesterItem';
 
 /**
  * @component [마일리지 학기별 항목] 게시판
@@ -272,14 +275,14 @@ export interface ISemesterItemList {
   semesterItems: ISemesterItem[];
 }
 
-export const getServerSideProps: GetServerSideProps<{
+const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: ISemesterItemList;
   nowSemester?: string;
 }> = async (context) => {
   setServerSideCookie(context);
 
   const semesterRes = await axiosInstance.get(`api/mileage/semesters/currentSemester`);
-  const nowSemester = semesterRes.data.data.name;
+  const nowSemester = await semesterRes.data.data.name;
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
 
   console.log(nowSemester);
@@ -288,6 +291,8 @@ export const getServerSideProps: GetServerSideProps<{
   console.log(fetchData);
   return { props: { fetchData, nowSemester } };
 };
+
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 const fetchToUseData = (data) => {
   return data.list.map((semesterItem) => {
@@ -313,10 +318,17 @@ const fetchToUseData = (data) => {
   });
 };
 
-export default function MileageCategory({
+export default function MileageSemesterItem({
   fetchData,
   nowSemester,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
+
   // const data = useSelector((state) => state.data.mileageSemesterList);
   const dispatch = useDispatch();
   // const [updatedData, setUpdatedData] = useState(fetchToUseData(fetchData));

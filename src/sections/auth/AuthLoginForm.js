@@ -25,7 +25,6 @@ export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
 export default function AuthLoginForm() {
   const { login } = useAuthContext();
-
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -60,20 +59,20 @@ export default function AuthLoginForm() {
         uniqueId: data.uniqueId,
         password: data.password,
       };
-
-      axiosInstance.post(`api/admin/login`, loginData).then((res) => {
-        // console.log(res.data.token.split('Bearer ')[1]);
-        setCookie('accessToken', res.data.token, 1);
-        router.push(`${DOMAIN}/`);
-      });
-    } catch (error) {
+      await login(loginData);
+      // axiosInstance.post(`api/admin/login`, loginData).then((res) => {
+      //   // console.log(res.data.token.split('Bearer ')[1]);
+      //   setCookie('accessToken', res.data.token, 1);
+      //   router.push(`${DOMAIN}/`);
+      // });
+      // } catch (error) {
       // console.error(error);
       // reset();
       // setError('afterSubmit', {
       //   ...error,
       //   message: error.message || error,
       // });
-    }
+    } catch (error) {}
   };
 
   return (

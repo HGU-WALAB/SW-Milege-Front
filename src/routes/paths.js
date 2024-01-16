@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
+
 function path(root, sublink) {
   return `${root}${sublink}`;
 }

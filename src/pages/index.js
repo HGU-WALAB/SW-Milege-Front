@@ -91,36 +91,6 @@ export default function HomePage({ categoryData, globalItemData, studentData }) 
       </Head>
 
       {ComponentReturn(componentNum)}
-
-      {/* <ScrollProgress /> */}
-
-      {/* <HomeHero /> */}
-
-      {/* <Box
-        sx={{
-          overflow: 'hidden',
-          position: 'relative',
-          bgcolor: 'background.default',
-        }}
-      >
-        <HomeMinimal />
-
-        <HomeHugePackElements />
-
-        <HomeForDesigner />
-
-        <HomeDarkMode />
-
-        <HomeColorPresets />
-
-        <HomeCleanInterfaces />
-
-        <HomePricingPlans />
-
-        <HomeLookingFor />
-
-        <HomeAdvertisement />
-      </Box> */}
     </>
   );
 }

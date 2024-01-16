@@ -353,31 +353,31 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   useEffect(() => {
     let copyRows = originalRows;
     if (category && category !== '전체') {
-      copyRows = copyRows.filter((row) => row.category === category);
+      copyRows = copyRows?.filter((row) => row.category === category);
     }
     if (semester && semester !== '전체') {
-      copyRows = copyRows.filter((row) => row.semester === semester);
+      copyRows = copyRows?.filter((row) => row.semester === semester);
     }
     if (isVisible !== '전체') {
-      copyRows = copyRows.filter((row) => row.isVisible === isVisible);
+      copyRows = copyRows?.filter((row) => row.isVisible === isVisible);
       console.log(copyRows[0]?.isVisible, isVisible);
     }
     if (item && item !== '전체') {
       copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
     }
     if (studentName && studentName !== '전체') {
-      copyRows = copyRows.filter(
+      copyRows = copyRows?.filter(
         (row) => row.name === studentName || row.studentName === studentName
       );
     }
     if (grade && grade !== '전체') {
-      copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
+      copyRows = copyRows?.filter((row) => (row.grade + '').slice(0, 1) === grade);
     }
     if (department && department !== '전체') {
-      copyRows = copyRows.filter((row) => row.department === department);
+      copyRows = copyRows?.filter((row) => row.department === department);
     }
     if (categoryType && categoryType !== '전체') {
-      copyRows = copyRows.filter((row) => row.type === categoryType);
+      copyRows = copyRows?.filter((row) => row.type === categoryType);
     }
     setRows(copyRows);
   }, [

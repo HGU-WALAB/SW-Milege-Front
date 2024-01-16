@@ -3,9 +3,11 @@ import { BoardList } from 'src/assets/data/board/board';
 import { IconReturn } from './DrawerIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setComponentNum } from 'src/redux/slices/component';
+import { set } from 'lodash';
 
 export default function DrawerListItem({ boardNum, open }) {
   const componentNum = useSelector((state) => state.component.componentNum);
+
   const dispatch = useDispatch();
   const updateComponentNum = (newComponentNum) => dispatch(setComponentNum(newComponentNum));
   return (

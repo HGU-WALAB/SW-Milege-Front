@@ -45,6 +45,8 @@ import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { setSemester } from 'src/redux/slices/filter';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import { handleServerAuth403Error } from 'src/auth/utils';
 
 /**
  * @component [마일리지 등록] 게시판
@@ -186,7 +188,7 @@ const headCells = [
   },
 ];
 
-export const getServerSideProps: GetServerSideProps<{
+const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: ISemesterItemList;
 }> = async (context) => {
   setServerSideCookie(context);
@@ -202,6 +204,8 @@ export const getServerSideProps: GetServerSideProps<{
   console.log(fetchData);
   return { props: { fetchData, nowSemester } };
 };
+
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 const fetchToUseData = (data) => {
   return data.list.map((semesterItem, index) => {
@@ -253,10 +257,18 @@ const handleAllDelete = (id) => {
     });
   }
 };
+
 export default function MileageRegister({
   fetchData,
   nowSemester,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
+
   const dispatch = useDispatch();
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
 

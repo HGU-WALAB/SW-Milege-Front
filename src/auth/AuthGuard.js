@@ -7,6 +7,7 @@ import LoadingScreen from '../components/loading-screen';
 //
 import Login from '../pages/auth/login';
 import { useAuthContext } from './useAuthContext';
+import MainLayout from '../layouts/main/MainLayout';
 
 // ----------------------------------------------------------------------
 
@@ -15,31 +16,33 @@ AuthGuard.propTypes = {
 };
 
 export default function AuthGuard({ children }) {
-  const { isAuthenticated, isInitialized } = useAuthContext();
-
+  const { isLogined, isInitialized } = useAuthContext();
   const { pathname, push } = useRouter();
-
-  const [requestedLocation, setRequestedLocation] = useState(null);
+  // const [requestedLocation, setRequestedLocation] = useState(null);
 
   useEffect(() => {
-    if (requestedLocation && pathname !== requestedLocation) {
-      push(requestedLocation);
+    console.log('dd', isInitialized, isLogined, pathname);
+    if (isInitialized && !isLogined && pathname !== '/auth/login') {
+      push('/auth/login');
     }
-    if (isAuthenticated) {
-      setRequestedLocation(null);
-    }
-  }, [isAuthenticated, pathname, push, requestedLocation]);
+  }, [isInitialized, isLogined, pathname, push]);
 
   if (!isInitialized) {
     return <LoadingScreen />;
   }
+  // if (!isLogined) {
+  //   if (pathname === '/auth/login') {
+  //     return <Login />;
+  //   }
+  //   return <LoadingScreen />;
+  // }
 
-  if (!isAuthenticated) {
-    if (pathname !== requestedLocation) {
-      setRequestedLocation(pathname);
-    }
-    return <Login />;
-  }
+  // if (!isLogined) {
+  //   if (pathname !== requestedLocation) {
+  //     setRequestedLocation(pathname);
+  //   }
+  //   return <Login />;
+  // }
 
   return <> {children} </>;
 }

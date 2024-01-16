@@ -1,7 +1,11 @@
 // routes
+import { useCallback } from 'react';
 import { PATH_AUTH } from '../routes/paths';
 // utils
 import axios from '../utils/axios';
+import { deleteCookie, getCookie, removeCookie, setCookie } from './jwtCookie';
+import axiosInstance from '../utils/axios';
+import { DOMAIN } from 'src/components/common/Appbar/MileageHeader';
 
 // ----------------------------------------------------------------------
 
@@ -60,16 +64,36 @@ export const tokenExpired = (exp) => {
 
 export const setSession = (accessToken) => {
   if (accessToken) {
-    localStorage.setItem('accessToken', accessToken);
-
+    setCookie('accessToken', accessToken, 1);
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-    // This function below will handle when token is expired
-    const { exp } = jwtDecode(accessToken); // ~3 days by minimals server
-    tokenExpired(exp);
   } else {
-    localStorage.removeItem('accessToken');
-
+    deleteCookie('accessToken');
     delete axios.defaults.headers.common.Authorization;
   }
 };
+
+// LOGIN
+export const login = async (loginData) => {
+  const response = await axiosInstance.post('/api/admin/login', loginData);
+  const { token } = response.data;
+
+  await setSession(token);
+
+  await alert('로그인 되었습니다.');
+  window.location.href = `${DOMAIN}/`;
+};
+// LOGOUT
+export const logout = async () => {
+  await setSession(null);
+  await alert('로그아웃 되었습니다.');
+  window.location.href = `${DOMAIN}/auth/login`;
+};
+
+export const handleServerAuth403Error = async (errorMessage) => {
+  await setSession(null);
+  window.location.href = await `${DOMAIN}/auth/login`;
+  console.log('!');
+  alert(errorMessage);
+};
+
+export const getSession = () => getCookie('accessToken') !== null;

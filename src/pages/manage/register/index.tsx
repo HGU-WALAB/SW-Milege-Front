@@ -38,6 +38,8 @@ import { useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
 import { setSemester } from 'src/redux/slices/filter';
 import { useEffect, useState } from 'react';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import { handleServerAuth403Error } from 'src/auth/utils';
 
 /**
  * @component [신청자 관리] 게시판
@@ -280,7 +282,7 @@ interface IGetApplicationList {
   list: IApplication[];
 }
 
-export const getServerSideProps: GetServerSideProps<{
+const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IGetApplicationList;
 }> = async (context) => {
   setServerSideCookie(context);
@@ -293,6 +295,8 @@ export const getServerSideProps: GetServerSideProps<{
 
   return { props: { fetchData, nowSemester } };
 };
+
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 const fetchToUseData = (data, semester) => {
   return data.list.map((regData, index) => {
@@ -331,7 +335,14 @@ const fetchToUseData = (data, semester) => {
 export default function RegisterManage({
   fetchData,
   nowSemester,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
+
   const [convertedFetchList, setConvertedFetchList] = useState(
     fetchToUseData(fetchData, nowSemester)
   );

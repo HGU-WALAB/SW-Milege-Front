@@ -168,6 +168,8 @@ import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/
 import axios from 'axios';
 import { getCookie } from '../view';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import { handleServerAuth403Error } from 'src/auth/utils';
 
 interface IList {
   id: number;
@@ -185,19 +187,28 @@ interface IGetMileageCategory {
   list: IList[];
 }
 
-export const getServerSideProps: GetServerSideProps<{
+const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IGetMileageCategory[];
 }> = async (context) => {
   setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/categories');
   const fetchData = res.data;
-  console.log(fetchData);
+
   return { props: { fetchData } };
 };
 
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
+
 export default function MileageCategory({
   fetchData,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
+
   const dispatch = useDispatch();
 
   /**
@@ -232,6 +243,7 @@ export default function MileageCategory({
       originalRows={convertedFetchList}
       headCells={headCells}
       type="마일리지 카테고리"
+      π
     />
   );
 }

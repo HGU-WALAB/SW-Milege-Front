@@ -31,6 +31,8 @@ import { ReactNode } from 'react';
 import { ID } from 'src/assets/data/fields';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
+import { handleServerAuth403Error } from 'src/auth/utils';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 /**
  * @component [학생 관리] 게시판
  */
@@ -246,7 +248,7 @@ interface IStudentList {
   students: IStudent[];
 }
 
-export const getServerSideProps: GetServerSideProps<{
+const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IStudentList;
 }> = async (context) => {
   setServerSideCookie(context);
@@ -258,9 +260,18 @@ export const getServerSideProps: GetServerSideProps<{
   return { props: { fetchData } };
 };
 
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
+
 export default function StudentManage({
   fetchData,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
+
   const convertedFetchList = fetchData.list?.map((student) => {
     const beforeData = {
       [ID]: student[ID],
