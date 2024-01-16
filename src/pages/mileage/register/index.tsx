@@ -23,6 +23,7 @@ import {
   CATEGORY_NAME,
   MOD_DATE,
   SEMESTER_ITEM_ID,
+  SEMESTER_ITEM_ID,
 } from 'src/assets/data/fields';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { REGISTER_NUM, STUDENT_NAME, DESCRIPTION1 } from '../../../assets/data/fields';
@@ -257,7 +258,6 @@ const handleAllDelete = (id) => {
     });
   }
 };
-
 export default function MileageRegister({
   fetchData,
   nowSemester,

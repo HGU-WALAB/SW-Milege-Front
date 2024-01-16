@@ -3,9 +3,11 @@ import EnhancedTable from 'src/components/common/CustomTable';
 
 import {
   ID,
+  ID,
   CATEGORY,
   SEMESTER,
   ITEM,
+  NUM,
   NUM,
   STUDENT_ID,
   STUDENT_NAME,

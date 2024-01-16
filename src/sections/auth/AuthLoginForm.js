@@ -103,8 +103,6 @@ export default function AuthLoginForm() {
           component={NextLink}
           href="https://hisnet.handong.edu/"
           target="_blank"
-          href="https://hisnet.handong.edu/"
-          target="_blank"
           variant="body2"
           color="inherit"
           underline="always"
