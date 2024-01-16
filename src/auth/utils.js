@@ -92,7 +92,6 @@ export const logout = async () => {
 export const handleServerAuth403Error = async (errorMessage) => {
   await setSession(null);
   window.location.href = await `${DOMAIN}/auth/login`;
-  console.log('!');
   alert(errorMessage);
 };
 

@@ -19,12 +19,12 @@ import axiosInstance from '../../utils/axios';
 import { parseSetCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { setCookie } from 'src/auth/jwtCookie';
 import { useRouter } from 'next/router';
+import { login } from '../../auth/utils';
 // ----------------------------------------------------------------------
 
 export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
 export default function AuthLoginForm() {
-  const { login } = useAuthContext();
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -72,7 +72,9 @@ export default function AuthLoginForm() {
       //   ...error,
       //   message: error.message || error,
       // });
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
