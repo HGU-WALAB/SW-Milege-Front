@@ -32,6 +32,8 @@ import {
 } from 'src/redux/slices/filter';
 import { setOpen, setPinned } from 'src/redux/slices/drawer';
 import { clearSelectedId } from 'src/redux/slices/table';
+import { useRouter } from 'next/router';
+import { setComponentNum } from 'src/redux/slices/component';
 
 const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
@@ -154,6 +156,25 @@ export default function MiniDrawer() {
         return `${DOMAIN}/`;
     }
   };
+
+  const { pathname } = useRouter();
+
+  const updateComponentNum = (newComponentNum) => dispatch(setComponentNum(newComponentNum));
+
+  React.useEffect(() => {
+    if (pathname.includes('/mileage/category')) updateComponentNum(0);
+    else if (pathname.includes('/auth/login')) updateComponentNum(0);
+    else if (pathname.includes('/mileage/semester')) updateComponentNum(1);
+    else if (pathname.includes('/mileage/item/global')) updateComponentNum(2);
+    else if (pathname.includes('/mileage/item/semester')) updateComponentNum(3);
+    else if (pathname.includes('/mileage/register')) updateComponentNum(4);
+    else if (pathname.includes('/manage/register')) updateComponentNum(5);
+    else if (pathname.includes('/manage/student')) updateComponentNum(6);
+    else if (pathname.includes('/manage/user')) updateComponentNum(7);
+    else if (pathname.includes('/mileage/result')) updateComponentNum(9);
+    else if (pathname.includes('/manage/setting')) updateComponentNum(10);
+    else if (pathname.includes('/report')) updateComponentNum(11);
+  }, [pathname]);
 
   return (
     <Box sx={{ display: 'flex' }}>

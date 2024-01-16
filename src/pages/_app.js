@@ -56,6 +56,7 @@ import { AuthProvider } from '../auth/JwtContext';
 import MainLayout from '../layouts/main/MainLayout';
 
 import { PersistGate } from 'redux-persist/integration/react';
+import AuthGuard from '../auth/AuthGuard';
 
 // import { AuthProvider } from '../auth/Auth0Context';
 // import { AuthProvider } from '../auth/FirebaseContext';
@@ -95,7 +96,9 @@ export default function MyApp(props) {
                           <StyledChart />
                           <ProgressBar />
                           {/* 메인 레이아웃 */}
+                          {/* <AuthGuard> */}
                           <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
+                          {/* </AuthGuard> */}
                         </SnackbarProvider>
                       </ThemeLocalization>
                     </ThemeSettings>

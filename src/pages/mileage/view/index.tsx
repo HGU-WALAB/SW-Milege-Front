@@ -3,9 +3,11 @@ import EnhancedTable from 'src/components/common/CustomTable';
 
 import {
   ID,
+  ID,
   CATEGORY,
   SEMESTER,
   ITEM,
+  NUM,
   NUM,
   STUDENT_ID,
   STUDENT_NAME,
@@ -31,6 +33,9 @@ import { useDispatch } from 'react-redux';
 import { EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import SWModal from 'src/components/common/modal/SWModal';
+import { DOMAIN } from 'src/routes/paths';
+import { withTryCatch, withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import { handleServerAuth403Error } from 'src/auth/utils';
 
 /**
  * @component [마일리지 조회] 게시판
@@ -276,28 +281,32 @@ interface IGetMileageRegisterList {
     modDate: string;
   }>;
 }
-
-export const getServerSideProps: GetServerSideProps<{
-  fetchData: any;
-}> = async (context) => {
-  console.log(context);
+const getServerSidePropsFunction: GetServerSideProps<{ fetchData: any }> = async (context) => {
   setServerSideCookie(context);
+
   const res = await axiosInstance.get('/api/mileage/records');
-  console.log(res);
   const fetchData = res.data;
-  console.log(fetchData);
   return { props: { fetchData } };
 };
 
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
+
 export default function MileageView({
   fetchData,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
+
   const dispatch = useDispatch();
 
   /**
    * @brief 마일리지 카테고리 리스트 데이터
    */
-  const convertedFetchList = fetchData.list?.map((item, index) => {
+  const convertedFetchList = fetchData?.list?.map((item, index) => {
     const beforeData = {
       [ID]: item.id,
       [CATEGORY_NAME]: item.category.name,

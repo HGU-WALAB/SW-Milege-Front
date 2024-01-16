@@ -25,6 +25,8 @@ import SWModal from 'src/components/common/modal/SWModal';
 import { EDITMANAGER } from 'src/assets/data/modal/modals';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { handleServerAuth403Error } from 'src/auth/utils';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 /**
  * @component [사용자 관리] 게시판
  */
@@ -102,7 +104,7 @@ const headCells = [
     id: [UserManageBoard.AID],
     numeric: true,
     disablePadding: false,
-    label: '학번',
+    label: '직번',
   },
   {
     id: [UserManageBoard.AUTHORITY],
@@ -143,7 +145,7 @@ const rows = [
   createData(5, '김광', '21800450', '관리자', '20(2023-08-22)'),
 ];
 
-export const getServerSideProps: GetServerSideProps<{
+const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: any;
 }> = async (context) => {
   setServerSideCookie(context);
@@ -154,9 +156,15 @@ export const getServerSideProps: GetServerSideProps<{
   return { props: { fetchData } };
 };
 
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
+
 export default function UserManage({
   fetchData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
   const levelConverter = (level) => {
     switch (level) {
       case 0:

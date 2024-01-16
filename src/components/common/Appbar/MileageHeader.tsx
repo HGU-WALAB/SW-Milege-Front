@@ -5,6 +5,7 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Link from 'next/link';
 import AuthWithSocial from 'src/sections/auth/AuthWithSocial';
 import { useRouter } from 'next/router';
+import { logout } from 'src/auth/utils';
 
 export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
@@ -70,7 +71,11 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
             color: 'inherit',
           }}
         >
-          {pathname !== `${DOMAIN}/auth/login` && <Button color="inherit">로그아웃</Button>}
+          {pathname !== `${DOMAIN}/auth/login` && (
+            <Button onClick={logout} color="inherit">
+              로그아웃
+            </Button>
+          )}
         </Link>
       </Box>
     </AppBar>

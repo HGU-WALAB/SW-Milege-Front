@@ -14,10 +14,7 @@ export default function LoginPage() {
       <Head>
         <title> Login | Minimal UI</title>
       </Head>
-
-      <GuestGuard>
-        <Login />
-      </GuestGuard>
+      <Login />
     </>
   );
 }

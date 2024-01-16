@@ -1,56 +1,37 @@
 import PropTypes from 'prop-types';
-import { createContext, useEffect, useReducer, useCallback, useMemo } from 'react';
+import { createContext, useReducer, useCallback, useMemo, useEffect } from 'react';
 // utils
-import axios from '../utils/axios';
-import localStorageAvailable from '../utils/localStorageAvailable';
+import axiosInstance from 'src/utils/axios';
 //
-import { isValidToken, setSession } from './utils';
-
-// ----------------------------------------------------------------------
-
-// NOTE:
-// We only build demo at basic level.
-// Customer will need to do some extra handling yourself if you want to extend the logic and other features...
-
-// ----------------------------------------------------------------------
+import { getSession, setSession } from './utils';
+import { useRouter } from 'next/router';
+import { DOMAIN } from 'src/components/common/Appbar/MileageHeader';
 
 const initialState = {
+  isLogined: false,
   isInitialized: false,
-  isAuthenticated: false,
-  user: null,
 };
 
 const reducer = (state, action) => {
-  if (action.type === 'INITIAL') {
-    return {
-      isInitialized: true,
-      isAuthenticated: action.payload.isAuthenticated,
-      user: action.payload.user,
-    };
+  switch (action.type) {
+    case 'LOGIN':
+      return {
+        ...state,
+        isLogined: true,
+      };
+    case 'LOGOUT':
+      return {
+        ...state,
+        isLogined: false,
+      };
+    case 'SET_INITIALIZED':
+      return {
+        ...state,
+        isInitialized: true,
+      };
+    default:
+      return state;
   }
-  if (action.type === 'LOGIN') {
-    return {
-      ...state,
-      isAuthenticated: true,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'REGISTER') {
-    return {
-      ...state,
-      isAuthenticated: true,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'LOGOUT') {
-    return {
-      ...state,
-      isAuthenticated: false,
-      user: null,
-    };
-  }
-
-  return state;
 };
 
 // ----------------------------------------------------------------------
@@ -64,89 +45,20 @@ AuthProvider.propTypes = {
 };
 
 export function AuthProvider({ children }) {
+  const { push, pathname } = useRouter();
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const storageAvailable = localStorageAvailable();
-
-  const initialize = useCallback(async () => {
-    try {
-      const accessToken = storageAvailable ? localStorage.getItem('accessToken') : '';
-
-      if (accessToken && isValidToken(accessToken)) {
-        setSession(accessToken);
-
-        const response = await axios.get('/api/account/my-account');
-
-        const { user } = response.data;
-
-        dispatch({
-          type: 'INITIAL',
-          payload: {
-            isAuthenticated: true,
-            user,
-          },
-        });
-      } else {
-        dispatch({
-          type: 'INITIAL',
-          payload: {
-            isAuthenticated: false,
-            user: null,
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      dispatch({
-        type: 'INITIAL',
-        payload: {
-          isAuthenticated: false,
-          user: null,
-        },
-      });
-    }
-  }, [storageAvailable]);
-
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
-
   // LOGIN
-  const login = useCallback(async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
+  const login = useCallback(async (loginData) => {
+    const response = await axiosInstance.post('/api/admin/login', loginData);
+    const { token } = response.data;
 
-    setSession(accessToken);
+    setSession(token);
 
-    dispatch({
+    await dispatch({
       type: 'LOGIN',
-      payload: {
-        user,
-      },
     });
-  }, []);
-
-  // REGISTER
-  const register = useCallback(async (email, password, firstName, lastName) => {
-    const response = await axios.post('/api/account/register', {
-      email,
-      password,
-      firstName,
-      lastName,
-    });
-    const { accessToken, user } = response.data;
-
-    localStorage.setItem('accessToken', accessToken);
-
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        user,
-      },
-    });
+    push(`${DOMAIN}/`);
   }, []);
 
   // LOGOUT
@@ -155,19 +67,32 @@ export function AuthProvider({ children }) {
     dispatch({
       type: 'LOGOUT',
     });
+    push(`${DOMAIN}/auth/login`);
   }, []);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const isLogined = getSession();
+
+      if (isLogined) {
+        dispatch({ type: 'LOGIN' });
+      }
+      dispatch({ type: 'SET_INITIALIZED' });
+    };
+
+    checkAuthStatus();
+  }, [pathname, push, dispatch]);
 
   const memoizedValue = useMemo(
     () => ({
       isInitialized: state.isInitialized,
-      isAuthenticated: state.isAuthenticated,
+      isLogined: state.isLogined,
       user: state.user,
       method: 'jwt',
       login,
-      register,
       logout,
     }),
-    [state.isAuthenticated, state.isInitialized, state.user, login, logout, register]
+    [state.isLogined, state.isInitialized, state.user, login, logout]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;

@@ -254,6 +254,8 @@ import { setItemList, setSemesterList } from 'src/redux/slices/filter';
 import { ID, CATEGORY, ITEM, ISVISIBLE, SEMESTER_ITEM_COUNT } from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import { handleServerAuth403Error } from 'src/auth/utils';
 
 interface ICategory {
   id: number;
@@ -275,21 +277,28 @@ interface IGlobalItemList {
   items: IGlobalItem[];
 }
 
-export const getServerSideProps: GetServerSideProps<{
+const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IGlobalItemList;
 }> = async (context) => {
   setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/items');
   const fetchData = res.data;
-  console.log(fetchData);
   return { props: { fetchData } };
 };
 
+export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
+
 export default function MileageCategory({
   fetchData,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (requireLogin) {
+    handleServerAuth403Error(error);
+    return;
+  }
+
   const dispatch = useDispatch();
-  console.log('Check', fetchData);
   const convertedFetchList = fetchData.list?.map((item, index) => {
     const {
       id,
