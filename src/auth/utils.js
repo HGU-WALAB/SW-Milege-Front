@@ -6,6 +6,7 @@ import axios from '../utils/axios';
 import { deleteCookie, getCookie, removeCookie, setCookie } from './jwtCookie';
 import axiosInstance from '../utils/axios';
 import { DOMAIN } from 'src/components/common/Appbar/MileageHeader';
+import { useRouter } from 'next/router';
 
 // ----------------------------------------------------------------------
 
@@ -86,12 +87,12 @@ export const login = async (loginData) => {
 export const logout = async () => {
   await setSession(null);
   await alert('로그아웃 되었습니다.');
-  window.location.href = `${DOMAIN}/auth/login`;
+  window.location.href = `${DOMAIN}${DOMAIN}/auth/login`;
 };
 
 export const handleServerAuth403Error = async (errorMessage) => {
   await setSession(null);
-  window.location.href = await `${DOMAIN}/auth/login`;
+  window.location.href = await `${DOMAIN}${DOMAIN}/auth/login`;
   alert(errorMessage);
 };
 

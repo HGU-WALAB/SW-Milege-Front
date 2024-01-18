@@ -160,6 +160,8 @@ export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction)
 
 export default function UserManage({
   fetchData,
+  requireLogin,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
