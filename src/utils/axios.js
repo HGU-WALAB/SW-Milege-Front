@@ -8,12 +8,12 @@ import { DOMAIN } from 'src/components/common/Appbar/MileageHeader';
 const axiosInstance = axios.create({ baseURL: HOST_API_KEY });
 
 axiosInstance.interceptors.request.use((config) => {
-  // if (typeof window !== 'undefined') {
-  //   const token = getCookie('accessToken');
-  //   if (token) {
-  //     config.headers.Authorization = `Bearer ${token}`;
-  //   }
-  // }
+  if (typeof window !== 'undefined') {
+    const token = getCookie('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
 
   config.withCredentials = true; // withCredentials 옵션 추가
 
