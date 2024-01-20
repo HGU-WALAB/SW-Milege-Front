@@ -9,6 +9,7 @@ import { Box } from '@mui/material';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import { useSelector } from 'react-redux';
 import { DOMAIN } from '../../sections/auth/AuthLoginForm';
+import { END_ROUTE_LOGIN } from '../../routes/paths';
 //
 
 // const Header = dynamic(() => import('./Header'), { ssr: false });
@@ -25,7 +26,7 @@ export default function MainLayout({ children }) {
   return (
     <Box>
       <Box sx={{ display: 'flex', width: '100%', py: '100px' }}>
-        <MiniDrawer />
+        {!pathname.includes(END_ROUTE_LOGIN) && <MiniDrawer />}
 
         <Box
           component="main"
