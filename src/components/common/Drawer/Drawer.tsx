@@ -165,9 +165,9 @@ export default function MiniDrawer() {
   React.useEffect(() => {
     if (pathname.includes('/mileage/category')) updateComponentNum(0);
     else if (pathname.includes('/auth/login')) updateComponentNum(0);
-    else if (pathname.includes('/mileage/semester')) updateComponentNum(1);
-    else if (pathname.includes('/mileage/item/global')) updateComponentNum(2);
-    else if (pathname.includes('/mileage/item/semester')) updateComponentNum(3);
+    else if (pathname.includes('/mileage/item/global')) updateComponentNum(1);
+    else if (pathname.includes('/mileage/item/semester')) updateComponentNum(2);
+    else if (pathname.includes('/mileage/view')) updateComponentNum(3);
     else if (pathname.includes('/mileage/register')) updateComponentNum(4);
     else if (pathname.includes('/manage/register')) updateComponentNum(5);
     else if (pathname.includes('/manage/student')) updateComponentNum(6);
