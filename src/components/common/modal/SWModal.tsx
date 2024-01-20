@@ -116,8 +116,7 @@ const modalForm = (modalType, handleClose) => {
       return <GlobalItemForm handleClose={handleClose} />;
     case EDITGLOBALITEM:
       return <GlobalItemForm handleClose={handleClose} />;
-    case ADDSTUDENT:
-      return <StudentForm handleClose={handleClose} />;
+
     case EDITSTUDENT:
       return <StudentForm handleClose={handleClose} />;
     case ADDMILEAGEREGISTER:
@@ -126,8 +125,7 @@ const modalForm = (modalType, handleClose) => {
       return <MileageRegisterForm handleClose={handleClose} />;
     case REGISTEREDSTUDENTS:
       return <StudentsModal handleClose={handleClose} />;
-    case ADDMANAGER:
-      return <ManagerForm handleClose={handleClose} />;
+
     case EDITMANAGER:
       return <ManagerForm handleClose={handleClose} />;
     case MAGICIANSEMESTERITEM:

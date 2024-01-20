@@ -92,11 +92,11 @@ export default function MileageRegisterForm({ handleClose }) {
     // [SEMESTERITEMID]: Yup.string().required('필수입니다.'),
     // [STUDENT_ID]: Yup.number().integer().required('필수입니다.'),
     [NAME]: Yup.string().required('필수입니다.'),
-    [SID]: Yup.string().required('필수입니다.'),
-    [COUNTS]: Yup.number().integer().required('필수입니다.'),
+    [SID]: Yup.string().length(8, '반드시 8자리 여야 합니다.').required('필수입니다.'),
+    [COUNTS]: Yup.number().integer(),
     // [POINTS]: Yup.number().integer().required('필수입니다.'),
-    [EXTRAPOINTS]: Yup.number().integer().required('필수입니다.'),
-    [DESCRIPTION1]: Yup.string().required('필수입니다.'),
+    [EXTRAPOINTS]: Yup.number().integer(),
+    [DESCRIPTION1]: Yup.string(),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {

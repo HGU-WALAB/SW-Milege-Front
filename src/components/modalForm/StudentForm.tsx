@@ -94,11 +94,11 @@ export default function StudentForm({ handleClose }) {
 
   const StudentSchema = Yup.object().shape({
     [NAME]: Yup.string().required('필수입니다.'),
-    [DEPARTMENT]: Yup.string().required('필수입니다.'),
-    [MAJOR1]: Yup.string().required('필수입니다.'),
-    [MAJOR2]: Yup.string().required('필수입니다.'),
-    [YEAR]: Yup.number().integer().required('필수입니다.'),
-    [SEMESTERCOUNT]: Yup.number().integer().required('필수입니다.'),
+    [DEPARTMENT]: Yup.string(),
+    [MAJOR1]: Yup.string(),
+    [MAJOR2]: Yup.string(),
+    [YEAR]: Yup.number(),
+    [SEMESTERCOUNT]: Yup.number().integer(),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {

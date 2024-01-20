@@ -285,7 +285,7 @@ export default function StudentManage({
       [ISCHECKED]: student[ISCHECKED],
     };
     return createData(
-      student[ID],
+      student[SID],
       student[NAME],
       student[SID],
       student[YEAR] + `( ${student[SEMESTERCOUNT]}학기 )`,

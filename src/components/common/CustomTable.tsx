@@ -308,10 +308,7 @@ const typeConverter = (type) => {
       return ADDITEM;
     case '마일리지 글로벌 항목':
       return ADDGLOBALITEM;
-    case '학생 관리':
-      return ADDSTUDENT;
-    case '관리자':
-      return ADDMANAGER;
+
     case '마일리지 학기별 항목 마법사':
       return MAGICIANSEMESTERITEM;
     case '마일리지 조회':
