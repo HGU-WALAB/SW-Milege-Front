@@ -30,7 +30,7 @@ export default function CategoryForm({ handleClose }) {
 
   const CategorySchema = Yup.object().shape({
     [TITLE]: Yup.string().required('필수입니다.'),
-    [TYPE]: Yup.string(),
+    [TYPE]: Yup.string().required('필수입니다.'),
     [DESCRIPTION1]: Yup.string(),
     [DESCRIPTION2]: Yup.string(),
   });

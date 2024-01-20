@@ -33,6 +33,7 @@ import {
   MAX_MAILEAGE,
   ID,
 } from 'src/assets/data/fields';
+import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
 import { ADDGLOBALITEM, EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
 import CancelButton from '../common/modal/CancelButton';
@@ -75,6 +76,11 @@ export default function GlobalItemForm({ handleClose }) {
 
   const beforeData = useSelector((state) => state.modal.beforeData);
   const router = useRouter();
+
+  const GlobalItemSchema = Yup.object().shape({
+    [CATEGORYID]: Yup.string().required('필수입니다.'),
+    [ITEM]: Yup.string().required('필수입니다.'),
+  });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     // 글로벌 세부항목 추가
@@ -162,7 +168,7 @@ export default function GlobalItemForm({ handleClose }) {
           [ISEVALUATE_FUSION]:
             modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
         }}
-        // validationSchema={CategorySchema}
+        validationSchema={GlobalItemSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, errors, touched }) => (
@@ -170,6 +176,7 @@ export default function GlobalItemForm({ handleClose }) {
             <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
               <StyleFieldBox>
                 <CategorySelect />
+
                 {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
                   <Box key={index} sx={{ width: '100%' }}>
                     <Field

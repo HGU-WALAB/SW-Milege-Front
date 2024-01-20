@@ -4,7 +4,7 @@ import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 
-import { Box, Chip, TextField, Typography, styled } from '@mui/material';
+import { Box, Chip, MenuItem, Select, TextField, Typography, styled } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
 import { closeModal } from 'src/redux/slices/modal';
@@ -29,8 +29,34 @@ import { STUDENT_ID } from 'src/assets/data/fields';
 import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
 import { RECORD_NAME } from '../../assets/data/fields';
 import { Stack } from '@mui/system';
+import GlobalItemSelect from '../common/Select/GlobalItemSelect';
+import { currentYear, generateSemesters } from 'src/utils/semesterAutoGenerate';
+import React, { useEffect } from 'react';
+import SemesterItemSelect from '../common/Select/SemesterIdSelect';
 
 export default function MileageRegisterForm({ handleClose }) {
+  const [semesterItemList, setSemesterItemList] = React.useState([]);
+  const [semester, setSemester] = React.useState(null);
+  const semesters = generateSemesters(currentYear);
+
+  const SemesterSelect = () => (
+    <Select value={semester} onChange={(e) => setSemester(e.target.value)}>
+      {semesters.map((semester, index) => (
+        <MenuItem key={index} value={semester}>
+          {semester}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+
+  useEffect(() => {
+    if (!semester) return;
+    axiosInstance
+      .get(`/api/mileage/semesters/${semester}/items`)
+      .then((res) => setSemesterItemList(res.data.list));
+  }, [semester]);
+
+  console.log(semester);
   const beforeData = useSelector((state) => state.modal.beforeData);
 
   const modalType = useSelector((state) => state.modal.modalType);
@@ -56,9 +82,9 @@ export default function MileageRegisterForm({ handleClose }) {
     // 2) axios post
     // 3) alert
     // 4) reload
-
+    console.log(values);
     const newData = {
-      [SEMESTERITEMID]: beforeData[SEMESTER_ITEM_ID],
+      [SEMESTERITEMID]: beforeData ? beforeData[SEMESTER_ITEM_ID] : values[SEMESTER_ITEM_ID],
       [SID]: values[SID],
       [STUDENT_NAME]: values[NAME],
       // [STUDENT_ID]: values[STUDENT_ID],
@@ -130,11 +156,19 @@ export default function MileageRegisterForm({ handleClose }) {
             gap: '30px',
           }}
         >
-          <Stack direction="row" gap={1}>
-            <Chip label={` ${beforeData.categoryName}`} color="primary" variant="outlined" />
-            <Chip label={`${beforeData.itemName}`} color="primary" variant="outlined" />
-            <Chip label={` ${beforeData.semester}`} color="primary" variant="outlined" />
-          </Stack>
+          {beforeData ? (
+            <Stack direction="row" gap={1}>
+              <Chip label={` ${beforeData?.categoryName}`} color="primary" variant="outlined" />
+              <Chip label={`${beforeData?.itemName}`} color="primary" variant="outlined" />
+              <Chip label={` ${beforeData?.semester}`} color="primary" variant="outlined" />
+            </Stack>
+          ) : (
+            <>
+              <SemesterSelect />
+              <SemesterItemSelect semesterItemList={semesterItemList} />
+            </>
+          )}
+
           {[NAME, SID, COUNTS, EXTRAPOINTS, DESCRIPTION1].map((field) => (
             <>
               <Field
