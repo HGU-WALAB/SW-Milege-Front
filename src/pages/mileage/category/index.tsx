@@ -243,7 +243,6 @@ export default function MileageCategory({
       originalRows={convertedFetchList}
       headCells={headCells}
       type="마일리지 카테고리"
-      π
     />
   );
 }

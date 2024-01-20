@@ -301,9 +301,8 @@ export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction)
 const fetchToUseData = (data, semester) => {
   return data.list.map((regData, index) => {
     const beforeData = {
-      [ID]: regData.student[ID],
       [NAME]: regData.student[NAME],
-      [SID]: regData.student[SID],
+      [ID]: regData.student[SID],
       [DEPARTMENT]: regData.student[DEPARTMENT],
       [MAJOR1]: regData.student[MAJOR1],
       [MAJOR2]: regData.student[MAJOR2],
@@ -313,7 +312,7 @@ const fetchToUseData = (data, semester) => {
       [ISAPPROVED]: regData.student[ISAPPROVED],
     };
     return createData(
-      regData.student[ID],
+      regData.student[SID],
       semester,
       regData.student[NAME],
       regData.student[SID],
