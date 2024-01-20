@@ -4,7 +4,17 @@ import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 
-import { Box, Chip, MenuItem, Select, TextField, Typography, styled } from '@mui/material';
+import {
+  Box,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  styled,
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatch } from 'src/redux/store';
 import { closeModal } from 'src/redux/slices/modal';
@@ -40,13 +50,26 @@ export default function MileageRegisterForm({ handleClose }) {
   const semesters = generateSemesters(currentYear);
 
   const SemesterSelect = () => (
-    <Select value={semester} onChange={(e) => setSemester(e.target.value)}>
-      {semesters.map((semester, index) => (
-        <MenuItem key={index} value={semester}>
-          {semester}
-        </MenuItem>
-      ))}
-    </Select>
+    <FormControl fullWidth>
+      <InputLabel id="demo-simple-select-label">학기</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        value={semester}
+        onChange={(e) => setSemester(e.target.value)}
+        placeholder="학기"
+        defaultValue={'학기'}
+        label="학기"
+        sx={{ minWidth: '100%', color: 'black' }}
+      >
+        {semesters
+          .filter((semester) => semester !== '전체')
+          .map((semester, index) => (
+            <MenuItem key={index} value={semester}>
+              {semester}
+            </MenuItem>
+          ))}
+      </Select>
+    </FormControl>
   );
 
   useEffect(() => {
