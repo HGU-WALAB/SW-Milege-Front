@@ -363,6 +363,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @brief 필터링 요소
    */
 
+  const sid = useSelector((state) => state.filter.sid);
+  const aid = useSelector((state) => state.filter.aid);
   const category = useSelector((state) => state.filter.category);
   const semester = useSelector((state) => state.filter.semester);
   const isVisible = useSelector((state) => state.filter.isVisible);
@@ -396,6 +398,16 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
         (row) => row.name === studentName || row.studentName === studentName
       );
     }
+    if (sid && sid !== '전체') {
+      copyRows = copyRows?.filter(
+        (row) => row.sid === sid || row.id === sid || row.studentId === sid
+      );
+    }
+    if (aid && aid !== '전체') {
+      copyRows = copyRows?.filter(
+        (row) => aid === row.aid || aid === row.id || aid === row.adminId
+      );
+    }
     if (grade && grade !== '전체') {
       copyRows = copyRows?.filter((row) => (row.grade + '').slice(0, 1) === grade);
     }
@@ -416,6 +428,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     grade,
     department,
     categoryType,
+    sid,
+    aid,
   ]);
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -519,10 +533,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
     if (!destination) return;
 
-    // Copy the current rows for manipulation
     let updatedRows = [...rows];
 
-    // Remove the dragged item from source and insert it into destination
     const [movedRow] = updatedRows.splice(source.index, 1);
     updatedRows.splice(destination.index, 0, movedRow);
 
@@ -531,8 +543,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     for (let i = startIdx; i <= endIdx; i++) {
       console.log(startIdx, endIdx);
       const updateRow = {
-        ...updatedRows[i], // <- 먼저 기존 행의 모든 필드를 복사합니다.
-        orderIdx: rows[i].orderIdx, // 그 다음 orderIdx만 업데이트합니다.
+        ...updatedRows[i],
+        orderIdx: rows[i].orderIdx,
       };
       updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
 

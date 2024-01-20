@@ -5,6 +5,7 @@ const initialState = {
   semesterList: [], // 애매
   itemList: [],
   studentList: [],
+  adminList: [],
 };
 
 const slice = createSlice({
@@ -23,9 +24,13 @@ const slice = createSlice({
     setStudentList: (state, action) => {
       state.studentList = action.payload;
     },
+    setAdminList: (state, action) => {
+      state.adminList = action.payload;
+    },
   },
 });
 
 // Reducer
-export const { setCategoryList, setSemesterList, setItemList, setStudentList } = slice.actions;
+export const { setCategoryList, setSemesterList, setItemList, setStudentList, setAdminList } =
+  slice.actions;
 export default slice.reducer;

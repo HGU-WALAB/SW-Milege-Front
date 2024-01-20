@@ -10,6 +10,8 @@ const initialState = {
   department: '전체',
   level: '0',
   categoryType: '전체',
+  sid: '전체',
+  aid: '전체',
 };
 
 const slice = createSlice({
@@ -70,6 +72,18 @@ const slice = createSlice({
     clearCategoryType: (state) => {
       state.categoryType = '전체';
     },
+    setSid: (state, action) => {
+      state.sid = action.payload;
+    },
+    clearSid: (state) => {
+      state.sid = '전체';
+    },
+    setAid: (state, action) => {
+      state.aid = action.payload;
+    },
+    clearAid: (state) => {
+      state.aid = '전체';
+    },
   },
 });
 
@@ -93,5 +107,9 @@ export const {
   clearLevel,
   setCategoryType,
   clearCategoryType,
+  setSid,
+  clearSid,
+  setAid,
+  clearAid,
 } = slice.actions;
 export default slice.reducer;

@@ -7,7 +7,6 @@ import {
   NAME,
   ID,
   TYPE,
-  ORDER_IDX,
   TITLE,
   MOD_DATE,
   ITEM_COUNT,
@@ -60,7 +59,6 @@ function createData(
   NUM: number,
   CATEGORY: string,
   TYPE: string,
-  ORDER_IDX: number,
   DESCRIPTION1: string,
   DESCRIPTION2: string,
   ITEM_COUNT: number,
@@ -102,6 +100,7 @@ const headCells = [
     disablePadding: false,
     label: '타입',
   },
+
   {
     id: [MileageCategoryBoard.DESCRIPTION1],
     numeric: true,
@@ -212,7 +211,6 @@ export default function MileageCategory({
       [TYPE]: item[TYPE],
       [DESCRIPTION1]: item[DESCRIPTION1],
       [DESCRIPTION2]: item[DESCRIPTION2],
-      [ORDER_IDX]: item[ORDER_IDX],
     };
 
     return createData(

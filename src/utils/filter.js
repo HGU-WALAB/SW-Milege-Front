@@ -1,6 +1,11 @@
 import axiosInstance from './axios';
 import { setSemester } from '../redux/slices/filter';
-import { setCategoryList, setItemList, setStudentList } from '../redux/slices/filterList';
+import {
+  setAdminList,
+  setCategoryList,
+  setItemList,
+  setStudentList,
+} from '../redux/slices/filterList';
 import { dispatch } from '../redux/store';
 import { setCurrentSemester } from '../redux/slices/data';
 
@@ -32,6 +37,17 @@ export const filteringInit = async () => {
         id: student.id,
         name: student.name,
         sid: student.sid,
+      }))
+    )
+  );
+
+  const resAdmins = await axiosInstance.get('/api/mileage/admins');
+  const adminData = await resAdmins.data;
+  await dispatch(
+    setAdminList(
+      adminData.list?.map((admin) => ({
+        name: admin.name,
+        aid: admin.sid,
       }))
     )
   );
