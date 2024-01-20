@@ -89,9 +89,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
   // const [component, setComponent] = React.useState(0);
   const dispatch = useDispatch();
+
   const clearSelected = () => {
     dispatch(clearCategory());
-    dispatch(clearSemester());
+    dispatch(clearSemester(curSemester));
     dispatch(clearIsVisible());
     dispatch(clearItem());
     dispatch(clearStudentName());
@@ -100,7 +101,7 @@ export default function MiniDrawer() {
     dispatch(clearSelectedId());
   };
   const theme = useTheme();
-
+  const curSemester = useSelector((state) => state.data.currentSemester);
   const pinned = useSelector((state) => state.drawer.pinned);
   const open = useSelector((state) => state.drawer.open);
   const drawerPinnedOff = () => dispatch(setPinned(false));

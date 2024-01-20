@@ -57,6 +57,12 @@ import MainLayout from '../layouts/main/MainLayout';
 
 import { PersistGate } from 'redux-persist/integration/react';
 import AuthGuard from '../auth/AuthGuard';
+import { useEffect } from 'react';
+import axiosInstance from '../utils/axios';
+import { useDispatch } from 'react-redux';
+import { setSemester } from '../redux/slices/filter';
+import { filteringInit } from '../utils/filter';
+import { useRouter } from 'next/router';
 
 // import { AuthProvider } from '../auth/Auth0Context';
 // import { AuthProvider } from '../auth/FirebaseContext';
@@ -73,6 +79,13 @@ MyApp.propTypes = {
 };
 
 export default function MyApp(props) {
+  const { pathname } = useRouter();
+
+  useEffect(() => {
+    if (pathname.includes('/auth/login')) return;
+
+    filteringInit();
+  }, []);
   const { Component, pageProps, emotionCache = clientSideEmotionCache } = props;
 
   const getLayout = Component.getLayout ?? ((page) => page);

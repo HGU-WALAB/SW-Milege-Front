@@ -25,8 +25,8 @@ const slice = createSlice({
     setSemester: (state, action) => {
       state.semester = action.payload;
     },
-    clearSemester: (state) => {
-      state.semester = '전체';
+    clearSemester: (state, action) => {
+      state.semester = action.payload;
     },
     setIsVisible: (state, action) => {
       state.isVisible = action.payload;

@@ -5,22 +5,12 @@ import { dispatch } from 'src/redux/store';
 
 const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
-export default function TitleAndRefreshButton({ type }) {
+export default function Title({ type }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
         {type} {' 리스트'}
       </Typography>
-
-      <Link href={`${DOMAIN}/`}>
-        <Button
-          variant="outlined"
-          sx={{ padding: '2px 10px' }}
-          onClick={() => dispatch(setComponentNum(0))}
-        >
-          필터링 새로고침 버튼
-        </Button>
-      </Link>
     </Box>
   );
 }

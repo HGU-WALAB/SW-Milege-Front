@@ -67,10 +67,12 @@ import { useRouter } from 'next/router';
 import Filtering from './Filter/Filtering';
 import Link from 'next/link';
 import { setComponentNum } from 'src/redux/slices/component';
-import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
+import TitleAndRefreshButton from './Title/Title';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axiosInstance from 'src/utils/axios';
 import { setSelectedId } from 'src/redux/slices/table';
+import Title from './Title/Title';
+import { REGISTER, RESULT, SEMESTER_ITEM, VIEW } from 'src/routes/paths';
 
 /**
  *  @brief 반응형 구축
@@ -242,7 +244,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
   return (
     <Box>
-      <TitleAndRefreshButton type={type} />
+      <Title type={type} />
 
       {/* 필터링 */}
 
@@ -316,6 +318,19 @@ const typeConverter = (type) => {
  */
 
 export default function EnhancedTable({ originalRows, headCells, type }) {
+  const { pathname } = useRouter();
+
+  const checkIsPageRelatedWithSemester = () => {
+    if (
+      pathname.includes(VIEW) ||
+      pathname.includes(SEMESTER_ITEM) ||
+      pathname.includes(REGISTER) ||
+      pathname.includes(RESULT)
+    )
+      return true;
+    else return false;
+  };
+
   function sortByOrderIdx(data) {
     if (!data) return;
 
@@ -355,7 +370,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (category && category !== '전체') {
       copyRows = copyRows?.filter((row) => row.category === category);
     }
-    if (semester && semester !== '전체') {
+    if (semester && checkIsPageRelatedWithSemester()) {
       copyRows = copyRows?.filter((row) => row.semester === semester);
     }
     if (isVisible !== '전체') {

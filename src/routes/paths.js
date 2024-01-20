@@ -6,34 +6,48 @@ function path(root, sublink) {
   return `${root}${sublink}`;
 }
 
-const PAGE_ROOT = path(DOMAIN, '/');
+const PAGE_ROOT = DOMAIN;
 const ROOTS_MILEAGE = path(PAGE_ROOT, '/mileage');
 const ROOTS_MANAGE = path(PAGE_ROOT, '/manage');
 const ROOTS_REPORT = path(PAGE_ROOT, '/report');
 
+export const CATEGORY = '/category';
+export const GLOBAL_ITEM = '/item/global';
+export const SEMESTER_ITEM = '/item/semester';
+export const VIEW = '/view';
+export const REGISTER = '/register';
+export const RESULT = '/result';
+export const USER = '/user';
+export const SETTING = '/setting';
+export const STUDENT = '/student';
+export const ITEM = '/item';
+export const RANK = '/rank';
+
 export const PATH_PAGES = {
   root: PAGE_ROOT,
   mileage: {
-    category: path(ROOTS_MILEAGE, '/category'),
-    globalItem: path(ROOTS_MILEAGE, '/item/global'),
-    semesterItem: path(ROOTS_MILEAGE, '/item/semester'),
-    view: path(ROOTS_MILEAGE, '/view'),
-    register: path(ROOTS_MILEAGE, '/register'),
-    result: path(ROOTS_MILEAGE, '/result'),
+    category: path(ROOTS_MILEAGE, CATEGORY),
+    globalItem: path(ROOTS_MILEAGE, GLOBAL_ITEM),
+    semesterItem: path(ROOTS_MILEAGE, SEMESTER_ITEM),
+    view: path(ROOTS_MILEAGE, VIEW),
+    register: path(ROOTS_MILEAGE, REGISTER),
+    result: path(ROOTS_MILEAGE, RESULT),
   },
   manage: {
-    user: path(ROOTS_MANAGE, '/user'),
-    setting: path(ROOTS_MANAGE, '/setting'),
-    student: path(ROOTS_MANAGE, '/student'),
-    register: path(ROOTS_MANAGE, '/register'),
+    user: path(ROOTS_MANAGE, USER),
+    setting: path(ROOTS_MANAGE, SETTING),
+    student: path(ROOTS_MANAGE, STUDENT),
+    register: path(ROOTS_MANAGE, REGISTER),
   },
   report: {
     root: path(ROOTS_REPORT, '/'),
-    item: path(ROOTS_REPORT, '/item'),
-    rank: path(ROOTS_REPORT, '/rank'),
-    category: path(ROOTS_REPORT, '/category'),
+    item: path(ROOTS_REPORT, ITEM),
+    rank: path(ROOTS_REPORT, RANK),
+    category: path(ROOTS_REPORT, CATEGORY),
   },
 };
+
+console.log(PATH_PAGES.mileage.register);
 
 const API_ROOT = '/api';
 
@@ -51,14 +65,14 @@ export const PATH_API = {
     },
     download: {
       format: {
-        semesterItem: path(ROOTS_DOWNLOAD, 'semesterItemFormat'),
-        record: path(ROOTS_DOWNLOAD, 'mileageRecordFormat'),
-        result: path(ROOTS_DOWNLOAD, 'mileageScholarshipFormat'),
+        semesterItem: path(ROOTS_DOWNLOAD, '/semesterItemFormat'),
+        record: path(ROOTS_DOWNLOAD, '/mileageRecordFormat'),
+        result: path(ROOTS_DOWNLOAD, '/mileageScholarshipFormat'),
       },
-      category: path(ROOTS_DOWNLOAD, 'mileage-categories'),
-      globalItem: path(ROOTS_DOWNLOAD, 'mileage-items-common'),
-      semesterItem: (semester) => path(ROOTS_DOWNLOAD, `mileage-items?semester=${semester}`),
-      register: (semester) => path(ROOTS_DOWNLOAD, `scholarship-applicants?semester=${semester}`),
+      category: path(ROOTS_DOWNLOAD, '/mileage-categories'),
+      globalItem: path(ROOTS_DOWNLOAD, '/mileage-items-common'),
+      semesterItem: (semester) => path(ROOTS_DOWNLOAD, `/mileage-items?semester=${semester}`),
+      register: (semester) => path(ROOTS_DOWNLOAD, `/scholarship-applicants?semester=${semester}`),
     },
   },
 };
