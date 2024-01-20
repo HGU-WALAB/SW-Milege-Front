@@ -94,12 +94,11 @@ export default function StudentForm({ handleClose }) {
 
   const StudentSchema = Yup.object().shape({
     [NAME]: Yup.string().required('필수입니다.'),
-    [SID]: Yup.number().integer().required('필수입니다.'),
-    [DEPARTMENT]: Yup.string().required('필수입니다.'),
-    [MAJOR1]: Yup.string().required('필수입니다.'),
-    [MAJOR2]: Yup.string().required('필수입니다.'),
-    [YEAR]: Yup.number().integer().required('필수입니다.'),
-    [SEMESTERCOUNT]: Yup.number().integer().required('필수입니다.'),
+    [DEPARTMENT]: Yup.string(),
+    [MAJOR1]: Yup.string(),
+    [MAJOR2]: Yup.string(),
+    [YEAR]: Yup.number(),
+    [SEMESTERCOUNT]: Yup.number().integer(),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -111,7 +110,6 @@ export default function StudentForm({ handleClose }) {
 
     const newData = {
       [NAME]: values[NAME],
-      [SID]: values[SID],
       [ISAPPROVED]: true,
       [DEPARTMENT]: values[DEPARTMENT],
       [MAJOR1]: values[MAJOR1],
@@ -150,7 +148,6 @@ export default function StudentForm({ handleClose }) {
     <Formik
       initialValues={{
         [NAME]: modalType === EDITSTUDENT ? beforeData?.[NAME] : '',
-        [SID]: modalType === EDITSTUDENT ? beforeData?.[SID] : '',
         [DEPARTMENT]: modalType === EDITSTUDENT ? beforeData?.[DEPARTMENT] : '',
         [MAJOR1]: modalType === EDITSTUDENT ? beforeData?.[MAJOR1] : '',
         [MAJOR2]: modalType === EDITSTUDENT ? beforeData?.[MAJOR2] : '',
@@ -164,7 +161,7 @@ export default function StudentForm({ handleClose }) {
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
-              {[NAME, SID].map((field: string, index: number) => (
+              {[NAME].map((field: string, index: number) => (
                 <Box key={index} sx={{ width: '100%' }}>
                   <Field
                     name={field}

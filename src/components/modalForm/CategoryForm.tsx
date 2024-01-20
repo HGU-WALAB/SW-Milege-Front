@@ -30,10 +30,9 @@ export default function CategoryForm({ handleClose }) {
 
   const CategorySchema = Yup.object().shape({
     [TITLE]: Yup.string().required('필수입니다.'),
-    [TYPE]: Yup.string(),
+    [TYPE]: Yup.string().required('필수입니다.'),
     [DESCRIPTION1]: Yup.string(),
     [DESCRIPTION2]: Yup.string(),
-    [ORDER_IDX]: Yup.number().integer().required('필수입니다.'),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -45,7 +44,6 @@ export default function CategoryForm({ handleClose }) {
 
     const newData = {
       [TITLE]: values[TITLE],
-      [ORDER_IDX]: values[ORDER_IDX],
       [TYPE]: values[TYPE],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
@@ -78,7 +76,6 @@ export default function CategoryForm({ handleClose }) {
     <Formik
       initialValues={{
         [TITLE]: modalType === EDITCATEGORY ? beforeData?.[TITLE] : '',
-        [ORDER_IDX]: modalType === EDITCATEGORY ? beforeData?.[ORDER_IDX] : '',
         [TYPE]: modalType === EDITCATEGORY ? beforeData?.[TYPE] : '없음',
         [DESCRIPTION1]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION2] : '',
@@ -99,7 +96,7 @@ export default function CategoryForm({ handleClose }) {
           }}
         >
           <TypeSelect />
-          {[TITLE, ORDER_IDX, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
+          {[TITLE, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
             <>
               <Field
                 key={index}

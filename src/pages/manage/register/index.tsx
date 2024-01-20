@@ -287,13 +287,12 @@ const getServerSidePropsFunction: GetServerSideProps<{
 }> = async (context) => {
   setServerSideCookie(context);
   // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
-  const semesterRes = await axiosInstance.get(`api/mileage/semesters/currentSemester`);
+  const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
   const nowSemester = semesterRes.data.data.name;
   const res = await axiosInstance.get(`/api/mileage/apply/semester/${nowSemester}`);
   const fetchData = res.data;
-  console.log(fetchData);
 
-  return { props: { fetchData, nowSemester } };
+  return { props: { fetchData } };
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
@@ -301,9 +300,8 @@ export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction)
 const fetchToUseData = (data, semester) => {
   return data.list.map((regData, index) => {
     const beforeData = {
-      [ID]: regData.student[ID],
       [NAME]: regData.student[NAME],
-      [SID]: regData.student[SID],
+      [ID]: regData.student[SID],
       [DEPARTMENT]: regData.student[DEPARTMENT],
       [MAJOR1]: regData.student[MAJOR1],
       [MAJOR2]: regData.student[MAJOR2],
@@ -313,7 +311,7 @@ const fetchToUseData = (data, semester) => {
       [ISAPPROVED]: regData.student[ISAPPROVED],
     };
     return createData(
-      regData.student[ID],
+      regData.student[SID],
       semester,
       regData.student[NAME],
       regData.student[SID],
@@ -334,7 +332,6 @@ const fetchToUseData = (data, semester) => {
 
 export default function RegisterManage({
   fetchData,
-  nowSemester,
   requireLogin,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -342,21 +339,14 @@ export default function RegisterManage({
     handleServerAuth403Error(error);
     return;
   }
-
-  const [convertedFetchList, setConvertedFetchList] = useState(
-    fetchToUseData(fetchData, nowSemester)
-  );
-
   const semester = useSelector((state) => state.filter.semester);
 
+  const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData, semester));
+
   useEffect(() => {
-    axiosInstance
-      .get(`/api/mileage/apply/semester/${semester === '전체' ? nowSemester : semester}`)
-      .then((res) => {
-        setConvertedFetchList(
-          fetchToUseData(res.data, semester === '전체' ? nowSemester : semester)
-        );
-      });
+    axiosInstance.get(`/api/mileage/apply/semester/${semester}`).then((res) => {
+      setConvertedFetchList(fetchToUseData(res.data, semester));
+    });
   }, [semester]);
 
   return (

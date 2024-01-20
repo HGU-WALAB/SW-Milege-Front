@@ -33,8 +33,8 @@ export default function SemesterItemForm({ handleClose }) {
   const SemesterItemSchema = Yup.object().shape({
     [SEMESTER]: Yup.string().required('필수입니다.'),
     itemId: Yup.number().integer().required('필수입니다.'),
-    [MILEAGE]: Yup.number().integer().required('필수입니다.'),
-    [ITEM_MAX_POINTS]: Yup.number().integer().required('필수입니다.'),
+    [MILEAGE]: Yup.number().integer(),
+    [ITEM_MAX_POINTS]: Yup.number().integer(),
   });
 
   console.log('Dddd', beforeData);

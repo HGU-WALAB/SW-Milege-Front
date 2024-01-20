@@ -193,7 +193,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
 }> = async (context) => {
   setServerSideCookie(context);
 
-  const semesterRes = await axiosInstance.get(`api/mileage/semesters/currentSemester`);
+  const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
   const nowSemester = semesterRes.data.data.name;
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
   // const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);

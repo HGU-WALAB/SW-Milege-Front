@@ -1,10 +1,82 @@
 // ----------------------------------------------------------------------
 
+export const END_ROUTE_LOGIN = '/auth/login';
+export const END_ROUTE_CATEGORY = '/mileage/category';
+export const END_ROUTE_GLOBAL_ITEM = '/mileage/item/global';
+export const END_ROUTE_SEMESTER_ITEM = '/mileage/item/semester';
+export const END_ROUTE_VIEW = '/mileage/view';
+export const END_ROUTE_MILEAGE_REGISTER = '/mileage/register';
+export const END_ROUTE_RESULT = '/mileage/result';
+export const END_ROUTE_MANAGER = '/manage/user';
+export const END_ROUTE_SETTING = '/setting';
+export const END_ROUTE_STUDENT = '/manage/student';
+export const END_ROUTE_MANAGE_REGISTER = '/manage/register';
+export const END_ROUTE_REPORT = '/report';
+
 export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
 function path(root, sublink) {
   return `${root}${sublink}`;
 }
+
+const PAGE_ROOT = DOMAIN;
+const ROOTS_MILEAGE = path(PAGE_ROOT, '/mileage');
+const ROOTS_MANAGE = path(PAGE_ROOT, '/manage');
+const ROOTS_REPORT = path(PAGE_ROOT, '/report');
+
+export const PATH_PAGES = {
+  root: PAGE_ROOT,
+  mileage: {
+    category: path(ROOTS_MILEAGE, '/category'),
+    globalItem: path(ROOTS_MILEAGE, '/item/global'),
+    semesterItem: path(ROOTS_MILEAGE, '/item/semester'),
+    view: path(ROOTS_MILEAGE, '/view'),
+    register: path(ROOTS_MILEAGE, '/register'),
+    result: path(ROOTS_MILEAGE, '/result'),
+  },
+  manage: {
+    user: path(ROOTS_MANAGE, '/user'),
+    setting: path(ROOTS_MANAGE, '/setting'),
+    student: path(ROOTS_MANAGE, '/student'),
+    register: path(ROOTS_MANAGE, '/register'),
+  },
+  report: {
+    root: path(ROOTS_REPORT, '/'),
+    item: path(ROOTS_REPORT, '/item'),
+    rank: path(ROOTS_REPORT, '/rank'),
+    category: path(ROOTS_REPORT, '/category'),
+  },
+};
+
+console.log(PATH_PAGES.mileage.register);
+
+const API_ROOT = '/api';
+
+const ROOTS_EXCEL = path(API_ROOT, '/excel');
+const ROOTS_UPLOAD = path(ROOTS_EXCEL, '/upload');
+const ROOTS_DOWNLOAD = path(ROOTS_EXCEL, '/download');
+
+export const PATH_API = {
+  root: API_ROOT,
+  excel: {
+    upload: {
+      semesterItem: path(ROOTS_UPLOAD, '/mileage-items'),
+      record: path(ROOTS_UPLOAD, '/mileage-records'),
+      result: path(ROOTS_UPLOAD, '/scholarship-results'),
+    },
+    download: {
+      format: {
+        semesterItem: path(ROOTS_DOWNLOAD, '/semesterItemFormat'),
+        record: path(ROOTS_DOWNLOAD, '/mileageRecordFormat'),
+        result: path(ROOTS_DOWNLOAD, '/mileageScholarshipFormat'),
+      },
+      category: path(ROOTS_DOWNLOAD, '/mileage-categories'),
+      globalItem: path(ROOTS_DOWNLOAD, '/mileage-items-common'),
+      semesterItem: (semester) => path(ROOTS_DOWNLOAD, `/mileage-items?semester=${semester}`),
+      register: (semester) => path(ROOTS_DOWNLOAD, `/scholarship-applicants?semester=${semester}`),
+    },
+  },
+};
 
 const ROOTS_AUTH = '/auth';
 const ROOTS_DASHBOARD = '/dashboard';
@@ -98,6 +170,8 @@ export const PATH_DASHBOARD = {
     demoView: path(ROOTS_DASHBOARD, '/blog/post/apply-these-7-secret-techniques-to-improve-event'),
   },
 };
+
+//----------------------------------------------------------------------------------------------------
 
 export const PATH_DOCS = {
   root: 'https://docs.minimals.cc',

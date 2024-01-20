@@ -19,7 +19,7 @@ export default function CategorySelect() {
   return (
     <FormControl sx={{ width: '100%' }}>
       <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
-      <Field as={MySelect} name={CATEGORYID} variant="outlined" />
+      <Field as={MySelect} name={CATEGORYID} variant="outlined" required />
     </FormControl>
   );
 }

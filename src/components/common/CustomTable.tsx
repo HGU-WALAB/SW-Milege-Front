@@ -67,10 +67,22 @@ import { useRouter } from 'next/router';
 import Filtering from './Filter/Filtering';
 import Link from 'next/link';
 import { setComponentNum } from 'src/redux/slices/component';
-import TitleAndRefreshButton from './Title/TitleAndRefreshButton';
+import TitleAndRefreshButton from './Title/Title';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axiosInstance from 'src/utils/axios';
 import { setSelectedId } from 'src/redux/slices/table';
+import Title from './Title/Title';
+import {
+  END_ROUTE_MANAGE_REGISTER,
+  END_ROUTE_MILEAGE_REGISTER,
+  END_ROUTE_RESULT,
+  END_ROUTE_SEMESTER_ITEM,
+  END_ROUTE_VIEW,
+  REGISTER,
+  RESULT,
+  SEMESTER_ITEM,
+  VIEW,
+} from 'src/routes/paths';
 
 /**
  *  @brief 반응형 구축
@@ -242,7 +254,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
   return (
     <Box>
-      <TitleAndRefreshButton type={type} />
+      <Title type={type} />
 
       {/* 필터링 */}
 
@@ -296,10 +308,7 @@ const typeConverter = (type) => {
       return ADDITEM;
     case '마일리지 글로벌 항목':
       return ADDGLOBALITEM;
-    case '학생 관리':
-      return ADDSTUDENT;
-    case '관리자':
-      return ADDMANAGER;
+
     case '마일리지 학기별 항목 마법사':
       return MAGICIANSEMESTERITEM;
     case '마일리지 조회':
@@ -316,6 +325,20 @@ const typeConverter = (type) => {
  */
 
 export default function EnhancedTable({ originalRows, headCells, type }) {
+  const { pathname } = useRouter();
+
+  const checkIsPageRelatedWithSemester = () => {
+    if (
+      pathname.includes(END_ROUTE_VIEW) ||
+      pathname.includes(END_ROUTE_SEMESTER_ITEM) ||
+      pathname.includes(END_ROUTE_MILEAGE_REGISTER) ||
+      pathname.includes(END_ROUTE_MANAGE_REGISTER) ||
+      pathname.includes(END_ROUTE_RESULT)
+    )
+      return true;
+    else return false;
+  };
+
   function sortByOrderIdx(data) {
     if (!data) return;
 
@@ -337,6 +360,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @brief 필터링 요소
    */
 
+  const sid = useSelector((state) => state.filter.sid);
+  const aid = useSelector((state) => state.filter.aid);
   const category = useSelector((state) => state.filter.category);
   const semester = useSelector((state) => state.filter.semester);
   const isVisible = useSelector((state) => state.filter.isVisible);
@@ -355,7 +380,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (category && category !== '전체') {
       copyRows = copyRows?.filter((row) => row.category === category);
     }
-    if (semester && semester !== '전체') {
+    if (semester && checkIsPageRelatedWithSemester()) {
       copyRows = copyRows?.filter((row) => row.semester === semester);
     }
     if (isVisible !== '전체') {
@@ -368,6 +393,16 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (studentName && studentName !== '전체') {
       copyRows = copyRows?.filter(
         (row) => row.name === studentName || row.studentName === studentName
+      );
+    }
+    if (sid && sid !== '전체') {
+      copyRows = copyRows?.filter(
+        (row) => row.sid === sid || row.id === sid || row.studentId === sid
+      );
+    }
+    if (aid && aid !== '전체') {
+      copyRows = copyRows?.filter(
+        (row) => aid === row.aid || aid === row.id || aid === row.adminId
       );
     }
     if (grade && grade !== '전체') {
@@ -390,6 +425,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     grade,
     department,
     categoryType,
+    sid,
+    aid,
   ]);
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -493,10 +530,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
     if (!destination) return;
 
-    // Copy the current rows for manipulation
     let updatedRows = [...rows];
 
-    // Remove the dragged item from source and insert it into destination
     const [movedRow] = updatedRows.splice(source.index, 1);
     updatedRows.splice(destination.index, 0, movedRow);
 
@@ -505,8 +540,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     for (let i = startIdx; i <= endIdx; i++) {
       console.log(startIdx, endIdx);
       const updateRow = {
-        ...updatedRows[i], // <- 먼저 기존 행의 모든 필드를 복사합니다.
-        orderIdx: rows[i].orderIdx, // 그 다음 orderIdx만 업데이트합니다.
+        ...updatedRows[i],
+        orderIdx: rows[i].orderIdx,
       };
       updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
 

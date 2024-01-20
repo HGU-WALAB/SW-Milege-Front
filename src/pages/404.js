@@ -10,6 +10,7 @@ import CompactLayout from '../layouts/compact';
 import { MotionContainer, varBounce } from '../components/animate';
 // assets
 import { PageNotFoundIllustration } from '../assets/illustrations';
+import { useRouter } from 'next/router';
 
 // ----------------------------------------------------------------------
 

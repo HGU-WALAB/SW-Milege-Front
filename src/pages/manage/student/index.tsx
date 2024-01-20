@@ -274,21 +274,18 @@ export default function StudentManage({
 
   const convertedFetchList = fetchData.list?.map((student) => {
     const beforeData = {
-      [ID]: student[ID],
+      [ID]: student[SID],
       [NAME]: student[NAME],
-      [SID]: student[SID],
-
       [DEPARTMENT]: student[DEPARTMENT],
       [MAJOR1]: student[MAJOR1],
       [MAJOR2]: student[MAJOR2],
-
       [YEAR]: student[YEAR],
       [SEMESTERCOUNT]: student[SEMESTERCOUNT],
       [LASTLOGINDATE]: student[LASTLOGINDATE],
       [ISCHECKED]: student[ISCHECKED],
     };
     return createData(
-      student[ID],
+      student[SID],
       student[NAME],
       student[SID],
       student[YEAR] + `( ${student[SEMESTERCOUNT]}학기 )`,

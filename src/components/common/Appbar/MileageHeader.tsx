@@ -6,6 +6,7 @@ import Link from 'next/link';
 import AuthWithSocial from 'src/sections/auth/AuthWithSocial';
 import { useRouter } from 'next/router';
 import { logout } from 'src/auth/utils';
+import { END_ROUTE_LOGIN } from 'src/routes/paths';
 
 export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
@@ -63,7 +64,7 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
       </Toolbar>
 
       <Box sx={{ position: 'absolute', right: '30px', top: '13px', display: 'flex', gap: '50px' }}>
-        {pathname !== '/auth/login' && <AuthWithSocial />}
+        {!pathname.includes(END_ROUTE_LOGIN) && <AuthWithSocial />}
         <Link
           href={`${DOMAIN}/auth/login`}
           style={{
@@ -71,7 +72,7 @@ export default function MileageHeader({ open, handleDrawerOpen }: DrawerHeaderPr
             color: 'inherit',
           }}
         >
-          {pathname !== `${DOMAIN}/auth/login` && (
+          {!pathname.includes(END_ROUTE_LOGIN) && (
             <Button onClick={logout} color="inherit">
               로그아웃
             </Button>

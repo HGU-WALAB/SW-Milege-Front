@@ -281,21 +281,18 @@ const getServerSidePropsFunction: GetServerSideProps<{
 }> = async (context) => {
   setServerSideCookie(context);
 
-  const semesterRes = await axiosInstance.get(`api/mileage/semesters/currentSemester`);
+  const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
   const nowSemester = await semesterRes.data.data.name;
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
 
-  console.log(nowSemester);
-
   let fetchData = res.data;
-  console.log(fetchData);
-  return { props: { fetchData, nowSemester } };
+  return { props: { fetchData } };
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 const fetchToUseData = (data) => {
-  return data.list.map((semesterItem) => {
+  return data?.list.map((semesterItem) => {
     const beforeData = {
       [SEMESTERITEMID]: semesterItem.id,
       itemId: semesterItem.item.id,
@@ -320,7 +317,6 @@ const fetchToUseData = (data) => {
 
 export default function MileageSemesterItem({
   fetchData,
-  nowSemester,
   requireLogin,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -329,23 +325,18 @@ export default function MileageSemesterItem({
     return;
   }
 
-  // const data = useSelector((state) => state.data.mileageSemesterList);
   const dispatch = useDispatch();
-  // const [updatedData, setUpdatedData] = useState(fetchToUseData(fetchData));
+
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
 
   const semester = useSelector((state) => state.filter.semester);
-  dispatch(setSemester(semester === '전체' ? nowSemester : semester));
 
   useEffect(() => {
-    axiosInstance
-      .get(`/api/mileage/semesters/${semester === '전체' ? nowSemester : semester}/items`)
-      .then((res) => {
-        setConvertedFetchList(fetchToUseData(res.data));
-      });
+    axiosInstance.get(`/api/mileage/semesters/${semester}/items`).then((res) => {
+      setConvertedFetchList(fetchToUseData(res.data));
+    });
   }, [semester]);
 
-  console.log(convertedFetchList);
   return (
     <EnhancedTable
       originalRows={convertedFetchList}
