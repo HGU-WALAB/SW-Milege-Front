@@ -1,5 +1,18 @@
 // ----------------------------------------------------------------------
 
+export const END_ROUTE_LOGIN = '/auth/login';
+export const END_ROUTE_CATEGORY = '/mileage/category';
+export const END_ROUTE_GLOBAL_ITEM = '/mileage/item/global';
+export const END_ROUTE_SEMESTER_ITEM = '/mileage/item/semester';
+export const END_ROUTE_VIEW = '/mileage/view';
+export const END_ROUTE_MILEAGE_REGISTER = '/mileage/register';
+export const END_ROUTE_RESULT = '/mileage/result';
+export const END_ROUTE_MANAGER = '/manage/user';
+export const END_ROUTE_SETTING = '/setting';
+export const END_ROUTE_STUDENT = '/manage/student';
+export const END_ROUTE_MANAGE_REGISTER = '/manage/register';
+export const END_ROUTE_REPORT = '/report';
+
 export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
 function path(root, sublink) {
@@ -11,39 +24,27 @@ const ROOTS_MILEAGE = path(PAGE_ROOT, '/mileage');
 const ROOTS_MANAGE = path(PAGE_ROOT, '/manage');
 const ROOTS_REPORT = path(PAGE_ROOT, '/report');
 
-export const CATEGORY = '/category';
-export const GLOBAL_ITEM = '/item/global';
-export const SEMESTER_ITEM = '/item/semester';
-export const VIEW = '/view';
-export const REGISTER = '/register';
-export const RESULT = '/result';
-export const USER = '/user';
-export const SETTING = '/setting';
-export const STUDENT = '/student';
-export const ITEM = '/item';
-export const RANK = '/rank';
-
 export const PATH_PAGES = {
   root: PAGE_ROOT,
   mileage: {
-    category: path(ROOTS_MILEAGE, CATEGORY),
-    globalItem: path(ROOTS_MILEAGE, GLOBAL_ITEM),
-    semesterItem: path(ROOTS_MILEAGE, SEMESTER_ITEM),
-    view: path(ROOTS_MILEAGE, VIEW),
-    register: path(ROOTS_MILEAGE, REGISTER),
-    result: path(ROOTS_MILEAGE, RESULT),
+    category: path(ROOTS_MILEAGE, '/category'),
+    globalItem: path(ROOTS_MILEAGE, '/item/global'),
+    semesterItem: path(ROOTS_MILEAGE, '/item/semester'),
+    view: path(ROOTS_MILEAGE, '/view'),
+    register: path(ROOTS_MILEAGE, '/register'),
+    result: path(ROOTS_MILEAGE, '/result'),
   },
   manage: {
-    user: path(ROOTS_MANAGE, USER),
-    setting: path(ROOTS_MANAGE, SETTING),
-    student: path(ROOTS_MANAGE, STUDENT),
-    register: path(ROOTS_MANAGE, REGISTER),
+    user: path(ROOTS_MANAGE, '/user'),
+    setting: path(ROOTS_MANAGE, '/setting'),
+    student: path(ROOTS_MANAGE, '/student'),
+    register: path(ROOTS_MANAGE, '/register'),
   },
   report: {
     root: path(ROOTS_REPORT, '/'),
-    item: path(ROOTS_REPORT, ITEM),
-    rank: path(ROOTS_REPORT, RANK),
-    category: path(ROOTS_REPORT, CATEGORY),
+    item: path(ROOTS_REPORT, '/item'),
+    rank: path(ROOTS_REPORT, '/rank'),
+    category: path(ROOTS_REPORT, '/category'),
   },
 };
 

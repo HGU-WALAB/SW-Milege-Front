@@ -72,7 +72,17 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axiosInstance from 'src/utils/axios';
 import { setSelectedId } from 'src/redux/slices/table';
 import Title from './Title/Title';
-import { REGISTER, RESULT, SEMESTER_ITEM, VIEW } from 'src/routes/paths';
+import {
+  END_ROUTE_MANAGE_REGISTER,
+  END_ROUTE_MILEAGE_REGISTER,
+  END_ROUTE_RESULT,
+  END_ROUTE_SEMESTER_ITEM,
+  END_ROUTE_VIEW,
+  REGISTER,
+  RESULT,
+  SEMESTER_ITEM,
+  VIEW,
+} from 'src/routes/paths';
 
 /**
  *  @brief 반응형 구축
@@ -322,10 +332,11 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const checkIsPageRelatedWithSemester = () => {
     if (
-      pathname.includes(VIEW) ||
-      pathname.includes(SEMESTER_ITEM) ||
-      pathname.includes(REGISTER) ||
-      pathname.includes(RESULT)
+      pathname.includes(END_ROUTE_VIEW) ||
+      pathname.includes(END_ROUTE_SEMESTER_ITEM) ||
+      pathname.includes(END_ROUTE_MILEAGE_REGISTER) ||
+      pathname.includes(END_ROUTE_MANAGE_REGISTER) ||
+      pathname.includes(END_ROUTE_RESULT)
     )
       return true;
     else return false;
