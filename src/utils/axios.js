@@ -23,14 +23,12 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // 서버에서 보내는 에러 응답
-
     const serverErrorMessage = error.response?.data?.message;
 
     // 만약 서버에서 에러 메시지가 있으면 그 메시지를 보여주고, 아니면 기본 메시지를 보여줍니다.
     const errorMessageToShow = serverErrorMessage || 'Something went wrong';
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !error.response.message.includes('404')) {
       if (errorMessageToShow !== 'Something went wrong') alert(errorMessageToShow);
       else {
         console.error(errorMessageToShow);
