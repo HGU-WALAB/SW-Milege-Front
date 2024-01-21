@@ -12,6 +12,7 @@ export const TITLE = 'title';
 export const ITEM = 'item';
 export const MESSAGE = 'message';
 export const AUTHORITY = 'authority';
+
 // export const NAME = 'name';
 export const STUDENT_NAME = 'studentName';
 export const POINT = 'point';
@@ -68,7 +69,7 @@ export const SEMESTER_NAME = 'semesterName';
 export const ITEM_NAME = 'itemName';
 export const STUDENT_ID = 'studentId';
 export const CATEGORY_NAME = 'categoryName';
-
+export const CATEGORY_MAX_POINTS = 'categoryMaxPoints';
 export const ORDER_IDX = 'orderIdx';
 export const ITEM_MAX_POINTS = 'itemMaxPoints';
 export const ISCHECKED = 'isChecked';

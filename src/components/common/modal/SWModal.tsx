@@ -79,6 +79,7 @@ import {
   ITEM_MAX_POINTS,
   AID,
   IS_MULTI,
+  CATEGORY_MAX_POINTS,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -138,6 +139,8 @@ const modalForm = (modalType, handleClose) => {
 
 export const engToKor = (eng) => {
   switch (eng) {
+    case CATEGORY_MAX_POINTS:
+      return '카테고리 최대 포인트';
     case IS_MULTI:
       return '중복 여부';
     case AID:

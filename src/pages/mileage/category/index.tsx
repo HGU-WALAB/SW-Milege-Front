@@ -31,8 +31,10 @@ export enum MileageCategoryBoard {
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
   'ITEM_COUNT' = ITEM_COUNT,
+  'CATEGORY_MAX_POINTS' = CATEGORY_MAX_POINTS,
   'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
+
 }
 
 /**
@@ -48,6 +50,7 @@ interface Data {
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
   [MileageCategoryBoard.ITEM_COUNT]: number;
+  [MileageCategoryBoard.CATEGORY_MAX_POINTS]: number;
   [MileageCategoryBoard.MOD_DATE]: string;
   [MileageCategoryBoard.MANAGE]: ReactNode;
 }
@@ -66,6 +69,7 @@ function createData(
   DESCRIPTION1: string,
   DESCRIPTION2: string,
   ITEM_COUNT: number,
+  CATEGORY_MAX_POINTS: number,
   MOD_DATE: string,
   MANAGE: ReactNode
 ): Data {
@@ -77,6 +81,7 @@ function createData(
     [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
     [MileageCategoryBoard.ITEM_COUNT]: ITEM_COUNT,
+    [MileageCategoryBoard.CATEGORY_MAX_POINTS]: CATEGORY_MAX_POINTS,
     [MileageCategoryBoard.MOD_DATE]: MOD_DATE,
     [MileageCategoryBoard.MANAGE]: MANAGE,
   };
@@ -131,6 +136,12 @@ const headCells = [
     label: '하위 항목 개수',
   },
   {
+    id: [MileageCategoryBoard.CATEGORY_MAX_POINTS],
+    numeric: true,
+    disablePadding: false,
+    label: '최대 마일리지',
+  }
+  {
     id: [MileageCategoryBoard.MOD_DATE],
     numeric: true,
     disablePadding: false,
@@ -179,6 +190,7 @@ interface IList {
   orderIdx: number;
   itemType: string;
   isMulti: boolean;
+
 }
 
 interface IGetMileageCategory {
@@ -222,6 +234,7 @@ export default function MileageCategory({
       [TYPE]: item[TYPE],
       [DESCRIPTION1]: item[DESCRIPTION1],
       [DESCRIPTION2]: item[DESCRIPTION2],
+      [CATEGORY_MAX_POINTS]: item[CATEGORY_MAX_POINTS]
     };
 
     return createData(
@@ -232,6 +245,7 @@ export default function MileageCategory({
       item[DESCRIPTION1],
       item[DESCRIPTION2],
       item[ITEM_COUNT],
+      item[CATEGORY_MAX_POINTS],
       formatDateToKorean(item[MOD_DATE]),
       <SWModal type={EDITCATEGORY} beforeData={beforeData} />
     );
