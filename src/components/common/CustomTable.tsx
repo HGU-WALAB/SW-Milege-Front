@@ -339,21 +339,21 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     else return false;
   };
 
-  function sortByOrderIdx(data) {
+  function sortByDescOrderIdx(data) {
     if (!data) return;
 
     // Create a shallow copy of the array
     const sortedData = [...data];
 
     // Sort the copied array
-    return sortedData.sort((a, b) => (a?.orderIdx ?? 0) - (b?.orderIdx ?? 0));
+    return sortedData.sort((a, b) => (b?.orderIdx ?? 0) - (a?.orderIdx ?? 0));
   }
 
   /**
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
 
-  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
+  const [rows, setRows] = React.useState(sortByDescOrderIdx(originalRows));
   console.log('debug', rows, originalRows);
 
   /**
