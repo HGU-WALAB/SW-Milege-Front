@@ -26,9 +26,14 @@ import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
+import { values } from 'lodash';
+import { useState } from 'react';
 export default function SemesterItemForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
+  const [initItemMaxPoints, setInitItemMaxPoints] = useState(
+    modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0
+  );
   const router = useRouter();
 
   const SemesterItemSchema = Yup.object().shape({
@@ -124,17 +129,29 @@ export default function SemesterItemForm({ handleClose }) {
 
           {/* <Field label="글로벌 항목 번호" name={NUM} as={TextField} variant="standard" /> */}
 
-          <GlobalItemSelect itemId={beforeData?.itemId} />
-          {[MILEAGE, ITEM_MAX_POINTS].map((field, index) => (
-            <Field
-              label={engToKor(field)}
-              name={field}
-              as={TextField}
-              variant="outlined"
-              error={errors[field] && touched[field] ? true : false}
-              helperText={<ErrorMessage name={field} />}
-            />
-          ))}
+          <GlobalItemSelect
+            setInitItemMaxPoints={setInitItemMaxPoints}
+            itemId={beforeData?.itemId}
+          />
+
+          <Field
+            label={engToKor(MILEAGE)}
+            name={MILEAGE}
+            as={TextField}
+            variant="outlined"
+            error={errors[MILEAGE] && touched[MILEAGE] ? true : false}
+            helperText={<ErrorMessage name={MILEAGE} />}
+          />
+          <Field
+            label={engToKor(ITEM_MAX_POINTS)}
+            name={ITEM_MAX_POINTS}
+            as={TextField}
+            variant="outlined"
+            error={errors[ITEM_MAX_POINTS] && touched[ITEM_MAX_POINTS] ? true : false}
+            helperText={<ErrorMessage name={ITEM_MAX_POINTS} />}
+            value={initItemMaxPoints}
+          />
+
           {[IS_MULTI].map((inputName: string, index: number) => (
             <Box
               key={index}

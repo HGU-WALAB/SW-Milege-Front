@@ -26,7 +26,13 @@ export const filteringInit = async () => {
   const resGlobalItem = await axiosInstance.get('/api/mileage/items');
   const globalItemData = await resGlobalItem.data;
   await dispatch(
-    setItemList(globalItemData.list?.map((item) => ({ id: item.id, name: item.name })))
+    setItemList(
+      globalItemData.list?.map((item) => ({
+        id: item.id,
+        name: item.name,
+        itemMaxPoints: item.itemMaxPoints,
+      }))
+    )
   );
 
   const resStudents = await axiosInstance.get(`/api/mileage/students`);

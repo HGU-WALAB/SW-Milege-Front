@@ -297,6 +297,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
 
   let fetchData = res.data;
+
   return { props: { fetchData } };
 };
 
