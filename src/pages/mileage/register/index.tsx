@@ -196,13 +196,9 @@ const getServerSidePropsFunction: GetServerSideProps<{
   const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
   const nowSemester = semesterRes.data.data.name;
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
-  // const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
-
-  console.log(nowSemester);
 
   let fetchData = res.data;
-  console.log(fetchData);
-  return { props: { fetchData, nowSemester } };
+  return { props: { fetchData } };
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
@@ -228,17 +224,11 @@ const fetchToUseData = (data) => {
       semesterItem.recordCount, //  학생수가 들어가야함
       formatDateToKorean(semesterItem.modDate),
       <Box sx={{ display: 'flex' }}>
-        {/* <Tooltip title="등록된 학생 리스트 확인"> */}
         <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
-        {/* </Tooltip> */}
-        {/* <Tooltip title="학생 추가"> */}
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
-        {/* </Tooltip> */}
-        {/* <Tooltip title="등록된 학생 모두 삭제"> */}
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />
         </IconButton>
-        {/* </Tooltip> */}
       </Box>
     );
   });
@@ -247,7 +237,6 @@ const fetchToUseData = (data) => {
 const handleAllDelete = (id) => {
   if (window.confirm('등록된 학생 모두 삭제하시겠습니까?')) {
     axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
-      console.log('ddsss', res.data);
       res.data.list.map((item) => {
         axiosInstance.delete(`/api/mileage/records/${item.id}`).then((res) => {
           console.log('1', res);
@@ -257,9 +246,9 @@ const handleAllDelete = (id) => {
     });
   }
 };
+
 export default function MileageRegister({
   fetchData,
-  nowSemester,
   requireLogin,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -274,11 +263,9 @@ export default function MileageRegister({
   const semester = useSelector((state) => state.filter.semester);
 
   useEffect(() => {
-    axiosInstance
-      .get(`/api/mileage/semesters/${semester === '전체' ? nowSemester : semester}/items`)
-      .then((res) => {
-        setConvertedFetchList(fetchToUseData(res.data));
-      });
+    axiosInstance.get(`/api/mileage/semesters/${semester}/items`).then((res) => {
+      setConvertedFetchList(fetchToUseData(res.data));
+    });
   }, [semester]);
 
   return (

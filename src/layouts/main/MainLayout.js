@@ -12,10 +12,7 @@ import { DOMAIN } from '../../sections/auth/AuthLoginForm';
 import { END_ROUTE_LOGIN } from '../../routes/paths';
 import MileageHeader from 'src/components/common/Appbar/MileageHeader';
 
-// const Header = dynamic(() => import('./Header'), { ssr: false });
-const Footer = dynamic(() => import('./Footer'), { ssr: false });
 const handleDrawerOpen = () => {};
-// ----------------------------------------------------------------------
 
 MainLayout.propTypes = {
   children: PropTypes.node,

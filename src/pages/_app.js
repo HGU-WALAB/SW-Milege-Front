@@ -108,10 +108,7 @@ export default function MyApp(props) {
                         <SnackbarProvider>
                           <StyledChart />
                           <ProgressBar />
-                          {/* 메인 레이아웃 */}
-                          {/* <AuthGuard> */}
                           <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
-                          {/* </AuthGuard> */}
                         </SnackbarProvider>
                       </ThemeLocalization>
                     </ThemeSettings>

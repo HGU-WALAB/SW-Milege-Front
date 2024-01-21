@@ -66,7 +66,6 @@ export default function MileageResult() {
     item: string,
     studentName: string,
     studentId: number,
-
     contact: number,
     department: string,
     scholarship: string,

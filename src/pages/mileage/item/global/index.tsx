@@ -29,6 +29,17 @@ import { setMileageGlobalList } from 'src/redux/slices/data';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
+import axiosInstance from 'src/utils/axios';
+import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import MileageCategory from 'src/components/board/MileageCategory';
+import { setItemList, setSemesterList } from 'src/redux/slices/filter';
+import { ID, CATEGORY, ITEM, ISVISIBLE, SEMESTER_ITEM_COUNT } from '../../../../assets/data/fields';
+import { setServerSideCookie } from 'src/auth/jwtCookie';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import { handleServerAuth403Error } from 'src/auth/utils';
+
+
 /**
  * @component [마일리지 항목] 게시판
  */
@@ -170,104 +181,6 @@ const headCells = [
   },
 ];
 
-const IParams = {
-  [CATEGORY]: '카테고리테스트',
-  [ITEM]: '웹 서비스 캠프',
-
-  [DESCRIPTION1]: '설명 1',
-  [DESCRIPTION2]: '설명 2',
-  [FILE_DESCRIPTION]: '첨부파일 설명',
-  [ISVISIBLE]: true,
-  [ISVISIBLE_STUDENT]: false,
-  [IS_STUDENT_INPUT]: false,
-  [ISEVALUATE_CSEE]: false,
-  [ISEVALUATE_PORTFOLIO]: false,
-  [ISEVALUATE_FUSION]: false,
-};
-
-/**
-
-   * @kind [마일리지 항목]
-
-   * @description 마일리지 항목 리스트
-   */
-
-const rows = [
-  createData(
-    1,
-    '전공 마일리지',
-
-    '웹 서비스 캠프',
-
-    true,
-    '2023-08-21',
-
-    <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
-  ),
-  createData(
-    2,
-    '비교과 - 연구활동',
-
-    '웹 서비스 캠프',
-
-    true,
-    '2023-08-21',
-
-    <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
-  ),
-  createData(
-    3,
-    '비교과 - 전공활동',
-
-    '웹 서비스 캠프',
-
-    false,
-    '2023-08-21',
-
-    <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
-  ),
-  createData(
-    4,
-    '비교과 - 특강참여',
-
-    '웹 서비스 캠프',
-
-    false,
-    '2023-08-21',
-
-    <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
-  ),
-  createData(
-    5,
-    '비교과 - 학회활동',
-
-    '웹 서비스 캠프',
-
-    true,
-    '2023-08-21',
-    <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
-  ),
-  createData(
-    6,
-    '비교과 - 행사참여',
-
-    '웹 서비스 캠프',
-
-    true,
-    '2023-08-21',
-    <SWModal type={EDITGLOBALITEM} beforeData={IParams} />
-  ),
-];
-
-import axiosInstance from 'src/utils/axios';
-import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import MileageCategory from 'src/components/board/MileageCategory';
-import { setItemList, setSemesterList } from 'src/redux/slices/filter';
-import { ID, CATEGORY, ITEM, ISVISIBLE, SEMESTER_ITEM_COUNT } from '../../../../assets/data/fields';
-import { setServerSideCookie } from 'src/auth/jwtCookie';
-import { formatDateToKorean } from 'src/utils/date/dateConverter';
-import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
-import { handleServerAuth403Error } from 'src/auth/utils';
 
 interface ICategory {
   id: number;

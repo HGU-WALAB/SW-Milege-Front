@@ -94,39 +94,6 @@ const ResponsiveTable = styled(Paper)({
   overflowX: 'scroll',
   padding: '20px',
 });
-// const ResponsiveTableHeadCheckBox = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
-//   },
-// });
-// const ResponsiveTableHeadTableCell = styled(TableCell)({
-//   // '@media (max-width: 600px)': {
-//   //   padding: 0,
-//   // },
-//   minWidth: '130px',
-// });
-
-// // const ResponsiveTableBody = styled(TableCell)({
-
-// const ResponsiveTableHeadLabel = styled(TableSortLabel)({
-// '@media (max-width: 600px)': {
-//   fontSize: '13px',
-// },
-// });
-
-// const RsponsiveTableBodyCheckBox = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
-//   },
-// });
-
-// const ResponsiveTableBody = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
-
-//     fontSize: '13px',
-//   },
-// });
 
 const ResponsiveHeaderCell = styled(TableCell)({
   minWidth: '110px',
@@ -636,7 +603,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                     scope="row"
                                     padding="none"
                                   >
-                                    {/* {rowValues[0]} */}
                                     {index + 1 + page * rowsPerPage}
                                   </TableCell>
 

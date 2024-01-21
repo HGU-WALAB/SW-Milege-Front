@@ -101,7 +101,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-  // const [component, setComponent] = React.useState(0);
   const dispatch = useDispatch();
 
   const clearSelected = () => {
@@ -224,11 +223,7 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      {/* 사이드바에 따른 게시판 본문 컴포넌트 */}
-      <Box component="main" sx={{ flexGrow: 1 }}>
-        {/* <DrawerHeader /> */}
-        {/* {ComponentReturn(component)} */}
-      </Box>
+      <Box component="main" sx={{ flexGrow: 1 }}></Box>
     </Box>
   );
 }
