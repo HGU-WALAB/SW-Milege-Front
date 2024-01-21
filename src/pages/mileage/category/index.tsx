@@ -11,6 +11,7 @@ import {
   TITLE,
   MOD_DATE,
   ITEM_COUNT,
+  CATEGORY_MAX_POINTS,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
@@ -34,7 +35,6 @@ export enum MileageCategoryBoard {
   'CATEGORY_MAX_POINTS' = CATEGORY_MAX_POINTS,
   'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
-
 }
 
 /**
@@ -122,7 +122,6 @@ const headCells = [
     disablePadding: false,
     label: '설명1',
   },
-
   {
     id: [MileageCategoryBoard.DESCRIPTION2],
     numeric: true,
@@ -140,7 +139,7 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '최대 마일리지',
-  }
+  },
   {
     id: [MileageCategoryBoard.MOD_DATE],
     numeric: true,
@@ -190,7 +189,6 @@ interface IList {
   orderIdx: number;
   itemType: string;
   isMulti: boolean;
-
 }
 
 interface IGetMileageCategory {
@@ -234,7 +232,7 @@ export default function MileageCategory({
       [TYPE]: item[TYPE],
       [DESCRIPTION1]: item[DESCRIPTION1],
       [DESCRIPTION2]: item[DESCRIPTION2],
-      [CATEGORY_MAX_POINTS]: item[CATEGORY_MAX_POINTS]
+      [CATEGORY_MAX_POINTS]: item[CATEGORY_MAX_POINTS],
     };
 
     return createData(

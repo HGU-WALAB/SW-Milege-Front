@@ -678,6 +678,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
           rowsPerPage={rowsPerPage}
           count={rows?.length}
           page={page}
+          setRowsPerPage={setRowsPerPage}
         />
       </Box>
       <FormControlLabel
