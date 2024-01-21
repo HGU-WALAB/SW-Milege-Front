@@ -31,6 +31,7 @@ import {
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
   ID,
+  ITEM_MAX_POINTS,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
@@ -109,6 +110,7 @@ export default function GlobalItemForm({ handleClose }) {
       itemName: values[ITEM],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
+      [ITEM_MAX_POINTS]: values[ITEM_MAX_POINTS],
       stuType: stuTypeConverter(values),
       flags: {
         [ISVISIBLE]: values[ISVISIBLE],
@@ -163,6 +165,7 @@ export default function GlobalItemForm({ handleClose }) {
             modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
           [ISEVALUATE_FUSION]:
             modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
+          [ITEM_MAX_POINTS]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
         }}
         validationSchema={GlobalItemSchema}
         onSubmit={handleSubmit}
@@ -172,20 +175,22 @@ export default function GlobalItemForm({ handleClose }) {
             <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
               <StyleFieldBox>
                 <CategorySelect />
-                {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
-                  <Box key={index} sx={{ width: '100%' }}>
-                    <Field
-                      sx={{}}
-                      name={field}
-                      as={TextField}
-                      type="text"
-                      label={engToKor(field)}
-                      variant="outlined"
-                      error={errors[field] && touched[field] ? true : false}
-                      helperText={<ErrorMessage name={field} />}
-                    />
-                  </Box>
-                ))}
+                {[ITEM, ITEM_MAX_POINTS, DESCRIPTION1, DESCRIPTION2].map(
+                  (field: string, index: number) => (
+                    <Box key={index} sx={{ width: '100%' }}>
+                      <Field
+                        sx={{}}
+                        name={field}
+                        as={TextField}
+                        type="text"
+                        label={engToKor(field)}
+                        variant="outlined"
+                        error={errors[field] && touched[field] ? true : false}
+                        helperText={<ErrorMessage name={field} />}
+                      />
+                    </Box>
+                  )
+                )}
               </StyleFieldBox>
               <StyleFieldBox>
                 {[

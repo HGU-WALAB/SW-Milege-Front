@@ -18,6 +18,7 @@ import {
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
   NAME,
+  ITEM_MAX_POINTS,
   MOD_DATE,
   CATEGORYID,
 } from 'src/assets/data/fields';
@@ -46,7 +47,9 @@ export enum MileageGlobalItemBoard {
   'SEMESTER_ITEM_COUNT' = SEMESTER_ITEM_COUNT,
   'ISVISIBLE' = ISVISIBLE,
   'MOD_DATE' = MOD_DATE,
+  'ITEM_MAX_POINTS' = ITEM_MAX_POINTS
   'MANAGE' = MANAGE,
+
 }
 
 /**
@@ -59,8 +62,11 @@ interface Data {
   [MileageGlobalItemBoard.DESCRIPTION1]: string;
   [MileageGlobalItemBoard.DESCRIPTION2]: string;
   [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
+  [MileageGlobalItemBoard.ITEM_MAX_POINTS]: number;
   [MileageGlobalItemBoard.ISVISIBLE]: boolean;
+
   [MileageGlobalItemBoard.MOD_DATE]: string;
+  
   [MileageGlobalItemBoard.MANAGE]: string;
 }
 
@@ -76,6 +82,7 @@ function createData(
   DESCRIPTION1: string,
   DESCRIPTION2: string,
   SEMESTER_ITEM_COUNT: number,
+  ITEM_MAX_POINTS: number,
   ISVISIBLE: boolean,
   MOD_DATE: string,
   MANAGE: string
@@ -89,6 +96,7 @@ function createData(
     [MileageGlobalItemBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageGlobalItemBoard.DESCRIPTION2]: DESCRIPTION2,
     [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: SEMESTER_ITEM_COUNT,
+    [MileageGlobalItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
     [MileageGlobalItemBoard.ISVISIBLE]: ISVISIBLE,
     [MileageGlobalItemBoard.MOD_DATE]: MOD_DATE,
     [MileageGlobalItemBoard.MANAGE]: MANAGE,
@@ -135,6 +143,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '학기별 항목 수',
+  },
+  {
+    id: [MileageGlobalItemBoard.ITEM_MAX_POINTS],
+    numeric: true,
+    disablePadding: false,
+    label: '최대 마일리지',
   },
   {
     id: [MileageGlobalItemBoard.ISVISIBLE],
@@ -309,6 +323,7 @@ export default function MileageCategory({
       stuType,
       isPortfolio,
       isStudentInput,
+      itemMaxPoints,
     } = item;
 
     const beforeData = {
@@ -323,6 +338,7 @@ export default function MileageCategory({
       [ISEVALUATE_CSEE]: stuType === 'F' ? false : true,
       [ISEVALUATE_PORTFOLIO]: isPortfolio,
       [ISEVALUATE_FUSION]: stuType === 'C' ? false : true,
+      [ITEM_MAX_POINTS]: itemMaxPoints,
     };
 
     return createData(
@@ -332,6 +348,7 @@ export default function MileageCategory({
       item[DESCRIPTION1],
       item[DESCRIPTION2],
       item[SEMESTER_ITEM_COUNT],
+      item[ITEM_MAX_POINTS],
       item[ISVISIBLE],
       formatDateToKorean(item[MOD_DATE]),
       <SWModal type={EDITGLOBALITEM} beforeData={beforeData} />
