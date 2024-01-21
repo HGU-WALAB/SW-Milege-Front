@@ -28,7 +28,9 @@ axiosInstance.interceptors.response.use(
     // 만약 서버에서 에러 메시지가 있으면 그 메시지를 보여주고, 아니면 기본 메시지를 보여줍니다.
     const errorMessageToShow = serverErrorMessage || 'Something went wrong';
 
-    if (typeof window !== 'undefined' && !error.response.message.includes('404')) {
+    if (error.response?.status === 403) handleServerAuth403Error('로그인이 필요합니다.');
+
+    if (typeof window !== 'undefined' && !error.response?.message?.includes('404')) {
       if (errorMessageToShow !== 'Something went wrong') alert(errorMessageToShow);
       else {
         console.error(errorMessageToShow);
