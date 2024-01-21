@@ -33,7 +33,7 @@ import {
 import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
-import { CATEGORY, NUM } from '../../assets/data/fields';
+import { CATEGORY, NUM, ORDER_IDX } from '../../assets/data/fields';
 
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
@@ -73,6 +73,7 @@ import axiosInstance from 'src/utils/axios';
 import { setSelectedId } from 'src/redux/slices/table';
 import Title from './Title/Title';
 import {
+  END_ROUTE_CATEGORY,
   END_ROUTE_MANAGE_REGISTER,
   END_ROUTE_MILEAGE_REGISTER,
   END_ROUTE_RESULT,
@@ -340,7 +341,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   };
 
   function sortByDescOrderIdx(data) {
-    if (!data) return;
+    if (!data || data.length === 0) return;
 
     // Create a shallow copy of the array
     const sortedData = [...data];
@@ -353,8 +354,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
 
-  const [rows, setRows] = React.useState(sortByDescOrderIdx(originalRows));
-  console.log('debug', rows, originalRows);
+  const [rows, setRows] = React.useState(originalRows);
+  console.log('debug', sortByDescOrderIdx(originalRows), originalRows);
 
   /**
    * @brief 필터링 요소
@@ -414,6 +415,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (categoryType && categoryType !== '전체') {
       copyRows = copyRows?.filter((row) => row.type === categoryType);
     }
+    if (pathname.includes(END_ROUTE_CATEGORY)) copyRows = sortByDescOrderIdx(copyRows);
     setRows(copyRows);
   }, [
     category,
