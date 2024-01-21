@@ -39,7 +39,7 @@ export const DESCRIPTION2 = 'description2';
 export const FILE_DESCRIPTION = 'fileDescription';
 
 export const ISVISIBLE_STUDENT = 'isVisibleStudent';
-export const ISINPUT_STUDENT = 'isInputStudent';
+export const IS_STUDENT_INPUT = 'isStudentInput';
 export const ISDUPLICATE_RECORD = 'isDuplicateRecord';
 export const ISEVALUATE_CSEE = 'isEvaluateCsee';
 export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
@@ -81,3 +81,4 @@ export const TYPE = 'type';
 export const ITEM_COUNT = 'itemCount';
 export const SEMESTER_ITEM_COUNT = 'semesterItemCount';
 export const SEMESTER_ITEM_ID = 'semesterItemId';
+export const IS_MULTI = 'isMulti';

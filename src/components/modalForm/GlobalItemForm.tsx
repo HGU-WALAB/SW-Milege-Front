@@ -25,8 +25,7 @@ import {
   DESCRIPTION2,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
-  ISINPUT_STUDENT,
-  ISDUPLICATE_RECORD,
+  IS_STUDENT_INPUT,
   ISEVALUATE_CSEE,
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
@@ -114,8 +113,7 @@ export default function GlobalItemForm({ handleClose }) {
       flags: {
         [ISVISIBLE]: values[ISVISIBLE],
         isStudentVisible: values[ISVISIBLE_STUDENT],
-        isStudentEditable: values[ISINPUT_STUDENT],
-        isMultiple: values[ISDUPLICATE_RECORD],
+        isStudentEditable: values[IS_STUDENT_INPUT],
         isPortfolio: values[ISEVALUATE_PORTFOLIO],
       },
     };
@@ -159,9 +157,7 @@ export default function GlobalItemForm({ handleClose }) {
           [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
           [ISVISIBLE_STUDENT]:
             modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
-          [ISINPUT_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISINPUT_STUDENT] : false,
-          [ISDUPLICATE_RECORD]:
-            modalType === EDITGLOBALITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
+          [IS_STUDENT_INPUT]: modalType === EDITGLOBALITEM ? beforeData?.[IS_STUDENT_INPUT] : false,
           [ISEVALUATE_CSEE]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
           [ISEVALUATE_PORTFOLIO]:
             modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
@@ -176,7 +172,6 @@ export default function GlobalItemForm({ handleClose }) {
             <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
               <StyleFieldBox>
                 <CategorySelect />
-
                 {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
                   <Box key={index} sx={{ width: '100%' }}>
                     <Field
@@ -196,8 +191,7 @@ export default function GlobalItemForm({ handleClose }) {
                 {[
                   ISVISIBLE,
                   ISVISIBLE_STUDENT,
-                  ISINPUT_STUDENT,
-                  ISDUPLICATE_RECORD,
+                  IS_STUDENT_INPUT,
                   ISEVALUATE_CSEE,
                   ISEVALUATE_PORTFOLIO,
                   ISEVALUATE_FUSION,

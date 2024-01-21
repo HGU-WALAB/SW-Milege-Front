@@ -12,8 +12,7 @@ import {
   DESCRIPTION2,
   FILE_DESCRIPTION,
   ISVISIBLE_STUDENT,
-  ISINPUT_STUDENT,
-  ISDUPLICATE_RECORD,
+  IS_STUDENT_INPUT,
   ISEVALUATE_CSEE,
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
@@ -166,8 +165,7 @@ const IParams = {
   [FILE_DESCRIPTION]: '첨부파일 설명',
   [ISVISIBLE]: true,
   [ISVISIBLE_STUDENT]: false,
-  [ISINPUT_STUDENT]: false,
-  [ISDUPLICATE_RECORD]: false,
+  [IS_STUDENT_INPUT]: false,
   [ISEVALUATE_CSEE]: false,
   [ISEVALUATE_PORTFOLIO]: false,
   [ISEVALUATE_FUSION]: false,
@@ -308,9 +306,9 @@ export default function MileageCategory({
       description2,
       isVisible,
       isStudentVisible,
-      isMulti,
       stuType,
       isPortfolio,
+      isStudentInput,
     } = item;
 
     const beforeData = {
@@ -321,14 +319,13 @@ export default function MileageCategory({
       [DESCRIPTION2]: description2,
       [ISVISIBLE]: isVisible,
       [ISVISIBLE_STUDENT]: isStudentVisible,
-      [ISINPUT_STUDENT]: false,
-      [ISDUPLICATE_RECORD]: isMulti,
+      [IS_STUDENT_INPUT]: isStudentInput,
       [ISEVALUATE_CSEE]: stuType === 'F' ? false : true,
       [ISEVALUATE_PORTFOLIO]: isPortfolio,
       [ISEVALUATE_FUSION]: stuType === 'C' ? false : true,
     };
 
-  return createData(
+    return createData(
       item[ID],
       item[CATEGORY][NAME],
       item[NAME],
