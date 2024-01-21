@@ -7,11 +7,11 @@ import {
   NAME,
   ID,
   TYPE,
-  ORDER_IDX,
   TITLE,
   MOD_DATE,
   ITEM_COUNT,
   CATEGORY_MAX_POINTS,
+  ORDER_IDX,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
@@ -28,10 +28,10 @@ export enum MileageCategoryBoard {
   'NUM' = NUM,
   'CATEGORY' = CATEGORY,
   'TYPE' = TYPE,
-  'ORDER_IDX' = ORDER_IDX,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
   'ITEM_COUNT' = ITEM_COUNT,
+  'ORDER_IDX' = ORDER_IDX,
   'CATEGORY_MAX_POINTS' = CATEGORY_MAX_POINTS,
   'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
@@ -46,9 +46,9 @@ interface Data {
   [MileageCategoryBoard.NUM]: number;
   [MileageCategoryBoard.CATEGORY]: string;
   [MileageCategoryBoard.TYPE]: string;
-  [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
+  [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.ITEM_COUNT]: number;
   [MileageCategoryBoard.CATEGORY_MAX_POINTS]: number;
   [MileageCategoryBoard.MOD_DATE]: string;
@@ -186,7 +186,6 @@ interface IList {
   name: string;
   description1: string;
   description2: string;
-  orderIdx: number;
   itemType: string;
   isMulti: boolean;
 }
