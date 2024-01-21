@@ -239,7 +239,6 @@ const handleAllDelete = (id) => {
     axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
       res.data.list.map((item) => {
         axiosInstance.delete(`/api/mileage/records/${item.id}`).then((res) => {
-          console.log('1', res);
           alert(` ${item.student?.name} - ${item.student?.sid} 가 삭제 되었습니다.`);
         });
       });

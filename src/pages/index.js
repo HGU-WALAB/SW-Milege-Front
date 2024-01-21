@@ -72,7 +72,6 @@ export default function HomePage({
 
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(categoryData);
 
   useEffect(() => {
     const filteringInit = async () => {

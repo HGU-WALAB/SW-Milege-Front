@@ -46,12 +46,10 @@ export function getKeyFromPairString(pairString, key) {
 
 export function getCookie(key) {
   const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
-  console.log(cookies);
   // eslint-disable-next-line no-restricted-syntax
   for (const cookie of cookies) {
     const [cookieKey, cookieValue] = cookie.split('=').map((c) => c.trim());
     if (cookieKey === key) {
-      console.log(cookieValue);
       return cookieValue;
     }
   }

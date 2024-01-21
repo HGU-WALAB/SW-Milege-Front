@@ -245,7 +245,6 @@ export default function MileageGlobalItem() {
 
   useEffect(() => {
     dispatch(setMileageGlobalList(rows));
-    console.log('Fetched');
   }, []);
 
   return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 글로벌 항목" />;

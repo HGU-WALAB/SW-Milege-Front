@@ -11,7 +11,6 @@ interface ISelectedItemsDeleteIcon {
 export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIcon) {
   const selected = useSelector((state) => state.table.selectedId);
   const router = useRouter();
-  console.log(type);
 
   const showDescendants = (id) => {
     axiosInstance.get(showDescendantsEndPoint(id)).then((res) => {
@@ -69,7 +68,6 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
   };
 
   const showDescendantsEndPoint = (id: number) => {
-    console.log(type);
     switch (type) {
       case '마일리지 카테고리':
         return `/api/mileage/items/categories/${id}`;

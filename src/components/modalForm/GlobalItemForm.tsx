@@ -72,7 +72,6 @@ const StyleFieldForm = styled(Form)({
 
 export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
-  // console.log('dbug', modalType, beforeData);
 
   const beforeData = useSelector((state) => state.modal.beforeData);
   const router = useRouter();
@@ -120,7 +119,6 @@ export default function GlobalItemForm({ handleClose }) {
       },
     };
 
-    console.log('!', newData);
 
     switch (modalType) {
       case ADDGLOBALITEM:

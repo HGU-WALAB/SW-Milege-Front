@@ -28,13 +28,9 @@ export default function SemesterDropdown() {
   const semester = useSelector((state) => state.filter.semester);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(semester);
-  }, [semester]);
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(setSemester(event.target.value));
-    console.log(event.target.value);
   };
 
   return (

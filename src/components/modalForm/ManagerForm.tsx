@@ -92,7 +92,6 @@ export default function ManagerForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
   const level = useSelector((state) => state.filter.level);
 
-  console.log('debug2', modalType, beforeData);
 
   const router = useRouter();
 
@@ -114,7 +113,6 @@ export default function ManagerForm({ handleClose }) {
       [AID]: values[AID],
       [LEVEL]: values[LEVEL],
     };
-    console.log(newData);
 
     switch (modalType) {
       case ADDMANAGER:
@@ -125,7 +123,6 @@ export default function ManagerForm({ handleClose }) {
             router.reload();
           })
           .catch((err) => {
-            console.log(err);
             alert('관리자 추가에 실패했습니다.');
           });
         break;

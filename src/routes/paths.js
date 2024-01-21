@@ -48,8 +48,6 @@ export const PATH_PAGES = {
   },
 };
 
-console.log(PATH_PAGES.mileage.register);
-
 const API_ROOT = '/api';
 
 const ROOTS_EXCEL = path(API_ROOT, '/excel');

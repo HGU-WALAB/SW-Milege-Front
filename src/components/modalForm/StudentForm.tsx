@@ -88,7 +88,6 @@ const StyleFieldForm = styled(Form)({
 export default function StudentForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
-  console.log('debug2', modalType, beforeData);
 
   const router = useRouter();
 
@@ -117,7 +116,6 @@ export default function StudentForm({ handleClose }) {
       [YEAR]: values[YEAR],
       [SEMESTERCOUNT]: values[SEMESTERCOUNT],
     };
-    console.log(newData);
 
     switch (modalType) {
       case ADDSTUDENT:

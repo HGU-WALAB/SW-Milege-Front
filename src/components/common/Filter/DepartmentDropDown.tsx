@@ -28,7 +28,6 @@ export default function DepartmentDropdown() {
 
   const handleChange = (event) => {
     dispatch(setDepartment(event.target.value));
-    console.log(event.target.value);
   };
 
   return (

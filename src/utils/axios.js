@@ -29,8 +29,7 @@ axiosInstance.interceptors.response.use(
     const errorMessageToShow = serverErrorMessage || 'Something went wrong';
 
     if (error.response?.status === 403) handleServerAuth403Error('로그인이 필요합니다.');
-
-    if (typeof window !== 'undefined' && !error.response?.message?.includes('404')) {
+    if (typeof window !== 'undefined' && !error.response?.data?.message?.includes('404')) {
       if (errorMessageToShow !== 'Something went wrong') alert(errorMessageToShow);
       else {
         console.error(errorMessageToShow);

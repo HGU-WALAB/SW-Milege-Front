@@ -197,7 +197,6 @@ export default function CRUDStudentTable() {
       return rows.map((row) => row.sid).includes(editingRow?.sid);
     };
 
-    console.log('ㅇㅇ', newData, rows);
 
     !validateDuplicate()
       ? axiosInstance.post('/api/mileage/records', newData).then((res) => {

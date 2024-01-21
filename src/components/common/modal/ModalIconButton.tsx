@@ -18,14 +18,10 @@ import { ADDMILEAGEREGISTER, REGISTEREDSTUDENTS } from 'src/assets/data/modal/mo
 export default function ModalIconButton({ setOpen, type, beforeData }) {
   const dispatch = useDispatch();
   const handleOpen = () => {
-    // dispatch(openModal(type));
-    console.log(type);
     dispatch(setModalType(type));
     setOpen(true);
     dispatch(setBeforeData(beforeData));
     type === REGISTEREDSTUDENTS && dispatch(setClickedItemId(beforeData?.id));
-    // type === ADDMILEAGEREGISTER && dispatch(setClickedRecordId(beforeData?.id));
-    console.log('ddd', beforeData?.id);
   };
 
   const IconConverter = (type) => {

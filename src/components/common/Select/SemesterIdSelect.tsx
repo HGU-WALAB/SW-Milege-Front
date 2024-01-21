@@ -5,7 +5,6 @@ import { CATEGORYID, NUM, SEMESTER_ITEM_ID } from 'src/assets/data/fields';
 import { setSemester } from 'src/redux/slices/filter';
 
 export default function SemesterItemSelect({ semesterItemList }: any) {
-  console.log('!', semesterItemList);
   const MySelect = ({ field, form, ...props }) => (
     <Select {...field} {...props}>
       {semesterItemList?.map((semesterItem) => (
