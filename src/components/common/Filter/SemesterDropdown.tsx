@@ -23,7 +23,7 @@ import { generateSemesters, currentYear } from 'src/utils/semesterAutoGenerate';
 // ];
 
 export default function SemesterDropdown() {
-  const SEMESTERS = generateSemesters(currentYear);
+  const SEMESTERS = useSelector((state) => state.filterList.semesterList);
 
   const semester = useSelector((state) => state.filter.semester);
   const dispatch = useDispatch();

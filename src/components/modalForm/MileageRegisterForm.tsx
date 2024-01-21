@@ -47,7 +47,7 @@ import SemesterItemSelect from '../common/Select/SemesterIdSelect';
 export default function MileageRegisterForm({ handleClose }) {
   const [semesterItemList, setSemesterItemList] = React.useState([]);
   const [semester, setSemester] = React.useState(null);
-  const semesters = generateSemesters(currentYear);
+  const semesters = useSelector((state) => state.filterList.semesterList);
 
   const SemesterSelect = () => (
     <FormControl fullWidth>

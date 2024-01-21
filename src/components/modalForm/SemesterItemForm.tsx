@@ -31,9 +31,7 @@ import { useState } from 'react';
 export default function SemesterItemForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
-  const [initItemMaxPoints, setInitItemMaxPoints] = useState(
-    modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0
-  );
+
   const router = useRouter();
 
   const SemesterItemSchema = Yup.object().shape({
@@ -97,7 +95,7 @@ export default function SemesterItemForm({ handleClose }) {
          */
 
         [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
-        itemId: modalType === EDITITEM ? beforeData?.itemId : 0,
+        itemId: modalType === EDITITEM ? beforeData?.itemId : '',
         [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
         [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
         [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : false,
@@ -129,28 +127,19 @@ export default function SemesterItemForm({ handleClose }) {
 
           {/* <Field label="글로벌 항목 번호" name={NUM} as={TextField} variant="standard" /> */}
 
-          <GlobalItemSelect
-            setInitItemMaxPoints={setInitItemMaxPoints}
-            itemId={beforeData?.itemId}
-          />
+          <GlobalItemSelect itemId={beforeData?.itemId} />
 
-          <Field
-            label={engToKor(MILEAGE)}
-            name={MILEAGE}
-            as={TextField}
-            variant="outlined"
-            error={errors[MILEAGE] && touched[MILEAGE] ? true : false}
-            helperText={<ErrorMessage name={MILEAGE} />}
-          />
-          <Field
-            label={engToKor(ITEM_MAX_POINTS)}
-            name={ITEM_MAX_POINTS}
-            as={TextField}
-            variant="outlined"
-            error={errors[ITEM_MAX_POINTS] && touched[ITEM_MAX_POINTS] ? true : false}
-            helperText={<ErrorMessage name={ITEM_MAX_POINTS} />}
-            value={initItemMaxPoints}
-          />
+          {[MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
+            <Field
+              key={idx}
+              label={engToKor(name)}
+              name={name}
+              as={TextField}
+              variant="outlined"
+              error={errors[name] && touched[name] ? true : false}
+              helperText={<ErrorMessage name={name} />}
+            />
+          ))}
 
           {[IS_MULTI].map((inputName: string, index: number) => (
             <Box

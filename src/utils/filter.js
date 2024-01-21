@@ -4,6 +4,7 @@ import {
   setAdminList,
   setCategoryList,
   setItemList,
+  setSemesterList,
   setStudentList,
 } from '../redux/slices/filterList';
 import { dispatch } from '../redux/store';
@@ -22,6 +23,11 @@ export const filteringInit = async () => {
       categoryData.list?.map((category) => ({ id: category.id, name: category.name }))
     )
   );
+
+  const resSemesterList = await axiosInstance.get('/api/mileage/semesters');
+  const semesterList = resSemesterList.data.list.map((sem) => sem.name).reverse();
+
+  await dispatch(setSemesterList(semesterList));
 
   const resGlobalItem = await axiosInstance.get('/api/mileage/items');
   const globalItemData = await resGlobalItem.data;

@@ -1,30 +1,13 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
 import { useSelector } from 'react-redux';
-import { CATEGORYID, ITEM_MAX_POINTS, NUM } from 'src/assets/data/fields';
+import { CATEGORYID, NUM } from 'src/assets/data/fields';
 
-export default function GlobalItemSelect({
-  itemId,
-  setInitItemMaxPoints,
-}: {
-  itemId?: number;
-  setInitItemMaxPoints: any;
-}) {
+export default function GlobalItemSelect({ itemId }: { itemId?: number }) {
   const globalItemList = useSelector((state) => state.filterList.itemList);
 
   const MySelect = ({ field, form, ...props }) => (
-    <Select
-      {...field}
-      {...props}
-      defaultValue={itemId}
-      onChange={(e) => {
-        const selectedId = e.target.value;
-        const selectedItemMaxPoints = globalItemList.find(
-          (item) => item.id === selectedId
-        ).itemMaxPoints;
-        setInitItemMaxPoints(selectedItemMaxPoints);
-      }}
-    >
+    <Select {...field} {...props} defaultValue={itemId}>
       {globalItemList.map((globalItem) => (
         <MenuItem key={globalItem.id} value={globalItem.id}>
           {globalItem.name}
