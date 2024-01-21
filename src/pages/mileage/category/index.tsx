@@ -7,6 +7,7 @@ import {
   NAME,
   ID,
   TYPE,
+  ORDER_IDX,
   TITLE,
   MOD_DATE,
   ITEM_COUNT,
@@ -26,6 +27,7 @@ export enum MileageCategoryBoard {
   'NUM' = NUM,
   'CATEGORY' = CATEGORY,
   'TYPE' = TYPE,
+  'ORDER_IDX' = ORDER_IDX,
   'DESCRIPTION1' = DESCRIPTION1,
   'DESCRIPTION2' = DESCRIPTION2,
   'ITEM_COUNT' = ITEM_COUNT,
@@ -42,6 +44,7 @@ interface Data {
   [MileageCategoryBoard.NUM]: number;
   [MileageCategoryBoard.CATEGORY]: string;
   [MileageCategoryBoard.TYPE]: string;
+  [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.DESCRIPTION1]: string;
   [MileageCategoryBoard.DESCRIPTION2]: string;
   [MileageCategoryBoard.ITEM_COUNT]: number;
@@ -59,6 +62,7 @@ function createData(
   NUM: number,
   CATEGORY: string,
   TYPE: string,
+  ORDER_IDX: number,
   DESCRIPTION1: string,
   DESCRIPTION2: string,
   ITEM_COUNT: number,
@@ -69,6 +73,7 @@ function createData(
     [MileageCategoryBoard.NUM]: NUM,
     [MileageCategoryBoard.CATEGORY]: CATEGORY,
     [MileageCategoryBoard.TYPE]: TYPE,
+    [MileageCategoryBoard.ORDER_IDX]: ORDER_IDX,
     [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
     [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
     [MileageCategoryBoard.ITEM_COUNT]: ITEM_COUNT,
@@ -100,7 +105,12 @@ const headCells = [
     disablePadding: false,
     label: '타입',
   },
-
+  {
+    id: [MileageCategoryBoard.ORDER_IDX],
+    numeric: true,
+    disablePadding: false,
+    label: '우선 순위',
+  },
   {
     id: [MileageCategoryBoard.DESCRIPTION1],
     numeric: true,
@@ -166,6 +176,7 @@ interface IList {
   name: string;
   description1: string;
   description2: string;
+  orderIdx: number;
   itemType: string;
   isMulti: boolean;
 }
@@ -217,6 +228,7 @@ export default function MileageCategory({
       item[ID],
       item[NAME],
       item[TYPE],
+      item[ORDER_IDX],
       item[DESCRIPTION1],
       item[DESCRIPTION2],
       item[ITEM_COUNT],
