@@ -530,15 +530,18 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const handleDragEnd = async (result) => {
     const { source, destination } = result;
 
+    const source_index = source.index + page * rowsPerPage;
+    const destination_index = destination.index + page * rowsPerPage;
+
     if (!destination) return;
 
     let updatedRows = [...rows];
 
-    const [movedRow] = updatedRows.splice(source.index, 1);
-    updatedRows.splice(destination.index, 0, movedRow);
+    const [movedRow] = updatedRows.splice(source_index, 1);
+    updatedRows.splice(destination_index, 0, movedRow);
 
-    const startIdx = Math.min(source.index, destination.index);
-    const endIdx = Math.max(source.index, destination.index);
+    const startIdx = Math.min(source_index, destination_index);
+    const endIdx = Math.max(source_index, destination_index);
     for (let i = startIdx; i <= endIdx; i++) {
       console.log(startIdx, endIdx);
       const updateRow = {
@@ -546,9 +549,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
         orderIdx: rows[i].orderIdx,
       };
       updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
-
-      // updatedRows[i].orderIdx = rows[i].orderIdx;
-      console.log(updatedRows[i].orderIdx, rows[i].orderIdx);
     }
 
     for (let i = startIdx; i <= endIdx; i++) {
