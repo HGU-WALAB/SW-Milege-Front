@@ -55,7 +55,7 @@ import {
   FILE_DESCRIPTION,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
-  ISINPUT_STUDENT,
+  IS_STUDENT_INPUT,
   ISDUPLICATE_RECORD,
   ISEVALUATE_CSEE,
   ISEVALUATE_PORTFOLIO,
@@ -78,6 +78,8 @@ import {
   ORDER_IDX,
   ITEM_MAX_POINTS,
   AID,
+  IS_MULTI,
+  CATEGORY_MAX_POINTS,
 } from '../../../assets/data/fields';
 import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
@@ -137,6 +139,10 @@ const modalForm = (modalType, handleClose) => {
 
 export const engToKor = (eng) => {
   switch (eng) {
+    case CATEGORY_MAX_POINTS:
+      return '카테고리 최대 포인트';
+    case IS_MULTI:
+      return '중복 여부';
     case AID:
       return '직번';
     case TITLE:
@@ -163,7 +169,7 @@ export const engToKor = (eng) => {
       return '보이기 여부';
     case ISVISIBLE_STUDENT:
       return '학생 보이기';
-    case ISINPUT_STUDENT:
+    case IS_STUDENT_INPUT:
       return '학생 입력';
     case ISDUPLICATE_RECORD:
       return '중복 레코드';

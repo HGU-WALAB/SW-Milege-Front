@@ -111,19 +111,18 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
 
   async function deleteSelectedItems() {
     const allDelete = async () => {
-      for (let i = 0; i < selected.length; ++i) {
+      let i = 0;
+      for (i = 0; i < selected.length; ++i) {
         try {
           const res = await axiosInstance.delete(`${deleteEndPoint()}/${selected[i]}`);
-          alert(`총 ${selected.length}개 항목 삭제 되었습니다.`);
-          router.reload();
         } catch (err) {
-          console.log(err);
-          console.log('Current ID:', selected[i]);
           await showDescendants(selected[i]);
-          alert(`총 ${i}개의 항목이 삭제 되었습니다.`);
+          break;
         }
         // await new Promise((resolve) => setTimeout(resolve, 1000));
       }
+      alert(`총 ${i}개의 항목이 삭제 되었습니다.`);
+      router.reload();
     };
 
     await allDelete();

@@ -22,7 +22,7 @@ export default function SemesterMagicianSelect({ semester, setSemester }) {
   //   '2027-01',
   //   '2027-02',
   // ];
-  const semesters = generateSemesters(currentYear);
+  const semesters = useSelector((state) => state.filterList.semesterList);
 
   return (
     <Select

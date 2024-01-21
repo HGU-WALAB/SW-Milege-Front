@@ -8,6 +8,7 @@ import {
   ORDER_IDX,
   ID,
   TYPE,
+  CATEGORY_MAX_POINTS,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
@@ -31,6 +32,7 @@ export default function CategoryForm({ handleClose }) {
   const CategorySchema = Yup.object().shape({
     [TITLE]: Yup.string().required('필수입니다.'),
     [TYPE]: Yup.string().required('필수입니다.'),
+    [CATEGORY_MAX_POINTS]: Yup.number().required('필수입니다.'),
     [DESCRIPTION1]: Yup.string(),
     [DESCRIPTION2]: Yup.string(),
   });
@@ -45,6 +47,7 @@ export default function CategoryForm({ handleClose }) {
     const newData = {
       [TITLE]: values[TITLE],
       [TYPE]: values[TYPE],
+      [CATEGORY_MAX_POINTS]: values[CATEGORY_MAX_POINTS],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
     };
@@ -77,6 +80,7 @@ export default function CategoryForm({ handleClose }) {
       initialValues={{
         [TITLE]: modalType === EDITCATEGORY ? beforeData?.[TITLE] : '',
         [TYPE]: modalType === EDITCATEGORY ? beforeData?.[TYPE] : '없음',
+        [CATEGORY_MAX_POINTS]: modalType === EDITCATEGORY ? beforeData?.[CATEGORY_MAX_POINTS] : 0,
         [DESCRIPTION1]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION1] : '',
         [DESCRIPTION2]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION2] : '',
       }}
@@ -96,7 +100,7 @@ export default function CategoryForm({ handleClose }) {
           }}
         >
           <TypeSelect />
-          {[TITLE, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
+          {[TITLE, CATEGORY_MAX_POINTS, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
             <>
               <Field
                 key={index}

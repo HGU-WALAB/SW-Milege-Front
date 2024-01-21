@@ -12,6 +12,7 @@ export const TITLE = 'title';
 export const ITEM = 'item';
 export const MESSAGE = 'message';
 export const AUTHORITY = 'authority';
+
 // export const NAME = 'name';
 export const STUDENT_NAME = 'studentName';
 export const POINT = 'point';
@@ -39,7 +40,7 @@ export const DESCRIPTION2 = 'description2';
 export const FILE_DESCRIPTION = 'fileDescription';
 
 export const ISVISIBLE_STUDENT = 'isVisibleStudent';
-export const ISINPUT_STUDENT = 'isInputStudent';
+export const IS_STUDENT_INPUT = 'isStudentInput';
 export const ISDUPLICATE_RECORD = 'isDuplicateRecord';
 export const ISEVALUATE_CSEE = 'isEvaluateCsee';
 export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
@@ -68,7 +69,7 @@ export const SEMESTER_NAME = 'semesterName';
 export const ITEM_NAME = 'itemName';
 export const STUDENT_ID = 'studentId';
 export const CATEGORY_NAME = 'categoryName';
-
+export const CATEGORY_MAX_POINTS = 'categoryMaxPoints';
 export const ORDER_IDX = 'orderIdx';
 export const ITEM_MAX_POINTS = 'itemMaxPoints';
 export const ISCHECKED = 'isChecked';
@@ -81,3 +82,4 @@ export const TYPE = 'type';
 export const ITEM_COUNT = 'itemCount';
 export const SEMESTER_ITEM_COUNT = 'semesterItemCount';
 export const SEMESTER_ITEM_ID = 'semesterItemId';
+export const IS_MULTI = 'isMulti';

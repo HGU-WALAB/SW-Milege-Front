@@ -75,7 +75,9 @@ export const setSession = (accessToken) => {
 
 // LOGIN
 export const login = async (loginData) => {
-  const response = await axiosInstance.post('/api/admin/login', loginData);
+  const response = await axiosInstance
+    .post('/api/admin/login', loginData)
+    .catch((error) => alert('아이디 혹은 비밀번호가 일치하지 않습니다.'));
   const { token } = response.data;
 
   await setSession(token);

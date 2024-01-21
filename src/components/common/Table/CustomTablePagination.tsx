@@ -5,14 +5,22 @@ interface IProps {
   page: number;
   count: number;
   rowsPerPage: number;
+  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CustomTablePagination({ setPage, page, count, rowsPerPage }: IProps) {
+export default function CustomTablePagination({
+  setPage,
+  page,
+  count,
+  rowsPerPage,
+  setRowsPerPage,
+}: IProps) {
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };

@@ -5,7 +5,7 @@ import { CATEGORYID, SEMESTER } from 'src/assets/data/fields';
 import { generateSemesters, currentYear } from 'src/utils/semesterAutoGenerate';
 
 export default function SemesterSelect() {
-  const semesters = generateSemesters(currentYear);
+  const semesters = useSelector((state) => state.filterList.semesterList);
 
   const MySelect = ({ field, form, ...props }) => (
     <Select {...field} {...props}>

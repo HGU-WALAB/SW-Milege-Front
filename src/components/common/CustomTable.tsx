@@ -33,7 +33,7 @@ import {
 import CustomTablePagination from './Table/CustomTablePagination';
 
 import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
-import { CATEGORY, NUM } from '../../assets/data/fields';
+import { CATEGORY, NUM, ORDER_IDX } from '../../assets/data/fields';
 
 import Modal from './modal/SWModal';
 import CustomModal1 from '../Template/CustomModal';
@@ -73,6 +73,7 @@ import axiosInstance from 'src/utils/axios';
 import { setSelectedId } from 'src/redux/slices/table';
 import Title from './Title/Title';
 import {
+  END_ROUTE_CATEGORY,
   END_ROUTE_MANAGE_REGISTER,
   END_ROUTE_MILEAGE_REGISTER,
   END_ROUTE_RESULT,
@@ -339,22 +340,22 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     else return false;
   };
 
-  function sortByOrderIdx(data) {
-    if (!data) return;
+  function sortByDescOrderIdx(data) {
+    if (!data || data.length === 0) return;
 
     // Create a shallow copy of the array
     const sortedData = [...data];
 
     // Sort the copied array
-    return sortedData.sort((a, b) => (a?.orderIdx ?? 0) - (b?.orderIdx ?? 0));
+    return sortedData.sort((a, b) => (b?.orderIdx ?? 0) - (a?.orderIdx ?? 0));
   }
 
   /**
    * @field 필터링을 거치고 보여주는 값들 (rows)
    */
 
-  const [rows, setRows] = React.useState(sortByOrderIdx(originalRows));
-  console.log('debug', rows, originalRows);
+  const [rows, setRows] = React.useState(originalRows);
+  console.log('debug', sortByDescOrderIdx(originalRows), originalRows);
 
   /**
    * @brief 필터링 요소
@@ -414,6 +415,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     if (categoryType && categoryType !== '전체') {
       copyRows = copyRows?.filter((row) => row.type === categoryType);
     }
+    if (pathname.includes(END_ROUTE_CATEGORY)) copyRows = sortByDescOrderIdx(copyRows);
     setRows(copyRows);
   }, [
     category,
@@ -528,15 +530,18 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const handleDragEnd = async (result) => {
     const { source, destination } = result;
 
+    const source_index = source.index + page * rowsPerPage;
+    const destination_index = destination.index + page * rowsPerPage;
+
     if (!destination) return;
 
     let updatedRows = [...rows];
 
-    const [movedRow] = updatedRows.splice(source.index, 1);
-    updatedRows.splice(destination.index, 0, movedRow);
+    const [movedRow] = updatedRows.splice(source_index, 1);
+    updatedRows.splice(destination_index, 0, movedRow);
 
-    const startIdx = Math.min(source.index, destination.index);
-    const endIdx = Math.max(source.index, destination.index);
+    const startIdx = Math.min(source_index, destination_index);
+    const endIdx = Math.max(source_index, destination_index);
     for (let i = startIdx; i <= endIdx; i++) {
       console.log(startIdx, endIdx);
       const updateRow = {
@@ -544,9 +549,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
         orderIdx: rows[i].orderIdx,
       };
       updatedRows = [...updatedRows.slice(0, i), updateRow, ...updatedRows.slice(i + 1)];
-
-      // updatedRows[i].orderIdx = rows[i].orderIdx;
-      console.log(updatedRows[i].orderIdx, rows[i].orderIdx);
     }
 
     for (let i = startIdx; i <= endIdx; i++) {
@@ -676,6 +678,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
           rowsPerPage={rowsPerPage}
           count={rows?.length}
           page={page}
+          setRowsPerPage={setRowsPerPage}
         />
       </Box>
       <FormControlLabel

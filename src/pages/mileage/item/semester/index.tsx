@@ -35,6 +35,7 @@ import {
   POINTS,
   MANAGE,
   ITEM_MAX_POINTS,
+  IS_MULTI,
 } from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
@@ -61,6 +62,7 @@ export enum MileageSemesterItemBoard {
   'ITEM_MAX_POINTS' = ITEM_MAX_POINTS,
   'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
+  'IS_MULTI' = IS_MULTI,
 }
 
 /**
@@ -75,6 +77,7 @@ interface Data {
   [MileageSemesterItemBoard.ITEM_MAX_POINTS]: number;
   [MileageSemesterItemBoard.MOD_DATE]: string;
   [MileageSemesterItemBoard.MANAGE]: string;
+  [MileageSemesterItemBoard.IS_MULTI]: boolean;
 }
 
 /**
@@ -90,7 +93,8 @@ function createData(
   POINTS: number,
   ITEM_MAX_POINTS: number,
   MOD_DATE: string,
-  MANAGE: string
+  MANAGE: string,
+  IS_MULTI: boolean
 ): Data {
   return {
     [MileageSemesterItemBoard.NUM]: NUM,
@@ -101,6 +105,7 @@ function createData(
     [MileageSemesterItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
     [MileageSemesterItemBoard.MOD_DATE]: MOD_DATE,
     [MileageSemesterItemBoard.MANAGE]: MANAGE,
+    [MileageSemesterItemBoard.IS_MULTI]: IS_MULTI,
   };
 }
 
@@ -146,10 +151,16 @@ const headCells = [
     label: '항목 최대 포인트',
   },
   {
+    id: [MileageSemesterItemBoard.IS_MULTI],
+    numeric: true,
+    disablePadding: false,
+    label: '중복 가능 여부',
+  },
+  {
     id: [MileageSemesterItemBoard.MOD_DATE],
     numeric: true,
     disablePadding: false,
-    label: '최큰 수정일',
+    label: '최근 수정일',
   },
   {
     id: [MileageSemesterItemBoard.MANAGE],
@@ -286,6 +297,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
 
   let fetchData = res.data;
+
   return { props: { fetchData } };
 };
 
@@ -300,6 +312,7 @@ const fetchToUseData = (data) => {
       [SEMESTER]: semesterItem.semesterName,
       [ITEM]: semesterItem.item.name,
       [MILEAGE]: semesterItem.points,
+      [IS_MULTI]: semesterItem.isMulti,
       [ITEM_MAX_POINTS]: semesterItem.itemMaxPoints,
     };
     return createData(
@@ -309,6 +322,7 @@ const fetchToUseData = (data) => {
       semesterItem.item.name,
       semesterItem.points,
       semesterItem.itemMaxPoints,
+      semesterItem.isMulti,
       formatDateToKorean(semesterItem.modDate),
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );

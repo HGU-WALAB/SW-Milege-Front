@@ -25,13 +25,13 @@ import {
   DESCRIPTION2,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
-  ISINPUT_STUDENT,
-  ISDUPLICATE_RECORD,
+  IS_STUDENT_INPUT,
   ISEVALUATE_CSEE,
   ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
   MAX_MAILEAGE,
   ID,
+  ITEM_MAX_POINTS,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
@@ -110,12 +110,12 @@ export default function GlobalItemForm({ handleClose }) {
       itemName: values[ITEM],
       [DESCRIPTION1]: values[DESCRIPTION1],
       [DESCRIPTION2]: values[DESCRIPTION2],
+      [ITEM_MAX_POINTS]: values[ITEM_MAX_POINTS],
       stuType: stuTypeConverter(values),
       flags: {
         [ISVISIBLE]: values[ISVISIBLE],
         isStudentVisible: values[ISVISIBLE_STUDENT],
-        isStudentEditable: values[ISINPUT_STUDENT],
-        isMultiple: values[ISDUPLICATE_RECORD],
+        isStudentEditable: values[IS_STUDENT_INPUT],
         isPortfolio: values[ISEVALUATE_PORTFOLIO],
       },
     };
@@ -159,14 +159,13 @@ export default function GlobalItemForm({ handleClose }) {
           [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
           [ISVISIBLE_STUDENT]:
             modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
-          [ISINPUT_STUDENT]: modalType === EDITGLOBALITEM ? beforeData?.[ISINPUT_STUDENT] : false,
-          [ISDUPLICATE_RECORD]:
-            modalType === EDITGLOBALITEM ? beforeData?.[ISDUPLICATE_RECORD] : false,
+          [IS_STUDENT_INPUT]: modalType === EDITGLOBALITEM ? beforeData?.[IS_STUDENT_INPUT] : false,
           [ISEVALUATE_CSEE]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
           [ISEVALUATE_PORTFOLIO]:
             modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
           [ISEVALUATE_FUSION]:
             modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
+          [ITEM_MAX_POINTS]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
         }}
         validationSchema={GlobalItemSchema}
         onSubmit={handleSubmit}
@@ -176,28 +175,28 @@ export default function GlobalItemForm({ handleClose }) {
             <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
               <StyleFieldBox>
                 <CategorySelect />
-
-                {[ITEM, DESCRIPTION1, DESCRIPTION2].map((field: string, index: number) => (
-                  <Box key={index} sx={{ width: '100%' }}>
-                    <Field
-                      sx={{}}
-                      name={field}
-                      as={TextField}
-                      type="text"
-                      label={engToKor(field)}
-                      variant="outlined"
-                      error={errors[field] && touched[field] ? true : false}
-                      helperText={<ErrorMessage name={field} />}
-                    />
-                  </Box>
-                ))}
+                {[ITEM, ITEM_MAX_POINTS, DESCRIPTION1, DESCRIPTION2].map(
+                  (field: string, index: number) => (
+                    <Box key={index} sx={{ width: '100%' }}>
+                      <Field
+                        sx={{}}
+                        name={field}
+                        as={TextField}
+                        type="text"
+                        label={engToKor(field)}
+                        variant="outlined"
+                        error={errors[field] && touched[field] ? true : false}
+                        helperText={<ErrorMessage name={field} />}
+                      />
+                    </Box>
+                  )
+                )}
               </StyleFieldBox>
               <StyleFieldBox>
                 {[
                   ISVISIBLE,
                   ISVISIBLE_STUDENT,
-                  ISINPUT_STUDENT,
-                  ISDUPLICATE_RECORD,
+                  IS_STUDENT_INPUT,
                   ISEVALUATE_CSEE,
                   ISEVALUATE_PORTFOLIO,
                   ISEVALUATE_FUSION,

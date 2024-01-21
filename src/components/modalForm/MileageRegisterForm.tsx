@@ -47,7 +47,7 @@ import SemesterItemSelect from '../common/Select/SemesterIdSelect';
 export default function MileageRegisterForm({ handleClose }) {
   const [semesterItemList, setSemesterItemList] = React.useState([]);
   const [semester, setSemester] = React.useState(null);
-  const semesters = generateSemesters(currentYear);
+  const semesters = useSelector((state) => state.filterList.semesterList);
 
   const SemesterSelect = () => (
     <FormControl fullWidth>
@@ -93,7 +93,7 @@ export default function MileageRegisterForm({ handleClose }) {
     // [STUDENT_ID]: Yup.number().integer().required('필수입니다.'),
     [NAME]: Yup.string().required('필수입니다.'),
     [SID]: Yup.string().length(8, '반드시 8자리 여야 합니다.').required('필수입니다.'),
-    [COUNTS]: Yup.number().integer(),
+    [COUNTS]: Yup.number().integer().required('필수입니다.'),
     // [POINTS]: Yup.number().integer().required('필수입니다.'),
     [EXTRAPOINTS]: Yup.number().integer(),
     [DESCRIPTION1]: Yup.string(),
@@ -159,7 +159,7 @@ export default function MileageRegisterForm({ handleClose }) {
         // [STUDENT_ID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[STUDENT_ID] : '',
         [NAME]: modalType === EDITMILEAGEREGISTER ? beforeData?.[NAME] : '',
         [SID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SID] : '',
-        [COUNTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[COUNTS] : 0,
+        [COUNTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[COUNTS] : 1,
         // [POINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[POINTS] : 0,
         [EXTRAPOINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[EXTRAPOINTS] : 0,
         [DESCRIPTION1]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION1] : '',
