@@ -9,24 +9,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, Stack, Alert, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
-import { PATH_AUTH } from '../../routes/paths';
 // auth
-import { useAuthContext } from '../../auth/useAuthContext';
 // components
 import Iconify from '../../components/iconify';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
-import axiosInstance from '../../utils/axios';
-import { parseSetCookie } from 'next/dist/compiled/@edge-runtime/cookies';
-import { setCookie } from 'src/auth/jwtCookie';
-import { useRouter } from 'next/router';
 import { login } from '../../auth/utils';
 // ----------------------------------------------------------------------
 
 export const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 
 export default function AuthLoginForm() {
-  const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -45,33 +37,17 @@ export default function AuthLoginForm() {
   });
 
   const {
-    reset,
-    setError,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors },
   } = methods;
 
   const onSubmit = async (data) => {
     try {
-      // await login(data.email, data.password);
-
       const loginData = {
         uniqueId: data.uniqueId,
         password: data.password,
       };
       await login(loginData);
-      // axiosInstance.post(`api/admin/login`, loginData).then((res) => {
-      //   // console.log(res.data.token.split('Bearer ')[1]);
-      //   setCookie('accessToken', res.data.token, 1);
-      //   router.push(`${DOMAIN}/`);
-      // });
-      // } catch (error) {
-      // console.error(error);
-      // reset();
-      // setError('afterSubmit', {
-      //   ...error,
-      //   message: error.message || error,
-      // });
     } catch (error) {
       console.error(error);
     }

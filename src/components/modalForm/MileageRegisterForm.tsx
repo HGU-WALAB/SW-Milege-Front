@@ -79,14 +79,11 @@ export default function MileageRegisterForm({ handleClose }) {
       .then((res) => setSemesterItemList(res.data.list));
   }, [semester]);
 
-  console.log(semester);
   const beforeData = useSelector((state) => state.modal.beforeData);
 
   const modalType = useSelector((state) => state.modal.modalType);
 
-  console.log('!!');
   const router = useRouter();
-  console.log('beforeData', beforeData);
 
   const MileageRegisterSchema = Yup.object().shape({
     // [SEMESTERITEMID]: Yup.string().required('필수입니다.'),
@@ -100,12 +97,6 @@ export default function MileageRegisterForm({ handleClose }) {
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    // 카테고리 추가
-    // 1) newData 생성
-    // 2) axios post
-    // 3) alert
-    // 4) reload
-    console.log(values);
     const newData = {
       [SEMESTERITEMID]: beforeData ? beforeData[SEMESTER_ITEM_ID] : values[SEMESTER_ITEM_ID],
       [SID]: values[SID],

@@ -55,7 +55,6 @@ export default function ExcelExport() {
   ];
 
   const handleExcelExport = async (e, endPoint, name) => {
-    console.log(e.target.id, endPoint);
 
     try {
       // 파일 데이터 요청

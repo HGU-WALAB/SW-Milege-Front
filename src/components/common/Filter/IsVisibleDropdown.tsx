@@ -27,7 +27,6 @@ export default function IsVisibleDropdown() {
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(setIsVisible(event.target.value));
-    console.log(event.target.value);
   };
 
   return (

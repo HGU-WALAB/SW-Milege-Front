@@ -11,6 +11,7 @@ export default function CategoryTypeDropDown() {
     '논리적사고와소통능력',
     '다학제융합능력',
     '인성 및 영성',
+    '없음',
   ];
 
   const categoryType = useSelector((state) => state.filter.categoryType);

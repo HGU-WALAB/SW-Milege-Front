@@ -42,8 +42,6 @@ export default function SemesterItemForm({ handleClose }) {
     [IS_MULTI]: Yup.boolean(),
   });
 
-  console.log('Dddd', beforeData);
-
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     // 카테고리 추가
     // 1) newData 생성
@@ -58,8 +56,6 @@ export default function SemesterItemForm({ handleClose }) {
       [ITEM_MAX_POINTS]: +values[ITEM_MAX_POINTS],
       [IS_MULTI]: values[IS_MULTI],
     };
-
-    console.log('ss', newData);
 
     switch (modalType) {
       case ADDITEM:

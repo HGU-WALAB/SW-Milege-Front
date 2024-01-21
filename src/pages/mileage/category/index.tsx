@@ -20,6 +20,17 @@ import { useEffect } from 'react';
 import { dispatch } from 'src/redux/store';
 import { setMileageCategoryList } from 'src/redux/slices/data';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
+import axiosInstance from 'src/utils/axios';
+import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import MileageCategory from 'src/components/board/MileageCategory';
+import { setCategoryList } from 'src/redux/slices/filter';
+import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
+import axios from 'axios';
+import { getCookie } from '../view';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import { handleServerAuth403Error } from 'src/auth/utils';
+
 /**
  * @breif [마일리지 카테고리] 게시판
  */
@@ -153,33 +164,6 @@ const headCells = [
     label: '관리',
   },
 ];
-
-/**
- * 더미 객체
- */
-
-const IParams = {
-  [NUM]: 1,
-  [CATEGORY]: '카테고리테스트',
-  [DESCRIPTION1]: '설명 테스트',
-  [DESCRIPTION2]: '설명 테스트',
-};
-
-/**
- * @number 1번 목록
- * @description 마일리지 카테고리 리스트
- */
-
-import axiosInstance from 'src/utils/axios';
-import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import MileageCategory from 'src/components/board/MileageCategory';
-import { setCategoryList } from 'src/redux/slices/filter';
-import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
-import axios from 'axios';
-import { getCookie } from '../view';
-import { formatDateToKorean } from 'src/utils/date/dateConverter';
-import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
-import { handleServerAuth403Error } from 'src/auth/utils';
 
 interface IList {
   id: number;

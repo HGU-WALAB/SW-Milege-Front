@@ -42,7 +42,6 @@ export default function GradeDropdown() {
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(setGrade(event.target.value));
-    console.log(event.target.value);
   };
 
   return (

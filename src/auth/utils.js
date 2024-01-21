@@ -85,11 +85,11 @@ export const login = async (loginData) => {
   await alert('로그인 되었습니다.');
   window.location.href = `${DOMAIN}/`;
 };
-// LOGOUT
+
 export const logout = async () => {
-  await setSession(null);
-  await alert('로그아웃 되었습니다.');
   window.location.href = `${DOMAIN}${DOMAIN}/auth/login`;
+  await alert('로그아웃 되었습니다.');
+  await setSession(null);
 };
 
 export const handleServerAuth403Error = async (errorMessage) => {

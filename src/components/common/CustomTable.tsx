@@ -94,39 +94,6 @@ const ResponsiveTable = styled(Paper)({
   overflowX: 'scroll',
   padding: '20px',
 });
-// const ResponsiveTableHeadCheckBox = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
-//   },
-// });
-// const ResponsiveTableHeadTableCell = styled(TableCell)({
-//   // '@media (max-width: 600px)': {
-//   //   padding: 0,
-//   // },
-//   minWidth: '130px',
-// });
-
-// // const ResponsiveTableBody = styled(TableCell)({
-
-// const ResponsiveTableHeadLabel = styled(TableSortLabel)({
-// '@media (max-width: 600px)': {
-//   fontSize: '13px',
-// },
-// });
-
-// const RsponsiveTableBodyCheckBox = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
-//   },
-// });
-
-// const ResponsiveTableBody = styled(TableCell)({
-//   '@media (max-width: 600px)': {
-//     padding: 0,
-
-//     fontSize: '13px',
-//   },
-// });
 
 const ResponsiveHeaderCell = styled(TableCell)({
   minWidth: '110px',
@@ -355,7 +322,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
    */
 
   const [rows, setRows] = React.useState(originalRows);
-  console.log('debug', sortByDescOrderIdx(originalRows), originalRows);
 
   /**
    * @brief 필터링 요소
@@ -386,7 +352,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     }
     if (isVisible !== '전체') {
       copyRows = copyRows?.filter((row) => row.isVisible === isVisible);
-      console.log(copyRows[0]?.isVisible, isVisible);
     }
     if (item && item !== '전체') {
       copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
@@ -543,7 +508,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     const startIdx = Math.min(source_index, destination_index);
     const endIdx = Math.max(source_index, destination_index);
     for (let i = startIdx; i <= endIdx; i++) {
-      console.log(startIdx, endIdx);
       const updateRow = {
         ...updatedRows[i],
         orderIdx: rows[i].orderIdx,
@@ -554,7 +518,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     for (let i = startIdx; i <= endIdx; i++) {
       const target = updatedRows[i];
       if (target) {
-        console.log(rows[i], updatedRows[i].orderIdx);
         updateNewOrderIdx(updatedRows[i], updatedRows[i].orderIdx);
         // target.orderIdx = newOrderIdx; // Update the local state as well
       }
@@ -562,7 +525,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
     setRows(updatedRows);
 
-    console.log(updatedRows);
   };
 
   return (
@@ -636,7 +598,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                     scope="row"
                                     padding="none"
                                   >
-                                    {/* {rowValues[0]} */}
                                     {index + 1 + page * rowsPerPage}
                                   </TableCell>
 

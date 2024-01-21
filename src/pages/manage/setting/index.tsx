@@ -24,10 +24,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
   await setServerSideCookie(context);
 
   const res = await axiosInstance.get(`/api/mileage/semesters/admin/status`);
-  console.log();
-  //   const res = await axios.get('http://localhost:8080/api/mileage/semesters/admin/status');
   const fetchData = res.data;
-  console.log(fetchData);
 
   return { props: { fetchData } };
 };

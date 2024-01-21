@@ -82,7 +82,6 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
   };
 
   const handleCancel = (rowIdx: number) => {
-    console.log(data.list.length);
     setIsModifying(new Array(data.list.length).fill(false));
   };
 
@@ -102,15 +101,12 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
   };
 
   const handleEnd = (row) => {
-    // console.log(formatDateToISOStringExceptT(getCurrentKST()));
-
     if (window.confirm('정말 마감하시겠습니까??')) {
       const endData = {
         semesterId: row.id,
         applyStart: row.applyStart,
         applyEnd: getCurrentKST(),
       };
-      console.log(endData);
 
       axiosInstance.patch('/api/mileage/semesters/period', endData).then((res) => {
         window.location.reload();
@@ -142,8 +138,6 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
                     type="datetime-local"
                     value={startDate}
                     onChange={(e) => {
-                      // console.log('D', startDate);
-                      // console.log('ss', e.target.value);
                       setStartDate(e.target.value + ':00');
                     }}
                   />

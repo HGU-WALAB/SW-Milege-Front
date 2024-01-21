@@ -220,9 +220,6 @@ export default function SWModal({ type, beforeData }) {
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
-  // const open = useSelector((state) => state.modal.isOpen);
-  // const handleClose = (type) => dispatch(closeModal(type));
-  // const handleOpen = (type) => dispatch(openModal(type));
 
   const modalType = useSelector((state) => state.modal.modalType);
 
@@ -274,14 +271,8 @@ export default function SWModal({ type, beforeData }) {
       >
         <Box sx={style}>
           <ModalTitle />
-          {/* use Formik 
-          https://formik.org/docs/api/errormessage
-          https://velog.io/@silverbeen/Formik%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-feat.-Yup
-          https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html#getfieldprops-%EC%9C%A0%ED%8B%B8-%ED%95%A8%EC%88%98-%EC%A0%9C%EA%B3%B5
-          */}
+
           {modalForm(modalType, handleClose)}
-          {/* <ItemForm beforeData={beforeData} /> */}
-          {/* <CategoryForm beforeData={beforeData} /> */}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         </Box>
       </Modal>

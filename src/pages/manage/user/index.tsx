@@ -132,24 +132,23 @@ const headCells = [
   },
 ];
 
-/**
- * @kind [사용자 관리]
- * @description 마일리지 항목 리스트
- */
-
-const rows = [
-  createData(1, '오인혁', '21800446@email.com', '관리자', '20(2023-08-22)'),
-  createData(2, '한시온', '21800447@email.com', '관리자', '20(2023-08-22)'),
-  createData(3, '장유진', '21800448@email.com', '관리자', '20(2023-08-22)'),
-  createData(4, '장소연', '21800449@email.com', '관리자', '20(2023-08-22)'),
-  createData(5, '김광', '21800450', '관리자', '20(2023-08-22)'),
-];
+const levelConverter = (level) => {
+  switch (level) {
+    case 0:
+      return '관리자';
+    case 1:
+      return '담당자';
+    case 2:
+      return '일반';
+    case 3:
+      return '미등록';
+  }
+};
 
 const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: any;
 }> = async (context) => {
   setServerSideCookie(context);
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const res = await axiosInstance.get('/api/mileage/admins');
   const fetchData = res.data;
   console.log(fetchData);
@@ -167,18 +166,7 @@ export default function UserManage({
     handleServerAuth403Error(error);
     return;
   }
-  const levelConverter = (level) => {
-    switch (level) {
-      case 0:
-        return '관리자';
-      case 1:
-        return '담당자';
-      case 2:
-        return '일반';
-      case 3:
-        return '미등록';
-    }
-  };
+
   /**
    * @brief 마일리지 관리자 데이터
    */

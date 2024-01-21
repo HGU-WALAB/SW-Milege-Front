@@ -193,66 +193,6 @@ const headCells = [
   },
 ];
 
-/**
- * @kind [신청자 관리]
- * @description 마일리지 항목 리스트
- */
-
-// const rows = [
-//   createData(
-//     1,
-//     '오인혁',
-//     '21800446',
-//     '4(8)',
-//     '010-6536-6217',
-//     '전산전자공학부',
-//     'AI 컴퓨터공학심화',
-//     '2022-08-21',
-//     '2022-08-20',
-//     <CheckBoxIcon />,
-//     <HighlightOffIcon />
-//   ),
-//   createData(
-//     2,
-//     '한시온',
-//     '21800447',
-//     '4(8)',
-//     '010-6536-6217',
-//     '전산전자공학부',
-//     'AI 컴퓨터공학심화',
-//     '2022-08-21',
-//     '2022-08-20',
-//     <CheckBoxIcon />,
-//     <HighlightOffIcon />
-//   ),
-//   createData(
-//     3,
-//     '김민수',
-//     '21800448',
-//     '4(8)',
-//     '010-6536-6217',
-//     '전산전자공학부',
-//     'AI 컴퓨터공학심화',
-//     '2022-08-21',
-//     '2022-08-20',
-//     <CheckBoxIcon />,
-//     <HighlightOffIcon />
-//   ),
-//   createData(
-//     4,
-//     '장유진',
-//     '21800449',
-//     '4(8)',
-//     '010-6536-6217',
-//     '전산전자공학부',
-//     'AI 컴퓨터공학심화',
-//     '2022-08-21',
-//     '2022-08-20',
-//     <CheckBoxIcon />,
-//     <HighlightOffIcon />
-//   ),
-// ];
-
 interface IStudent {
   id: number;
   name: string;
@@ -286,7 +226,6 @@ const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IGetApplicationList;
 }> = async (context) => {
   setServerSideCookie(context);
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_API_KEY}/api/mileage/categories`);
   const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
   const nowSemester = semesterRes.data.data.name;
   const res = await axiosInstance.get(`/api/mileage/apply/semester/${nowSemester}`);
