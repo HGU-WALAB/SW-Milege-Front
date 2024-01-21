@@ -5,16 +5,16 @@ import { useRouter } from 'next/router';
 import MiniDrawer from 'src/components/common/Drawer/Drawer';
 import Header from 'src/components/common/Header';
 // @mui
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import { useSelector } from 'react-redux';
 import { DOMAIN } from '../../sections/auth/AuthLoginForm';
 import { END_ROUTE_LOGIN } from '../../routes/paths';
-//
+import MileageHeader from 'src/components/common/Appbar/MileageHeader';
 
 // const Header = dynamic(() => import('./Header'), { ssr: false });
 const Footer = dynamic(() => import('./Footer'), { ssr: false });
-
+const handleDrawerOpen = () => {};
 // ----------------------------------------------------------------------
 
 MainLayout.propTypes = {
@@ -24,14 +24,20 @@ MainLayout.propTypes = {
 export default function MainLayout({ children }) {
   const { pathname } = useRouter();
   return (
-    <Box>
-      <Box sx={{ display: 'flex', width: '100%', py: '100px' }}>
-        {!pathname.includes(END_ROUTE_LOGIN) && <MiniDrawer />}
+    <Stack>
+      <Box sx={{ display: 'flex', width: '100%' }}>
+        {!pathname.includes(END_ROUTE_LOGIN) ? (
+          <MiniDrawer />
+        ) : (
+          <MileageHeader handleDrawerOpen={handleDrawerOpen} />
+        )}
 
         <Box
           component="main"
           sx={{
-            pr: '50px',
+            py: '100px',
+            px: '50px',
+
             width: '100%',
           }}
         >
@@ -40,8 +46,6 @@ export default function MainLayout({ children }) {
           <ExcelExport />
         </Box>
       </Box>
-
-      {/* <Footer /> */}
-    </Box>
+    </Stack>
   );
 }
