@@ -147,7 +147,7 @@ function createData(
     id: [StudentManageBoard.LASTLOGINDATE],
     numeric: true,
     disablePadding: false,
-    label: '빈도수',
+    label: '마지막 로그인 날짜',
   },
   {
     id: [StudentManageBoard.ISCHECKED],
@@ -291,7 +291,7 @@ export default function StudentManage({
       student[YEAR] + `( ${student[SEMESTERCOUNT]}학기 )`,
       student[DEPARTMENT],
       student[MAJOR2].length === 0 ? student[MAJOR1] : student[MAJOR1] + ' / ' + student[MAJOR2],
-      student[LASTLOGINDATE]?.split('T')[0],
+      formatDateToKorean(student[LASTLOGINDATE]),
       student[ISCHECKED] ? (
         <CheckBoxIcon color="primary" />
       ) : (
