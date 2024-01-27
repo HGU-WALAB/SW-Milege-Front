@@ -290,7 +290,7 @@ export default function StudentManage({
       student[SID],
       student[YEAR] + `( ${student[SEMESTERCOUNT]}학기 )`,
       student[DEPARTMENT],
-      student[MAJOR1] + ' / ' + student[MAJOR2],
+      student[MAJOR2].length === 0 ? student[MAJOR1] : student[MAJOR1] + ' / ' + student[MAJOR2],
       student[LASTLOGINDATE]?.split('T')[0],
       student[ISCHECKED] ? (
         <CheckBoxIcon color="primary" />
