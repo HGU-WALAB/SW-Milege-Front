@@ -5,6 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
  */
 
 export enum Board {
+  '마일리지 타입',
   '마일리지 카테고리',
   '마일리지 글로벌 항목',
   '마일리지 학기별 항목',
@@ -24,6 +25,7 @@ export enum Board {
  */
 
 export const BoardList = [
+  '마일리지 타입',
   '마일리지 카테고리',
   '마일리지 글로벌 항목',
   '마일리지 학기별 항목',

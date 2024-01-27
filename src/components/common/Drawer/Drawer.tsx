@@ -47,6 +47,7 @@ import {
   END_ROUTE_SEMESTER_ITEM,
   END_ROUTE_STUDENT,
   END_ROUTE_VIEW,
+  END_ROUTE_TYPE,
 } from 'src/routes/paths';
 
 const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
@@ -145,26 +146,28 @@ export default function MiniDrawer() {
   const linkConverter = (num) => {
     switch (num) {
       case 0:
-        return `${DOMAIN}/mileage/category`;
+
       case 1:
-        return `${DOMAIN}/mileage/item/global`;
+        return `${DOMAIN}/mileage/category`;
       case 2:
-        return `${DOMAIN}/mileage/item/semester`;
+        return `${DOMAIN}/mileage/item/global`;
       case 3:
-        return `${DOMAIN}/mileage/view`;
+        return `${DOMAIN}/mileage/item/semester`;
       case 4:
-        return `${DOMAIN}/mileage/register`;
+        return `${DOMAIN}/mileage/view`;
       case 5:
-        return `${DOMAIN}/manage/register`;
+        return `${DOMAIN}/mileage/register`;
       case 6:
-        return `${DOMAIN}/manage/student`;
+        return `${DOMAIN}/manage/register`;
       case 7:
+        return `${DOMAIN}/manage/student`;
+      case 8:
         return `${DOMAIN}/manage/user`;
-      case 9:
-        return `${DOMAIN}/mileage/result`;
       case 10:
-        return `${DOMAIN}/manage/setting`;
+        return `${DOMAIN}/mileage/result`;
       case 11:
+        return `${DOMAIN}/manage/setting`;
+      case 12:
         return `${DOMAIN}/report`;
       default:
         return `${DOMAIN}/`;
@@ -176,18 +179,19 @@ export default function MiniDrawer() {
   const updateComponentNum = (newComponentNum) => dispatch(setComponentNum(newComponentNum));
 
   React.useEffect(() => {
-    if (pathname.includes(END_ROUTE_CATEGORY)) updateComponentNum(0);
-    else if (pathname.includes(END_ROUTE_LOGIN)) updateComponentNum(0);
-    else if (pathname.includes(END_ROUTE_GLOBAL_ITEM)) updateComponentNum(1);
-    else if (pathname.includes(END_ROUTE_SEMESTER_ITEM)) updateComponentNum(2);
-    else if (pathname.includes(END_ROUTE_VIEW)) updateComponentNum(3);
-    else if (pathname.includes(END_ROUTE_MILEAGE_REGISTER)) updateComponentNum(4);
-    else if (pathname.includes(END_ROUTE_MANAGE_REGISTER)) updateComponentNum(5);
-    else if (pathname.includes(END_ROUTE_STUDENT)) updateComponentNum(6);
-    else if (pathname.includes(END_ROUTE_MANAGER)) updateComponentNum(7);
-    else if (pathname.includes(END_ROUTE_RESULT)) updateComponentNum(9);
-    else if (pathname.includes(END_ROUTE_SETTING)) updateComponentNum(10);
-    else if (pathname.includes(END_ROUTE_REPORT)) updateComponentNum(11);
+    if (pathname.includes(END_ROUTE_TYPE)) updateComponentNum(0);
+    else if (pathname.includes(END_ROUTE_CATEGORY)) updateComponentNum(1);
+    else if (pathname.includes(END_ROUTE_LOGIN)) updateComponentNum(1);
+    else if (pathname.includes(END_ROUTE_GLOBAL_ITEM)) updateComponentNum(2);
+    else if (pathname.includes(END_ROUTE_SEMESTER_ITEM)) updateComponentNum(3);
+    else if (pathname.includes(END_ROUTE_VIEW)) updateComponentNum(4);
+    else if (pathname.includes(END_ROUTE_MILEAGE_REGISTER)) updateComponentNum(5);
+    else if (pathname.includes(END_ROUTE_MANAGE_REGISTER)) updateComponentNum(6);
+    else if (pathname.includes(END_ROUTE_STUDENT)) updateComponentNum(7);
+    else if (pathname.includes(END_ROUTE_MANAGER)) updateComponentNum(8);
+    else if (pathname.includes(END_ROUTE_RESULT)) updateComponentNum(10);
+    else if (pathname.includes(END_ROUTE_SETTING)) updateComponentNum(11);
+    else if (pathname.includes(END_ROUTE_REPORT)) updateComponentNum(12);
   }, [pathname]);
 
   return (
@@ -204,7 +208,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         {/*  사이드바 리스트 아이템 */}
         <List>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((boardNum, index) => (
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((boardNum, index) => (
             <m.div
               key={index}
               onClick={clearSelected}
