@@ -13,6 +13,7 @@ jobs:
           host: ${{ secrets.SW_MILEAGE_SSH_HOST }}
           username: ${{ secrets.SW_MILEAGE_SSH_USERNAME }}
           key: ${{ secrets.SW_MILEAGE_SSH_PASSWORD }}
+          port: 22
           script: |
             whoami
             cd ~/sh-script/manager
