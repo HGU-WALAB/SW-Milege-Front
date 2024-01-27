@@ -31,16 +31,16 @@ export default function Filtering() {
   }
   return (
     <ResponsiveFilterBox>
-      {renderComponentsForTableNums([0, 1, 2, 3], <CategoryAutoComplete />)}
-      {renderComponentsForTableNums([2, 3, 4, 5, 9], <SemesterDropdown />)}
-      {renderComponentsForTableNums([1], <IsVisibleDropdown />)}
-      {renderComponentsForTableNums([1, 2, 3, 4], <ItemAutoComplete />)}
-      {renderComponentsForTableNums([3, 5, 6, 7, 8, 9, 10], <StudentNameAutoComplete />)}
-      {renderComponentsForTableNums([5, 6], <GradeDropdown />)}
-      {renderComponentsForTableNums([5, 6, 9], <DepartmentDropdown />)}
-      {renderComponentsForTableNums([0], <CategoryTypeDropDown />)}
-      {renderComponentsForTableNums([3, 5, 6, 9], <StudentIdAutoComplete />)}
-      {renderComponentsForTableNums([7], <AdminIdAutoComplete />)}
+      {renderComponentsForTableNums([1, 2, 3, 4], <CategoryAutoComplete />)}
+      {renderComponentsForTableNums([3, 4, 5, 6, 10], <SemesterDropdown />)}
+      {renderComponentsForTableNums([2], <IsVisibleDropdown />)}
+      {renderComponentsForTableNums([2, 3, 4, 5], <ItemAutoComplete />)}
+      {renderComponentsForTableNums([4, 6, 7, 8, 9, 10, 11], <StudentNameAutoComplete />)}
+      {renderComponentsForTableNums([6, 7], <GradeDropdown />)}
+      {renderComponentsForTableNums([6, 7, 10], <DepartmentDropdown />)}
+      {renderComponentsForTableNums([1], <CategoryTypeDropDown />)}
+      {renderComponentsForTableNums([4, 6, 7, 10], <StudentIdAutoComplete />)}
+      {renderComponentsForTableNums([8], <AdminIdAutoComplete />)}
     </ResponsiveFilterBox>
   );
 }

@@ -146,7 +146,7 @@ export default function MiniDrawer() {
   const linkConverter = (num) => {
     switch (num) {
       case 0:
-
+        return `${DOMAIN}/mileage/type`;
       case 1:
         return `${DOMAIN}/mileage/category`;
       case 2:

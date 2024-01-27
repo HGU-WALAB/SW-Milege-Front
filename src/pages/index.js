@@ -40,62 +40,12 @@ import { handleServerAuth403Error } from '../auth/utils';
 
 // ----------------------------------------------------------------------
 
-const getServerSidePropsFunction = async (context) => {
-  setServerSideCookie(context);
-
-  const resCategory = await axiosInstance.get('/api/mileage/categories');
-  const categoryData = await resCategory.data;
-
-  const resGlobalItem = await axiosInstance.get('/api/mileage/items');
-  const globalItemData = await resGlobalItem.data;
-
-  const resStudents = await axiosInstance.get(`/api/mileage/students`);
-  const studentData = await resStudents.data;
-
-  return { props: { categoryData, globalItemData, studentData } };
-};
-
-export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
-
-export default function HomePage({
-  categoryData,
-  globalItemData,
-  studentData,
-  error,
-  requireLogin,
-}) {
+export default function HomePage() {
   const { push } = useRouter();
-  if (requireLogin) {
-    push(`${DOMAIN}/auth/login`);
-    return;
-  }
-
-  const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    const filteringInit = async () => {
-      await dispatch(
-        setCategoryList(
-          categoryData.list?.map((category) => ({ id: category.id, name: category.name }))
-        )
-      );
-      await dispatch(
-        setItemList(globalItemData.list?.map((item) => ({ id: item.id, name: item.name })))
-      );
-
-      await dispatch(
-        setStudentList(
-          studentData.list?.map((student) => ({
-            id: student.id,
-            name: student.name,
-            sid: student.sid,
-          }))
-        )
-      );
-      router.push(`${DOMAIN}/mileage/category`);
-    };
-    filteringInit();
+    router.push(`${DOMAIN}/mileage/type`);
   }, []);
 
   const componentNum = useSelector((state) => state.component.componentNum);

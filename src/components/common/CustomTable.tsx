@@ -45,6 +45,7 @@ import {
   ADDMANAGER,
   ADDMILEAGEREGISTER,
   ADDSTUDENT,
+  ADDTYPE,
   EDITCATEGORY,
   MAGICIANSEMESTERITEM,
 } from 'src/assets/data/modal/modals';
@@ -270,6 +271,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
  */
 const typeConverter = (type) => {
   switch (type) {
+    case '마일리지 타입':
+      return ADDTYPE;
     case '마일리지 카테고리':
       return ADDCATEGORY;
     case '마일리지 학기별 항목':
@@ -524,7 +527,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     }
 
     setRows(updatedRows);
-
   };
 
   return (
