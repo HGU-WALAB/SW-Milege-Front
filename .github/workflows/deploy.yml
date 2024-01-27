@@ -6,7 +6,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-
+      - uses: actions/checkout@v3
+      
       - name: login to walab server & execute script ( deploy )
         uses: appleboy/ssh-action@master
         with:
