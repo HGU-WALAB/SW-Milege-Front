@@ -12,7 +12,7 @@ jobs:
         with:
           host: ${{ secrets.SW_MILEAGE_SSH_HOST }}
           username: ${{ secrets.SW_MILEAGE_SSH_USERNAME }}
-          Password: ${{ secrets.SW_MILEAGE_SSH_PASSWORD }}
+          key: ${{ secrets.SW_MILEAGE_SSH_PASSWORD }}
           script: |
             whoami
             cd ~/sh-script/manager
