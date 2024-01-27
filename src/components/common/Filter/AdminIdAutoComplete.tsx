@@ -14,10 +14,10 @@ const StyledAutocomplete = styled(Autocomplete)({
 export default function AdminIdAutoComplete() {
   const top100Films = removeDuplicates([
     '전체',
-    ...useSelector((state) => state.filterList.adminList).map((admin) => admin.aid),
+    ...useSelector((state) => state.filterList.adminList).map((admin) => admin?.aid),
   ]);
 
-  const adminId = useSelector((state) => state.filter.aid);
+  const adminId = useSelector((state) => state.filter?.aid);
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {

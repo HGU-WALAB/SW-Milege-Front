@@ -59,7 +59,7 @@ export const filteringInit = async () => {
     setAdminList(
       adminData.list?.map((admin) => ({
         name: admin.name,
-        aid: admin.sid,
+        aid: admin.aid,
       }))
     )
   );
