@@ -17,6 +17,6 @@ jobs:
           port: 22
           script: |
             whoami
-            cd ~/sh-script/manager
-            chmod 750 front-manager-script.sh
-            ./front-manager-script.sh
+            cd ~/sh-script
+            chmod 750 front-manager-deploy.sh
+            ./front-manager-deploy.sh
