@@ -16,46 +16,46 @@ export default function ExcelExport() {
   const dispatch = useDispatch();
   const setMenuButton = (data) => dispatch(setComponentNum(data));
   const { pathname } = useRouter();
+
   const Excels = [
     {
       name: '카테고리 엑셀 다운로드',
       endPoint: PATH_API.excel.download.category,
-      pathname: [PATH_PAGES.mileage.category],
+      allowPaths: [PATH_PAGES.mileage.category],
     },
     {
       name: '학기별 항목 엑셀 다운로드',
       endPoint: PATH_API.excel.download.semesterItem(semester),
-      pathname: [PATH_PAGES.mileage.semesterItem],
+      allowPaths: [PATH_PAGES.mileage.semesterItem],
     },
     {
       name: '글로벌 항목 & 카테고리 엑셀 다운로드',
       endPoint: PATH_API.excel.download.globalItem,
-      pathname: [PATH_PAGES.mileage.globalItem],
+      allowPaths: [PATH_PAGES.mileage.globalItem],
     },
     {
       name: '장학금 신청자 목록 다운로드',
       endPoint: PATH_API.excel.download.register(semester),
-      pathname: [PATH_PAGES.manage.register],
+      allowPaths: [PATH_PAGES.manage.register],
     },
     {
       name: '학기별 항목 업로드 양식 다운로드',
       endPoint: PATH_API.excel.download.format.semesterItem,
-      pathname: [PATH_PAGES.mileage.semesterItem],
+      allowPaths: [PATH_PAGES.mileage.semesterItem],
     },
     {
       name: '선정 결과 업로드 양식 다운로드',
       endPoint: PATH_API.excel.download.format.result,
-      pathname: [PATH_PAGES.mileage.result],
+      allowPaths: [PATH_PAGES.mileage.result],
     },
     {
       name: '활동기록 업로드 양식 다운로드',
       endPoint: PATH_API.excel.download.format.record,
-      pathname: [PATH_PAGES.mileage.record, PATH_PAGES.mileage.view],
+      allowPaths: [PATH_PAGES.mileage.record, PATH_PAGES.mileage.view],
     },
   ];
 
   const handleExcelExport = async (e, endPoint, name) => {
-
     try {
       // 파일 데이터 요청
       const response = await axiosInstance.get(endPoint, {
@@ -81,7 +81,9 @@ export default function ExcelExport() {
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', mt: '30px' }}>
-      {Excels.filter((AllExcel) => AllExcel.pathname?.includes(pathname)).map((Excel, index) => (
+      {Excels.filter((AllExcel) =>
+        AllExcel.allowPaths.some((path) => path?.includes(pathname))
+      )?.map((Excel, index) => (
         <Button
           type="button"
           variant="contained"
