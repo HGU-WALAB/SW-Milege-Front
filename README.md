@@ -1,7 +1,11 @@
 # 한동대학교 대상 소중대 마일리지 관리자 시스템 [ 프론트엔드 ]
 
 
-<br />
+<a href="http://walab.handong.edu/sw-mileage-admin/mileage/category/" target='_blank' >
+http://walab.handong.edu/sw-mileage-admin
+</a>
+
+<br /><br />
 
 ## 요구 사항
 
