@@ -162,7 +162,7 @@ export default function SemesterTable({ data }: IGetAllSemesterWithStatus) {
               <StyledTableCell
                 align="left"
                 sx={{
-                  color: 'primary.main',
+                  color: row.status === '신청 가능' ? 'primary.main' : 'grey.600',
                   fontWeight: 'bold',
                 }}
               >
