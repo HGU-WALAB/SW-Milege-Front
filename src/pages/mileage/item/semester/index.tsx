@@ -142,7 +142,7 @@ const headCells = [
     id: [MileageSemesterItemBoard.POINTS],
     numeric: true,
     disablePadding: false,
-    label: '포인트',
+    label: '마일리지',
   },
   {
     id: [MileageSemesterItemBoard.ITEM_MAX_POINTS],

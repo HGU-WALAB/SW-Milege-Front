@@ -129,7 +129,7 @@ const headCells = [
     id: [MileageViewBoard.POINT],
     numeric: true,
     disablePadding: false,
-    label: '포인트',
+    label: '마일리지',
   },
   {
     id: [MileageViewBoard.REGISTERED_DATE],

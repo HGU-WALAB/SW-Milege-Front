@@ -251,7 +251,7 @@ export default function CRUDStudentTable() {
     },
     {
       field: 'counts',
-      headerName: '포인트',
+      headerName: '마일리지',
       type: 'string',
       width: 80,
       align: 'left',
