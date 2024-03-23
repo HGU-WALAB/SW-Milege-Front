@@ -140,7 +140,7 @@ const modalForm = (modalType, handleClose) => {
 export const engToKor = (eng) => {
   switch (eng) {
     case CATEGORY_MAX_POINTS:
-      return '카테고리 최대 포인트';
+      return '적립 가능 최대 마일리지';
     case IS_MULTI:
       return '중복 여부';
     case AID:
@@ -154,7 +154,7 @@ export const engToKor = (eng) => {
     case SEMESTER:
       return '학기';
     case ITEM:
-      return '항목 이름';
+      return '세부 항목 이름';
     case MILEAGE:
       return '마일리지';
     case MAX_MAILEAGE:
@@ -204,7 +204,7 @@ export const engToKor = (eng) => {
     case COUNTS:
       return '등록횟수';
     case POINTS:
-      return '계싼된 점수';
+      return '계산된 점수';
     case EXTRAPOINTS:
       return '가산점';
     case DESCRIPTION1:
@@ -212,7 +212,7 @@ export const engToKor = (eng) => {
     case DESCRIPTION2:
       return '설명2';
     case ITEM_MAX_POINTS:
-      return '항목 최대 포인트';
+      return '적립 가능 최대 마일리지';
   }
 };
 

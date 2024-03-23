@@ -24,7 +24,7 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return `${res.data.list.map((item) => item.name)} 등 ${
           res.data.list.length
         }개의 하위 항목 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요.`;
-      case '마일리지 글로벌 항목':
+      case '마일리지 세부 항복':
         return `[ ${res.data.list.map((item) => item.semesterName + ' ')} ] 등 ${
           res.data.list.length
         } 개의 학기에서 사용 중이기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
@@ -71,7 +71,7 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
     switch (type) {
       case '마일리지 카테고리':
         return `/api/mileage/items/categories/${id}`;
-      case '마일리지 글로벌 항목':
+      case '마일리지 세부 항복':
         return `/api/mileage/semesters/items/${id}`;
       case '마일리지 학기별 항목':
         return `/api/mileage/records/semesterItems/${id}`;
@@ -88,7 +88,7 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
     switch (type) {
       case '마일리지 카테고리':
         return '/api/mileage/categories';
-      case '마일리지 글로벌 항목':
+      case '마일리지 세부 항복':
         return '/api/mileage/items';
       case '사용자 관리':
         return '/api/mileage/admins';

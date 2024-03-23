@@ -28,7 +28,7 @@ export default function ExcelExport() {
       pathname: [PATH_PAGES.mileage.semesterItem],
     },
     {
-      name: '글로벌 항목 & 카테고리 엑셀 다운로드',
+      name: '엑셀로 내려받기',
       endPoint: PATH_API.excel.download.globalItem,
       pathname: [PATH_PAGES.mileage.globalItem],
     },

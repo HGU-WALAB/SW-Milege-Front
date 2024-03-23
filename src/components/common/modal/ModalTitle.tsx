@@ -36,9 +36,9 @@ export default function ModalTitle() {
       case DELETEITEM:
         return '마일리지 학기별 항목 삭제';
       case ADDGLOBALITEM:
-        return '마일리지 글로벌 항목 추가';
+        return '마일리지 세부 항복 추가';
       case EDITGLOBALITEM:
-        return '마일리지 글로벌 항목 수정';
+        return '마일리지 세부 항복 수정';
       case ADDSTUDENT:
         return '학생 추가';
       case EDITSTUDENT:

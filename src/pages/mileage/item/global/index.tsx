@@ -272,7 +272,7 @@ export default function MileageCategory({
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
-      type="마일리지 글로벌 항목"
+      type="마일리지 세부 항복"
     />
   );
 }

@@ -39,7 +39,7 @@ export default function TypeSelect() {
   ];
 
   const MySelect = ({ field, form, ...props }) => (
-    <Select {...field} {...props}>
+    <Select label="타입" {...field} {...props}>
       {TYPES.map((type, index) => (
         <MenuItem key={type.id} value={type.value}>
           {type.text}
@@ -49,9 +49,9 @@ export default function TypeSelect() {
   );
 
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl sx={{ width: '100%' }} variant="outlined">
       <InputLabel id="demo-simple-select-label">타입</InputLabel>
-      <Field as={MySelect} name={TYPE} variant="outlined" />
+      <Field as={MySelect} name={TYPE} />
       <ErrorMessage name={TYPE} />
     </FormControl>
   );
