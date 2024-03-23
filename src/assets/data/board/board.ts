@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 export enum Board {
   '마일리지 카테고리',
-  '마일리지 세부 항복',
+  '마일리지 세부 항목',
   '학기별 마일리지 세부 항목',
   '마일리지 조회',
   '마일리지 적립',

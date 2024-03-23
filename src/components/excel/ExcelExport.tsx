@@ -23,7 +23,7 @@ export default function ExcelExport() {
       pathname: [PATH_PAGES.mileage.category],
     },
     {
-      name: '학기별 항목 엑셀 다운로드',
+      name: '엑셀로 내려받기',
       endPoint: PATH_API.excel.download.semesterItem(semester),
       pathname: [PATH_PAGES.mileage.semesterItem],
     },
@@ -38,7 +38,7 @@ export default function ExcelExport() {
       pathname: [PATH_PAGES.manage.register],
     },
     {
-      name: '학기별 항목 업로드 양식 다운로드',
+      name: '엑셀 양식 다운로드',
       endPoint: PATH_API.excel.download.format.semesterItem,
       pathname: [PATH_PAGES.mileage.semesterItem],
     },

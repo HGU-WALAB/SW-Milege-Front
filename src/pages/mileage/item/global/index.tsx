@@ -257,7 +257,7 @@ export default function MileageCategory({
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
-      type="마일리지 세부 항복"
+      type="마일리지 세부 항목"
     />
   );
 }
