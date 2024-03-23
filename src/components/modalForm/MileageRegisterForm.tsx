@@ -114,20 +114,20 @@ export default function MileageRegisterForm({ handleClose }) {
         axiosInstance
           .post(`/api/mileage/records`, newData)
           .then((res) => {
-            alert('마일리지 등록 리스트에 추가되었습니다.');
+            alert('마일리지 적립 리스트에 추가되었습니다.');
             router.reload();
           })
-          .catch((err) => alert('마일리지 등록 리스트 추가에 실패했습니다.'));
+          .catch((err) => alert('마일리지 적립 리스트 추가에 실패했습니다.'));
         break;
 
       case EDITMILEAGEREGISTER:
         axiosInstance
           .patch(`/api/mileage/records/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert('마일리지 등록 리스트가 수정되었습니다.');
+            alert('마일리지 적립 리스트가 수정되었습니다.');
             router.reload();
           })
-          .catch((err) => alert('마일리지 등록 리스트 수정이 실패했습니다.'));
+          .catch((err) => alert('마일리지 적립 리스트 수정이 실패했습니다.'));
         break;
     }
   };

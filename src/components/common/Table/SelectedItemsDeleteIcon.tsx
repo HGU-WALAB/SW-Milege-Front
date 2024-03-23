@@ -28,7 +28,7 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return `[ ${res.data.list.map((item) => item.semesterName + ' ')} ] 등 ${
           res.data.list.length
         } 개의 학기에서 사용 중이기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
-      case '마일리지 학기별 항목':
+      case '학기별 마일리지 세부 항목':
         return `${res.data.count} 곳에서 사용 중입니다. ${res.data.list.map(
           (item) =>
             '\n [ ' +
@@ -49,7 +49,7 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         )} \n 등 ${
           res.data.count
         }곳에 학생이 등록 되어 있기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
-      case '마일리지 등록':
+      case '마일리지 적립':
         return `${res.data.count} 곳에서 사용 중입니다. ${res.data.list.map(
           (item) =>
             '\n [ ' +
@@ -73,11 +73,11 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return `/api/mileage/items/categories/${id}`;
       case '마일리지 세부 항복':
         return `/api/mileage/semesters/items/${id}`;
-      case '마일리지 학기별 항목':
+      case '학기별 마일리지 세부 항목':
         return `/api/mileage/records/semesterItems/${id}`;
       case '학생 관리':
         return `/api/mileage/records/students/${id}`;
-      case '마일리지 등록':
+      case '마일리지 적립':
         return `/api/mileage/records/semesterItems/${id}`;
       case '신청자 관리':
         return `/api/mileage/records/students/${id}`;
@@ -94,9 +94,9 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
         return '/api/mileage/admins';
       case '학생 관리':
         return '/api/mileage/students';
-      case '마일리지 학기별 항목':
+      case '학기별 마일리지 세부 항목':
         return '/api/mileage/semesters';
-      case '마일리지 등록':
+      case '마일리지 적립':
         return `/api/mileage/semesters`;
       case '마일리지 조회':
         return '/api/mileage/records';

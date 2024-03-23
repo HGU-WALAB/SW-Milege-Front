@@ -45,11 +45,11 @@ import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import MileageSemesterItem from '../../../../components/board/MileageSemesterItem';
 
 /**
- * @component [마일리지 학기별 항목] 게시판
+ * @component [학기별 마일리지 세부 항목] 게시판
  */
 
 /**
- * @kind [마일리지 학기별 항목]
+ * @kind [학기별 마일리지 세부 항목]
  * @breif enum
  */
 
@@ -66,7 +66,7 @@ export enum MileageSemesterItemBoard {
 }
 
 /**
- * @kind [마일리지 학기별 항목]
+ * @kind [학기별 마일리지 세부 항목]
  * @breif 데이터 인터페이스
  */
 interface Data {
@@ -81,7 +81,7 @@ interface Data {
 }
 
 /**
- * @kind [마일리지 학기별 항목]
+ * @kind [학기별 마일리지 세부 항목]
  * @brief 데이터 생성 함수
  *
  *  */
@@ -110,7 +110,7 @@ function createData(
 }
 
 /**
- * @kind [마일리지 학기별 항목]
+ * @kind [학기별 마일리지 세부 항목]
  * @brief 테이블 헤더
  */
 const headCells = [
@@ -264,7 +264,7 @@ export default function MileageSemesterItem({
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
-      type="마일리지 학기별 항목"
+      type="학기별 마일리지 세부 항목"
     />
   );
 }
