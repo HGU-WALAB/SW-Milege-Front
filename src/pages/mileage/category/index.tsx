@@ -24,7 +24,7 @@ import axiosInstance from 'src/utils/axios';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import MileageCategory from 'src/components/board/MileageCategory';
 import { setCategoryList } from 'src/redux/slices/filter';
-import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
+import { DESCRIPTION1, CATEGORY, NUM } from '../../../assets/data/fields';
 import axios from 'axios';
 import { getCookie } from '../view';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
@@ -40,7 +40,6 @@ export enum MileageCategoryBoard {
   'CATEGORY' = CATEGORY,
   'TYPE' = TYPE,
   'DESCRIPTION1' = DESCRIPTION1,
-  'DESCRIPTION2' = DESCRIPTION2,
   'ITEM_COUNT' = ITEM_COUNT,
   'ORDER_IDX' = ORDER_IDX,
   'CATEGORY_MAX_POINTS' = CATEGORY_MAX_POINTS,
@@ -58,7 +57,6 @@ interface Data {
   [MileageCategoryBoard.CATEGORY]: string;
   [MileageCategoryBoard.TYPE]: string;
   [MileageCategoryBoard.DESCRIPTION1]: string;
-  [MileageCategoryBoard.DESCRIPTION2]: string;
   [MileageCategoryBoard.ORDER_IDX]: number;
   [MileageCategoryBoard.ITEM_COUNT]: number;
   [MileageCategoryBoard.CATEGORY_MAX_POINTS]: number;
@@ -78,7 +76,6 @@ function createData(
   TYPE: string,
   ORDER_IDX: number,
   DESCRIPTION1: string,
-  DESCRIPTION2: string,
   ITEM_COUNT: number,
   CATEGORY_MAX_POINTS: number,
   MOD_DATE: string,
@@ -90,7 +87,6 @@ function createData(
     [MileageCategoryBoard.TYPE]: TYPE,
     [MileageCategoryBoard.ORDER_IDX]: ORDER_IDX,
     [MileageCategoryBoard.DESCRIPTION1]: DESCRIPTION1,
-    [MileageCategoryBoard.DESCRIPTION2]: DESCRIPTION2,
     [MileageCategoryBoard.ITEM_COUNT]: ITEM_COUNT,
     [MileageCategoryBoard.CATEGORY_MAX_POINTS]: CATEGORY_MAX_POINTS,
     [MileageCategoryBoard.MOD_DATE]: MOD_DATE,
@@ -131,13 +127,7 @@ const headCells = [
     id: [MileageCategoryBoard.DESCRIPTION1],
     numeric: true,
     disablePadding: false,
-    label: '설명1',
-  },
-  {
-    id: [MileageCategoryBoard.DESCRIPTION2],
-    numeric: true,
-    disablePadding: false,
-    label: '설명2',
+    label: '비고',
   },
   {
     id: [MileageCategoryBoard.ITEM_COUNT],
@@ -169,7 +159,6 @@ interface IList {
   id: number;
   name: string;
   description1: string;
-  description2: string;
   itemType: string;
   isMulti: boolean;
 }
@@ -214,7 +203,6 @@ export default function MileageCategory({
       [TITLE]: item[NAME],
       [TYPE]: item[TYPE],
       [DESCRIPTION1]: item[DESCRIPTION1],
-      [DESCRIPTION2]: item[DESCRIPTION2],
       [CATEGORY_MAX_POINTS]: item[CATEGORY_MAX_POINTS],
     };
 
@@ -224,7 +212,6 @@ export default function MileageCategory({
       item[TYPE],
       item[ORDER_IDX],
       item[DESCRIPTION1],
-      item[DESCRIPTION2],
       item[ITEM_COUNT],
       item[CATEGORY_MAX_POINTS],
       formatDateToKorean(item[MOD_DATE]),

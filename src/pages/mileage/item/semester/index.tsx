@@ -9,7 +9,6 @@ import {
   DESCRIPTION,
   DESCRIPTION1,
   SEMESTERITEM,
-  DESCRIPTION2,
   FILE_DESCRIPTION,
   ISVISIBLE_STUDENT,
   ISINPUT_STUDENT,
@@ -175,7 +174,6 @@ interface IItem {
   itemName: string;
   isPortfolio: boolean;
   description1: string;
-  description2: string;
   stuType: string; // 'C', 'F', 'CF' 중 하나로 제한하려면 "C" | "F" | "CF"와 같이 명시할 수 있습니다.
 }
 

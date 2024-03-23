@@ -48,7 +48,7 @@ export default function ExcelExport() {
       pathname: [PATH_PAGES.mileage.result],
     },
     {
-      name: '활동기록 업로드 양식 다운로드',
+      name: '엑셀 양식 다운로드',
       endPoint: PATH_API.excel.download.format.record,
       pathname: [PATH_PAGES.mileage.record, PATH_PAGES.mileage.view],
     },

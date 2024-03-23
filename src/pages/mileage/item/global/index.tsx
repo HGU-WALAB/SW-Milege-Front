@@ -9,7 +9,6 @@ import {
   SEMESTER,
   DESCRIPTION,
   DESCRIPTION1,
-  DESCRIPTION2,
   FILE_DESCRIPTION,
   ISVISIBLE_STUDENT,
   IS_STUDENT_INPUT,
@@ -54,7 +53,6 @@ export enum MileageGlobalItemBoard {
   'CATEGORY' = CATEGORY,
   'ITEM' = ITEM,
   'DESCRIPTION1' = DESCRIPTION1,
-  'DESCRIPTION2' = DESCRIPTION2,
   'SEMESTER_ITEM_COUNT' = SEMESTER_ITEM_COUNT,
   'ISVISIBLE' = ISVISIBLE,
   'MOD_DATE' = MOD_DATE,
@@ -71,7 +69,6 @@ interface Data {
   [MileageGlobalItemBoard.CATEGORY]: string;
   [MileageGlobalItemBoard.ITEM]: string;
   [MileageGlobalItemBoard.DESCRIPTION1]: string;
-  [MileageGlobalItemBoard.DESCRIPTION2]: string;
   [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
   [MileageGlobalItemBoard.ITEM_MAX_POINTS]: number;
   [MileageGlobalItemBoard.ISVISIBLE]: boolean;
@@ -91,7 +88,6 @@ function createData(
   CATEGORY: string,
   ITEM: string,
   DESCRIPTION1: string,
-  DESCRIPTION2: string,
   SEMESTER_ITEM_COUNT: number,
   ITEM_MAX_POINTS: number,
   ISVISIBLE: boolean,
@@ -105,7 +101,6 @@ function createData(
     [MileageGlobalItemBoard.ITEM]: ITEM,
 
     [MileageGlobalItemBoard.DESCRIPTION1]: DESCRIPTION1,
-    [MileageGlobalItemBoard.DESCRIPTION2]: DESCRIPTION2,
     [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: SEMESTER_ITEM_COUNT,
     [MileageGlobalItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
     [MileageGlobalItemBoard.ISVISIBLE]: ISVISIBLE,
@@ -141,13 +136,7 @@ const headCells = [
     id: [MileageGlobalItemBoard.DESCRIPTION1],
     numeric: true,
     disablePadding: false,
-    label: '설명1',
-  },
-  {
-    id: [MileageGlobalItemBoard.DESCRIPTION2],
-    numeric: true,
-    disablePadding: false,
-    label: '설명2',
+    label: '비고',
   },
   {
     id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
@@ -194,7 +183,6 @@ interface IGlobalItem {
   itemName: string;
   isPortfolio: boolean;
   description1: string;
-  description2: string;
   stuType: 'C' | 'F' | 'CF';
 }
 
@@ -230,7 +218,6 @@ export default function MileageCategory({
       category,
       name: itemName,
       description1,
-      description2,
       isVisible,
       isStudentVisible,
       stuType,
@@ -244,7 +231,6 @@ export default function MileageCategory({
       [CATEGORYID]: category.id,
       [ITEM]: itemName,
       [DESCRIPTION1]: description1,
-      [DESCRIPTION2]: description2,
       [ISVISIBLE]: isVisible,
       [ISVISIBLE_STUDENT]: isStudentVisible,
       [IS_STUDENT_INPUT]: isStudentInput,
@@ -259,7 +245,6 @@ export default function MileageCategory({
       item[CATEGORY][NAME],
       item[NAME],
       item[DESCRIPTION1],
-      item[DESCRIPTION2],
       item[SEMESTER_ITEM_COUNT],
       item[ITEM_MAX_POINTS],
       item[ISVISIBLE],

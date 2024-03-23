@@ -17,7 +17,6 @@ import {
   STUDENT_ID,
   POINTS,
   DESCRIPTION1,
-  DESCRIPTION2,
   STUDENT_NAME,
 } from 'src/assets/data/fields';
 import { styled } from '@mui/material';
@@ -73,7 +72,6 @@ function Row({ row }) {
                         student[STUDENT_ID],
                         student[POINTS],
                         student[DESCRIPTION1],
-                        student[DESCRIPTION2],
                         student['edit'],
                       ].map((bodyElement, index) => (
                         <TableCell component="th" scope="row" key={index}>

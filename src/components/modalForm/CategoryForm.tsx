@@ -4,7 +4,6 @@ import {
   TITLE,
   CATEGORY,
   DESCRIPTION1,
-  DESCRIPTION2,
   ORDER_IDX,
   ID,
   TYPE,
@@ -34,7 +33,6 @@ export default function CategoryForm({ handleClose }) {
     [TYPE]: Yup.string().required('필수입니다.'),
     [CATEGORY_MAX_POINTS]: Yup.number().required('필수입니다.'),
     [DESCRIPTION1]: Yup.string(),
-    [DESCRIPTION2]: Yup.string(),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -49,7 +47,6 @@ export default function CategoryForm({ handleClose }) {
       [TYPE]: values[TYPE],
       [CATEGORY_MAX_POINTS]: values[CATEGORY_MAX_POINTS],
       [DESCRIPTION1]: values[DESCRIPTION1],
-      [DESCRIPTION2]: values[DESCRIPTION2],
     };
     switch (modalType) {
       case ADDCATEGORY:
@@ -82,7 +79,6 @@ export default function CategoryForm({ handleClose }) {
         [TYPE]: modalType === EDITCATEGORY ? beforeData?.[TYPE] : '없음',
         [CATEGORY_MAX_POINTS]: modalType === EDITCATEGORY ? beforeData?.[CATEGORY_MAX_POINTS] : 0,
         [DESCRIPTION1]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION1] : '',
-        [DESCRIPTION2]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION2] : '',
       }}
       validationSchema={CategorySchema}
       onSubmit={handleSubmit}
@@ -100,7 +96,7 @@ export default function CategoryForm({ handleClose }) {
           }}
         >
           <TypeSelect />
-          {[TITLE, CATEGORY_MAX_POINTS, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
+          {[TITLE, CATEGORY_MAX_POINTS, DESCRIPTION1].map((field, index) => (
             <>
               <Field
                 key={index}

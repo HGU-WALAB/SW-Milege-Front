@@ -11,7 +11,6 @@ import {
   ADD,
   STUDENTS,
   POINTS,
-  DESCRIPTION2,
   STUDENT_ID,
   EXTRAPOINTS,
   COUNTS,
@@ -117,7 +116,6 @@ interface Record {
   points: number;
   extraPoints: number;
   description1: string;
-  description2: string;
 }
 
 interface semesterItemsWithStudents {
@@ -184,7 +182,7 @@ const headCells = [
     id: [MileageRegisterBoard.STUDENTS],
     numeric: true,
     disablePadding: false,
-    label: '학생 관리 (조회 , 추가 , 모두 삭제)',
+    label: '학생 관리',
   },
 ];
 
@@ -224,7 +222,7 @@ const fetchToUseData = (data) => {
       semesterItem.recordCount, //  학생수가 들어가야함
       formatDateToKorean(semesterItem.modDate),
       <Box sx={{ display: 'flex' }}>
-        <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
+        {/* <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} /> */}
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />

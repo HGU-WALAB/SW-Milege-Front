@@ -51,7 +51,6 @@ import {
   ITEM,
   MILEAGE,
   DESCRIPTION1,
-  DESCRIPTION2,
   FILE_DESCRIPTION,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
@@ -160,9 +159,7 @@ export const engToKor = (eng) => {
     case MAX_MAILEAGE:
       return '최대 마일리지';
     case DESCRIPTION1:
-      return '설명1';
-    case DESCRIPTION2:
-      return '설명2';
+      return '비고';
     case FILE_DESCRIPTION:
       return '파일 설명';
     case ISVISIBLE:
@@ -208,9 +205,7 @@ export const engToKor = (eng) => {
     case EXTRAPOINTS:
       return '가산점';
     case DESCRIPTION1:
-      return '설명1';
-    case DESCRIPTION2:
-      return '설명2';
+      return '비고';
     case ITEM_MAX_POINTS:
       return '적립 가능 최대 마일리지';
   }
