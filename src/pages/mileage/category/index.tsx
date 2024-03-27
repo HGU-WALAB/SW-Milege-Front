@@ -131,14 +131,14 @@ const headCells = [
     id: [MileageCategoryBoard.DESCRIPTION1],
     numeric: true,
     disablePadding: false,
-    label: '설명1',
+    label: '비고',
   },
-  {
-    id: [MileageCategoryBoard.DESCRIPTION2],
-    numeric: true,
-    disablePadding: false,
-    label: '설명2',
-  },
+  // {
+  //   id: [MileageCategoryBoard.DESCRIPTION2],
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: '설명2',
+  // },
   {
     id: [MileageCategoryBoard.ITEM_COUNT],
     numeric: true,

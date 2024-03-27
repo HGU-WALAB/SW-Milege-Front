@@ -143,12 +143,12 @@ const headCells = [
     disablePadding: false,
     label: '비고',
   },
-  {
-    id: [MileageGlobalItemBoard.DESCRIPTION2],
-    numeric: true,
-    disablePadding: false,
-    label: '설명2',
-  },
+  // {
+  //   id: [MileageGlobalItemBoard.DESCRIPTION2],
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: '설명2',
+  // },
   {
     id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
     numeric: true,
@@ -272,7 +272,7 @@ export default function MileageCategory({
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
-      type="마일리지 세부 항복"
+      type="마일리지 세부 항목"
     />
   );
 }

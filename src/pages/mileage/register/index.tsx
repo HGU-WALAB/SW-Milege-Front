@@ -49,11 +49,11 @@ import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 
 /**
- * @component [마일리지 등록] 게시판
+ * @component [마일리지 적립] 게시판
  */
 
 /**
- * @kind [마일리지 등록]
+ * @kind [마일리지 적립]
  * @breif enum
  */
 
@@ -69,7 +69,7 @@ export enum MileageRegisterBoard {
 }
 
 /**
- * @kind [마일리지 등록]
+ * @kind [마일리지 적립]
  * @breif 데이터 인터페이스
  */
 interface Data {
@@ -84,7 +84,7 @@ interface Data {
 }
 
 /**
- * @kind [마일리지 등록]
+ * @kind [마일리지 적립]
  * @brief 데이터 생성 함수
  *
  *  */
@@ -134,7 +134,7 @@ interface semesterItemsWithStudents {
 type semesterItemsWithStudentList = semesterItemsWithStudents[];
 
 /**
- * @kind [마일리지 학기별 항목]
+ * @kind [학기별 마일리지 세부 항목]
  * @brief 테이블 헤더
  */
 const headCells = [
@@ -166,7 +166,7 @@ const headCells = [
     id: [MileageRegisterBoard.POINTS],
     numeric: true,
     disablePadding: false,
-    label: '포인트',
+    label: '마일리지',
   },
   {
     id: [MileageRegisterBoard.COUNTS],
@@ -184,7 +184,7 @@ const headCells = [
     id: [MileageRegisterBoard.STUDENTS],
     numeric: true,
     disablePadding: false,
-    label: '학생 관리 (조회 , 추가 , 모두 삭제)',
+    label: '학생 관리',
   },
 ];
 
@@ -224,7 +224,7 @@ const fetchToUseData = (data) => {
       semesterItem.recordCount, //  학생수가 들어가야함
       formatDateToKorean(semesterItem.modDate),
       <Box sx={{ display: 'flex' }}>
-        <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} />
+        {/* <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} /> 학생아이콘 제거 */}
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />
@@ -269,7 +269,7 @@ export default function MileageRegister({
 
   return (
     <>
-      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 등록" />
+      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 적립" />
     </>
   );
 }

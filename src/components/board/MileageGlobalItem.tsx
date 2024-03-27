@@ -247,5 +247,5 @@ export default function MileageGlobalItem() {
     dispatch(setMileageGlobalList(rows));
   }, []);
 
-  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 세부 항복" />;
+  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 세부 항목" />;
 }

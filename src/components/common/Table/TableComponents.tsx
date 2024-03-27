@@ -22,13 +22,13 @@ export const ComponentReturn = (text) => {
   switch (text) {
     case Board['마일리지 카테고리']:
       return <MileageCategory />;
-    case Board['마일리지 세부 항복']:
+    case Board['마일리지 세부 항목']:
       return <MileageGlobalItem />;
-    case Board['마일리지 학기별 항목']:
+    case Board['학기별 마일리지 세부 항목']:
       return <MileageItem />;
     case Board['마일리지 조회']:
       return <MileageView />;
-    case Board['마일리지 등록']:
+    case Board['마일리지 적립']:
       return <MileageRegister />;
     case Board['신청자 관리']:
       return <RegisterManage />;

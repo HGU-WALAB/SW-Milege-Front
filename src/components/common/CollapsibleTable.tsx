@@ -58,7 +58,7 @@ function Row({ row }) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    {['이름', '학번', '포인트', '비고', '추가설명2', '관리'].map(
+                    {['이름', '학번', '마일리지', '비고', '관리'].map(
                       (headElement) => (
                         <TableCell>{headElement}</TableCell>
                       )

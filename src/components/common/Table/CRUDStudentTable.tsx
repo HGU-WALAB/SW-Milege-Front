@@ -251,7 +251,7 @@ export default function CRUDStudentTable() {
     },
     {
       field: 'counts',
-      headerName: '포인트',
+      headerName: '마일리지',
       type: 'string',
       width: 80,
       align: 'left',
@@ -269,18 +269,18 @@ export default function CRUDStudentTable() {
     },
     {
       field: 'description1',
-      headerName: '설명1',
+      headerName: '비고',
       type: 'string',
       width: 200,
       editable: true,
     },
-    {
-      field: 'description2',
-      headerName: '설명2',
-      type: 'string',
-      width: 200,
-      editable: true,
-    },
+    // {
+    //   field: 'description2',
+    //   headerName: '설명2',
+    //   type: 'string',
+    //   width: 200,
+    //   editable: true,
+    // },
     {
       field: 'modDate',
       headerName: '수정일',
