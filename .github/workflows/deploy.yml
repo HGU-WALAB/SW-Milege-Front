@@ -1,20 +1,23 @@
 name: SW-Mileage-Manager-Front Deploy ( executing script )
 on:
   push:
-    branches: [‘main’]
+    branches: [main]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-
+      - uses: actions/checkout@v3
+      
       - name: login to walab server & execute script ( deploy )
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SW_MILEAGE_SSH_HOST }}
           username: ${{ secrets.SW_MILEAGE_SSH_USERNAME }}
-          Password: ${{ secrets.SW_MILEAGE_SSH_PASSWORD }}
+          password: ${{ secrets.SW_MILEAGE_SSH_PASSWORD }}
+          port: 22
           script: |
             whoami
-            cd ~/sh-script/manager
-            chmod 750 front-manager-script.sh
-            ./front-manager-script.sh
+            cd ~/sh-script
+            chmod 750 front-manager-deploy.sh
+            ./front-manager-deploy.sh
+          

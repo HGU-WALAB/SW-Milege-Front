@@ -21,3 +21,6 @@ export const EDITMILEAGEREGISTER = 'editMileageRegister';
 export const REGISTEREDSTUDENTS = 'registeredStudents';
 
 export const MAGICIANSEMESTERITEM = 'magicianSemesterItem';
+
+export const EDITTYPE = 'editType';
+export const ADDTYPE = 'addType';

@@ -13,8 +13,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PublicIcon from '@mui/icons-material/Public';
 import { Board } from 'src/assets/data/board/board';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
+import PentagonIcon from '@mui/icons-material/Pentagon';
 export const IconReturn = (text) => {
   switch (text) {
+    case Board['마일리지 타입']:
+      return <PentagonIcon />;
+
     case Board['마일리지 카테고리']:
       return <CategoryIcon />;
     case Board['마일리지 세부 항목']:

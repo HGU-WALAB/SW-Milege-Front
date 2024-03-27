@@ -20,6 +20,10 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
 
   const showErrorMessage = (res) => {
     switch (type) {
+      case '마일리지 타입':
+        return `${res.data.list.map((item) => item.name)} 등 ${
+          res.data.list.length
+        } 개의 하위 항목 때문에 삭제 할 수 없습니다. 하위 항목을 먼저 삭제해주세요.`;
       case '마일리지 카테고리':
         return `${res.data.list.map((item) => item.name)} 등 ${
           res.data.list.length
@@ -69,6 +73,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
 
   const showDescendantsEndPoint = (id: number) => {
     switch (type) {
+      case '마일리지 타입':
+        return `/api/mileage/categories/types/${id}`;
       case '마일리지 카테고리':
         return `/api/mileage/items/categories/${id}`;
       case '마일리지 세부 항복':
@@ -86,6 +92,8 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
 
   const deleteEndPoint = () => {
     switch (type) {
+      case '마일리지 타입':
+        return '/api/mileage/types';
       case '마일리지 카테고리':
         return '/api/mileage/categories';
       case '마일리지 세부 항복':

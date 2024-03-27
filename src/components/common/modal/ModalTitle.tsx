@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { EDITMANAGER } from 'src/assets/data/modal/modals';
+import { ADDTYPE, EDITMANAGER, EDITTYPE } from 'src/assets/data/modal/modals';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
@@ -23,6 +23,10 @@ export default function ModalTitle() {
 
   const titleConverter = (type) => {
     switch (type) {
+      case ADDTYPE:
+        return '마일리지 타입 추가';
+      case EDITTYPE:
+        return '마일리지 타입 수정';
       case ADDCATEGORY:
         return '마일리지 카테고리 추가';
       case EDITCATEGORY:

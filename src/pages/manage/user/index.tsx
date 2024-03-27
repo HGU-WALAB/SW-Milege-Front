@@ -184,7 +184,7 @@ export default function UserManage({
       item[NAME],
       item[AID],
       levelConverter(item[LEVEL]),
-      item[LASTLOGINDATE] + ` ( ${item[LOGINCOUNT]} )`,
+      formatDateToKorean(item[LASTLOGINDATE]) + ` ( ${item[LOGINCOUNT]} )`,
       formatDateToKorean(item[MOD_DATE]),
       <SWModal type={EDITMANAGER} beforeData={beforeData} />
     );

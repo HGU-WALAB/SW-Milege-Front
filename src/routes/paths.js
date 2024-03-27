@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------
 
+export const END_ROUTE_TYPE = '/mileage/type';
 export const END_ROUTE_LOGIN = '/auth/login';
 export const END_ROUTE_CATEGORY = '/mileage/category';
 export const END_ROUTE_GLOBAL_ITEM = '/mileage/item/global';

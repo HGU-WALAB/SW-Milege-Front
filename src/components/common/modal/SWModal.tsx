@@ -32,6 +32,7 @@ import {
   ADDMANAGER,
   ADDMILEAGEREGISTER,
   ADDSTUDENT,
+  ADDTYPE,
   DELETECATEGORY,
   EDITCATEGORY,
   EDITGLOBALITEM,
@@ -39,6 +40,7 @@ import {
   EDITMANAGER,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
+  EDITTYPE,
   MAGICIANSEMESTERITEM,
   REGISTEREDSTUDENTS,
 } from 'src/assets/data/modal/modals';
@@ -95,6 +97,7 @@ import { STUDENT_ID } from 'src/assets/data/fields';
 import StudentsModal from 'src/components/modalForm/StudentsModal';
 import ManagerForm from 'src/components/modalForm/ManagerForm';
 import SemesterMagicianForm from 'src/components/modalForm/SemesterMagicianForm';
+import TypeForm from 'src/components/modalForm/TypeForm';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -105,6 +108,10 @@ export const ButtonFlexBox = styled(Box)({
 
 const modalForm = (modalType, handleClose) => {
   switch (modalType) {
+    case ADDTYPE:
+      return <TypeForm handleClose={handleClose} />;
+    case EDITTYPE:
+      return <TypeForm handleClose={handleClose} />;
     case ADDCATEGORY:
       return <CategoryForm handleClose={handleClose} />;
     case EDITCATEGORY:
@@ -138,6 +145,8 @@ const modalForm = (modalType, handleClose) => {
 
 export const engToKor = (eng) => {
   switch (eng) {
+    case DESCRIPTION:
+      return '설명';
     case CATEGORY_MAX_POINTS:
       return '적립 가능 최대 마일리지';
     case IS_MULTI:
