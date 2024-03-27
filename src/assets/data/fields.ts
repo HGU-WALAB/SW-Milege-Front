@@ -12,6 +12,7 @@ export const TITLE = 'title';
 export const ITEM = 'item';
 export const MESSAGE = 'message';
 export const AUTHORITY = 'authority';
+export const LIST = 'list';
 
 export const CATEGORY_COUNT = 'categoryCount';
 // export const NAME = 'name';

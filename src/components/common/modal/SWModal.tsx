@@ -43,6 +43,7 @@ import {
   EDITTYPE,
   MAGICIANSEMESTERITEM,
   REGISTEREDSTUDENTS,
+  SHOWLIST,
 } from 'src/assets/data/modal/modals';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
@@ -112,6 +113,8 @@ const modalForm = (modalType, handleClose) => {
     case ADDTYPE:
       return <TypeForm handleClose={handleClose} />;
     case EDITTYPE:
+      return <TypeForm handleClose={handleClose} />;
+    case SHOWLIST:
       return <TypeForm handleClose={handleClose} />;
     case ADDCATEGORY:
       return <CategoryForm handleClose={handleClose} />;
@@ -213,7 +216,7 @@ export const engToKor = (eng) => {
     case COUNTS:
       return '등록횟수';
     case POINTS:
-      return '계싼된 점수';
+      return '계산된 점수';
     case EXTRAPOINTS:
       return '가산점';
     case DESCRIPTION1:

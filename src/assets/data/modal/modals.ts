@@ -24,3 +24,4 @@ export const MAGICIANSEMESTERITEM = 'magicianSemesterItem';
 
 export const EDITTYPE = 'editType';
 export const ADDTYPE = 'addType';
+export const SHOWLIST = 'showList';

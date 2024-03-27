@@ -13,9 +13,10 @@ import {
   CATEGORY_MAX_POINTS,
   ORDER_IDX,
   CATEGORY_COUNT,
+  LIST,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
-import { EDITTYPE } from 'src/assets/data/modal/modals';
+import { EDITTYPE, SHOWLIST } from 'src/assets/data/modal/modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { dispatch } from 'src/redux/store';
@@ -43,6 +44,7 @@ export enum MileageTypeBoard {
   'CATEGORY_COUNT' = CATEGORY_COUNT,
   'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
+  'LIST' = LIST,
 }
 
 /**
@@ -57,6 +59,7 @@ interface Data {
   [MileageTypeBoard.CATEGORY_COUNT]: number;
   [MileageTypeBoard.MOD_DATE]: string;
   [MileageTypeBoard.MANAGE]: ReactNode;
+  [MileageTypeBoard.LIST]: ReactNode;
 }
 
 /**
@@ -71,7 +74,8 @@ function createData(
   DESCRIPTION: string,
   CATEGORY_COUNT: number,
   MOD_DATE: string,
-  MANAGE: ReactNode
+  MANAGE: ReactNode,
+  LIST: ReactNode
 ): Data {
   return {
     [MileageTypeBoard.NUM]: NUM,
@@ -80,6 +84,7 @@ function createData(
     [MileageTypeBoard.CATEGORY_COUNT]: CATEGORY_COUNT,
     [MileageTypeBoard.MOD_DATE]: MOD_DATE,
     [MileageTypeBoard.MANAGE]: MANAGE,
+    [MileageTypeBoard.LIST]: LIST,
   };
 }
 
@@ -124,6 +129,12 @@ const headCells = [
     disablePadding: false,
     label: '관리',
   },
+  {
+    id: [MileageTypeBoard.LIST],
+    numeric: true,
+    disablePadding: false,
+    label: '목록',
+  },
 ];
 
 interface IList {
@@ -154,6 +165,10 @@ const rows = [
         [NAME]: '창의적 문제 해결 역량',
         [DESCRIPTION]: '창의성을 키워줍니다.',
       }}
+    />,
+    <SWModal
+      type={SHOWLIST}
+      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
@@ -165,6 +180,10 @@ const rows = [
     <SWModal
       type={EDITTYPE}
       beforeData={{ [ID]: 2, [NAME]: '글로벌 역량', [DESCRIPTION]: '역량을 키워줍니다.' }}
+    />,
+    <SWModal
+      type={SHOWLIST}
+      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
@@ -180,6 +199,10 @@ const rows = [
         [NAME]: '논리적 사고와 소통 능력',
         [DESCRIPTION]: '논리적 사고와 소통을 키워줍니다.',
       }}
+    />,
+    <SWModal
+      type={SHOWLIST}
+      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
@@ -191,6 +214,10 @@ const rows = [
     <SWModal
       type={EDITTYPE}
       beforeData={{ [ID]: 4, [NAME]: '다학제 융합 능력', [DESCRIPTION]: '융합 능력을 키워줍니다.' }}
+    />,
+    <SWModal
+      type={SHOWLIST}
+      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
@@ -201,6 +228,10 @@ const rows = [
     '2022 - 10 - 02',
     <SWModal
       type={EDITTYPE}
+      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
+    />,
+    <SWModal
+      type={SHOWLIST}
       beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
