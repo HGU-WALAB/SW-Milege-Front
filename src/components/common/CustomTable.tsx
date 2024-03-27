@@ -277,7 +277,7 @@ const typeConverter = (type) => {
       return ADDCATEGORY;
     case '마일리지 학기별 항목':
       return ADDITEM;
-    case '마일리지 글로벌 항목':
+    case '마일리지 세부 항복':
       return ADDGLOBALITEM;
 
     case '마일리지 학기별 항목 마법사':

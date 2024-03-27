@@ -149,7 +149,7 @@ export const engToKor = (eng) => {
     case DESCRIPTION:
       return '설명';
     case CATEGORY_MAX_POINTS:
-      return '카테고리 최대 포인트';
+      return '적립 가능 최대 마일리지';
     case IS_MULTI:
       return '중복 여부';
     case AID:
@@ -163,13 +163,13 @@ export const engToKor = (eng) => {
     case SEMESTER:
       return '학기';
     case ITEM:
-      return '항목 이름';
+      return '세부 항목 이름';
     case MILEAGE:
       return '마일리지';
     case MAX_MAILEAGE:
       return '최대 마일리지';
     case DESCRIPTION1:
-      return '설명1';
+      return '비고';
     case DESCRIPTION2:
       return '설명2';
     case FILE_DESCRIPTION:
@@ -221,7 +221,7 @@ export const engToKor = (eng) => {
     case DESCRIPTION2:
       return '설명2';
     case ITEM_MAX_POINTS:
-      return '항목 최대 포인트';
+      return '적립 가능 최대 마일리지';
   }
 };
 

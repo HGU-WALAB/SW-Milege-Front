@@ -21,7 +21,7 @@ export const IconReturn = (text) => {
 
     case Board['마일리지 카테고리']:
       return <CategoryIcon />;
-    case Board['마일리지 글로벌 항목']:
+    case Board['마일리지 세부 항복']:
       return <PublicIcon />;
     case Board['마일리지 학기별 항목']:
       return <AllInboxIcon />;

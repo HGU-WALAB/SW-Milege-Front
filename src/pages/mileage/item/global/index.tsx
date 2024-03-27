@@ -141,7 +141,7 @@ const headCells = [
     id: [MileageGlobalItemBoard.DESCRIPTION1],
     numeric: true,
     disablePadding: false,
-    label: '설명1',
+    label: '비고',
   },
   {
     id: [MileageGlobalItemBoard.DESCRIPTION2],
@@ -272,7 +272,7 @@ export default function MileageCategory({
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
-      type="마일리지 글로벌 항목"
+      type="마일리지 세부 항복"
     />
   );
 }

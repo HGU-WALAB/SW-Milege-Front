@@ -148,7 +148,7 @@ const headCells = [
     id: [MileageSemesterItemBoard.ITEM_MAX_POINTS],
     numeric: true,
     disablePadding: false,
-    label: '항목 최대 포인트',
+    label: '적립 가능 최대 마일리지',
   },
   {
     id: [MileageSemesterItemBoard.IS_MULTI],
