@@ -214,7 +214,7 @@ export default function MileageCategory({
       [TITLE]: item[NAME],
       [TYPE]: item[TYPE],
       [DESCRIPTION1]: item[DESCRIPTION1],
-      [DESCRIPTION2]: item[DESCRIPTION2],
+      // [DESCRIPTION2]: item[DESCRIPTION2],
       [CATEGORY_MAX_POINTS]: item[CATEGORY_MAX_POINTS],
     };
 
@@ -224,7 +224,7 @@ export default function MileageCategory({
       item[TYPE],
       item[ORDER_IDX],
       item[DESCRIPTION1],
-      item[DESCRIPTION2],
+      // item[DESCRIPTION2],
       item[ITEM_COUNT],
       item[CATEGORY_MAX_POINTS],
       formatDateToKorean(item[MOD_DATE]),
