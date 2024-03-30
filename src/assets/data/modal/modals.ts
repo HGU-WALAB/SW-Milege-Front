@@ -24,4 +24,5 @@ export const MAGICIANSEMESTERITEM = 'magicianSemesterItem';
 
 export const EDITTYPE = 'editType';
 export const ADDTYPE = 'addType';
+// 타입 선택 시 하위 마일리지 항목 리스트 보여주기
 export const SHOWLIST = 'showList';

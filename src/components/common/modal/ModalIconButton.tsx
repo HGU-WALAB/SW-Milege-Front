@@ -18,6 +18,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { ADDMILEAGEREGISTER, REGISTEREDSTUDENTS } from 'src/assets/data/modal/modals';
 export default function ModalIconButton({ setOpen, type, beforeData }) {
   const dispatch = useDispatch();
+
   const handleOpen = () => {
     dispatch(setModalType(type));
     setOpen(true);

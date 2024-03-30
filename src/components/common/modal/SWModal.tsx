@@ -100,6 +100,7 @@ import StudentsModal from 'src/components/modalForm/StudentsModal';
 import ManagerForm from 'src/components/modalForm/ManagerForm';
 import SemesterMagicianForm from 'src/components/modalForm/SemesterMagicianForm';
 import TypeForm from 'src/components/modalForm/TypeForm';
+import TypeSpecificCategoryModal from 'src/components/modalForm/TypeSpecificCategoryModal';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -115,7 +116,7 @@ const modalForm = (modalType, handleClose) => {
     case EDITTYPE:
       return <TypeForm handleClose={handleClose} />;
     case SHOWLIST:
-      return <TypeForm handleClose={handleClose} />;
+      return <TypeSpecificCategoryModal handleClose={handleClose} />;
     case ADDCATEGORY:
       return <CategoryForm handleClose={handleClose} />;
     case EDITCATEGORY:
@@ -283,7 +284,6 @@ export default function SWModal({ type, beforeData }) {
       >
         <Box sx={style}>
           <ModalTitle />
-
           {modalForm(modalType, handleClose)}
           <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         </Box>

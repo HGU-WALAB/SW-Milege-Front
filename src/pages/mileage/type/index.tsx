@@ -168,7 +168,7 @@ const rows = [
     />,
     <SWModal
       type={SHOWLIST}
-      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
+      beforeData={{ [ID]: 1, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
@@ -183,7 +183,7 @@ const rows = [
     />,
     <SWModal
       type={SHOWLIST}
-      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
+      beforeData={{ [ID]: 2, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
@@ -202,7 +202,7 @@ const rows = [
     />,
     <SWModal
       type={SHOWLIST}
-      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
+      beforeData={{ [ID]: 3, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
@@ -217,7 +217,7 @@ const rows = [
     />,
     <SWModal
       type={SHOWLIST}
-      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
+      beforeData={{ [ID]: 4, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
     />
   ),
   createData(
