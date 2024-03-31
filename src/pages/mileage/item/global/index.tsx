@@ -54,7 +54,7 @@ export enum MileageGlobalItemBoard {
   'CATEGORY' = CATEGORY,
   'ITEM' = ITEM,
   'DESCRIPTION1' = DESCRIPTION1,
-  'DESCRIPTION2' = DESCRIPTION2,
+  // 'DESCRIPTION2' = DESCRIPTION2,
   'SEMESTER_ITEM_COUNT' = SEMESTER_ITEM_COUNT,
   'ISVISIBLE' = ISVISIBLE,
   'MOD_DATE' = MOD_DATE,
@@ -71,13 +71,11 @@ interface Data {
   [MileageGlobalItemBoard.CATEGORY]: string;
   [MileageGlobalItemBoard.ITEM]: string;
   [MileageGlobalItemBoard.DESCRIPTION1]: string;
-  [MileageGlobalItemBoard.DESCRIPTION2]: string;
+  // [MileageGlobalItemBoard.DESCRIPTION2]: string;
   [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
   [MileageGlobalItemBoard.ITEM_MAX_POINTS]: number;
   [MileageGlobalItemBoard.ISVISIBLE]: boolean;
-
   [MileageGlobalItemBoard.MOD_DATE]: string;
-  
   [MileageGlobalItemBoard.MANAGE]: string;
 }
 
@@ -91,7 +89,7 @@ function createData(
   CATEGORY: string,
   ITEM: string,
   DESCRIPTION1: string,
-  DESCRIPTION2: string,
+  // DESCRIPTION2: string,
   SEMESTER_ITEM_COUNT: number,
   ITEM_MAX_POINTS: number,
   ISVISIBLE: boolean,
@@ -101,11 +99,9 @@ function createData(
   return {
     [MileageGlobalItemBoard.NUM]: NUM,
     [MileageGlobalItemBoard.CATEGORY]: CATEGORY,
-
     [MileageGlobalItemBoard.ITEM]: ITEM,
-
     [MileageGlobalItemBoard.DESCRIPTION1]: DESCRIPTION1,
-    [MileageGlobalItemBoard.DESCRIPTION2]: DESCRIPTION2,
+    // [MileageGlobalItemBoard.DESCRIPTION2]: DESCRIPTION2,
     [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: SEMESTER_ITEM_COUNT,
     [MileageGlobalItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
     [MileageGlobalItemBoard.ISVISIBLE]: ISVISIBLE,

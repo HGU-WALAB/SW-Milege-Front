@@ -151,91 +151,7 @@ interface IGetMileageType {
   list: IList[];
 }
 
-const rows = [
-  createData(
-    1,
-    '창의적 문제 해결 역량',
-    '창의성을 키워줍니다.',
-    5,
-    '2022 - 01 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{
-        [ID]: 1,
-        [NAME]: '창의적 문제 해결 역량',
-        [DESCRIPTION]: '창의성을 키워줍니다.',
-      }}
-    />,
-    <SWModal
-      type={SHOWLIST}
-      beforeData={{ [ID]: 1, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
-    />
-  ),
-  createData(
-    2,
-    '글로벌 역량',
-    '역량을 키워줍니다.',
-    5,
-    '2022 - 06 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{ [ID]: 2, [NAME]: '글로벌 역량', [DESCRIPTION]: '역량을 키워줍니다.' }}
-    />,
-    <SWModal
-      type={SHOWLIST}
-      beforeData={{ [ID]: 2, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
-    />
-  ),
-  createData(
-    3,
-    '논리적 사고와 소통 능력',
-    '논리적 사고와 소통을 키워줍니다.',
-    5,
-    '2022 - 03 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{
-        [ID]: 3,
-        [NAME]: '논리적 사고와 소통 능력',
-        [DESCRIPTION]: '논리적 사고와 소통을 키워줍니다.',
-      }}
-    />,
-    <SWModal
-      type={SHOWLIST}
-      beforeData={{ [ID]: 3, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
-    />
-  ),
-  createData(
-    4,
-    '다학제 융합 능력',
-    '융합 능력을 키워줍니다.',
-    5,
-    '2022 - 05 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{ [ID]: 4, [NAME]: '다학제 융합 능력', [DESCRIPTION]: '융합 능력을 키워줍니다.' }}
-    />,
-    <SWModal
-      type={SHOWLIST}
-      beforeData={{ [ID]: 4, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
-    />
-  ),
-  createData(
-    5,
-    '인성 및 영성',
-    '인성을 키워줍니다.',
-    5,
-    '2022 - 10 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
-    />,
-    <SWModal
-      type={SHOWLIST}
-      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
-    />
-  ),
-];
+
 
 const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IGetMileageType;
@@ -243,7 +159,6 @@ const getServerSidePropsFunction: GetServerSideProps<{
   setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/types');
   const fetchData = res.data;
-
   return { props: { fetchData } };
 };
 
@@ -259,17 +174,26 @@ export default function MileageType({
     return;
   }
 
-  const dispatch = useDispatch();
-
   /**
    * @brief 마일리지 카테고리 리스트 데이터
    */
 
+  const dispatch = useDispatch();
   const convertedFetchList = fetchData?.list?.map((item, index) => {
+    const {
+      id,
+      name,
+      description,
+      mileageItemCount,
+      modDate,
+    } = item;
+
     const beforeData = {
-      [ID]: item[ID],
-      [NAME]: item[NAME],
-      [DESCRIPTION]: item[DESCRIPTION],
+      [ID]: id,
+      [NAME]: name,
+      [DESCRIPTION]: description,
+      [CATEGORY_COUNT]: mileageItemCount,
+      [MOD_DATE]: modDate,
     };
 
     return createData(
@@ -277,10 +201,11 @@ export default function MileageType({
       item[NAME],
       item[DESCRIPTION],
       item[CATEGORY_COUNT],
-      item[MOD_DATE],
-      <SWModal type={EDITTYPE} beforeData={beforeData} />
+      formatDateToKorean(item[MOD_DATE]),
+      <SWModal type={EDITTYPE} beforeData={beforeData} />,
+      <SWModal type={SHOWLIST} beforeData={beforeData} />
     );
   });
 
-  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 타입" />;
+  return <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 타입" />;
 }
