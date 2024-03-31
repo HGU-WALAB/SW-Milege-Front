@@ -115,7 +115,7 @@ const headCells = [
     id: [MileageTypeBoard.CATEGORY_COUNT],
     numeric: true,
     disablePadding: false,
-    label: '하위 카테고리 개수',
+    label: '하위 마일리지 세부항목 개수',
   },
   {
     id: [MileageTypeBoard.MOD_DATE],
