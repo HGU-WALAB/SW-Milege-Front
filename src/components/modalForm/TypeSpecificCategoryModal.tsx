@@ -1,35 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import axiosInstance from 'src/utils/axios';
 import Button from '@mui/material/Button';
+import { useSelector } from 'react-redux';
 import { ID } from 'src/assets/data/fields';
-
-// 임시 하위 카테고리 더미 데이터
-const dummyCategories = {
-  1: ['하위카테고리 1-1', '하위카테고리 1-2', '하위카 1-3'],
-  2: ['하위카테고리 2-1', '하위카테고리 2-2'],
-  3: ['하위카테고리 3-1', '하위카테고리 3-2', '하위카테고리 3-3', '하위카테고리 3-4'],
-  4: ['하위카테고리 4-1', '하위카테고리 4-2', '하위카테고리 4-3', '하위카테고리 4-4'],
-  5: ['하위카테고리 5-1', '하위카테고리 5-2', '하위카테고리 5-3', '하위카테고리 5-4']
-};
+import { Form, Formik } from 'formik';
 
 export default function TypeSpecificCategoryModal({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const typeID = beforeData?.[ID];
-    const updatedCategories = dummyCategories[typeID] || []; 
-    setCategories(updatedCategories);
+    const fetchCategories = async () => {
+      const typeID = beforeData?.[ID];
+      if (typeID) {
+        try {
+          console.log('typeID', typeID);
+          const response = await axiosInstance.get(`/api/mileage/items/types/${typeID}`);
+          const { list } = response.data;
+          setCategories(list);
+        } catch (error) {
+          console.error('하위 마일리지 세부항목 가져오기 실패했습니다.', error);
+        }
+      }
+    };
+
+    fetchCategories();
   }, [beforeData]);
 
   return (
-    <div>
-      <ul>
-        {categories.map((category, index) => (
-          <li key={index}>{category}</li>
-        ))}
-      </ul>
-      <Button onClick={handleClose}>닫기</Button>
-    </div>
+    <Formik>
+      <Form
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+          padding: '20px',
+          gap: '20px',
+        }}
+      >
+        <ul>
+          {categories.map((item, index) => (
+            <li key={index}>
+              {item.category.name} - {item.name}
+            </li>
+          ))}
+        </ul>
+        <Button
+          onClick={handleClose}
+        >
+          닫기
+        </Button>
+      </Form>
+    </Formik>
   );
 }
