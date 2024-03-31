@@ -14,7 +14,6 @@ export default function TypeSpecificCategoryModal({ handleClose }) {
       const typeID = beforeData?.[ID];
       if (typeID) {
         try {
-          console.log('typeID', typeID);
           const response = await axiosInstance.get(`/api/mileage/items/types/${typeID}`);
           const { list } = response.data;
           setCategories(list);

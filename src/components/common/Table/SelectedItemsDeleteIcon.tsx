@@ -74,7 +74,7 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
   const showDescendantsEndPoint = (id: number) => {
     switch (type) {
       case '마일리지 타입':
-        return `/api/mileage/categories/types/${id}`;
+        return `/api/mileage/items/types/${id}`;
       case '마일리지 카테고리':
         return `/api/mileage/items/categories/${id}`;
       case '마일리지 세부 항목':
