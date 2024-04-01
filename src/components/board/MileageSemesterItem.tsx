@@ -17,9 +17,9 @@ import {
   ISVISIBLE_STUDENT,
   ISINPUT_STUDENT,
   ISDUPLICATE_RECORD,
-  ISEVALUATE_CSEE,
-  ISEVALUATE_PORTFOLIO,
-  ISEVALUATE_FUSION,
+  ISEVALUATE_CSEE_GENERAL,
+  ISEVALUATE_CSEE_SPECIAL,
+  ISEVALUATE_ICT_CONVERGENCE,
   MAX_MAILEAGE,
 } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
@@ -159,9 +159,9 @@ export default function MileageSemesterItem() {
     [ISVISIBLE_STUDENT]: false,
     [ISINPUT_STUDENT]: false,
     [ISDUPLICATE_RECORD]: false,
-    [ISEVALUATE_CSEE]: false,
-    [ISEVALUATE_PORTFOLIO]: false,
-    [ISEVALUATE_FUSION]: false,
+    [ISEVALUATE_CSEE_GENERAL]: false,
+    [ISEVALUATE_CSEE_SPECIAL]: false,
+    [ISEVALUATE_ICT_CONVERGENCE]: false,
   };
 
   /**

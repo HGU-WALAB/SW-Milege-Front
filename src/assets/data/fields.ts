@@ -44,9 +44,9 @@ export const FILE_DESCRIPTION = 'fileDescription';
 export const ISVISIBLE_STUDENT = 'isVisibleStudent';
 export const IS_STUDENT_INPUT = 'isStudentInput';
 export const ISDUPLICATE_RECORD = 'isDuplicateRecord';
-export const ISEVALUATE_CSEE = 'isEvaluateCsee';
-export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
-export const ISEVALUATE_FUSION = 'isEvaluateFusion';
+export const ISEVALUATE_CSEE_GENERAL = 'isEvaluateCsee';
+export const ISEVALUATE_CSEE_SPECIAL = 'isEvaluatePortfolio';
+export const ISEVALUATE_ICT_CONVERGENCE = 'isEvaluateFusion';
 export const MAX_MAILEAGE = 'maxMileage';
 
 export const YEAR = 'year';

@@ -62,7 +62,7 @@ export default function CategoryForm({ handleClose }) {
     <Formik
       initialValues={{
         [TITLE]: beforeData?.name,
-        [CATEGORY_MAX_POINTS]: beforeData?.categoryMaxPoints,
+        [CATEGORY_MAX_POINTS]: beforeData?.maxPoints,
         [DESCRIPTION1]: beforeData?.description1,
       }}
       validationSchema={CategorySchema}

@@ -34,9 +34,9 @@ import {
   IS_MULTI,
   IS_STUDENT_INPUT,
   ISDUPLICATE_RECORD,
-  ISEVALUATE_CSEE,
-  ISEVALUATE_FUSION,
-  ISEVALUATE_PORTFOLIO,
+  ISEVALUATE_CSEE_GENERAL,
+  ISEVALUATE_ICT_CONVERGENCE,
+  ISEVALUATE_CSEE_SPECIAL,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
   ITEM,
@@ -155,12 +155,12 @@ export const engToKor = (eng) => {
       return '학생 입력';
     case ISDUPLICATE_RECORD:
       return '중복 레코드';
-    case ISEVALUATE_CSEE:
-      return '전전 평가항목';
-    case ISEVALUATE_PORTFOLIO:
-      return '포폴 평가항목';
-    case ISEVALUATE_FUSION:
-      return '융합 평가항목';
+    case ISEVALUATE_CSEE_GENERAL:
+      return '전전 일반 평가항목';
+    case ISEVALUATE_CSEE_SPECIAL:
+      return '전전 특별 평가항목';
+    case ISEVALUATE_ICT_CONVERGENCE:
+      return '융합 전공 평가항목';
     case NAME:
       return '이름';
     case SID:
@@ -191,8 +191,6 @@ export const engToKor = (eng) => {
       return '가산점';
     case DESCRIPTION1:
       return '비고';
-    // case DESCRIPTION2:
-    //   return '설명2';
     case ITEM_MAX_POINTS:
       return '적립 가능 최대 마일리지';
   }

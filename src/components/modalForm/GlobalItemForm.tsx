@@ -1,55 +1,37 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 
-import {
-  Box,
-  Button,
-  Chip,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  styled,
-} from '@mui/material';
+import { Box, Chip, styled, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
-  DESCRIPTION,
-  CATEGORY,
-  MAX_MILEAGE,
-  SEMESTER,
-  ITEM,
-  MILEAGE,
   DESCRIPTION1,
-  DESCRIPTION2,
+  ID,
+  IS_STUDENT_INPUT,
+  ISEVALUATE_CSEE_GENERAL,
+  ISEVALUATE_CSEE_SPECIAL,
+  ISEVALUATE_ICT_CONVERGENCE,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
-  IS_STUDENT_INPUT,
-  ISEVALUATE_CSEE,
-  ISEVALUATE_PORTFOLIO,
-  ISEVALUATE_FUSION,
-  MAX_MAILEAGE,
-  ID,
+  ITEM,
   ITEM_MAX_POINTS,
+  TYPE,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
-import { ADDGLOBALITEM, EDITGLOBALITEM, EDITITEM } from 'src/assets/data/modal/modals';
+import { ADDGLOBALITEM, EDITGLOBALITEM } from 'src/assets/data/modal/modals';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import { CATEGORYID } from '../../assets/data/fields';
 import CategorySelect from '../common/Select/CategorySelect';
-import MultiTap from './MultiTap';
+import TypeSelect from 'src/components/common/Filter/TypeSelect';
+import { IGlobalItem } from 'src/pages/mileage/item/global';
 
 const StyleFieldBox = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: ' center',
   margin: '30px 0px',
-
   padding: '0px 20px',
   width: '100%',
   gap: '15px',
@@ -64,7 +46,6 @@ const StyleFieldForm = styled(Form)({
   flexDirection: 'column',
   alignItems: 'center',
   margin: '30px 0px',
-
   padding: '0px 20px',
   width: '100%',
   gap: '20px',
@@ -73,7 +54,7 @@ const StyleFieldForm = styled(Form)({
 export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
 
-  const beforeData = useSelector((state) => state.modal.beforeData);
+  const beforeData: IGlobalItem = useSelector((state) => state.modal.beforeData);
   const router = useRouter();
 
   const GlobalItemSchema = Yup.object().shape({
@@ -81,7 +62,7 @@ export default function GlobalItemForm({ handleClose }) {
     [ITEM]: Yup.string().required('필수입니다.'),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values) => {
     // 글로벌 세부항목 추가
     // 1) newData 생성
     // 2) axios post
@@ -89,11 +70,11 @@ export default function GlobalItemForm({ handleClose }) {
     // 4) reload
 
     const stuTypeConverter = ({
-      [ISEVALUATE_FUSION]: f,
-      [ISEVALUATE_CSEE]: c,
-    }: {
-      [ISEVALUATE_FUSION]: boolean;
-      [ISEVALUATE_CSEE]: boolean;
+                                [ISEVALUATE_ICT_CONVERGENCE]: f,
+                                [ISEVALUATE_CSEE_GENERAL]: c,
+                              }: {
+      [ISEVALUATE_ICT_CONVERGENCE]: boolean;
+      [ISEVALUATE_CSEE_GENERAL]: boolean;
     }) => {
       if (f && c) {
         return 'CF';
@@ -106,16 +87,16 @@ export default function GlobalItemForm({ handleClose }) {
 
     const newData = {
       [CATEGORYID]: values[CATEGORYID],
+      typeId: values[TYPE],
       itemName: values[ITEM],
-      [DESCRIPTION1]: values[DESCRIPTION1],
-      [DESCRIPTION2]: values[DESCRIPTION2],
-      [ITEM_MAX_POINTS]: values[ITEM_MAX_POINTS],
       stuType: stuTypeConverter(values),
+      [ITEM_MAX_POINTS]: values[ITEM_MAX_POINTS],
+      [DESCRIPTION1]: values[DESCRIPTION1],
       flags: {
         [ISVISIBLE]: values[ISVISIBLE],
         isStudentVisible: values[ISVISIBLE_STUDENT],
         isStudentEditable: values[IS_STUDENT_INPUT],
-        isPortfolio: values[ISEVALUATE_PORTFOLIO],
+        isPortfolio: values[ISEVALUATE_CSEE_SPECIAL],
       },
     };
 
@@ -143,104 +124,101 @@ export default function GlobalItemForm({ handleClose }) {
           })
           .catch((err) => alert('글로벌 항목 수정에 실패했습니다.'));
         break;
+      default:
     }
   };
 
   return (
-    <>
-      <Formik
-        initialValues={{
-          [CATEGORYID]: modalType === EDITGLOBALITEM ? beforeData?.[CATEGORYID] : '',
-          [ITEM]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM] : '',
-          [DESCRIPTION1]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION1] : '',
-          [DESCRIPTION2]: modalType === EDITGLOBALITEM ? beforeData?.[DESCRIPTION2] : '',
-          [ISVISIBLE]: modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE] : false,
-          [ISVISIBLE_STUDENT]:
-            modalType === EDITGLOBALITEM ? beforeData?.[ISVISIBLE_STUDENT] : false,
-          [IS_STUDENT_INPUT]: modalType === EDITGLOBALITEM ? beforeData?.[IS_STUDENT_INPUT] : false,
-          [ISEVALUATE_CSEE]: modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_CSEE] : false,
-          [ISEVALUATE_PORTFOLIO]:
-            modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_PORTFOLIO] : false,
-          [ISEVALUATE_FUSION]:
-            modalType === EDITGLOBALITEM ? beforeData?.[ISEVALUATE_FUSION] : false,
-          [ITEM_MAX_POINTS]: modalType === EDITGLOBALITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
-        }}
-        validationSchema={GlobalItemSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting, errors, touched }) => (
-          <StyleFieldForm>
-            <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
-              <StyleFieldBox>
-                <CategorySelect />
-                {[ITEM, ITEM_MAX_POINTS, DESCRIPTION1, DESCRIPTION2].map(
-                  (field: string, index: number) => (
-                    <Box key={index} sx={{ width: '100%' }}>
-                      <Field
-                        sx={{}}
-                        name={field}
-                        as={TextField}
-                        type="text"
-                        label={engToKor(field)}
-                        variant="outlined"
-                        error={errors[field] && touched[field] ? true : false}
-                        helperText={<ErrorMessage name={field} />}
-                      />
-                    </Box>
-                  )
-                )}
-              </StyleFieldBox>
-              <StyleFieldBox>
-                {[
-                  ISVISIBLE,
-                  ISVISIBLE_STUDENT,
-                  IS_STUDENT_INPUT,
-                  ISEVALUATE_CSEE,
-                  ISEVALUATE_PORTFOLIO,
-                  ISEVALUATE_FUSION,
-                ].map((inputName: string, index: number) => (
-                  <Box
-                    key={index}
-                    sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}
-                  >
-                    <Chip
-                      color="primary"
-                      sx={{ px: 1, borderRadius: '10px', height: '40px', width: '100%' }}
-                      label={engToKor(inputName)}
+    <Formik
+      initialValues={{
+        [TYPE]: beforeData?.mileageType.id,
+        [CATEGORYID]: beforeData?.category.id,
+        [ITEM]: beforeData?.name,
+        [DESCRIPTION1]: beforeData?.description1,
+        [ISVISIBLE]: beforeData?.isVisible ?? true,
+        [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible ?? true,
+        [IS_STUDENT_INPUT]: beforeData?.isStudentInput ?? false,
+        [ISEVALUATE_CSEE_GENERAL]: beforeData?.stuType?.includes("C") ?? false,
+        [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isPortfolio ?? false,
+        [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.stuType.includes("F") ?? false,
+        [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints,
+      }}
+      validationSchema={GlobalItemSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ errors, touched }) => (
+        <StyleFieldForm>
+          <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
+            <StyleFieldBox>
+              <TypeSelect />
+              <CategorySelect />
+              {[ITEM, ITEM_MAX_POINTS, DESCRIPTION1].map(
+                (field: string, index: number) => (
+                  <Box key={index} sx={{ width: '100%' }}>
+                    <Field
+                      sx={{}}
+                      name={field}
+                      as={TextField}
+                      type="text"
+                      label={engToKor(field)}
                       variant="outlined"
+                      error={!!(errors[field] && touched[field])}
+                      helperText={<ErrorMessage name={field} />}
                     />
-
-                    <Field name={inputName}>
-                      {({ field, form }) => (
-                        <ToggleButtonGroup
-                          sx={{ height: '40px' }}
-                          color="primary"
-                          value={field.value}
-                          exclusive
-                          onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
-                          aria-label="toggle value"
-                        >
-                          <ToggleButton value={true} aria-label="true">
-                            O
-                          </ToggleButton>
-                          <ToggleButton value={false} aria-label="false">
-                            X
-                          </ToggleButton>
-                        </ToggleButtonGroup>
-                      )}
-                    </Field>
                   </Box>
-                ))}
-                <Box sx={{ height: '10px' }} />
-                <ButtonFlexBox>
-                  <CancelButton modalType={modalType} handleClose={handleClose} />
-                  <SubmitButton />
-                </ButtonFlexBox>
-              </StyleFieldBox>
-            </Box>
-          </StyleFieldForm>
-        )}
-      </Formik>
-    </>
+                ),
+              )}
+            </StyleFieldBox>
+            <StyleFieldBox>
+              {[
+                ISVISIBLE,
+                ISVISIBLE_STUDENT,
+                IS_STUDENT_INPUT,
+                ISEVALUATE_CSEE_GENERAL,
+                ISEVALUATE_CSEE_SPECIAL,
+                ISEVALUATE_ICT_CONVERGENCE,
+              ].map((inputName: string, index: number) => (
+                <Box
+                  key={index}
+                  sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}
+                >
+                  <Chip
+                    color="primary"
+                    sx={{ px: 1, borderRadius: '10px', height: '40px', width: '100%' }}
+                    label={engToKor(inputName)}
+                    variant="outlined"
+                  />
+
+                  <Field name={inputName}>
+                    {({ field, form }) => (
+                      <ToggleButtonGroup
+                        sx={{ height: '40px' }}
+                        color="primary"
+                        value={field.value}
+                        exclusive
+                        onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
+                        aria-label="toggle value"
+                      >
+                        <ToggleButton value={true} aria-label="true">
+                          O
+                        </ToggleButton>
+                        <ToggleButton value={false} aria-label="false">
+                          X
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    )}
+                  </Field>
+                </Box>
+              ))}
+              <Box sx={{ height: '10px' }} />
+              <ButtonFlexBox>
+                <CancelButton modalType={modalType} handleClose={handleClose} />
+                <SubmitButton />
+              </ButtonFlexBox>
+            </StyleFieldBox>
+          </Box>
+        </StyleFieldForm>
+      )}
+    </Formik>
   );
 }

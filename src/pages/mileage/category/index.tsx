@@ -114,7 +114,7 @@ export interface IList {
   itemCount: number;
   modDate: string;
   description1: string;
-  categoryMaxPoints: number;
+  maxPoints: number;
 }
 
 interface IGetMileageCategory {
@@ -124,7 +124,7 @@ interface IGetMileageCategory {
 }
 
 const getServerSidePropsFunction: GetServerSideProps<{
-  fetchData: IGetMileageCategory[];
+  fetchData: IGetMileageCategory;
 }> = async (context) => {
   setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/categories');
