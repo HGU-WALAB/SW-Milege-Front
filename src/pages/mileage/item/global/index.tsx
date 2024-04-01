@@ -23,11 +23,11 @@ import { ReactNode } from 'react';
 
 export enum MileageGlobalItemBoard {
   NUM = 'num',
+  TYPE = 'TYPE',
   CATEGORY = 'CATEGORY',
   ITEM = 'ITEM',
   DESCRIPTION1 = 'DESCRIPTION1',
   SEMESTER_ITEM_COUNT = 'SEMESTER_ITEM_COUNT',
-  IS_VISIBLE = 'IS_VISIBLE',
   MOD_DATE = 'MOD_DATE',
   ITEM_MAX_POINTS = 'ITEM_MAX_POINTS',
   MANAGE = 'MANAGE',
@@ -39,12 +39,12 @@ export enum MileageGlobalItemBoard {
  */
 interface Data {
   [MileageGlobalItemBoard.NUM]: number;
+  [MileageGlobalItemBoard.TYPE]: string;
   [MileageGlobalItemBoard.CATEGORY]: string;
   [MileageGlobalItemBoard.ITEM]: string;
   [MileageGlobalItemBoard.DESCRIPTION1]: string;
   [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
   [MileageGlobalItemBoard.ITEM_MAX_POINTS]: number;
-  [MileageGlobalItemBoard.IS_VISIBLE]: boolean;
   [MileageGlobalItemBoard.MOD_DATE]: string;
   [MileageGlobalItemBoard.MANAGE]: ReactNode;
 }
@@ -60,11 +60,11 @@ function createData(
 ): Data {
   return {
     [MileageGlobalItemBoard.NUM]: item.id,
+    [MileageGlobalItemBoard.TYPE]: item.mileageType.name,
     [MileageGlobalItemBoard.CATEGORY]: item.category.name,
     [MileageGlobalItemBoard.ITEM]: item.name,
     [MileageGlobalItemBoard.ITEM_MAX_POINTS]: item.itemMaxPoints,
     [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: item.semesterItemCount,
-    [MileageGlobalItemBoard.IS_VISIBLE]: item.isVisible,
     [MileageGlobalItemBoard.DESCRIPTION1]: item.description1,
     [MileageGlobalItemBoard.MOD_DATE]: formatDateToKorean(item.modDate),
     [MileageGlobalItemBoard.MANAGE]: MANAGE,
@@ -81,6 +81,12 @@ const headCells = [
     numeric: false,
     disablePadding: true,
     label: '번호',
+  },
+  {
+    id: [MileageGlobalItemBoard.TYPE],
+    numeric: true,
+    disablePadding: false,
+    label: '타입',
   },
   {
     id: [MileageGlobalItemBoard.CATEGORY],
@@ -105,12 +111,6 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '학기별 세부 항목 개수',
-  },
-  {
-    id: [MileageGlobalItemBoard.IS_VISIBLE],
-    numeric: true,
-    disablePadding: false,
-    label: '보이기',
   },
   {
     id: [MileageGlobalItemBoard.DESCRIPTION1],

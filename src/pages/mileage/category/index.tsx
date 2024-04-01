@@ -35,7 +35,7 @@ function createData(data: IList, MANAGE: ReactNode): BoardColumn {
   return {
     [MileageCategoryBoard.NUM]: data.id,
     [MileageCategoryBoard.CATEGORY]: data.name,
-    [MileageCategoryBoard.CATEGORY_MAX_POINTS]: data.categoryMaxPoints,
+    [MileageCategoryBoard.CATEGORY_MAX_POINTS]: data.maxPoints,
     [MileageCategoryBoard.ITEM_COUNT]: data.itemCount,
     [MileageCategoryBoard.DESCRIPTION1]: data.description1,
     [MileageCategoryBoard.MOD_DATE]: formatDateToKorean(data.modDate),

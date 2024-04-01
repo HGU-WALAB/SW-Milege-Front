@@ -4,8 +4,8 @@ import { Box, Chip, styled, TextField, ToggleButton, ToggleButtonGroup } from '@
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
   DESCRIPTION1,
-  ID,
-  IS_STUDENT_INPUT,
+  ID, IS_MULTI,
+  IS_STUDENT_INPUT, ISDUPLICATE_RECORD,
   ISEVALUATE_CSEE_GENERAL,
   ISEVALUATE_CSEE_SPECIAL,
   ISEVALUATE_ICT_CONVERGENCE,
@@ -138,6 +138,7 @@ export default function GlobalItemForm({ handleClose }) {
         [ISVISIBLE]: beforeData?.isVisible ?? true,
         [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible ?? true,
         [IS_STUDENT_INPUT]: beforeData?.isStudentInput ?? false,
+        [IS_MULTI]: beforeData?.isMulti ?? false,
         [ISEVALUATE_CSEE_GENERAL]: beforeData?.stuType?.includes("C") ?? false,
         [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isPortfolio ?? false,
         [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.stuType.includes("F") ?? false,
@@ -174,9 +175,10 @@ export default function GlobalItemForm({ handleClose }) {
                 ISVISIBLE,
                 ISVISIBLE_STUDENT,
                 IS_STUDENT_INPUT,
+                IS_MULTI,
                 ISEVALUATE_CSEE_GENERAL,
                 ISEVALUATE_CSEE_SPECIAL,
-                ISEVALUATE_ICT_CONVERGENCE,
+                ISEVALUATE_ICT_CONVERGENCE
               ].map((inputName: string, index: number) => (
                 <Box
                   key={index}
