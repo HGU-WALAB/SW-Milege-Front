@@ -1,8 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
-import { useSelector } from 'react-redux';
-import { CATEGORYID, SEMESTER, TYPE } from 'src/assets/data/fields';
-import { id } from 'date-fns/locale';
+import { TYPE } from 'src/assets/data/fields';
 
 export default function TypeSelect() {
   const TYPES = [

@@ -1,39 +1,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {
-  Chip,
-  FilledInput,
-  IconButton,
-  OutlinedInput,
-  Switch,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import {
-  closeCategoryModal,
-  closeModal,
-  openCategoryModal,
-  openModal,
-} from 'src/redux/slices/modal';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
-  ADDMANAGER,
   ADDMILEAGEREGISTER,
-  ADDSTUDENT,
   ADDTYPE,
-  DELETECATEGORY,
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
@@ -45,52 +20,46 @@ import {
   REGISTEREDSTUDENTS,
   SHOWLIST,
 } from 'src/assets/data/modal/modals';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
-  DESCRIPTION,
+  AID,
   CATEGORY,
-  MAX_MILEAGE,
-  SEMESTER,
-  ITEM,
-  MILEAGE,
+  CATEGORY_MAX_POINTS,
+  COUNTS,
+  DEPARTMENT,
+  DESCRIPTION,
   DESCRIPTION1,
-  DESCRIPTION2,
+  EMAIL,
+  EXTRAPOINTS,
   FILE_DESCRIPTION,
-  ISVISIBLE,
-  ISVISIBLE_STUDENT,
+  IS_MULTI,
   IS_STUDENT_INPUT,
   ISDUPLICATE_RECORD,
   ISEVALUATE_CSEE,
-  ISEVALUATE_PORTFOLIO,
   ISEVALUATE_FUSION,
-  MAX_MAILEAGE,
-  NAME,
-  SID,
-  YEAR,
-  SEMESTERCOUNT,
-  EMAIL,
-  DEPARTMENT,
-  MOBILE,
+  ISEVALUATE_PORTFOLIO,
+  ISVISIBLE,
+  ISVISIBLE_STUDENT,
+  ITEM,
+  ITEM_MAX_POINTS,
   MAJOR1,
   MAJOR2,
-  SEMESTERITEMID,
-  COUNTS,
-  POINTS,
-  EXTRAPOINTS,
-  TITLE,
+  MAX_MAILEAGE,
+  MILEAGE,
+  MOBILE,
+  NAME,
   ORDER_IDX,
-  ITEM_MAX_POINTS,
-  AID,
-  IS_MULTI,
-  CATEGORY_MAX_POINTS,
+  POINTS,
+  SEMESTER,
+  SEMESTERCOUNT,
+  SEMESTERITEMID,
+  SID,
+  TITLE,
+  YEAR,
 } from '../../../assets/data/fields';
-import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
 import ModalIconButton from './ModalIconButton';
 import ModalTitle from './ModalTitle';
-import { before, values } from 'lodash';
-import ItemForm from 'src/components/modalForm/GlobalItemForm';
 import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
 import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
 import StudentForm from 'src/components/modalForm/StudentForm';
@@ -285,7 +254,7 @@ export default function SWModal({ type, beforeData }) {
         <Box sx={style}>
           <ModalTitle />
           {modalForm(modalType, handleClose)}
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} />
         </Box>
       </Modal>
     </div>
