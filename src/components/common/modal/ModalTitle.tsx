@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { ADDTYPE, EDITMANAGER, EDITTYPE } from 'src/assets/data/modal/modals';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
@@ -16,6 +15,10 @@ import {
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
   MAGICIANSEMESTERITEM,
+  ADDTYPE,
+  EDITMANAGER,
+  EDITTYPE,
+  SHOWLIST,
 } from 'src/assets/data/modal/modals';
 
 export default function ModalTitle() {
@@ -27,6 +30,8 @@ export default function ModalTitle() {
         return '마일리지 타입 추가';
       case EDITTYPE:
         return '마일리지 타입 수정';
+      case SHOWLIST:
+        return '마일리지 하위항목 리스트';
       case ADDCATEGORY:
         return '마일리지 카테고리 추가';
       case EDITCATEGORY:
@@ -40,9 +45,9 @@ export default function ModalTitle() {
       case DELETEITEM:
         return '학기별 마일리지 세부 항목 삭제';
       case ADDGLOBALITEM:
-        return '마일리지 세부 항복 추가';
+        return '마일리지 세부 항목 추가';
       case EDITGLOBALITEM:
-        return '마일리지 세부 항복 수정';
+        return '마일리지 세부 항목 수정';
       case ADDSTUDENT:
         return '학생 추가';
       case EDITSTUDENT:

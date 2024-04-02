@@ -1,32 +1,11 @@
 import EnhancedTable from 'src/components/common/CustomTable';
-import {
-  MAX_MILEAGE,
-  MANAGE,
-  CHECK_BOX,
-  DESCRIPTION,
-  NAME,
-  ID,
-  TYPE,
-  TITLE,
-  MOD_DATE,
-  ITEM_COUNT,
-  CATEGORY_MAX_POINTS,
-  ORDER_IDX,
-  CATEGORY_COUNT,
-} from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
-import { EDITTYPE } from 'src/assets/data/modal/modals';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { dispatch } from 'src/redux/store';
-import { setMileageCategoryList } from 'src/redux/slices/data';
+import { EDITTYPE, SHOWLIST } from 'src/assets/data/modal/modals';
+import { useDispatch } from 'react-redux';
+import { ReactNode } from 'react';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import axiosInstance from 'src/utils/axios';
-import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import MileageCategory from 'src/components/board/MileageCategory';
-import { setCategoryList } from 'src/redux/slices/filter';
-import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
-import axios from 'axios';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getCookie } from '../view';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
@@ -37,12 +16,13 @@ import { handleServerAuth403Error } from 'src/auth/utils';
  */
 
 export enum MileageTypeBoard {
-  'NUM' = NUM,
-  'NAME' = NAME,
-  'DESCRIPTION' = DESCRIPTION,
-  'CATEGORY_COUNT' = CATEGORY_COUNT,
-  'MOD_DATE' = MOD_DATE,
-  'MANAGE' = MANAGE,
+  NUM = 'num',
+  NAME = 'name',
+  DESCRIPTION = 'description',
+  CATEGORY_COUNT = 'categoryCount',
+  MOD_DATE = 'modDate',
+  MANAGE = 'manage',
+  LIST = 'list',
 }
 
 /**
@@ -57,6 +37,7 @@ interface Data {
   [MileageTypeBoard.CATEGORY_COUNT]: number;
   [MileageTypeBoard.MOD_DATE]: string;
   [MileageTypeBoard.MANAGE]: ReactNode;
+  [MileageTypeBoard.LIST]: ReactNode;
 }
 
 /**
@@ -66,20 +47,18 @@ interface Data {
  */
 
 function createData(
-  NUM: number,
-  NAME: string,
-  DESCRIPTION: string,
-  CATEGORY_COUNT: number,
-  MOD_DATE: string,
-  MANAGE: ReactNode
+  type: IList,
+  MANAGE: ReactNode,
+  LIST: ReactNode,
 ): Data {
   return {
-    [MileageTypeBoard.NUM]: NUM,
-    [MileageTypeBoard.NAME]: NAME,
-    [MileageTypeBoard.DESCRIPTION1]: DESCRIPTION,
-    [MileageTypeBoard.CATEGORY_COUNT]: CATEGORY_COUNT,
-    [MileageTypeBoard.MOD_DATE]: MOD_DATE,
+    [MileageTypeBoard.NUM]: type.id,
+    [MileageTypeBoard.NAME]: type.name,
+    [MileageTypeBoard.DESCRIPTION]: type.description,
+    [MileageTypeBoard.CATEGORY_COUNT]: type.mileageItemCount,
+    [MileageTypeBoard.MOD_DATE]: formatDateToKorean(type.modDate),
     [MileageTypeBoard.MANAGE]: MANAGE,
+    [MileageTypeBoard.LIST]: LIST,
   };
 }
 
@@ -110,7 +89,7 @@ const headCells = [
     id: [MileageTypeBoard.CATEGORY_COUNT],
     numeric: true,
     disablePadding: false,
-    label: '하위 카테고리 개수',
+    label: '하위 마일리지 세부항목 개수',
   },
   {
     id: [MileageTypeBoard.MOD_DATE],
@@ -124,14 +103,20 @@ const headCells = [
     disablePadding: false,
     label: '관리',
   },
+  {
+    id: [MileageTypeBoard.LIST],
+    numeric: true,
+    disablePadding: false,
+    label: '목록',
+  },
 ];
 
 interface IList {
   id: number;
   name: string;
   description: string;
-  categoryCount: string;
-  modDate: Date;
+  mileageItemCount: number;
+  modDate: string;
 }
 
 interface IGetMileageType {
@@ -140,71 +125,6 @@ interface IGetMileageType {
   list: IList[];
 }
 
-const rows = [
-  createData(
-    1,
-    '창의적 문제 해결 역량',
-    '창의성을 키워줍니다.',
-    5,
-    '2022 - 01 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{
-        [ID]: 1,
-        [NAME]: '창의적 문제 해결 역량',
-        [DESCRIPTION]: '창의성을 키워줍니다.',
-      }}
-    />
-  ),
-  createData(
-    2,
-    '글로벌 역량',
-    '역량을 키워줍니다.',
-    5,
-    '2022 - 06 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{ [ID]: 2, [NAME]: '글로벌 역량', [DESCRIPTION]: '역량을 키워줍니다.' }}
-    />
-  ),
-  createData(
-    3,
-    '논리적 사고와 소통 능력',
-    '논리적 사고와 소통을 키워줍니다.',
-    5,
-    '2022 - 03 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{
-        [ID]: 3,
-        [NAME]: '논리적 사고와 소통 능력',
-        [DESCRIPTION]: '논리적 사고와 소통을 키워줍니다.',
-      }}
-    />
-  ),
-  createData(
-    4,
-    '다학제 융합 능력',
-    '융합 능력을 키워줍니다.',
-    5,
-    '2022 - 05 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{ [ID]: 4, [NAME]: '다학제 융합 능력', [DESCRIPTION]: '융합 능력을 키워줍니다.' }}
-    />
-  ),
-  createData(
-    5,
-    '인성 및 영성',
-    '인성을 키워줍니다.',
-    5,
-    '2022 - 10 - 02',
-    <SWModal
-      type={EDITTYPE}
-      beforeData={{ [ID]: 5, [NAME]: '인성 및 영성', [DESCRIPTION]: '인성을 키워줍니다.' }}
-    />
-  ),
-];
 
 const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IGetMileageType;
@@ -212,44 +132,31 @@ const getServerSidePropsFunction: GetServerSideProps<{
   setServerSideCookie(context);
   const res = await axiosInstance.get('/api/mileage/types');
   const fetchData = res.data;
-
   return { props: { fetchData } };
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageType({
-  fetchData,
-  requireLogin,
-  error,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+                                      fetchData,
+                                      requireLogin,
+                                      error,
+                                    }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
   }
 
-  const dispatch = useDispatch();
-
   /**
    * @brief 마일리지 카테고리 리스트 데이터
    */
 
-  const convertedFetchList = fetchData?.list?.map((item, index) => {
-    const beforeData = {
-      [ID]: item[ID],
-      [NAME]: item[NAME],
-      [DESCRIPTION]: item[DESCRIPTION],
-    };
+  const dispatch = useDispatch();
+  const convertedFetchList = fetchData?.list?.map((item, index) => createData(
+    item,
+    <SWModal type={EDITTYPE} beforeData={item} />,
+    <SWModal type={SHOWLIST} beforeData={item} />),
+  );
 
-    return createData(
-      item[ID],
-      item[NAME],
-      item[DESCRIPTION],
-      item[CATEGORY_COUNT],
-      item[MOD_DATE],
-      <SWModal type={EDITTYPE} beforeData={beforeData} />
-    );
-  });
-
-  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 타입" />;
+  return <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 타입" />;
 }

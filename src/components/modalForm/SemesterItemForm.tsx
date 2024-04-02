@@ -1,33 +1,17 @@
+import { useRouter } from 'next/router';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
-import {
-  TITLE,
-  CATEGORY,
-  DESCRIPTION,
-  MAX_POINTS,
-  NUM,
-  POINT,
-  SEMESTER,
-  MILEAGE,
-  ITEM_MAX_POINTS,
-  SEMESTERITEMID,
-  IS_MULTI,
-} from 'src/assets/data/fields';
+import { IS_MULTI, ITEM_MAX_POINTS, MILEAGE, SEMESTER, SEMESTERITEMID } from 'src/assets/data/fields';
 import * as Yup from 'yup';
-import Button from '@mui/material/Button';
-import { ADDCATEGORY, ADDITEM, EDITCATEGORY, EDITITEM } from 'src/assets/data/modal/modals';
-import { TextField, styled, Box, Chip, ToggleButtonGroup, ToggleButton } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { dispatch } from 'src/redux/store';
-import { closeModal } from 'src/redux/slices/modal';
+import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
+import { Box, Chip, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { useSelector } from 'react-redux';
+import axiosInstance from 'src/utils/axios';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
-import axiosInstance from 'src/utils/axios';
-import { useRouter } from 'next/router';
+import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
-import { values } from 'lodash';
-import { useState } from 'react';
+
 export default function SemesterItemForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
@@ -42,7 +26,7 @@ export default function SemesterItemForm({ handleClose }) {
     [IS_MULTI]: Yup.boolean(),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values: object) => {
     // 카테고리 추가
     // 1) newData 생성
     // 2) axios post
@@ -77,6 +61,7 @@ export default function SemesterItemForm({ handleClose }) {
           })
           .catch((err) => alert('학기별 항목 수정에 실패했습니다.'));
         break;
+      default:
     }
   };
 

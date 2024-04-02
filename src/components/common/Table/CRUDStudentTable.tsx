@@ -270,7 +270,6 @@ export default function CRUDStudentTable() {
       width: 200,
       editable: true,
     },
-    
     {
       field: 'modDate',
       headerName: '수정일',

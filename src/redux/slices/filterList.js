@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  typeList: [],
   categoryList: [],
   semesterList: [], // 애매
   itemList: [],
@@ -12,6 +13,9 @@ const slice = createSlice({
   name: 'filterList',
   initialState,
   reducers: {
+    setTypeList: (state, action) => {
+      state.typeList = action.payload;
+    },
     setCategoryList: (state, action) => {
       state.categoryList = action.payload;
     },
@@ -31,6 +35,6 @@ const slice = createSlice({
 });
 
 // Reducer
-export const { setCategoryList, setSemesterList, setItemList, setStudentList, setAdminList } =
+export const { setTypeList, setCategoryList, setSemesterList, setItemList, setStudentList, setAdminList } =
   slice.actions;
 export default slice.reducer;

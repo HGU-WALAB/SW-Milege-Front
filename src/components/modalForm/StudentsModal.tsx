@@ -24,6 +24,7 @@ const dumi = [
     points: null,
     extraPoints: 7,
     description1: '비고',
+    description2: '설명2',
     modDate: '2023-09-04T23:15:18',
   },
 ];

@@ -2,6 +2,7 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ListIcon from '@mui/icons-material/List';
 import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal';
 import {
   closeModal,
@@ -17,6 +18,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { ADDMILEAGEREGISTER, REGISTEREDSTUDENTS } from 'src/assets/data/modal/modals';
 export default function ModalIconButton({ setOpen, type, beforeData }) {
   const dispatch = useDispatch();
+
   const handleOpen = () => {
     dispatch(setModalType(type));
     setOpen(true);
@@ -31,6 +33,8 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
         return <AddIcon />;
       case 'edi':
         return <EditIcon />;
+      case 'sho':
+        return <ListIcon />;
       case 'del':
         return <DeleteIcon />;
       case 'reg':

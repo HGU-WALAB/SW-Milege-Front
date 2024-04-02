@@ -22,7 +22,7 @@ export const ComponentReturn = (text) => {
   switch (text) {
     case Board['마일리지 카테고리']:
       return <MileageCategory />;
-    case Board['마일리지 세부 항복']:
+    case Board['마일리지 세부 항목']:
       return <MileageGlobalItem />;
     case Board['학기별 마일리지 세부 항목']:
       return <MileageItem />;
