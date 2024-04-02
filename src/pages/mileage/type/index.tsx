@@ -1,33 +1,11 @@
 import EnhancedTable from 'src/components/common/CustomTable';
-import {
-  MAX_MILEAGE,
-  MANAGE,
-  CHECK_BOX,
-  DESCRIPTION,
-  NAME,
-  ID,
-  TYPE,
-  TITLE,
-  MOD_DATE,
-  ITEM_COUNT,
-  CATEGORY_MAX_POINTS,
-  ORDER_IDX,
-  CATEGORY_COUNT,
-  LIST,
-} from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITTYPE, SHOWLIST } from 'src/assets/data/modal/modals';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { dispatch } from 'src/redux/store';
-import { setMileageCategoryList } from 'src/redux/slices/data';
+import { useDispatch } from 'react-redux';
+import { ReactNode } from 'react';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import axiosInstance from 'src/utils/axios';
-import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import MileageCategory from 'src/components/board/MileageCategory';
-import { setCategoryList } from 'src/redux/slices/filter';
-import { DESCRIPTION1, CATEGORY, DESCRIPTION2, NUM } from '../../../assets/data/fields';
-import axios from 'axios';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getCookie } from '../view';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
@@ -38,13 +16,13 @@ import { handleServerAuth403Error } from 'src/auth/utils';
  */
 
 export enum MileageTypeBoard {
-  'NUM' = NUM,
-  'NAME' = NAME,
-  'DESCRIPTION' = DESCRIPTION,
-  'CATEGORY_COUNT' = CATEGORY_COUNT,
-  'MOD_DATE' = MOD_DATE,
-  'MANAGE' = MANAGE,
-  'LIST' = LIST,
+  NUM = 'num',
+  NAME = 'name',
+  DESCRIPTION = 'description',
+  CATEGORY_COUNT = 'categoryCount',
+  MOD_DATE = 'modDate',
+  MANAGE = 'manage',
+  LIST = 'list',
 }
 
 /**
@@ -69,20 +47,16 @@ interface Data {
  */
 
 function createData(
-  NUM: number,
-  NAME: string,
-  DESCRIPTION: string,
-  CATEGORY_COUNT: number,
-  MOD_DATE: string,
+  type: IList,
   MANAGE: ReactNode,
-  LIST: ReactNode
+  LIST: ReactNode,
 ): Data {
   return {
-    [MileageTypeBoard.NUM]: NUM,
-    [MileageTypeBoard.NAME]: NAME,
-    [MileageTypeBoard.DESCRIPTION1]: DESCRIPTION,
-    [MileageTypeBoard.CATEGORY_COUNT]: CATEGORY_COUNT,
-    [MileageTypeBoard.MOD_DATE]: MOD_DATE,
+    [MileageTypeBoard.NUM]: type.id,
+    [MileageTypeBoard.NAME]: type.name,
+    [MileageTypeBoard.DESCRIPTION]: type.description,
+    [MileageTypeBoard.CATEGORY_COUNT]: type.mileageItemCount,
+    [MileageTypeBoard.MOD_DATE]: formatDateToKorean(type.modDate),
     [MileageTypeBoard.MANAGE]: MANAGE,
     [MileageTypeBoard.LIST]: LIST,
   };
@@ -141,8 +115,8 @@ interface IList {
   id: number;
   name: string;
   description: string;
-  categoryCount: string;
-  modDate: Date;
+  mileageItemCount: number;
+  modDate: string;
 }
 
 interface IGetMileageType {
@@ -150,7 +124,6 @@ interface IGetMileageType {
   count: number;
   list: IList[];
 }
-
 
 
 const getServerSidePropsFunction: GetServerSideProps<{
@@ -165,10 +138,10 @@ const getServerSidePropsFunction: GetServerSideProps<{
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageType({
-  fetchData,
-  requireLogin,
-  error,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+                                      fetchData,
+                                      requireLogin,
+                                      error,
+                                    }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
@@ -179,33 +152,11 @@ export default function MileageType({
    */
 
   const dispatch = useDispatch();
-  const convertedFetchList = fetchData?.list?.map((item, index) => {
-    const {
-      id,
-      name,
-      description,
-      mileageItemCount,
-      modDate,
-    } = item;
-
-    const beforeData = {
-      [ID]: id,
-      [NAME]: name,
-      [DESCRIPTION]: description,
-      [CATEGORY_COUNT]: mileageItemCount,
-      [MOD_DATE]: modDate,
-    };
-
-    return createData(
-      item[ID],
-      item[NAME],
-      item[DESCRIPTION],
-      item[CATEGORY_COUNT],
-      formatDateToKorean(item[MOD_DATE]),
-      <SWModal type={EDITTYPE} beforeData={beforeData} />,
-      <SWModal type={SHOWLIST} beforeData={beforeData} />
-    );
-  });
+  const convertedFetchList = fetchData?.list?.map((item, index) => createData(
+    item,
+    <SWModal type={EDITTYPE} beforeData={item} />,
+    <SWModal type={SHOWLIST} beforeData={item} />),
+  );
 
   return <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 타입" />;
 }

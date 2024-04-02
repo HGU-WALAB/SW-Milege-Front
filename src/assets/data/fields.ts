@@ -81,7 +81,7 @@ export const RECORD_NAME = 'recordName';
 export const LEVEL = 'level';
 export const TYPE = 'type';
 
-export const ITEM_COUNT = 'itemCount';
+export const ITEM_COUNT = 'mileageItemCount';
 export const SEMESTER_ITEM_COUNT = 'semesterItemCount';
 export const SEMESTER_ITEM_ID = 'semesterItemId';
 export const IS_MULTI = 'isMulti';
