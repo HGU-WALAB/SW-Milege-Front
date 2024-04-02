@@ -17,7 +17,7 @@ export default function TypeSelect() {
   );
 
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl sx={{ width: '100%' }} variant="outlined">
       <InputLabel id="demo-simple-select-label">타입</InputLabel>
       <Field as={MySelect} name={TYPE} variant="outlined" required />
     </FormControl>

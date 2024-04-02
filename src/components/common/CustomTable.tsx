@@ -441,7 +441,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       orderIdx: newOrderIdx,
       type: target.type,
       description1: target.description1,
-      description2: target.description2,
     };
 
     axiosInstance.patch(`/api/mileage/categories/${target.num}`, newData).then((res) => {

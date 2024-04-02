@@ -20,7 +20,6 @@ import {
   COUNTS,
   EXTRAPOINTS,
   DESCRIPTION1,
-  DESCRIPTION2,
   SEMESTER_ITEM_ID,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';

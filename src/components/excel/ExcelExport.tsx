@@ -24,12 +24,12 @@ export default function ExcelExport() {
       allowPaths: [PATH_PAGES.mileage.category],
     },
     {
-      name: '학기별 항목 엑셀 다운로드',
+      name: '엑셀로 내려받기',
       endPoint: PATH_API.excel.download.semesterItem(semester),
       allowPaths: [PATH_PAGES.mileage.semesterItem],
     },
     {
-      name: '글로벌 항목 & 카테고리 엑셀 다운로드',
+      name: '엑셀로 내려받기',
       endPoint: PATH_API.excel.download.globalItem,
       allowPaths: [PATH_PAGES.mileage.globalItem],
     },
@@ -39,7 +39,7 @@ export default function ExcelExport() {
       allowPaths: [PATH_PAGES.manage.register],
     },
     {
-      name: '학기별 항목 업로드 양식 다운로드',
+      name: '엑셀 양식 다운로드',
       endPoint: PATH_API.excel.download.format.semesterItem,
       allowPaths: [PATH_PAGES.mileage.semesterItem],
     },
@@ -49,7 +49,7 @@ export default function ExcelExport() {
       allowPaths: [PATH_PAGES.mileage.result],
     },
     {
-      name: '활동기록 업로드 양식 다운로드',
+      name: '엑셀 양식 다운로드',
       endPoint: PATH_API.excel.download.format.record,
       allowPaths: [PATH_PAGES.mileage.record, PATH_PAGES.mileage.view],
     },

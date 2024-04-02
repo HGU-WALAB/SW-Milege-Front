@@ -38,7 +38,6 @@ export const REJECT = 'reject';
 export const SCHOLARSHIP = 'scholarship';
 
 export const DESCRIPTION1 = 'description1';
-export const DESCRIPTION2 = 'description2';
 export const FILE_DESCRIPTION = 'fileDescription';
 
 export const ISVISIBLE_STUDENT = 'isVisibleStudent';

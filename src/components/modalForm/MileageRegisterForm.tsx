@@ -25,7 +25,6 @@ import { useRouter } from 'next/router';
 import {
   COUNTS,
   DESCRIPTION1,
-  DESCRIPTION2,
   EXTRAPOINTS,
   ID,
   NAME,
@@ -106,7 +105,6 @@ export default function MileageRegisterForm({ handleClose }) {
       // [POINTS]: values[POINTS],
       [EXTRAPOINTS]: values[EXTRAPOINTS],
       [DESCRIPTION1]: values[DESCRIPTION1],
-      [DESCRIPTION2]: values[DESCRIPTION2],
     };
 
     switch (modalType) {
@@ -143,7 +141,6 @@ export default function MileageRegisterForm({ handleClose }) {
          * points
          * extraPoints
          * description1
-         * description2
          */
 
         [SEMESTERITEMID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SEMESTERITEMID] : '',
