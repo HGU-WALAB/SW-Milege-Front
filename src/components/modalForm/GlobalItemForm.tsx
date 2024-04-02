@@ -4,8 +4,9 @@ import { Box, Chip, styled, TextField, ToggleButton, ToggleButtonGroup } from '@
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
   DESCRIPTION1,
-  ID, IS_MULTI,
-  IS_STUDENT_INPUT, ISDUPLICATE_RECORD,
+  ID,
+  IS_MULTI,
+  IS_STUDENT_INPUT,
   ISEVALUATE_CSEE_GENERAL,
   ISEVALUATE_CSEE_SPECIAL,
   ISEVALUATE_ICT_CONVERGENCE,
@@ -51,6 +52,23 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
+interface RequestPayload {
+  readonly categoryId: number;
+  readonly typeId: number;
+  readonly itemName: string;
+  readonly itemMaxPoints: number;
+  readonly description1: string;
+  readonly flags: {
+    readonly isVisible: boolean;
+    readonly isStudentVisible: boolean;
+    readonly isStudentEditable: boolean;
+    readonly isDuplicable: boolean;
+    readonly isCseeGeneral: boolean;
+    readonly isCseeSpecial: boolean;
+    readonly isIctConvergence: boolean;
+  };
+}
+
 export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
 
@@ -69,37 +87,22 @@ export default function GlobalItemForm({ handleClose }) {
     // 3) alert
     // 4) reload
 
-    const stuTypeConverter = ({
-                                [ISEVALUATE_ICT_CONVERGENCE]: f,
-                                [ISEVALUATE_CSEE_GENERAL]: c,
-                              }: {
-      [ISEVALUATE_ICT_CONVERGENCE]: boolean;
-      [ISEVALUATE_CSEE_GENERAL]: boolean;
-    }) => {
-      if (f && c) {
-        return 'CF';
-      } else if (f) {
-        return 'F';
-      } else if (c) {
-        return 'C';
-      }
-    };
-
-    const newData = {
-      [CATEGORYID]: values[CATEGORYID],
+    const newData: RequestPayload = {
+      categoryId: values[CATEGORYID],
       typeId: values[TYPE],
       itemName: values[ITEM],
-      stuType: stuTypeConverter(values),
-      [ITEM_MAX_POINTS]: values[ITEM_MAX_POINTS],
-      [DESCRIPTION1]: values[DESCRIPTION1],
+      itemMaxPoints: values[ITEM_MAX_POINTS],
+      description1: values[DESCRIPTION1],
       flags: {
-        [ISVISIBLE]: values[ISVISIBLE],
+        isVisible: values[ISVISIBLE],
         isStudentVisible: values[ISVISIBLE_STUDENT],
         isStudentEditable: values[IS_STUDENT_INPUT],
-        isPortfolio: values[ISEVALUATE_CSEE_SPECIAL],
+        isDuplicable: values[IS_MULTI],
+        isCseeGeneral: values[ISEVALUATE_CSEE_GENERAL],
+        isCseeSpecial: values[ISEVALUATE_CSEE_SPECIAL],
+        isIctConvergence: values[ISEVALUATE_ICT_CONVERGENCE],
       },
     };
-
 
     switch (modalType) {
       case ADDGLOBALITEM:
@@ -134,15 +137,15 @@ export default function GlobalItemForm({ handleClose }) {
         [TYPE]: beforeData?.mileageType.id,
         [CATEGORYID]: beforeData?.category.id,
         [ITEM]: beforeData?.name,
+        [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints,
         [DESCRIPTION1]: beforeData?.description1,
         [ISVISIBLE]: beforeData?.isVisible ?? true,
         [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible ?? true,
         [IS_STUDENT_INPUT]: beforeData?.isStudentInput ?? false,
-        [IS_MULTI]: beforeData?.isMulti ?? false,
-        [ISEVALUATE_CSEE_GENERAL]: beforeData?.stuType?.includes("C") ?? false,
-        [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isPortfolio ?? false,
-        [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.stuType.includes("F") ?? false,
-        [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints,
+        [IS_MULTI]: beforeData?.isDuplicable ?? true,
+        [ISEVALUATE_CSEE_GENERAL]: beforeData?.isCseeGeneral ?? false,
+        [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isCseeSpecial ?? false,
+        [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.isIctConvergence ?? false,
       }}
       validationSchema={GlobalItemSchema}
       onSubmit={handleSubmit}
@@ -172,13 +175,13 @@ export default function GlobalItemForm({ handleClose }) {
             </StyleFieldBox>
             <StyleFieldBox>
               {[
+                IS_MULTI,
                 ISVISIBLE,
                 ISVISIBLE_STUDENT,
                 IS_STUDENT_INPUT,
-                IS_MULTI,
                 ISEVALUATE_CSEE_GENERAL,
                 ISEVALUATE_CSEE_SPECIAL,
-                ISEVALUATE_ICT_CONVERGENCE
+                ISEVALUATE_ICT_CONVERGENCE,
               ].map((inputName: string, index: number) => (
                 <Box
                   key={index}

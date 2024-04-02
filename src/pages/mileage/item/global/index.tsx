@@ -140,7 +140,10 @@ export interface IGlobalItem {
     maxPoints: number;
   };
   name: string;
-  isPortfolio: boolean;
+  isCseeGeneral: boolean;
+  isCseeSpecial: boolean;
+  isIctConvergence: boolean;
+  isDuplicable: boolean;
   isVisible: boolean;
   isStudentVisible: boolean;
   isStudentInput: boolean;
@@ -149,10 +152,10 @@ export interface IGlobalItem {
   mileageType: {
     id: number;
     name: string;
+    modDate: string;
   };
   itemMaxPoints: number;
   description1: string;
-  stuType?: string;
 }
 
 interface IGetMileageItem {
