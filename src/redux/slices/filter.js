@@ -9,7 +9,7 @@ const initialState = {
   grade: '전체',
   department: '전체',
   level: '0',
-  categoryType: '전체',
+  mileageType: '전체',
   sid: '전체',
   aid: '전체',
 };
@@ -67,10 +67,10 @@ const slice = createSlice({
       state.level = '0';
     },
     setCategoryType: (state, action) => {
-      state.categoryType = action.payload;
+      state.mileageType = action.payload;
     },
     clearCategoryType: (state) => {
-      state.categoryType = '전체';
+      state.mileageType = '전체';
     },
     setSid: (state, action) => {
       state.sid = action.payload;

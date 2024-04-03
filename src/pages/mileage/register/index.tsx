@@ -222,7 +222,6 @@ const fetchToUseData = (data) => {
       semesterItem.recordCount, //  학생수가 들어가야함
       formatDateToKorean(semesterItem.modDate),
       <Box sx={{ display: 'flex' }}>
-        {/* <SWModal type={REGISTEREDSTUDENTS} beforeData={beforeData} /> */}
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />
