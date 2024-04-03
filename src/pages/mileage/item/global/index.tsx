@@ -74,7 +74,7 @@ interface Data {
   [MileageGlobalItemBoard.ISVISIBLE]: boolean;
 
   [MileageGlobalItemBoard.MOD_DATE]: string;
-  
+
   [MileageGlobalItemBoard.MANAGE]: string;
 }
 
