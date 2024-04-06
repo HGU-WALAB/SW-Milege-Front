@@ -131,6 +131,7 @@ export default function SemesterItemForm({handleClose}) {
                                         exclusive
                                         onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
                                         aria-label="toggle value"
+                                        disabled={(modalType === EDITITEM) ? true : false}
                                     >
                                         <ToggleButton
                                             value={true}
