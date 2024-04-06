@@ -18,7 +18,7 @@ export default function GlobalItemSelect({ itemId }: { itemId?: number }) {
 
   return (
     <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="demo-simple-select-label">글로벌 항목</InputLabel>
+      <InputLabel id="demo-simple-select-label">세부 항목</InputLabel>
       <Field as={MySelect} name={'itemId'} variant="outlined" required />
     </FormControl>
   );

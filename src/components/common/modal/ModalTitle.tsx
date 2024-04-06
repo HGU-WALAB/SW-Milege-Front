@@ -31,7 +31,7 @@ export default function ModalTitle() {
       case EDITTYPE:
         return '마일리지 타입 수정';
       case SHOWLIST:
-        return '마일리지 하위항목 리스트';
+        return '마일리지 세부 리스트';
       case ADDCATEGORY:
         return '마일리지 카테고리 추가';
       case EDITCATEGORY:

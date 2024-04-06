@@ -81,7 +81,7 @@ export default function GlobalItemForm({ handleClose }) {
   });
 
   const handleSubmit = (values) => {
-    // 글로벌 세부항목 추가
+    // 세부 항목 추가
     // 1) newData 생성
     // 2) axios post
     // 3) alert
@@ -109,12 +109,12 @@ export default function GlobalItemForm({ handleClose }) {
         axiosInstance
           .post('/api/mileage/items', newData)
           .then((res) => {
-            alert('글로벌 항목이 추가되었습니다.');
+            alert('세부 항목이 추가되었습니다.');
             router.reload();
           })
           .catch((err) => {
             console.log(err);
-            alert('글로벌 항목 추가에 실패했습니다.');
+            alert('세부 항목 추가에 실패했습니다.');
           });
         break;
 
@@ -122,10 +122,10 @@ export default function GlobalItemForm({ handleClose }) {
         axiosInstance
           .patch(`/api/mileage/items/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert(`글로벌 항목 ${beforeData[ID]}번이 수정되었습니다.`);
+            alert(`세부 항목 ${beforeData[ID]}번이 수정되었습니다.`);
             router.reload();
           })
-          .catch((err) => alert('글로벌 항목 수정에 실패했습니다.'));
+          .catch((err) => alert('세부 항목 수정에 실패했습니다.'));
         break;
       default:
     }
