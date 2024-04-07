@@ -46,7 +46,7 @@ export default function SemesterItemForm({ handleClose }) {
     // 4) reload
     const newData = {
       itemId: values.itemId,
-      points: values[POINT],
+      points: values[MILEAGE],
       name: values[SPECIFIC_ITEM_NAME],
       itemMaxPoints: +values[ITEM_MAX_POINTS],
     };
@@ -79,7 +79,7 @@ export default function SemesterItemForm({ handleClose }) {
     if (isInitialMount && modalType !== EDITITEM) {
       setIsInitialMount(false);
     } else if (formikRef.current) {
-      formikRef.current.setFieldValue(POINT, selectedItemList?.mileage || 0);
+      formikRef.current.setFieldValue(MILEAGE, selectedItemList?.mileage || 0);
       formikRef.current.setFieldValue(ITEM_MAX_POINTS, selectedItemList?.itemMaxPoints || 0);
       formikRef.current.setFieldValue(IS_MULTI, selectedItemList?.isDuplicable || false);
     }
@@ -97,10 +97,10 @@ export default function SemesterItemForm({ handleClose }) {
          */
         [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
         itemId: modalType === EDITITEM ? beforeData?.itemId : '',
-        [POINT]: modalType === EDITITEM ? beforeData?.mileage: 0,
         [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
-        [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.itemMaxPoints : 0,
-        [IS_MULTI]: modalType === EDITITEM ? beforeData?.isDuplicable : '',
+        [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
+        [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
+        [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : false,
       }}
       validationSchema={SemesterItemSchema}
       onSubmit={handleSubmit}
@@ -119,7 +119,7 @@ export default function SemesterItemForm({ handleClose }) {
         >
           <SemesterSelect />
           <GlobalItemSelect itemId={beforeData?.itemId} />
-          {[SPECIFIC_ITEM_NAME, POINT, ITEM_MAX_POINTS].map((name, idx) => (
+          {[SPECIFIC_ITEM_NAME, MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
             <Field
               key={idx}
               label={engToKor(name)}
