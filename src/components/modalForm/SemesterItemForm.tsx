@@ -2,10 +2,12 @@ import { useRouter } from 'next/router';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
   IS_MULTI,
+  POINT,
   ITEM_MAX_POINTS,
   MILEAGE,
   SEMESTER,
   SEMESTERITEMID,
+  SPECIFIC_ITEM_NAME,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
@@ -38,13 +40,11 @@ export default function SemesterItemForm({ handleClose }) {
     // 2) axios post
     // 3) alert
     // 4) reload
-
     const newData = {
       itemId: values.itemId,
-      points: values[MILEAGE],
-      semesterName: values[SEMESTER],
-      [ITEM_MAX_POINTS]: +values[ITEM_MAX_POINTS],
-      [IS_MULTI]: values[IS_MULTI],
+      points: values[POINT],
+      name: values[SPECIFIC_ITEM_NAME],
+      itemMaxPoints: +values[ITEM_MAX_POINTS],
     };
 
     switch (modalType) {
@@ -82,9 +82,9 @@ export default function SemesterItemForm({ handleClose }) {
          */
         [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
         itemId: modalType === EDITITEM ? beforeData?.itemId : '',
-        [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
+        [POINT]: modalType === EDITITEM ? beforeData?.[POINT] : 0
         [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
-        [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : false,
+        [IS_MULTI]: beforeData?.[IS_MULTI]
       }}
       validationSchema={SemesterItemSchema}
       onSubmit={handleSubmit}
@@ -103,7 +103,7 @@ export default function SemesterItemForm({ handleClose }) {
         >
           <SemesterSelect />
           <GlobalItemSelect itemId={beforeData?.itemId} />
-          {[MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
+          {[SPECIFIC_ITEM_NAME, MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
             <Field
               key={idx}
               label={engToKor(name)}
@@ -136,7 +136,7 @@ export default function SemesterItemForm({ handleClose }) {
                     exclusive
                     onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
                     aria-label="toggle value"
-                    disabled={modalType === EDITITEM ? true : false}
+                    disabled={true}
                   >
                     <ToggleButton
                       value={true}

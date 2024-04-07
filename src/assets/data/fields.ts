@@ -68,6 +68,7 @@ export const SEMESTERITEMID = 'semesterItemId';
 
 export const SEMESTER_NAME = 'semesterName';
 export const ITEM_NAME = 'itemName';
+export const SPECIFIC_ITEM_NAME = 'name';
 export const STUDENT_ID = 'studentId';
 export const CATEGORY_NAME = 'categoryName';
 export const CATEGORY_MAX_POINTS = 'categoryMaxPoints';
