@@ -1,5 +1,4 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-
 import { Box, Chip, styled, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
@@ -13,6 +12,7 @@ import {
   ISVISIBLE,
   ISVISIBLE_STUDENT,
   ITEM,
+  POINT,
   ITEM_MAX_POINTS,
   TYPE,
 } from 'src/assets/data/fields';
@@ -27,35 +27,13 @@ import { CATEGORYID } from '../../assets/data/fields';
 import CategorySelect from '../common/Select/CategorySelect';
 import TypeSelect from 'src/components/common/Filter/TypeSelect';
 import { IGlobalItem } from 'src/pages/mileage/item/global';
-
-const StyleFieldBox = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: ' center',
-  margin: '30px 0px',
-  padding: '0px 20px',
-  width: '100%',
-  gap: '15px',
-});
-
-const StyleFieldForm = styled(Form)({
-  '@media (max-width: 600px)': {
-    scale: '0.8',
-    margin: '0px',
-  },
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  margin: '30px 0px',
-  padding: '0px 20px',
-  width: '100%',
-  gap: '20px',
-});
+import { useRef, useEffect } from 'react';
 
 interface RequestPayload {
   readonly categoryId: number;
   readonly typeId: number;
   readonly itemName: string;
+  readonly mileage: number;
   readonly itemMaxPoints: number;
   readonly description1: string;
   readonly flags: {
@@ -71,9 +49,9 @@ interface RequestPayload {
 
 export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
-
   const beforeData: IGlobalItem = useSelector((state) => state.modal.beforeData);
   const router = useRouter();
+  const formikRef = useRef();
 
   const GlobalItemSchema = Yup.object().shape({
     [CATEGORYID]: Yup.string().required('필수입니다.'),
@@ -86,11 +64,15 @@ export default function GlobalItemForm({ handleClose }) {
     // 2) axios post
     // 3) alert
     // 4) reload
+    if (!values[IS_MULTI]) {
+      values[ITEM_MAX_POINTS] = values[POINT];
+    }
 
     const newData: RequestPayload = {
       categoryId: values[CATEGORYID],
       typeId: values[TYPE],
       itemName: values[ITEM],
+      mileage: values[POINT],
       itemMaxPoints: values[ITEM_MAX_POINTS],
       description1: values[DESCRIPTION1],
       flags: {
@@ -131,12 +113,22 @@ export default function GlobalItemForm({ handleClose }) {
     }
   };
 
+  useEffect(() => {
+    if (formikRef.current) {
+      const formikValues = formikRef.current.values;
+      if (!formikValues[IS_MULTI]) {
+        formikRef.current.setFieldValue(ITEM_MAX_POINTS, formikValues[POINT]);
+      }
+    }
+  }, [formikRef, IS_MULTI]);
+
   return (
     <Formik
       initialValues={{
         [TYPE]: beforeData?.mileageType.id,
         [CATEGORYID]: beforeData?.category.id,
         [ITEM]: beforeData?.name,
+        [POINT]: beforeData?.mileage,
         [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints,
         [DESCRIPTION1]: beforeData?.description1,
         [ISVISIBLE]: beforeData?.isVisible ?? true,
@@ -149,6 +141,7 @@ export default function GlobalItemForm({ handleClose }) {
       }}
       validationSchema={GlobalItemSchema}
       onSubmit={handleSubmit}
+      innerRef={formikRef}
     >
       {({ errors, touched }) => (
         <StyleFieldForm>
@@ -156,22 +149,34 @@ export default function GlobalItemForm({ handleClose }) {
             <StyleFieldBox>
               <TypeSelect />
               <CategorySelect />
-              {[ITEM, ITEM_MAX_POINTS, DESCRIPTION1].map(
-                (field: string, index: number) => (
-                  <Box key={index} sx={{ width: '100%' }}>
-                    <Field
-                      sx={{}}
-                      name={field}
-                      as={TextField}
-                      type="text"
-                      label={engToKor(field)}
-                      variant="outlined"
-                      error={!!(errors[field] && touched[field])}
-                      helperText={<ErrorMessage name={field} />}
-                    />
-                  </Box>
-                ),
-              )}
+              {[ITEM, POINT, ITEM_MAX_POINTS, DESCRIPTION1].map((field: string, index: number) => (
+                <Box key={index} sx={{ width: '100%' }}>
+                  <Field
+                    sx={{}}
+                    name={field}
+                    as={TextField}
+                    type="text"
+                    label={engToKor(field)}
+                    variant="outlined"
+                    error={!!(errors[field] && touched[field])}
+                    helperText={<ErrorMessage name={field} />}
+                    value={
+                      field === ITEM_MAX_POINTS && formikRef.current
+                        ? formikRef.current.values[IS_MULTI]
+                          ? formikRef.current.values[ITEM_MAX_POINTS]
+                          : formikRef.current.values[POINT]
+                        : formikRef.current
+                        ? formikRef.current.values[field]
+                        : ''
+                    }
+                    disabled={
+                      field === ITEM_MAX_POINTS && formikRef.current
+                        ? !formikRef.current.values[IS_MULTI]
+                        : false
+                    }
+                  />
+                </Box>
+              ))}
             </StyleFieldBox>
             <StyleFieldBox>
               {[
@@ -227,3 +232,27 @@ export default function GlobalItemForm({ handleClose }) {
     </Formik>
   );
 }
+
+const StyleFieldBox = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: ' center',
+  margin: '30px 0px',
+  padding: '0px 20px',
+  width: '100%',
+  gap: '15px',
+});
+
+const StyleFieldForm = styled(Form)({
+  '@media (max-width: 600px)': {
+    scale: '0.8',
+    margin: '0px',
+  },
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  margin: '30px 0px',
+  padding: '0px 20px',
+  width: '100%',
+  gap: '20px',
+});

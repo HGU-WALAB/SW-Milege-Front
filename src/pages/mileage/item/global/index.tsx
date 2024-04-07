@@ -11,7 +11,6 @@ import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { ReactNode } from 'react';
 
-
 /**
  * @component [마일리지 항목] 게시판
  */
@@ -29,6 +28,7 @@ export enum MileageGlobalItemBoard {
   DESCRIPTION1 = 'DESCRIPTION1',
   SEMESTER_ITEM_COUNT = 'SEMESTER_ITEM_COUNT',
   MOD_DATE = 'MOD_DATE',
+  POINT = 'POINT',
   ITEM_MAX_POINTS = 'ITEM_MAX_POINTS',
   MANAGE = 'MANAGE',
 }
@@ -44,9 +44,9 @@ interface Data {
   [MileageGlobalItemBoard.ITEM]: string;
   [MileageGlobalItemBoard.DESCRIPTION1]: string;
   [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
+  [MileageGlobalItemBoard.POINT]: number;
   [MileageGlobalItemBoard.ITEM_MAX_POINTS]: number;
   [MileageGlobalItemBoard.MOD_DATE]: string;
-
   [MileageGlobalItemBoard.MANAGE]: string;
 }
 
@@ -55,15 +55,13 @@ interface Data {
  * @brief 데이터 생성 함수
  *
  *  */
-function createData(
-  item: IGlobalItem,
-  MANAGE: ReactNode,
-): Data {
+function createData(item: IGlobalItem, MANAGE: ReactNode): Data {
   return {
     [MileageGlobalItemBoard.NUM]: item.id,
     [MileageGlobalItemBoard.TYPE]: item.mileageType.name,
     [MileageGlobalItemBoard.CATEGORY]: item.category.name,
     [MileageGlobalItemBoard.ITEM]: item.name,
+    [MileageGlobalItemBoard.POINT]: item.mileage,
     [MileageGlobalItemBoard.ITEM_MAX_POINTS]: item.itemMaxPoints,
     [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: item.semesterItemCount,
     [MileageGlobalItemBoard.DESCRIPTION1]: item.description1,
@@ -100,6 +98,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '항목명',
+  },
+  {
+    id: [MileageGlobalItemBoard.POINT],
+    numeric: true,
+    disablePadding: false,
+    label: '마일리지',
   },
   {
     id: [MileageGlobalItemBoard.ITEM_MAX_POINTS],
@@ -155,6 +159,7 @@ export interface IGlobalItem {
     name: string;
     modDate: string;
   };
+  mileage: number;
   itemMaxPoints: number;
   description1: string;
 }
@@ -177,10 +182,10 @@ const getServerSidePropsFunction: GetServerSideProps<{
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageCategory({
-                                          fetchData,
-                                          requireLogin,
-                                          error,
-                                        }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  fetchData,
+  requireLogin,
+  error,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
@@ -188,7 +193,8 @@ export default function MileageCategory({
 
   const dispatch = useDispatch();
   const convertedFetchList = fetchData.list?.map((item) =>
-    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />));
+    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />)
+  );
 
   return (
     <EnhancedTable

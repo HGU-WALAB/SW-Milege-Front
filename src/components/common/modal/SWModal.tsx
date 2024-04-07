@@ -40,6 +40,7 @@ import {
   ISVISIBLE,
   ISVISIBLE_STUDENT,
   ITEM,
+  POINT,
   ITEM_MAX_POINTS,
   MAJOR1,
   MAJOR2,
@@ -123,6 +124,8 @@ export const engToKor = (eng) => {
       return '설명';
     case CATEGORY_MAX_POINTS:
       return '적립 가능 최대 마일리지';
+    case POINT:
+      return '마일리지';
     case IS_MULTI:
       return '중복 적립 가능 여부';
     case AID:

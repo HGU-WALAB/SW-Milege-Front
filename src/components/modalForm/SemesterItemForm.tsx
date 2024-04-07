@@ -1,167 +1,172 @@
-import {useRouter} from 'next/router';
-import {ErrorMessage, Field, Form, Formik} from 'formik';
-import {IS_MULTI, ITEM_MAX_POINTS, MILEAGE, SEMESTER, SEMESTERITEMID} from 'src/assets/data/fields';
+import { useRouter } from 'next/router';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import {
+  IS_MULTI,
+  ITEM_MAX_POINTS,
+  MILEAGE,
+  SEMESTER,
+  SEMESTERITEMID,
+} from 'src/assets/data/fields';
 import * as Yup from 'yup';
-import {ADDITEM, EDITITEM} from 'src/assets/data/modal/modals';
-import {Box, Chip, TextField, ToggleButton, ToggleButtonGroup} from '@mui/material';
-import {useSelector} from 'react-redux';
+import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
+import { Box, Chip, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
-import {ButtonFlexBox, engToKor} from '../common/modal/SWModal';
+import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
 
-export default function SemesterItemForm({handleClose}) {
-    const beforeData = useSelector((state) => state.modal.beforeData);
-    const modalType = useSelector((state) => state.modal.modalType);
+export default function SemesterItemForm({ handleClose }) {
+  const beforeData = useSelector((state) => state.modal.beforeData);
+  const modalType = useSelector((state) => state.modal.modalType);
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const SemesterItemSchema = Yup.object().shape({
-        [SEMESTER]: Yup.string().required('필수입니다.'),
-        itemId: Yup.number().integer().required('필수입니다.'),
-        [MILEAGE]: Yup.number().integer(),
-        [ITEM_MAX_POINTS]: Yup.number().integer(),
-        [IS_MULTI]: Yup.boolean(),
-    });
+  const SemesterItemSchema = Yup.object().shape({
+    [SEMESTER]: Yup.string().required('필수입니다.'),
+    itemId: Yup.number().integer().required('필수입니다.'),
+    [MILEAGE]: Yup.number().integer(),
+    [ITEM_MAX_POINTS]: Yup.number().integer(),
+    [IS_MULTI]: Yup.boolean(),
+  });
 
-    const handleSubmit = (values: object) => {
-        // 카테고리 추가
-        // 1) newData 생성
-        // 2) axios post
-        // 3) alert
-        // 4) reload
+  const handleSubmit = (values: object) => {
+    // 카테고리 추가
+    // 1) newData 생성
+    // 2) axios post
+    // 3) alert
+    // 4) reload
 
-        const newData = {
-            itemId: values.itemId,
-            points: values[MILEAGE],
-            semesterName: values[SEMESTER],
-            [ITEM_MAX_POINTS]: +values[ITEM_MAX_POINTS],
-            [IS_MULTI]: values[IS_MULTI],
-        };
-
-        switch (modalType) {
-            case ADDITEM:
-                axiosInstance
-                    .post(`/api/mileage/semesters/${values[SEMESTER]}/items`, newData)
-                    .then((res) => {
-                        alert('학기별 항목이 추가되었습니다.');
-                        router.reload();
-                    })
-                    .catch((err) => alert('학기별 항목 추가에 실패했습니다.'));
-                break;
-
-            case EDITITEM:
-                axiosInstance
-                    .patch(`/api/mileage/semesters/${beforeData[SEMESTERITEMID]}`, newData)
-                    .then((res) => {
-                        alert('학기별 항목이 수정되었습니다.');
-                        router.reload();
-                    })
-                    .catch((err) => alert('학기별 항목 수정에 실패했습니다.'));
-                break;
-            default:
-        }
+    const newData = {
+      itemId: values.itemId,
+      points: values[MILEAGE],
+      semesterName: values[SEMESTER],
+      [ITEM_MAX_POINTS]: +values[ITEM_MAX_POINTS],
+      [IS_MULTI]: values[IS_MULTI],
     };
 
-    return (
-        <Formik
-            initialValues={{
-                /**
-                 * semester (쿼리 스트링)
-                 * itemId
-                 * points
-                 * maxPoints
-                 */
-                [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
-                itemId: modalType === EDITITEM ? beforeData?.itemId : '',
-                [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
-                [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
-                [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : false,
+    switch (modalType) {
+      case ADDITEM:
+        axiosInstance
+          .post(`/api/mileage/semesters/${values[SEMESTER]}/items`, newData)
+          .then((res) => {
+            alert('학기별 항목이 추가되었습니다.');
+            router.reload();
+          })
+          .catch((err) => alert('학기별 항목 추가에 실패했습니다.'));
+        break;
 
-            }}
-            validationSchema={SemesterItemSchema}
-            onSubmit={handleSubmit}
+      case EDITITEM:
+        axiosInstance
+          .patch(`/api/mileage/semesters/${beforeData[SEMESTERITEMID]}`, newData)
+          .then((res) => {
+            alert('학기별 항목이 수정되었습니다.');
+            router.reload();
+          })
+          .catch((err) => alert('학기별 항목 수정에 실패했습니다.'));
+        break;
+      default:
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={{
+        /**
+         * semester (쿼리 스트링)
+         * itemId
+         * points
+         * maxPoints
+         */
+        [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
+        itemId: modalType === EDITITEM ? beforeData?.itemId : '',
+        [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
+        [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
+        [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : false,
+      }}
+      validationSchema={SemesterItemSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting, errors, touched }) => (
+        <Form
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: ' center',
+            margin: '30px 0px',
+            padding: '0px 20px',
+            width: '100%',
+            gap: '30px',
+          }}
         >
-            {({isSubmitting, errors, touched}) => (
-                <Form
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: ' center',
-                        margin: '30px 0px',
-                        padding: '0px 20px',
+          <SemesterSelect />
+          <GlobalItemSelect itemId={beforeData?.itemId} />
+          {[MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
+            <Field
+              key={idx}
+              label={engToKor(name)}
+              name={name}
+              as={TextField}
+              variant="outlined"
+              error={errors[name] && touched[name] ? true : false}
+              helperText={<ErrorMessage name={name} />}
+            />
+          ))}
+
+          {[IS_MULTI].map((inputName: string, index: number) => (
+            <Box
+              key={index}
+              sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}
+            >
+              <Chip
+                color="primary"
+                sx={{ px: 1, borderRadius: '10px', height: '40px' }}
+                label={engToKor(inputName)}
+                variant="outlined"
+              />
+
+              <Field name={inputName}>
+                {({ field, form }) => (
+                  <ToggleButtonGroup
+                    sx={{ height: '40px', width: '100%' }}
+                    color="primary"
+                    value={field.value}
+                    exclusive
+                    onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
+                    aria-label="toggle value"
+                    disabled={modalType === EDITITEM ? true : false}
+                  >
+                    <ToggleButton
+                      value={true}
+                      aria-label="true"
+                      sx={{
                         width: '100%',
-                        gap: '30px',
-                    }}
-                >
-                    <SemesterSelect/>
-                    <GlobalItemSelect itemId={beforeData?.itemId}/>
-                    {[MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
-                        <Field
-                            key={idx}
-                            label={engToKor(name)}
-                            name={name}
-                            as={TextField}
-                            variant="outlined"
-                            error={errors[name] && touched[name] ? true : false}
-                            helperText={<ErrorMessage name={name}/>}
-                        />
-                    ))}
-
-                    {[IS_MULTI].map((inputName: string, index: number) => (
-                        <Box
-                            key={index}
-                            sx={{display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between'}}
-                        >
-                            <Chip
-                                color="primary"
-                                sx={{px: 1, borderRadius: '10px', height: '40px'}}
-                                label={engToKor(inputName)}
-                                variant="outlined"
-                            />
-
-                            <Field name={inputName}>
-                                {({field, form}) => (
-                                    <ToggleButtonGroup
-                                        sx={{height: '40px', width: '100%'}}
-                                        color="primary"
-                                        value={field.value}
-                                        exclusive
-                                        onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
-                                        aria-label="toggle value"
-                                        disabled={(modalType === EDITITEM) ? true : false}
-                                    >
-                                        <ToggleButton
-                                            value={true}
-                                            aria-label="true"
-                                            sx={{
-                                                width: '100%',
-                                            }}
-                                        >
-                                            O
-                                        </ToggleButton>
-                                        <ToggleButton
-                                            value={false}
-                                            aria-label="false"
-                                            sx={{
-                                                width: '100%',
-                                            }}
-                                        >
-                                            X
-                                        </ToggleButton>
-                                    </ToggleButtonGroup>
-                                )}
-                            </Field>
-                        </Box>
-                    ))}
-                    <ButtonFlexBox>
-                        <CancelButton modalType={modalType} handleClose={handleClose}/>
-                        <SubmitButton/>
-                    </ButtonFlexBox>
-                </Form>
-            )}
-        </Formik>
-    );
+                      }}
+                    >
+                      O
+                    </ToggleButton>
+                    <ToggleButton
+                      value={false}
+                      aria-label="false"
+                      sx={{
+                        width: '100%',
+                      }}
+                    >
+                      X
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                )}
+              </Field>
+            </Box>
+          ))}
+          <ButtonFlexBox>
+            <CancelButton modalType={modalType} handleClose={handleClose} />
+            <SubmitButton />
+          </ButtonFlexBox>
+        </Form>
+      )}
+    </Formik>
+  );
 }
