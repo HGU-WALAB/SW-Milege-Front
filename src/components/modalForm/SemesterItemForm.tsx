@@ -19,12 +19,16 @@ import SubmitButton from '../common/modal/SubmitButton';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
+import React, { useEffect, useState, useRef } from 'react';
+import { be } from 'date-fns/locale';
 
 export default function SemesterItemForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
-
+  const selectedItemList = useSelector((state) => state.filterList.selectedItemList);
   const router = useRouter();
+  const formikRef = useRef();
+  const [isInitialMount, setIsInitialMount] = useState(true);
 
   const SemesterItemSchema = Yup.object().shape({
     [SEMESTER]: Yup.string().required('필수입니다.'),
@@ -71,8 +75,19 @@ export default function SemesterItemForm({ handleClose }) {
     }
   };
 
+  useEffect(() => {
+    if (isInitialMount && modalType !== EDITITEM) {
+      setIsInitialMount(false);
+    } else if (formikRef.current) {
+      formikRef.current.setFieldValue(POINT, selectedItemList?.mileage || 0);
+      formikRef.current.setFieldValue(ITEM_MAX_POINTS, selectedItemList?.itemMaxPoints || 0);
+      formikRef.current.setFieldValue(IS_MULTI, selectedItemList?.isDuplicable || false);
+    }
+  }, [selectedItemList]);
+
   return (
     <Formik
+      innerRef={formikRef}
       initialValues={{
         /**
          * semester (쿼리 스트링)
@@ -82,9 +97,10 @@ export default function SemesterItemForm({ handleClose }) {
          */
         [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
         itemId: modalType === EDITITEM ? beforeData?.itemId : '',
-        [POINT]: modalType === EDITITEM ? beforeData?.[POINT] : 0
-        [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
-        [IS_MULTI]: beforeData?.[IS_MULTI]
+        [POINT]: modalType === EDITITEM ? beforeData?.mileage: 0,
+        [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
+        [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.itemMaxPoints : 0,
+        [IS_MULTI]: modalType === EDITITEM ? beforeData?.isDuplicable : '',
       }}
       validationSchema={SemesterItemSchema}
       onSubmit={handleSubmit}
@@ -103,7 +119,7 @@ export default function SemesterItemForm({ handleClose }) {
         >
           <SemesterSelect />
           <GlobalItemSelect itemId={beforeData?.itemId} />
-          {[SPECIFIC_ITEM_NAME, MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
+          {[SPECIFIC_ITEM_NAME, POINT, ITEM_MAX_POINTS].map((name, idx) => (
             <Field
               key={idx}
               label={engToKor(name)}
@@ -112,6 +128,7 @@ export default function SemesterItemForm({ handleClose }) {
               variant="outlined"
               error={errors[name] && touched[name] ? true : false}
               helperText={<ErrorMessage name={name} />}
+              
             />
           ))}
 

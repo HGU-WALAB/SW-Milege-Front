@@ -125,12 +125,12 @@ export default function GlobalItemForm({ handleClose }) {
   return (
     <Formik
       initialValues={{
-        [TYPE]: beforeData?.mileageType.id,
-        [CATEGORYID]: beforeData?.category.id,
-        [ITEM]: beforeData?.name,
-        [POINT]: beforeData?.mileage,
-        [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints,
-        [DESCRIPTION1]: beforeData?.description1,
+        [TYPE]: beforeData?.mileageType.id || '',
+        [CATEGORYID]: beforeData?.category.id || '',
+        [ITEM]: beforeData?.name || '',
+        [POINT]: beforeData?.mileage || 0,
+        [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints || 0,
+        [DESCRIPTION1]: beforeData?.description1 || '',
         [ISVISIBLE]: beforeData?.isVisible ?? true,
         [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible ?? true,
         [IS_STUDENT_INPUT]: beforeData?.isStudentInput ?? false,

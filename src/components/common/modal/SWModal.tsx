@@ -40,6 +40,7 @@ import {
   ISVISIBLE,
   ISVISIBLE_STUDENT,
   ITEM,
+  SPECIFIC_ITEM_NAME,
   POINT,
   ITEM_MAX_POINTS,
   MAJOR1,
@@ -139,7 +140,9 @@ export const engToKor = (eng) => {
     case SEMESTER:
       return '학기';
     case ITEM:
-      return '세부 항목 이름';
+      return '세부 항목 이름'; // 세부항목에서 세부항목이름
+    case SPECIFIC_ITEM_NAME:
+      return '세부 항목 이름'; // 학기별 세부항목에서 세부항목이름
     case MILEAGE:
       return '마일리지';
     case MAX_MAILEAGE:

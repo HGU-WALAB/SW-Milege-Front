@@ -19,6 +19,14 @@ import {
   MOD_DATE,
   MAX_MAILEAGE,
   SEMESTERITEMID,
+  CATEGORY,
+  SEMESTER,
+  ITEM,
+  POINTS,
+  MANAGE,
+  ITEM_MAX_POINTS,
+  // IS_MULTI,
+  SPECIFIC_ITEM_NAME,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITITEM } from 'src/assets/data/modal/modals';
@@ -27,15 +35,6 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { setMileageSemesterList } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
-import {
-  CATEGORY,
-  SEMESTER,
-  ITEM,
-  POINTS,
-  MANAGE,
-  ITEM_MAX_POINTS,
-  IS_MULTI,
-} from '../../../../assets/data/fields';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { setSemester } from 'src/redux/slices/filter';
@@ -57,11 +56,12 @@ export enum MileageSemesterItemBoard {
   'CATEGORY' = CATEGORY,
   'SEMESTER' = SEMESTER,
   'ITEM' = ITEM,
+  'SPECIFIC_ITEM_NAME' = SPECIFIC_ITEM_NAME,
   'POINTS' = POINTS,
   'ITEM_MAX_POINTS' = ITEM_MAX_POINTS,
   'MOD_DATE' = MOD_DATE,
   'MANAGE' = MANAGE,
-  'IS_MULTI' = IS_MULTI,
+  // 'IS_MULTI' = IS_MULTI,
 }
 
 /**
@@ -72,11 +72,12 @@ interface Data {
   [MileageSemesterItemBoard.CATEGORY]: string;
   [MileageSemesterItemBoard.SEMESTER]: string;
   [MileageSemesterItemBoard.ITEM]: string;
+  [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: string;
   [MileageSemesterItemBoard.POINTS]: number;
   [MileageSemesterItemBoard.ITEM_MAX_POINTS]: number;
   [MileageSemesterItemBoard.MOD_DATE]: string;
   [MileageSemesterItemBoard.MANAGE]: string;
-  [MileageSemesterItemBoard.IS_MULTI]: boolean;
+  // [MileageSemesterItemBoard.IS_MULTI]: boolean;
 }
 
 /**
@@ -89,22 +90,24 @@ function createData(
   CATEGORY: string,
   SEMESTER: string,
   ITEM: string,
+  SPECIFIC_ITEM_NAME: string,
   POINTS: number,
   ITEM_MAX_POINTS: number,
   MOD_DATE: string,
   MANAGE: string,
-  IS_MULTI: boolean
+  // IS_MULTI: boolean
 ): Data {
   return {
     [MileageSemesterItemBoard.NUM]: NUM,
     [MileageSemesterItemBoard.CATEGORY]: CATEGORY,
     [MileageSemesterItemBoard.SEMESTER]: SEMESTER,
     [MileageSemesterItemBoard.ITEM]: ITEM,
+    [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: SPECIFIC_ITEM_NAME,
     [MileageSemesterItemBoard.POINTS]: POINTS,
     [MileageSemesterItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
     [MileageSemesterItemBoard.MOD_DATE]: MOD_DATE,
     [MileageSemesterItemBoard.MANAGE]: MANAGE,
-    [MileageSemesterItemBoard.IS_MULTI]: IS_MULTI,
+    // [MileageSemesterItemBoard.IS_MULTI]: IS_MULTI,
   };
 }
 
@@ -138,6 +141,12 @@ const headCells = [
     label: '항목명',
   },
   {
+    id: [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME],
+    numeric: true,
+    disablePadding: false,
+    label: '세부 항목명',
+  },
+  {
     id: [MileageSemesterItemBoard.POINTS],
     numeric: true,
     disablePadding: false,
@@ -149,12 +158,12 @@ const headCells = [
     disablePadding: false,
     label: '적립 가능 최대 마일리지',
   },
-  {
-    id: [MileageSemesterItemBoard.IS_MULTI],
-    numeric: true,
-    disablePadding: false,
-    label: '중복 가능 여부',
-  },
+  // {
+  //   id: [MileageSemesterItemBoard.IS_MULTI],
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: '중복 가능 여부',
+  // },
   {
     id: [MileageSemesterItemBoard.MOD_DATE],
     numeric: true,
@@ -218,8 +227,9 @@ const fetchToUseData = (data) => {
       [CATEGORY]: semesterItem.category.name,
       [SEMESTER]: semesterItem.semesterName,
       [ITEM]: semesterItem.item.name,
+      [SPECIFIC_ITEM_NAME]: semesterItem.name,
       [MILEAGE]: semesterItem.points,
-      [IS_MULTI]: semesterItem.isMulti,
+      // [IS_MULTI]: semesterItem.isMulti,
       [ITEM_MAX_POINTS]: semesterItem.itemMaxPoints,
     };
     return createData(
@@ -227,9 +237,10 @@ const fetchToUseData = (data) => {
       semesterItem.category.name,
       semesterItem.semesterName,
       semesterItem.item.name,
+      semesterItem.name,
       semesterItem.points,
       semesterItem.itemMaxPoints,
-      semesterItem.isMulti,
+      // semesterItem.isMulti,
       formatDateToKorean(semesterItem.modDate),
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );

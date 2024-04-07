@@ -7,6 +7,7 @@ const initialState = {
   itemList: [],
   studentList: [],
   adminList: [],
+  selectedItemList: [],
 };
 
 const slice = createSlice({
@@ -31,10 +32,13 @@ const slice = createSlice({
     setAdminList: (state, action) => {
       state.adminList = action.payload;
     },
+    setSelectedItemList: (state, action) => {
+      state.selectedItemList = action.payload;
+    }
   },
 });
 
 // Reducer
-export const { setTypeList, setCategoryList, setSemesterList, setItemList, setStudentList, setAdminList } =
+export const { setTypeList, setCategoryList, setSemesterList, setItemList, setStudentList, setAdminList, setSelectedItemList } =
   slice.actions;
 export default slice.reducer;
