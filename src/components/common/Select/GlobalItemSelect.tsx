@@ -24,6 +24,7 @@ export default function GlobalItemSelect({ itemId }: { itemId?: number }) {
     try {
       const response = await axiosInstance.get(`/api/mileage/items/${newSelectedItemId}`);
       dispatch(setSelectedItemList(response.data));
+      console.log('해당 학기별 마일리지 세부 항목 정보 가져오기 성공:', response.data);
     } catch (error) {
       console.error('해당 학기별 마일리지 세부 항목 정보 가져오기 실패:', error);
     }

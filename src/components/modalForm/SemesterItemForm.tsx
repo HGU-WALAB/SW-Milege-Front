@@ -75,16 +75,6 @@ export default function SemesterItemForm({ handleClose }) {
     }
   };
 
-  useEffect(() => {
-    if (isInitialMount && modalType !== EDITITEM) {
-      setIsInitialMount(false);
-    } else if (formikRef.current) {
-      formikRef.current.setFieldValue(MILEAGE, selectedItemList?.mileage || 0);
-      formikRef.current.setFieldValue(ITEM_MAX_POINTS, selectedItemList?.itemMaxPoints || 0);
-      formikRef.current.setFieldValue(IS_MULTI, selectedItemList?.isDuplicable || false);
-    }
-  }, [selectedItemList]);
-
   return (
     <Formik
       innerRef={formikRef}
@@ -100,10 +90,12 @@ export default function SemesterItemForm({ handleClose }) {
         [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
         [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
         [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
-        [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : false,
+        [IS_MULTI]:
+          selectedItemList?.isDuplicable !== undefined ? selectedItemList?.isDuplicable : '',
       }}
       validationSchema={SemesterItemSchema}
       onSubmit={handleSubmit}
+      enableReinitialize
     >
       {({ isSubmitting, errors, touched }) => (
         <Form
@@ -121,6 +113,13 @@ export default function SemesterItemForm({ handleClose }) {
           <GlobalItemSelect itemId={beforeData?.itemId} />
           {[SPECIFIC_ITEM_NAME, MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
             <Field
+              value={
+                name === SPECIFIC_ITEM_NAME
+                  ? ''
+                  : name === MILEAGE
+                  ? selectedItemList?.mileage
+                  : selectedItemList?.itemMaxPoints
+              }
               key={idx}
               label={engToKor(name)}
               name={name}
@@ -128,7 +127,6 @@ export default function SemesterItemForm({ handleClose }) {
               variant="outlined"
               error={errors[name] && touched[name] ? true : false}
               helperText={<ErrorMessage name={name} />}
-              
             />
           ))}
 
@@ -149,9 +147,12 @@ export default function SemesterItemForm({ handleClose }) {
                   <ToggleButtonGroup
                     sx={{ height: '40px', width: '100%' }}
                     color="primary"
-                    value={field.value}
+                    value={
+                      selectedItemList?.isDuplicable !== undefined
+                        ? selectedItemList?.isDuplicable
+                        : ''
+                    }
                     exclusive
-                    onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
                     aria-label="toggle value"
                     disabled={true}
                   >
