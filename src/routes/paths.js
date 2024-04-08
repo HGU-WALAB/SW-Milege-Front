@@ -60,7 +60,7 @@ export const PATH_API = {
   excel: {
     upload: {
       item: path(ROOTS_UPLOAD, '/mileage-item'),
-      record: (semesterItemId) => path(ROOTS_UPLOAD, `/mileage-record?semesterItemId=${semesterItemId}`),
+      record: path(ROOTS_UPLOAD, '/mileage-record'),
       result: path(ROOTS_UPLOAD, '/scholarship-result'),
     },
     download: {

@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 
 export default function ExcelImport() {
   const semester = useSelector((state) => state.filter.semester);
-  const selected: Array<number> = useSelector((state) => state.table.selectedId);
   const [apiEndPoint, setApiEndPoint] = useState('');
   const { pathname } = useRouter();
   const inputRef = useRef(null);
@@ -20,7 +19,7 @@ export default function ExcelImport() {
     },
     {
       name: '마일리지 기록 업로드',
-      endPoint: PATH_API.excel.upload.record(selected),
+      endPoint: PATH_API.excel.upload.record,
       pathname: [PATH_PAGES.mileage.register],
     },
     {
@@ -34,8 +33,7 @@ export default function ExcelImport() {
     const formData = new FormData();
 
     formData.append('file', selectedFile);
-
-    console.log(selectedFile);
+    formData.append('semester', semester);
 
     const config = {
       headers: {
