@@ -14,21 +14,22 @@ export default function ExcelExport() {
   const { pathname } = useRouter();
 
   const Excels = [
-    {
-      name: '엑셀로 내려받기',
-      endPoint: PATH_API.excel.download.category,
-      allowPaths: [PATH_PAGES.mileage.category],
-    },
-    {
-      name: '엑셀로 내려받기',
-      endPoint: PATH_API.excel.download.semesterItem(semester),
-      allowPaths: [PATH_PAGES.mileage.semesterItem],
-    },
-    {
-      name: '엑셀로 내려받기',
-      endPoint: PATH_API.excel.download.globalItem,
-      allowPaths: [PATH_PAGES.mileage.globalItem],
-    },
+    // TODO: (백엔드) 엑셀 데이터 다운로드 구현후 주석 해제하기.
+    // {
+    //   name: '엑셀로 내려받기',
+    //   endPoint: PATH_API.excel.download.category,
+    //   allowPaths: [PATH_PAGES.mileage.category],
+    // },
+    // {
+    //   name: '엑셀로 내려받기',
+    //   endPoint: PATH_API.excel.download.semesterItem(semester),
+    //   allowPaths: [PATH_PAGES.mileage.semesterItem],
+    // },
+    // {
+    //   name: '엑셀로 내려받기',
+    //   endPoint: PATH_API.excel.download.globalItem,
+    //   allowPaths: [PATH_PAGES.mileage.globalItem],
+    // },
     {
       name: '장학금 신청자 목록 다운로드',
       endPoint: PATH_API.excel.download.register(semester),
