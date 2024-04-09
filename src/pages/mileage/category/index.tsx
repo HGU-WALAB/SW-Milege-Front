@@ -36,8 +36,8 @@ function createData(data: IList, MANAGE: ReactNode): BoardColumn {
     [MileageCategoryBoard.NUM]: data.id,
     [MileageCategoryBoard.CATEGORY]: data.name,
     [MileageCategoryBoard.CATEGORY_MAX_POINTS]: data.maxPoints,
-    [MileageCategoryBoard.ITEM_COUNT]: data.itemCount,
     [MileageCategoryBoard.DESCRIPTION1]: data.description1,
+    [MileageCategoryBoard.ITEM_COUNT]: data.itemCount,
     [MileageCategoryBoard.MOD_DATE]: formatDateToKorean(data.modDate),
     [MileageCategoryBoard.MANAGE]: MANAGE,
   };
@@ -82,16 +82,16 @@ const headCells = [
     label: '적립 가능 최대 마일리지',
   },
   {
-    id: [MileageCategoryBoard.ITEM_COUNT],
-    numeric: true,
-    disablePadding: false,
-    label: '하위 항목 개수',
-  },
-  {
     id: [MileageCategoryBoard.DESCRIPTION1],
     numeric: true,
     disablePadding: false,
     label: '비고',
+  },
+  {
+    id: [MileageCategoryBoard.ITEM_COUNT],
+    numeric: true,
+    disablePadding: false,
+    label: '하위 항목 개수',
   },
   {
     id: [MileageCategoryBoard.MOD_DATE],

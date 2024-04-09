@@ -99,9 +99,9 @@ function createData(
 ): Data {
   return {
     [MileageSemesterItemBoard.NUM]: NUM,
-    [MileageSemesterItemBoard.CATEGORY]: CATEGORY,
     [MileageSemesterItemBoard.SEMESTER]: SEMESTER,
-    [MileageSemesterItemBoard.ITEM]: ITEM,
+    [MileageSemesterItemBoard.CATEGORY]: CATEGORY,
+    // [MileageSemesterItemBoard.ITEM]: ITEM,
     [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: SPECIFIC_ITEM_NAME,
     [MileageSemesterItemBoard.POINTS]: POINTS,
     [MileageSemesterItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
@@ -123,23 +123,23 @@ const headCells = [
     label: '번호',
   },
   {
-    id: [MileageSemesterItemBoard.CATEGORY],
-    numeric: true,
-    disablePadding: false,
-    label: '카테고리명',
-  },
-  {
     id: [MileageSemesterItemBoard.SEMESTER],
     numeric: true,
     disablePadding: false,
     label: '학기',
   },
   {
-    id: [MileageSemesterItemBoard.ITEM],
+    id: [MileageSemesterItemBoard.CATEGORY],
     numeric: true,
     disablePadding: false,
-    label: '항목명',
+    label: '카테고리명',
   },
+  // {
+  //   id: [MileageSemesterItemBoard.ITEM],
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: '항목명',
+  // },
   {
     id: [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME],
     numeric: true,
