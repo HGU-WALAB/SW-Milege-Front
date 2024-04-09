@@ -25,7 +25,7 @@ import {
   POINTS,
   MANAGE,
   ITEM_MAX_POINTS,
-  // IS_MULTI,
+  IS_MULTI,
   SPECIFIC_ITEM_NAME,
 } from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
@@ -41,6 +41,7 @@ import { setSemester } from 'src/redux/slices/filter';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import MileageSemesterItem from '../../../../components/board/MileageSemesterItem';
+import { set } from 'lodash';
 
 /**
  * @component [학기별 마일리지 세부 항목] 게시판
@@ -94,7 +95,7 @@ function createData(
   POINTS: number,
   ITEM_MAX_POINTS: number,
   MOD_DATE: string,
-  MANAGE: string,
+  MANAGE: string
   // IS_MULTI: boolean
 ): Data {
   return {
@@ -213,7 +214,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
 
   let fetchData = res.data;
-
+  console.log('fetchData:', fetchData);
   return { props: { fetchData } };
 };
 
@@ -229,7 +230,7 @@ const fetchToUseData = (data) => {
       [ITEM]: semesterItem.item.name,
       [SPECIFIC_ITEM_NAME]: semesterItem.name,
       [MILEAGE]: semesterItem.points,
-      // [IS_MULTI]: semesterItem.isMulti,
+      [IS_MULTI]: semesterItem.item.isDuplicable,
       [ITEM_MAX_POINTS]: semesterItem.itemMaxPoints,
     };
     return createData(
@@ -244,6 +245,7 @@ const fetchToUseData = (data) => {
       formatDateToKorean(semesterItem.modDate),
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );
+
   });
 };
 

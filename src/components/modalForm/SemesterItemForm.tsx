@@ -20,15 +20,17 @@ import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
 import React, { useEffect, useState, useRef } from 'react';
-import { be } from 'date-fns/locale';
+import { be, tr } from 'date-fns/locale';
+import { set } from 'lodash';
 
 export default function SemesterItemForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
   const selectedItemList = useSelector((state) => state.filterList.selectedItemList);
+  const semester = useSelector((state) => state.filter.semester);
+  
+  
   const router = useRouter();
-  const formikRef = useRef();
-  const [isInitialMount, setIsInitialMount] = useState(true);
 
   const SemesterItemSchema = Yup.object().shape({
     [SEMESTER]: Yup.string().required('필수입니다.'),
@@ -75,27 +77,35 @@ export default function SemesterItemForm({ handleClose }) {
     }
   };
 
+  const [initialFormValues, setInitialFormValues] = useState({
+    [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : semester,
+    itemId: modalType === EDITITEM ? beforeData?.itemId : '',
+    [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
+    [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : selectedItemList.mileage,
+    [ITEM_MAX_POINTS]:
+      modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : selectedItemList.itemMaxPoints,
+    [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : '',
+  });
+
+  useEffect(() => {
+    console.log('selectedItemList가 변경되었습니다:', selectedItemList);
+    setInitialFormValues({
+      [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : semester,
+      itemId: modalType === EDITITEM ? beforeData?.itemId : '',
+      [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
+      [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : selectedItemList.mileage,
+      [ITEM_MAX_POINTS]:
+        modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : selectedItemList.itemMaxPoints,
+      [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : '',
+    });
+  }, [selectedItemList]);
+
   return (
     <Formik
-      innerRef={formikRef}
-      initialValues={{
-        /**
-         * semester (쿼리 스트링)
-         * itemId
-         * points
-         * maxPoints
-         */
-        [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : '',
-        itemId: modalType === EDITITEM ? beforeData?.itemId : '',
-        [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
-        [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : 0,
-        [ITEM_MAX_POINTS]: modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : 0,
-        [IS_MULTI]:
-          selectedItemList?.isDuplicable !== undefined ? selectedItemList?.isDuplicable : '',
-      }}
+      initialValues={initialFormValues}
       validationSchema={SemesterItemSchema}
       onSubmit={handleSubmit}
-      enableReinitialize
+     enableReinitialize={true}
     >
       {({ isSubmitting, errors, touched }) => (
         <Form
@@ -110,24 +120,33 @@ export default function SemesterItemForm({ handleClose }) {
           }}
         >
           <SemesterSelect />
+
           <GlobalItemSelect itemId={beforeData?.itemId} />
-          {[SPECIFIC_ITEM_NAME, MILEAGE, ITEM_MAX_POINTS].map((name, idx) => (
-            <Field
-              value={
-                name === SPECIFIC_ITEM_NAME
-                  ? ''
-                  : name === MILEAGE
-                  ? selectedItemList?.mileage
-                  : selectedItemList?.itemMaxPoints
-              }
-              key={idx}
-              label={engToKor(name)}
-              name={name}
-              as={TextField}
-              variant="outlined"
-              error={errors[name] && touched[name] ? true : false}
-              helperText={<ErrorMessage name={name} />}
-            />
+
+          {[SPECIFIC_ITEM_NAME, MILEAGE, ITEM_MAX_POINTS].map((field: string) => (
+            <Field name={field} key={field}>
+              {({ field: { name, value }, form: { setFieldValue, values, errors, touched } }) => {
+                let isDisabled = false;
+
+                if (field === ITEM_MAX_POINTS) {
+                  isDisabled = !selectedItemList.isDuplicable;
+                }
+                return (
+                  <TextField
+                    validateOnMount={true}
+                    name={name}
+                    value={values[name]}
+                    onChange={(e) => setFieldValue(name, e.target.value)}
+                    disabled={isDisabled}
+                    label={engToKor(field)}
+                    variant="outlined"
+                    error={!!(errors[name] && touched[name])}
+                    helperText={errors[name] && touched[name] && <ErrorMessage name={name} />}
+                    type="text"
+                  />
+                );
+              }}
+            </Field>
           ))}
 
           {[IS_MULTI].map((inputName: string, index: number) => (
@@ -147,11 +166,7 @@ export default function SemesterItemForm({ handleClose }) {
                   <ToggleButtonGroup
                     sx={{ height: '40px', width: '100%' }}
                     color="primary"
-                    value={
-                      selectedItemList?.isDuplicable !== undefined
-                        ? selectedItemList?.isDuplicable
-                        : ''
-                    }
+                    value={modalType === EDITITEM ? beforeData?.[IS_MULTI] : selectedItemList.isDuplicable}
                     exclusive
                     aria-label="toggle value"
                     disabled={true}
