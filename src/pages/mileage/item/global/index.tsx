@@ -47,7 +47,7 @@ interface Data {
   [MileageGlobalItemBoard.POINT]: number;
   [MileageGlobalItemBoard.ITEM_MAX_POINTS]: number;
   [MileageGlobalItemBoard.MOD_DATE]: string;
-  [MileageGlobalItemBoard.MANAGE]: string;
+  [MileageGlobalItemBoard.MANAGE]: ReactNode;
 }
 
 /**
@@ -63,8 +63,8 @@ function createData(item: IGlobalItem, MANAGE: ReactNode): Data {
     [MileageGlobalItemBoard.ITEM]: item.name,
     [MileageGlobalItemBoard.POINT]: item.mileage,
     [MileageGlobalItemBoard.ITEM_MAX_POINTS]: item.itemMaxPoints,
-    [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: item.semesterItemCount,
     [MileageGlobalItemBoard.DESCRIPTION1]: item.description1,
+    [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: item.semesterItemCount,
     [MileageGlobalItemBoard.MOD_DATE]: formatDateToKorean(item.modDate),
     [MileageGlobalItemBoard.MANAGE]: MANAGE,
   };
@@ -112,16 +112,16 @@ const headCells = [
     label: '적립 가능 최대 마일리지',
   },
   {
-    id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
-    numeric: true,
-    disablePadding: false,
-    label: '학기별 세부 항목 개수',
-  },
-  {
     id: [MileageGlobalItemBoard.DESCRIPTION1],
     numeric: true,
     disablePadding: false,
     label: '비고',
+  },
+  {
+    id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
+    numeric: true,
+    disablePadding: false,
+    label: '학기별 세부 항목 개수',
   },
   {
     id: [MileageGlobalItemBoard.MOD_DATE],

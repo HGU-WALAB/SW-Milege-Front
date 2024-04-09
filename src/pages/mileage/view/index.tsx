@@ -23,7 +23,7 @@ import {
   SEMESTER_ITEM_ID,
 } from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import axios from 'axios';
 import { getCookie, setCookie, setServerSideCookie } from 'src/auth/jwtCookie';
 import { useDispatch } from 'react-redux';
@@ -68,15 +68,15 @@ function createData(
   studentName: string,
   point: number,
   registeredDate: string,
-  edit: React.ReactNode
+  edit: ReactNode
 ): Data {
   return {
     [MileageViewBoard.NUM]: num,
-    [MileageViewBoard.CATEGORY]: category,
     [MileageViewBoard.SEMESTER]: semester,
+    [MileageViewBoard.CATEGORY]: category,
     [MileageViewBoard.ITEM]: item,
-    [MileageViewBoard.STUDENT_ID]: studentId,
     [MileageViewBoard.STUDENT_NAME]: studentName,
+    [MileageViewBoard.STUDENT_ID]: studentId,
     [MileageViewBoard.POINT]: point,
     [MileageViewBoard.REGISTERED_DATE]: registeredDate,
     edit,
@@ -95,16 +95,16 @@ const headCells = [
     label: '번호',
   },
   {
-    id: [MileageViewBoard.CATEGORY],
-    numeric: true,
-    disablePadding: false,
-    label: '카테고리명',
-  },
-  {
     id: [MileageViewBoard.SEMESTER],
     numeric: true,
     disablePadding: false,
     label: '학기',
+  },
+  {
+    id: [MileageViewBoard.CATEGORY],
+    numeric: true,
+    disablePadding: false,
+    label: '카테고리명',
   },
   {
     id: [MileageViewBoard.ITEM],
@@ -113,16 +113,16 @@ const headCells = [
     label: '항목명',
   },
   {
-    id: [MileageViewBoard.STUDENT_ID],
-    numeric: true,
-    disablePadding: false,
-    label: '학번',
-  },
-  {
     id: [MileageViewBoard.STUDENT_NAME],
     numeric: true,
     disablePadding: false,
     label: '이름',
+  },
+  {
+    id: [MileageViewBoard.STUDENT_ID],
+    numeric: true,
+    disablePadding: false,
+    label: '학번',
   },
   {
     id: [MileageViewBoard.POINT],
@@ -134,13 +134,13 @@ const headCells = [
     id: [MileageViewBoard.REGISTERED_DATE],
     numeric: true,
     disablePadding: false,
-    label: '등록일',
+    label: '최근 수정일',
   },
   {
     id: 'edit',
     numeric: true,
     disablePadding: false,
-    label: '수정',
+    label: '관리',
   },
 ];
 
