@@ -113,24 +113,54 @@ export default function SemesterItemForm({ handleClose }) {
               }
             />
 
-            <StyleFieldBox>
-              <Field
-                as={ToggleButtonGroup}
+<Field
+              
                 name={IS_MULTI}
-                value={beforeData?.[IS_MULTI]}
-                exclusive
-                onChange={(event, value) => setFieldValue(IS_MULTI, value)}
-              >
-                <ToggleButton value={true}>O</ToggleButton>
-                <ToggleButton value={false}>X</ToggleButton>
-              </Field>
+                label={engToKor(IS_MULTI)}
+                variant="outlined"
+                fullWidth
+                error={errors[IS_MULTI] && touched[IS_MULTI]}
+                helperText={errors[IS_MULTI] && touched[IS_MULTI] ? errors[IS_MULTI] : ''}
+                // disabled={modalType === EDITITEM}
+>
+            <StyleFieldBox>
+
+            <ToggleButtonGroup
+                    sx={{ height: '40px', width: '100%' }}
+                    color="primary"
+                   value={}
+                    exclusive
+                    aria-label="toggle value"
+                    disabled={true}
+                  >
+                    <ToggleButton
+                      value={true}
+                      aria-label="true"
+                      sx={{
+                        width: '100%',
+                      }}
+                    >
+                      O
+                    </ToggleButton>
+                    <ToggleButton
+                      value={false}
+                      aria-label="false"
+                      sx={{
+                        width: '100%',
+                      }}
+                    >
+                      X
+                    </ToggleButton>
+                  </ToggleButtonGroup>
             </StyleFieldBox>
+            </Field>
             <ButtonFlexBox>
               <CancelButton modalType={modalType} handleClose={handleClose} />
               <SubmitButton />
             </ButtonFlexBox>
           </Form>
         </StyleFieldForm>
+  
       )}
     </Formik>
   );
