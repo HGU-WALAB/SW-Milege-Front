@@ -27,7 +27,6 @@ import { CATEGORYID } from '../../assets/data/fields';
 import CategorySelect from '../common/Select/CategorySelect';
 import TypeSelect from 'src/components/common/Filter/TypeSelect';
 import { IGlobalItem } from 'src/pages/mileage/item/global';
-import { useRef, useEffect } from 'react';
 
 interface RequestPayload {
   readonly categoryId: number;
@@ -51,7 +50,6 @@ export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
   const beforeData: IGlobalItem = useSelector((state) => state.modal.beforeData);
   const router = useRouter();
-  const formikRef = useRef();
 
   const GlobalItemSchema = Yup.object().shape({
     [CATEGORYID]: Yup.string().required('필수입니다.'),
@@ -64,9 +62,6 @@ export default function GlobalItemForm({ handleClose }) {
     // 2) axios post
     // 3) alert
     // 4) reload
-    if (!values[IS_MULTI]) {
-      values[ITEM_MAX_POINTS] = values[POINT];
-    }
 
     const newData: RequestPayload = {
       categoryId: values[CATEGORYID],
@@ -113,15 +108,6 @@ export default function GlobalItemForm({ handleClose }) {
     }
   };
 
-  useEffect(() => {
-    if (formikRef.current) {
-      const formikValues = formikRef.current.values;
-      if (!formikValues[IS_MULTI]) {
-        formikRef.current.setFieldValue(ITEM_MAX_POINTS, formikValues[POINT]);
-      }
-    }
-  }, [formikRef, IS_MULTI]);
-
   return (
     <Formik
       initialValues={{
@@ -141,7 +127,6 @@ export default function GlobalItemForm({ handleClose }) {
       }}
       validationSchema={GlobalItemSchema}
       onSubmit={handleSubmit}
-      innerRef={formikRef}
     >
       {({ errors, touched }) => (
         <StyleFieldForm>
@@ -151,33 +136,51 @@ export default function GlobalItemForm({ handleClose }) {
               <CategorySelect />
               {[ITEM, POINT, ITEM_MAX_POINTS, DESCRIPTION1].map((field: string, index: number) => (
                 <Box key={index} sx={{ width: '100%' }}>
-                  <Field
-                    sx={{}}
-                    name={field}
-                    as={TextField}
-                    type="text"
-                    label={engToKor(field)}
-                    variant="outlined"
-                    error={!!(errors[field] && touched[field])}
-                    helperText={<ErrorMessage name={field} />}
-                    value={
-                      field === ITEM_MAX_POINTS && formikRef.current
-                        ? formikRef.current.values[IS_MULTI]
-                          ? formikRef.current.values[ITEM_MAX_POINTS]
-                          : formikRef.current.values[POINT]
-                        : formikRef.current
-                        ? formikRef.current.values[field]
-                        : ''
-                    }
-                    disabled={
-                      field === ITEM_MAX_POINTS && formikRef.current
-                        ? !formikRef.current.values[IS_MULTI]
-                        : false
-                    }
-                  />
+                  <Field name={field}>
+                    {({
+                      field: { name, value },
+                      form: { setFieldValue, values, errors, touched },
+                    }) => {
+                      if (field === ITEM_MAX_POINTS) {
+                        const isDisabled = !values[IS_MULTI];
+
+                        if (isDisabled && values[POINT] !== value) {
+                          setFieldValue(name, values[POINT]);
+                        }
+
+                        return (
+                          <TextField
+                            name={name}
+                            value={value}
+                            onChange={(e) => setFieldValue(name, e.target.value)}
+                            disabled={isDisabled}
+                            label={engToKor(field)}
+                            variant="outlined"
+                            error={!!(errors[name] && touched[name])}
+                            helperText={errors[name] && touched[name] && errors[name]}
+                            type="text"
+                          />
+                        );
+                      } else {
+                        return (
+                          <TextField
+                            name={name}
+                            value={value}
+                            onChange={(e) => setFieldValue(name, e.target.value)}
+                            label={engToKor(field)}
+                            variant="outlined"
+                            error={!!(errors[name] && touched[name])}
+                            helperText={errors[name] && touched[name] && errors[name]}
+                            type="text"
+                          />
+                        );
+                      }
+                    }}
+                  </Field>
                 </Box>
               ))}
             </StyleFieldBox>
+
             <StyleFieldBox>
               {[
                 IS_MULTI,
@@ -200,23 +203,50 @@ export default function GlobalItemForm({ handleClose }) {
                   />
 
                   <Field name={inputName}>
-                    {({ field, form }) => (
-                      <ToggleButtonGroup
-                        sx={{ height: '40px' }}
-                        color="primary"
-                        value={field.value}
-                        exclusive
-                        onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
-                        aria-label="toggle value"
-                      >
-                        <ToggleButton value={true} aria-label="true">
-                          O
-                        </ToggleButton>
-                        <ToggleButton value={false} aria-label="false">
-                          X
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    )}
+                    {({ field, form }) => {
+                      if (inputName === IS_MULTI) {
+                        return (
+                          <ToggleButtonGroup
+                            sx={{ height: '40px' }}
+                            color="primary"
+                            value={field.value}
+                            exclusive
+                            onChange={(e, newValue) => {
+                              form.setFieldValue(inputName, newValue);
+                              if (!newValue) {
+                                form.setFieldValue(ITEM_MAX_POINTS, form.values[POINT]);
+                              }
+                            }}
+                            aria-label="toggle value"
+                          >
+                            <ToggleButton value={true} aria-label="true">
+                              O
+                            </ToggleButton>
+                            <ToggleButton value={false} aria-label="false">
+                              X
+                            </ToggleButton>
+                          </ToggleButtonGroup>
+                        );
+                      } else {
+                        return (
+                          <ToggleButtonGroup
+                            sx={{ height: '40px' }}
+                            color="primary"
+                            value={field.value}
+                            exclusive
+                            onChange={(e, newValue) => form.setFieldValue(inputName, newValue)}
+                            aria-label="toggle value"
+                          >
+                            <ToggleButton value={true} aria-label="true">
+                              O
+                            </ToggleButton>
+                            <ToggleButton value={false} aria-label="false">
+                              X
+                            </ToggleButton>
+                          </ToggleButtonGroup>
+                        );
+                      }
+                    }}
                   </Field>
                 </Box>
               ))}
