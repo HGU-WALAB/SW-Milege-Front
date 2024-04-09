@@ -63,129 +63,103 @@ export default function SemesterItemForm({ handleClose }) {
       onSubmit={handleSubmit}
     >
       {({ setFieldValue, errors, touched }) => (
-        <StyleFieldForm>
-          <Form
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              margin: '30px 0px',
-              padding: '0px 20px',
-              width: '100%',
-              gap: '30px',
-            }}
+        <Form
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            margin: '30px 0px',
+            padding: '0px 20px',
+            width: '100%',
+            gap: '30px',
+          }}
+        >
+          <SemesterSelect />
+          <GlobalItemSelect itemId={beforeData?.itemId} />
+          <Field
+            as={TextField}
+            name={SPECIFIC_ITEM_NAME}
+            label={engToKor(SPECIFIC_ITEM_NAME)}
+            variant="outlined"
+            fullWidth
+            required
+            error={errors[SPECIFIC_ITEM_NAME] && touched[SPECIFIC_ITEM_NAME]}
+            helperText={
+              errors[SPECIFIC_ITEM_NAME] && touched[SPECIFIC_ITEM_NAME]
+                ? errors[SPECIFIC_ITEM_NAME]
+                : ''
+            }
+          />
+          <Field
+            as={TextField}
+            name={MILEAGE}
+            label={engToKor(MILEAGE)}
+            variant="outlined"
+            fullWidth
+            error={errors[MILEAGE] && touched[MILEAGE]}
+            helperText={errors[MILEAGE] && touched[MILEAGE] ? errors[MILEAGE] : ''}
+          />
+          <Field
+            as={TextField}
+            name={ITEM_MAX_POINTS}
+            label={engToKor(ITEM_MAX_POINTS)}
+            variant="outlined"
+            fullWidth
+            error={errors[ITEM_MAX_POINTS] && touched[ITEM_MAX_POINTS]}
+            helperText={
+              errors[ITEM_MAX_POINTS] && touched[ITEM_MAX_POINTS] ? errors[ITEM_MAX_POINTS] : ''
+            }
+          />
+          <Box
+            key={index}
+            sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}
           >
-            <SemesterSelect />
-            <GlobalItemSelect itemId={beforeData?.itemId} />
-
-            <Field
-              as={TextField}
-              name={SPECIFIC_ITEM_NAME}
-              label={engToKor(SPECIFIC_ITEM_NAME)}
+            <Chip
+              color="primary"
+              sx={{ px: 1, borderRadius: '10px', height: '40px' }}
+              label={engToKor(inputName)}
               variant="outlined"
-              fullWidth
-              required
-              error={errors[SPECIFIC_ITEM_NAME] && touched[SPECIFIC_ITEM_NAME]}
-              helperText={
-                errors[SPECIFIC_ITEM_NAME] && touched[SPECIFIC_ITEM_NAME]
-                  ? errors[SPECIFIC_ITEM_NAME]
-                  : ''
-              }
-            />
-            <Field
-              as={TextField}
-              name={MILEAGE}
-              label={engToKor(MILEAGE)}
-              variant="outlined"
-              fullWidth
-              error={errors[MILEAGE] && touched[MILEAGE]}
-              helperText={errors[MILEAGE] && touched[MILEAGE] ? errors[MILEAGE] : ''}
-            />
-            <Field
-              as={TextField}
-              name={ITEM_MAX_POINTS}
-              label={engToKor(ITEM_MAX_POINTS)}
-              variant="outlined"
-              fullWidth
-              error={errors[ITEM_MAX_POINTS] && touched[ITEM_MAX_POINTS]}
-              helperText={
-                errors[ITEM_MAX_POINTS] && touched[ITEM_MAX_POINTS] ? errors[ITEM_MAX_POINTS] : ''
-              }
             />
 
-<Field
+            <Field name={IS_MULTI}>
               
-                name={IS_MULTI}
-                label={engToKor(IS_MULTI)}
-                variant="outlined"
-                fullWidth
-                error={errors[IS_MULTI] && touched[IS_MULTI]}
-                helperText={errors[IS_MULTI] && touched[IS_MULTI] ? errors[IS_MULTI] : ''}
-                // disabled={modalType === EDITITEM}
->
-            <StyleFieldBox>
-
-            <ToggleButtonGroup
-                    sx={{ height: '40px', width: '100%' }}
-                    color="primary"
-                   value={}
-                    exclusive
-                    aria-label="toggle value"
-                    disabled={true}
+                <ToggleButtonGroup
+                  sx={{ height: '40px', width: '100%' }}
+                  color="primary"
+                  value={}
+                  exclusive
+                  aria-label="toggle value"
+                  disabled={true}
+                >
+                  <ToggleButton
+                    value={true}
+                    aria-label="true"
+                    sx={{
+                      width: '100%',
+                    }}
                   >
-                    <ToggleButton
-                      value={true}
-                      aria-label="true"
-                      sx={{
-                        width: '100%',
-                      }}
-                    >
-                      O
-                    </ToggleButton>
-                    <ToggleButton
-                      value={false}
-                      aria-label="false"
-                      sx={{
-                        width: '100%',
-                      }}
-                    >
-                      X
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-            </StyleFieldBox>
+                    O
+                  </ToggleButton>
+                  <ToggleButton
+                    value={false}
+                    aria-label="false"
+                    sx={{
+                      width: '100%',
+                    }}
+                  >
+                    X
+                  </ToggleButton>
+                </ToggleButtonGroup>
+           
             </Field>
-            <ButtonFlexBox>
-              <CancelButton modalType={modalType} handleClose={handleClose} />
-              <SubmitButton />
-            </ButtonFlexBox>
-          </Form>
-        </StyleFieldForm>
-  
+          </Box>
+          
+          <ButtonFlexBox>
+            <CancelButton modalType={modalType} handleClose={handleClose} />
+            <SubmitButton />
+          </ButtonFlexBox>
+        </Form>
       )}
     </Formik>
   );
 }
-
-const StyleFieldBox = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: ' center',
-  margin: '30px 0px',
-  padding: '0px 20px',
-  width: '100%',
-  gap: '15px',
-});
-
-const StyleFieldForm = styled(Form)({
-  '@media (max-width: 600px)': {
-    scale: '0.8',
-    margin: '0px',
-  },
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  margin: '30px 0px',
-  padding: '0px 20px',
-  width: '100%',
-  gap: '20px',
-});
