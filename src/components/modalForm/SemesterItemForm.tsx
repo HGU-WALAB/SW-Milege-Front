@@ -1,44 +1,49 @@
 import { useRouter } from 'next/router';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, useFormikContext } from 'formik';
 import {
-  IS_MULTI,
-  POINT,
-  ITEM_MAX_POINTS,
+  Box,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Chip,
+} from '@mui/material';
+import * as Yup from 'yup';
+import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import axiosInstance from 'src/utils/axios';
+import { setSelectedItemList } from 'src/redux/slices/filterList';
+import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
+import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
+import {
+  SPECIFIC_ITEM_NAME,
   MILEAGE,
+  ITEM_MAX_POINTS,
+  IS_MULTI,
   SEMESTER,
   SEMESTERITEMID,
-  SPECIFIC_ITEM_NAME,
 } from 'src/assets/data/fields';
-import * as Yup from 'yup';
-import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
-import { Box, Chip, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { useSelector } from 'react-redux';
-import axiosInstance from 'src/utils/axios';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
-import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
-import React, { useEffect, useState, useRef } from 'react';
-import { be, tr } from 'date-fns/locale';
-import { set } from 'lodash';
 
-export default function SemesterItemForm({ handleClose }) {
-  const beforeData = useSelector((state) => state.modal.beforeData);
+const SemesterItemSchema = Yup.object().shape({
+  [SEMESTER]: Yup.string().required('필수입니다.'),
+  itemId: Yup.number().integer().required('필수입니다.'),
+  [MILEAGE]: Yup.number().integer(),
+  [ITEM_MAX_POINTS]: Yup.number().integer(),
+  [IS_MULTI]: Yup.boolean(),
+});
+
+const SemesterItemForm = ({ handleClose }) => {
   const modalType = useSelector((state) => state.modal.modalType);
-  const selectedItemList = useSelector((state) => state.filterList.selectedItemList);
-  const semester = useSelector((state) => state.filter.semester);
-  
-  
-  const router = useRouter();
+  const beforeData = useSelector((state) => state.modal.beforeData);
 
-  const SemesterItemSchema = Yup.object().shape({
-    [SEMESTER]: Yup.string().required('필수입니다.'),
-    itemId: Yup.number().integer().required('필수입니다.'),
-    [MILEAGE]: Yup.number().integer(),
-    [ITEM_MAX_POINTS]: Yup.number().integer(),
-    [IS_MULTI]: Yup.boolean(),
-  });
+  const router = useRouter();
 
   const handleSubmit = (values: object) => {
     // 카테고리 추가
@@ -52,6 +57,8 @@ export default function SemesterItemForm({ handleClose }) {
       name: values[SPECIFIC_ITEM_NAME],
       itemMaxPoints: +values[ITEM_MAX_POINTS],
     };
+
+    console.log(newData);
 
     switch (modalType) {
       case ADDITEM:
@@ -77,37 +84,33 @@ export default function SemesterItemForm({ handleClose }) {
     }
   };
 
-  const [initialFormValues, setInitialFormValues] = useState({
-    [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : semester,
-    itemId: modalType === EDITITEM ? beforeData?.itemId : '',
-    [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
-    [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : selectedItemList.mileage,
-    [ITEM_MAX_POINTS]:
-      modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : selectedItemList.itemMaxPoints,
-    [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : '',
-  });
-
-  useEffect(() => {
-    console.log('selectedItemList가 변경되었습니다:', selectedItemList);
-    setInitialFormValues({
-      [SEMESTER]: modalType === EDITITEM ? beforeData?.[SEMESTER] : semester,
-      itemId: modalType === EDITITEM ? beforeData?.itemId : '',
-      [SPECIFIC_ITEM_NAME]: modalType === EDITITEM ? beforeData?.[SPECIFIC_ITEM_NAME] : '',
-      [MILEAGE]: modalType === EDITITEM ? beforeData?.[MILEAGE] : selectedItemList.mileage,
-      [ITEM_MAX_POINTS]:
-        modalType === EDITITEM ? beforeData?.[ITEM_MAX_POINTS] : selectedItemList.itemMaxPoints,
-      [IS_MULTI]: modalType === EDITITEM ? beforeData?.[IS_MULTI] : '',
-    });
-  }, [selectedItemList]);
+  const initialValues =
+    modalType === EDITITEM
+      ? {
+          [SEMESTER]: beforeData.semester,
+          itemId: beforeData.itemId,
+          [SPECIFIC_ITEM_NAME]: beforeData.name,
+          [MILEAGE]: beforeData.mileage,
+          [ITEM_MAX_POINTS]: beforeData.itemMaxPoints,
+          [IS_MULTI]: beforeData.isMulti,
+        }
+      : {
+          [SEMESTER]: '',
+          itemId: '',
+          [SPECIFIC_ITEM_NAME]: '',
+          [MILEAGE]: '',
+          [ITEM_MAX_POINTS]: '',
+          [IS_MULTI]: false,
+        };
 
   return (
     <Formik
-      initialValues={initialFormValues}
+      initialValues={initialValues}
       validationSchema={SemesterItemSchema}
       onSubmit={handleSubmit}
-     enableReinitialize={true}
+      enableReinitialize
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ setFieldValue, values, errors, touched, name, isSubmitting }) => (
         <Form
           style={{
             display: 'flex',
@@ -120,86 +123,86 @@ export default function SemesterItemForm({ handleClose }) {
           }}
         >
           <SemesterSelect />
-
           <GlobalItemSelect itemId={beforeData?.itemId} />
+          <Field name={SPECIFIC_ITEM_NAME} component={TextField} label="세부항목 이름" 
+          value={values[SPECIFIC_ITEM_NAME]}
+          onChange={(e) => setFieldValue(SPECIFIC_ITEM_NAME, e.target.value)}
+          />
+          <Field
+            name={MILEAGE}
+            onChange={(e) => {
+              setFieldValue(MILEAGE, e.target.value);
+              if (!values[IS_MULTI]) {
+                setFieldValue(ITEM_MAX_POINTS, e.target.value);
+              }
+            }}
+            value={values[MILEAGE]}
+            component={TextField}
+            label="마일리지"
+            type="number"
+            error={!!(errors[name] && touched[name])}
+            helperText={errors[name] && touched[name] && <ErrorMessage name={name} />}
+          />
+          <Field
+            name={ITEM_MAX_POINTS}
+            onChange={(e) => {
+              setFieldValue(ITEM_MAX_POINTS, e.target.value);
+            }}
+            value={values[ITEM_MAX_POINTS]}
+            component={TextField}
+            label="적립 가능 최대 마일리지"
+            type="number"
+            disabled={!values[IS_MULTI]}
+          />
 
-          {[SPECIFIC_ITEM_NAME, MILEAGE, ITEM_MAX_POINTS].map((field: string) => (
-            <Field name={field} key={field}>
-              {({ field: { name, value }, form: { setFieldValue, values, errors, touched } }) => {
-                let isDisabled = false;
-
-                if (field === ITEM_MAX_POINTS) {
-                  isDisabled = !selectedItemList.isDuplicable;
-                }
-                return (
-                  <TextField
-                    validateOnMount={true}
-                    name={name}
-                    value={values[name]}
-                    onChange={(e) => setFieldValue(name, e.target.value)}
-                    disabled={isDisabled}
-                    label={engToKor(field)}
-                    variant="outlined"
-                    error={!!(errors[name] && touched[name])}
-                    helperText={errors[name] && touched[name] && <ErrorMessage name={name} />}
-                    type="text"
-                  />
-                );
-              }}
-            </Field>
-          ))}
-
-          {[IS_MULTI].map((inputName: string, index: number) => (
-            <Box
-              key={index}
-              sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}
-            >
-              <Chip
-                color="primary"
-                sx={{ px: 1, borderRadius: '10px', height: '40px' }}
-                label={engToKor(inputName)}
-                variant="outlined"
-              />
-
-              <Field name={inputName}>
-                {({ field, form }) => (
-                  <ToggleButtonGroup
-                    sx={{ height: '40px', width: '100%' }}
-                    color="primary"
-                    value={modalType === EDITITEM ? beforeData?.[IS_MULTI] : selectedItemList.isDuplicable}
-                    exclusive
-                    aria-label="toggle value"
-                    disabled={true}
+          <Box sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}>
+            <Chip
+              color="primary"
+              sx={{ px: 1, borderRadius: '10px', height: '40px' }}
+              label={engToKor(IS_MULTI)}
+              variant="outlined"
+            />
+            <Field name={IS_MULTI}>
+              {({ field, form }) => (
+                <ToggleButtonGroup
+                  sx={{ height: '40px', width: '100%' }}
+                  color="primary"
+                  name={IS_MULTI}
+                  exclusive
+                  value={values[IS_MULTI]}
+                  onChange={(_, newValue) => setFieldValue(IS_MULTI, newValue)}
+                  disabled
+                >
+                  <ToggleButton
+                    value={true}
+                    aria-label="true"
+                    sx={{
+                      width: '100%',
+                    }}
                   >
-                    <ToggleButton
-                      value={true}
-                      aria-label="true"
-                      sx={{
-                        width: '100%',
-                      }}
-                    >
-                      O
-                    </ToggleButton>
-                    <ToggleButton
-                      value={false}
-                      aria-label="false"
-                      sx={{
-                        width: '100%',
-                      }}
-                    >
-                      X
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                )}
-              </Field>
-            </Box>
-          ))}
+                    O
+                  </ToggleButton>
+                  <ToggleButton
+                    value={false}
+                    aria-label="false"
+                    sx={{
+                      width: '100%',
+                    }}
+                  >
+                    X
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              )}
+            </Field>
+          </Box>
           <ButtonFlexBox>
-            <CancelButton modalType={modalType} handleClose={handleClose} />
             <SubmitButton />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
           </ButtonFlexBox>
         </Form>
       )}
     </Formik>
   );
-}
+};
+
+export default SemesterItemForm;

@@ -1,61 +1,57 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { ErrorMessage, Field } from 'formik';
-import { useSelector } from 'react-redux';
-import { CATEGORYID, NUM } from 'src/assets/data/fields';
-import { EDITITEM } from 'src/assets/data/modal/modals';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import axios from 'axios'; 
-import { setSelectedItemList } from 'src/redux/slices/filterList';
+import { useSelector, useDispatch } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import { useFormikContext } from 'formik';
+import { EDITITEM } from 'src/assets/data/modal/modals';
+import {
+  SPECIFIC_ITEM_NAME,
+  MILEAGE,
+  ITEM_MAX_POINTS,
+  IS_MULTI,
+  SEMESTER,
+  SEMESTERITEMID,
+} from 'src/assets/data/fields';
 
-export default function GlobalItemSelect({ itemId }: { itemId?: number }) {
+const GlobalItemSelect = ({ itemId } = { itemId: 'itemId' }) => {
+  const dispatch = useDispatch();
   const globalItemList = useSelector((state) => state.filterList.itemList);
   const modalType = useSelector((state) => state.modal.modalType);
-  const dispatch = useDispatch();
-  const { setFieldValue } = useFormikContext();
-
+  const { setFieldValue, values } = useFormikContext();
 
   const handleChange = async (event) => {
-    const newSelectedItemId = event.target.value;
-
-    setFieldValue('itemId', newSelectedItemId);
-  
+    const selectedItemId = event.target.value;
     try {
-      const response = await axiosInstance.get(`/api/mileage/items/${newSelectedItemId}`);
-      dispatch(setSelectedItemList(response.data));
-      console.log('response.data:', response.data);
+      const response = await axiosInstance.get(`/api/mileage/items/${selectedItemId}`);
+      const itemData = response.data;
+
+      setFieldValue('itemId', itemData.id);
+      setFieldValue(MILEAGE, itemData.mileage);
+      setFieldValue(ITEM_MAX_POINTS, itemData.itemMaxPoints);
+      setFieldValue(IS_MULTI, itemData.isDuplicable);
     } catch (error) {
-      console.error('해당 학기별 마일리지 세부 항목 정보 가져오기 실패:', error);
+      console.error('Failed to fetch item details:', error);
     }
   };
-  
-
-
-  const MySelect = ({ field, ...props }) => (
-    <Select
-      {...field}
-      {...props}
-      defaultValue={field.value} 
-      onChange={(event) => {
-        handleChange(event); 
-        field.onChange(event); 
-      }}
-      disabled={modalType === EDITITEM}
-    >
-      {globalItemList.map((globalItem) => (
-        <MenuItem key={globalItem.id} value={globalItem.id}>
-          {globalItem.name}
-        </MenuItem>
-      ))}
-    </Select>
-  );
 
   return (
-    <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="demo-simple-select-label">세부 항목</InputLabel>
-      <Field component={MySelect} name="itemId" required />
+    <FormControl fullWidth>
+      <InputLabel id="item-select-label">세부 항목</InputLabel>
+      <Select
+        labelId="item-select-label"
+        name={itemId}
+        value={values.itemId}
+        onChange={handleChange}
+        disabled={modalType === EDITITEM ? 1 : 0}
+        label="세부 항목"
+      >
+        {globalItemList.map((item) => (
+          <MenuItem key={item.id} value={item.id}>
+            {item.name}
+          </MenuItem>
+        ))}
+      </Select>
     </FormControl>
   );
-}
+};
+
+export default GlobalItemSelect;
