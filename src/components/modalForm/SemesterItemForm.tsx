@@ -1,23 +1,5 @@
-/*
-  - 수정모드와 추가모드를 구분해야한다.
-  - 수정모드일 때는 수정 전 데이터를 불러와서 Form에 뿌려주어야한다.
-  - 수정모드 일때는 세부항목 이름과 마일리지, 적립가능 최대마일리지만 수정이 가능해야한다.
-  - 추가모드와 동일하게 수정모드에서도 중복 적립 가능여부가 false일 때 적립 가능 최대 마일리지는 수정이 불가능해야한다.
-  - SemesterItemForm 컴포넌트와 GlobalItemSelect 컴포넌트는 다른 파일에 작성되어있다. 
-  - 학기를 선택하면 선택한 학기가 나와야한다. 
-  - 세부 항목을 선택하면 GlobalItemSelect에서 선택한 항목과 그 선택으로 인해 GlobalItemSelect 컴포넌트에서 해당 항목의 마일리지와 최대마일리지, 중복적립가능여부를
-    리덕스에 저장해서 그 정보를 SemesterItemForm 컴포넌트에서 사용한다. 
-    selectedItemList에 저장된 세부 항목의 마일리지와 적립 가능 최대 마일리지 정보, 중복 적립가능여부가 나와야한다.
-  - 마일리지는 중복적립가능여부와 상관없이 수정이 가능해야한다.
-  - 적립 가능 최대 마일리지는 중복적립가능여부가 false이면 사용자가 수정이 불가능해야한다.
-    - 중복적립가능여부가 false이면 적립 가능 최대 마일리지는 항상 마일리지와 같아야한다.
-    - 중복적립가능여부가 false이면 마일리지 수정 시 적립 가능 최대 마일리지도 마일리지 값으로 변해야한다.
-  - 중복적립가능여부는 항상 수정이 불가능해야한다.
-  - 모달창이 열릴 때마다 초기값은 모든 항목이 비워져있는 아무것도 선택되지 않은 상태여야한다. 이전의 데이터가 남아있으면 안된다. 
-  - map을 사용하지 말고 각각의 항목을 직접 적어주어야한다.
-  */
 import { useRouter } from 'next/router';
-import { ErrorMessage, Field, Form, useFormik, Formik, useFormikContext } from 'formik';
+import { ErrorMessage, Field, Form, Formik, useFormikContext } from 'formik';
 import {
   Box,
   TextField,
@@ -27,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Chip,
 } from '@mui/material';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,6 +17,7 @@ import React, { useEffect } from 'react';
 import axiosInstance from 'src/utils/axios';
 import { setSelectedItemList } from 'src/redux/slices/filterList';
 import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
+import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
   SPECIFIC_ITEM_NAME,
   MILEAGE,
@@ -61,20 +45,42 @@ const SemesterItemForm = ({ handleClose }) => {
 
   const router = useRouter();
 
-  const handleSubmit = async (values) => {
-    const { semester, itemId, mileage, itemMaxPoints } = values;
-    const newData = { itemId, points: mileage, itemMaxPoints };
+  const handleSubmit = (values: object) => {
+    // 카테고리 추가
+    // 1) newData 생성
+    // 2) axios post
+    // 3) alert
+    // 4) reload
+    const newData = {
+      itemId: values.itemId,
+      points: values[MILEAGE],
+      name: values[SPECIFIC_ITEM_NAME],
+      itemMaxPoints: +values[ITEM_MAX_POINTS],
+    };
 
-    try {
-      const endpoint = `/api/mileage/semesters/${semester}/items`;
-      const response =
-        modalType === ADDITEM
-          ? await axiosInstance.post(endpoint, newData)
-          : await axiosInstance.patch(`${endpoint}/${beforeData[SEMESTERITEMID]}`, newData);
-      alert('Operation successful!');
-      router.reload();
-    } catch (error) {
-      alert(`Operation failed: ${error.message}`);
+    console.log(newData);
+
+    switch (modalType) {
+      case ADDITEM:
+        axiosInstance
+          .post(`/api/mileage/semesters/${values[SEMESTER]}/items`, newData)
+          .then((res) => {
+            alert('학기별 항목이 추가되었습니다.');
+            router.reload();
+          })
+          .catch((err) => alert('학기별 항목 추가에 실패했습니다.'));
+        break;
+
+      case EDITITEM:
+        axiosInstance
+          .patch(`/api/mileage/semesters/${beforeData[SEMESTERITEMID]}`, newData)
+          .then((res) => {
+            alert('학기별 항목이 수정되었습니다.');
+            router.reload();
+          })
+          .catch((err) => alert('학기별 항목 수정에 실패했습니다.'));
+        break;
+      default:
     }
   };
 
@@ -94,10 +100,8 @@ const SemesterItemForm = ({ handleClose }) => {
           [SPECIFIC_ITEM_NAME]: '',
           [MILEAGE]: '',
           [ITEM_MAX_POINTS]: '',
-          [IS_MULTI]: null,
+          [IS_MULTI]: false,
         };
-
-  const formik = useFormik({});
 
   return (
     <Formik
@@ -106,11 +110,24 @@ const SemesterItemForm = ({ handleClose }) => {
       onSubmit={handleSubmit}
       enableReinitialize
     >
-      {({ setFieldValue, values }) => (
-        <Form>
+      {({ setFieldValue, values, errors, touched, name, isSubmitting }) => (
+        <Form
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: ' center',
+            margin: '30px 0px',
+            padding: '0px 20px',
+            width: '100%',
+            gap: '30px',
+          }}
+        >
           <SemesterSelect />
-          <GlobalItemSelect />
-          <Field name={SPECIFIC_ITEM_NAME} component={TextField} label="세부항목 이름" />
+          <GlobalItemSelect itemId={beforeData?.itemId} />
+          <Field name={SPECIFIC_ITEM_NAME} component={TextField} label="세부항목 이름" 
+          value={values[SPECIFIC_ITEM_NAME]}
+          onChange={(e) => setFieldValue(SPECIFIC_ITEM_NAME, e.target.value)}
+          />
           <Field
             name={MILEAGE}
             onChange={(e) => {
@@ -123,6 +140,8 @@ const SemesterItemForm = ({ handleClose }) => {
             component={TextField}
             label="마일리지"
             type="number"
+            error={!!(errors[name] && touched[name])}
+            helperText={errors[name] && touched[name] && <ErrorMessage name={name} />}
           />
           <Field
             name={ITEM_MAX_POINTS}
@@ -136,21 +155,50 @@ const SemesterItemForm = ({ handleClose }) => {
             disabled={!values[IS_MULTI]}
           />
 
-          <ToggleButtonGroup
-            name={IS_MULTI}
-            exclusive
-            value={values[IS_MULTI]}
-            onChange={(_, newValue) => setFieldValue(IS_MULTI, newValue)}
-            disabled
-          >
-            <ToggleButton value={true}>O</ToggleButton>
-            <ToggleButton value={false}>X</ToggleButton>
-          </ToggleButtonGroup>
-
-          <Box sx={{ display: 'flex', gap: 2, flexDirection: 'row-reverse' }}>
-            <SubmitButton />
-            <CancelButton handleClose={handleClose} />
+          <Box sx={{ display: 'flex', gap: 2, width: '100%', justifyContent: 'space-between' }}>
+            <Chip
+              color="primary"
+              sx={{ px: 1, borderRadius: '10px', height: '40px' }}
+              label={engToKor(IS_MULTI)}
+              variant="outlined"
+            />
+            <Field name={IS_MULTI}>
+              {({ field, form }) => (
+                <ToggleButtonGroup
+                  sx={{ height: '40px', width: '100%' }}
+                  color="primary"
+                  name={IS_MULTI}
+                  exclusive
+                  value={values[IS_MULTI]}
+                  onChange={(_, newValue) => setFieldValue(IS_MULTI, newValue)}
+                  disabled
+                >
+                  <ToggleButton
+                    value={true}
+                    aria-label="true"
+                    sx={{
+                      width: '100%',
+                    }}
+                  >
+                    O
+                  </ToggleButton>
+                  <ToggleButton
+                    value={false}
+                    aria-label="false"
+                    sx={{
+                      width: '100%',
+                    }}
+                  >
+                    X
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              )}
+            </Field>
           </Box>
+          <ButtonFlexBox>
+            <SubmitButton />
+            <CancelButton modalType={modalType} handleClose={handleClose} />
+          </ButtonFlexBox>
         </Form>
       )}
     </Formik>
