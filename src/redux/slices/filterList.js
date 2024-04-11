@@ -34,11 +34,22 @@ const slice = createSlice({
     },
     setSelectedItemList: (state, action) => {
       state.selectedItemList = action.payload;
-    }
+    },
+    resetSelectedItemList: (state) => {
+      state.selectedItemList = [];
+    },
   },
 });
 
 // Reducer
-export const { setTypeList, setCategoryList, setSemesterList, setItemList, setStudentList, setAdminList, setSelectedItemList } =
-  slice.actions;
+export const {
+  setTypeList,
+  setCategoryList,
+  setSemesterList,
+  setItemList,
+  setStudentList,
+  setAdminList,
+  setSelectedItemList,
+  resetSelectedItemList,
+} = slice.actions;
 export default slice.reducer;
