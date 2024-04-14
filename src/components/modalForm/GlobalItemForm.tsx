@@ -110,7 +110,7 @@ export default function GlobalItemForm({ handleClose }) {
 
   const initialValues = {
     [CATEGORYID]: beforeData?.category?.id || '',
-    [CATEGORY_MAX_POINTS]: beforeData?.category?.maxPoints || 0,
+    [CATEGORY_MAX_POINTS]: beforeData?.category?.maxPoints || -1,
     [TYPE]: beforeData?.mileageType?.id || '',
     [ITEM]: beforeData?.name || '',
     [POINT]: beforeData?.mileage || 0,
@@ -291,6 +291,11 @@ const StyleFieldForm = styled(Form)({
   gap: '20px',
 });
 
-const DisplayMaxPoints = ({ points }) => (
-  <Chip color="primary" label={`카테고리 최대 마일리지: ${points}`} variant="outlined" />
-);
+const DisplayMaxPoints = ({ points }) => {
+  if (points === -1) return null;
+
+  const label =
+    points === null ? '카테고리 최대 마일리지: 제한없음' : `카테고리 최대 마일리지: ${points}`;
+
+  return <Chip color="primary" label={label} variant="outlined" />;
+};

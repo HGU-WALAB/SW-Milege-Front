@@ -1,38 +1,39 @@
-import React from 'react';
-import { useFormikContext } from 'formik';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Field, useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { CATEGORYID, CATEGORY_MAX_POINTS } from 'src/assets/data/fields';
 
-const CategorySelect = () => {
-  const { setFieldValue } = useFormikContext();
+export default function CategorySelect() {
   const categories = useSelector((state) => state.filterList.categoryList);
+  const { setFieldValue } = useFormikContext();
 
-  const handleChange = (event) => {
-    const categoryId = event.target.value;
-    const category = categories.find(c => c.id === categoryId);
-    const maxPoints = category ? category.maxPoints : 0;
-    console.log(categoryId, category);
-    setFieldValue(CATEGORYID, categoryId);
-    setFieldValue(CATEGORY_MAX_POINTS, maxPoints);
+  const handleCategoryChange = (event) => {
+    const selectedCategoryId = event.target.value;
+    const selectedCategory = categories.find(category => category.id === selectedCategoryId);
+    setFieldValue(CATEGORYID, selectedCategoryId);
+    if (selectedCategory) {
+      setFieldValue(CATEGORY_MAX_POINTS, selectedCategory.maxPoints);
+    }
   };
 
+  const MySelect = ({ field, form, ...props }) => (
+    <Select
+      {...field}
+      {...props}
+      onChange={handleCategoryChange} // Bind the onChange handler
+    >
+      {categories.map((category) => (
+        <MenuItem key={category.id} value={category.id}>
+          {category.name}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+
   return (
-    <FormControl fullWidth>
-      <InputLabel id="category-select-label">카테고리</InputLabel>
-      <Select
-        labelId="category-select-label"
-        onChange={handleChange}
-        required
-      >
-        {categories.map((category) => (
-          <MenuItem key={category.id} value={category.id}>
-            {category.name}
-          </MenuItem>
-        ))}
-      </Select>
+    <FormControl sx={{ width: '100%' }}>
+      <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
+      <Field as={MySelect} name={CATEGORYID} variant="outlined" required />
     </FormControl>
   );
-};
-
-export default CategorySelect;
+}
