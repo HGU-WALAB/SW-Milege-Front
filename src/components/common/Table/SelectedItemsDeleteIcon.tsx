@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
-import { all } from 'axios';
 
 interface ISelectedItemsDeleteIcon {
   type: string;
@@ -35,39 +34,17 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
       case '학기별 마일리지 세부 항목':
         return `${res.data.count} 곳에서 사용 중입니다. ${res.data.list.map(
           (item) =>
-            '\n [ ' +
-            item.semesterItem.semesterName +
-            ' ] ' +
-            item.item.name +
-            ' - ' +
-            item.studentName +
-            ' ( ' +
-            item.sid +
-            ' ) '
-        )} 등 ${
-          res.data.list.length
-        }명의 학생이 등록 되어 있기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
+            `\n [ ${item.semesterItem.semesterName} ] ${item.item.name} - ${item.studentName} ( ${item.sid} ) `)} 등 ${res.data.list.length}명의 학생이 등록 되어 있기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
       case '학생 관리':
         return `${res.data.count} 곳에 등록되어 있는 학생입니다. \n ${res.data.list.map(
-          (item) => ' [ ' + item.semesterItem.semesterName + ' ] ' + item.item.name
+          (item) => ` [ ${item.semesterItem.semesterName} ] ${item.item.name}`,
         )} \n 등 ${
           res.data.count
         }곳에 학생이 등록 되어 있기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
       case '마일리지 적립':
         return `${res.data.count} 곳에서 사용 중입니다. ${res.data.list.map(
           (item) =>
-            '\n [ ' +
-            item.semesterItem.semesterName +
-            ' ] ' +
-            item.item.name +
-            ' - ' +
-            item.studentName +
-            ' ( ' +
-            item.sid +
-            ' ) '
-        )} 등 ${
-          res.data.list.length
-        }명의 학생이 등록 되어 있기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
+            `\n [ ${item.semesterItem.semesterName} ] ${item.item.name} - ${item.studentName} ( ${item.sid} ) `)} 등 ${res.data.list.length}명의 학생이 등록 되어 있기 때문에 삭제할 수 없습니다. 하위 항목을 먼저 삭제해주세요. `;
     }
   };
 
@@ -139,8 +116,6 @@ export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIc
       onClick={() => {
         if (window.confirm(`총 ${selected.length}개 항목을 정말 삭제하시겠습니까?`)) {
           deleteSelectedItems();
-        } else {
-          return;
         }
       }}
     />
