@@ -12,6 +12,7 @@ export const TITLE = 'title';
 export const ITEM = 'item';
 export const MESSAGE = 'message';
 export const AUTHORITY = 'authority';
+export const LIST = 'list';
 
 export const CATEGORY_COUNT = 'categoryCount';
 // export const NAME = 'name';
@@ -37,15 +38,14 @@ export const REJECT = 'reject';
 export const SCHOLARSHIP = 'scholarship';
 
 export const DESCRIPTION1 = 'description1';
-export const DESCRIPTION2 = 'description2';
 export const FILE_DESCRIPTION = 'fileDescription';
 
 export const ISVISIBLE_STUDENT = 'isVisibleStudent';
 export const IS_STUDENT_INPUT = 'isStudentInput';
 export const ISDUPLICATE_RECORD = 'isDuplicateRecord';
-export const ISEVALUATE_CSEE = 'isEvaluateCsee';
-export const ISEVALUATE_PORTFOLIO = 'isEvaluatePortfolio';
-export const ISEVALUATE_FUSION = 'isEvaluateFusion';
+export const ISEVALUATE_CSEE_GENERAL = 'isEvaluateCsee';
+export const ISEVALUATE_CSEE_SPECIAL = 'isEvaluatePortfolio';
+export const ISEVALUATE_ICT_CONVERGENCE = 'isEvaluateFusion';
 export const MAX_MAILEAGE = 'maxMileage';
 
 export const YEAR = 'year';
@@ -68,6 +68,7 @@ export const SEMESTERITEMID = 'semesterItemId';
 
 export const SEMESTER_NAME = 'semesterName';
 export const ITEM_NAME = 'itemName';
+export const SPECIFIC_ITEM_NAME = 'name';
 export const STUDENT_ID = 'studentId';
 export const CATEGORY_NAME = 'categoryName';
 export const CATEGORY_MAX_POINTS = 'categoryMaxPoints';
@@ -80,7 +81,7 @@ export const RECORD_NAME = 'recordName';
 export const LEVEL = 'level';
 export const TYPE = 'type';
 
-export const ITEM_COUNT = 'itemCount';
+export const ITEM_COUNT = 'mileageItemCount';
 export const SEMESTER_ITEM_COUNT = 'semesterItemCount';
 export const SEMESTER_ITEM_ID = 'semesterItemId';
 export const IS_MULTI = 'isMulti';

@@ -14,11 +14,11 @@ import {
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 /**
- * @component [마일리지 등록] 게시판
+ * @component [마일리지 적립] 게시판
  */
 
 /**
- * @kind [마일리지 등록]
+ * @kind [마일리지 적립]
  * @breif enum
  */
 
@@ -34,7 +34,7 @@ export enum MileageRegisterBoard {
 }
 
 /**
- * @kind [마일리지 등록]
+ * @kind [마일리지 적립]
  * @breif 데이터 인터페이스
  */
 interface Data {
@@ -49,7 +49,7 @@ interface Data {
 
 export default function MileageRegister() {
   /**
-   * @kind [마일리지 등록]
+   * @kind [마일리지 적립]
    * @brief 데이터 생성 함수
    *
    *  */
@@ -76,7 +76,7 @@ export default function MileageRegister() {
   }
 
   /**
-   * @kind [마일리지 등록]
+   * @kind [마일리지 적립]
    * @brief 테이블 헤더
    */
   const headCells = [
@@ -131,7 +131,7 @@ export default function MileageRegister() {
   ];
 
   /**
-   * @kind [마일리지 등록]
+   * @kind [마일리지 적립]
    * @description 마일리지 항목 리스트
    */
 
@@ -218,5 +218,5 @@ export default function MileageRegister() {
     ),
   ];
 
-  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 등록" />;
+  return <EnhancedTable originalRows={rows} headCells={headCells} type="마일리지 적립" />;
 }

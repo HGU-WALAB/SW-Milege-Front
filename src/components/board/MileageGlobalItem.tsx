@@ -12,14 +12,13 @@ import {
   ITEM,
   DESCRIPTION,
   DESCRIPTION1,
-  DESCRIPTION2,
   FILE_DESCRIPTION,
   ISVISIBLE_STUDENT,
   ISINPUT_STUDENT,
   ISDUPLICATE_RECORD,
-  ISEVALUATE_CSEE,
-  ISEVALUATE_PORTFOLIO,
-  ISEVALUATE_FUSION,
+  ISEVALUATE_CSEE_GENERAL,
+  ISEVALUATE_CSEE_SPECIAL,
+  ISEVALUATE_ICT_CONVERGENCE,
   MAX_MAILEAGE,
 } from 'src/assets/data/fields';
 import SWModal from '../common/modal/SWModal';
@@ -153,15 +152,14 @@ export default function MileageGlobalItem() {
     [MILEAGE]: 30,
     [MAX_MAILEAGE]: 50,
     [DESCRIPTION1]: '설명 1',
-    [DESCRIPTION2]: '설명 2',
     [FILE_DESCRIPTION]: '첨부파일 설명',
     [ISVISIBLE]: true,
     [ISVISIBLE_STUDENT]: false,
     [ISINPUT_STUDENT]: false,
     [ISDUPLICATE_RECORD]: false,
-    [ISEVALUATE_CSEE]: false,
-    [ISEVALUATE_PORTFOLIO]: false,
-    [ISEVALUATE_FUSION]: false,
+    [ISEVALUATE_CSEE_GENERAL]: false,
+    [ISEVALUATE_CSEE_SPECIAL]: false,
+    [ISEVALUATE_ICT_CONVERGENCE]: false,
   };
 
   /**
@@ -247,5 +245,5 @@ export default function MileageGlobalItem() {
     dispatch(setMileageGlobalList(rows));
   }, []);
 
-  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 글로벌 항목" />;
+  return <EnhancedTable originalRows={data} headCells={headCells} type="마일리지 세부 항목" />;
 }

@@ -1,43 +1,26 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
-import {
-  TITLE,
-  CATEGORY,
-  DESCRIPTION1,
-  DESCRIPTION2,
-  ORDER_IDX,
-  ID,
-  TYPE,
-  CATEGORY_MAX_POINTS,
-} from 'src/assets/data/fields';
+import { CATEGORY_MAX_POINTS, DESCRIPTION1, ID, TITLE } from 'src/assets/data/fields';
 import * as Yup from 'yup';
-import Button from '@mui/material/Button';
 import { ADDCATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
-import { TextField, styled } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { dispatch } from 'src/redux/store';
-import { closeModal } from 'src/redux/slices/modal';
-import CancelButton from '../common/modal/CancelButton';
-import SubmitButton from '../common/modal/SubmitButton';
+import { TextField } from '@mui/material';
+import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
-import TypeSelect from '../common/Filter/TypeSelect';
+import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
+import SubmitButton from '../common/modal/SubmitButton';
+import CancelButton from '../common/modal/CancelButton';
+import { IList } from 'src/pages/mileage/category';
 
 export default function CategoryForm({ handleClose }) {
-  const beforeData = useSelector((state) => state.modal.beforeData);
-
+  const beforeData: IList = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
   const router = useRouter();
 
   const CategorySchema = Yup.object().shape({
     [TITLE]: Yup.string().required('필수입니다.'),
-    [TYPE]: Yup.string().required('필수입니다.'),
-    [CATEGORY_MAX_POINTS]: Yup.number().required('필수입니다.'),
-    [DESCRIPTION1]: Yup.string(),
-    [DESCRIPTION2]: Yup.string(),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values: object) => {
     // 카테고리 추가
     // 1) newData 생성
     // 2) axios post
@@ -46,11 +29,10 @@ export default function CategoryForm({ handleClose }) {
 
     const newData = {
       [TITLE]: values[TITLE],
-      [TYPE]: values[TYPE],
       [CATEGORY_MAX_POINTS]: values[CATEGORY_MAX_POINTS],
       [DESCRIPTION1]: values[DESCRIPTION1],
-      [DESCRIPTION2]: values[DESCRIPTION2],
     };
+
     switch (modalType) {
       case ADDCATEGORY:
         axiosInstance
@@ -72,22 +54,21 @@ export default function CategoryForm({ handleClose }) {
           })
           .catch((err) => alert('카테고리 수정에 실패했습니다.'));
         break;
+      default:
     }
   };
 
   return (
     <Formik
       initialValues={{
-        [TITLE]: modalType === EDITCATEGORY ? beforeData?.[TITLE] : '',
-        [TYPE]: modalType === EDITCATEGORY ? beforeData?.[TYPE] : '없음',
-        [CATEGORY_MAX_POINTS]: modalType === EDITCATEGORY ? beforeData?.[CATEGORY_MAX_POINTS] : 0,
-        [DESCRIPTION1]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION1] : '',
-        [DESCRIPTION2]: modalType === EDITCATEGORY ? beforeData?.[DESCRIPTION2] : '',
+        [TITLE]: beforeData?.name,
+        [CATEGORY_MAX_POINTS]: beforeData?.maxPoints,
+        [DESCRIPTION1]: beforeData?.description1,
       }}
       validationSchema={CategorySchema}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ errors, touched }) => (
         <Form
           style={{
             display: 'flex',
@@ -99,21 +80,18 @@ export default function CategoryForm({ handleClose }) {
             gap: '30px',
           }}
         >
-          <TypeSelect />
-          {[TITLE, CATEGORY_MAX_POINTS, DESCRIPTION1, DESCRIPTION2].map((field, index) => (
-            <>
-              <Field
-                key={index}
-                style={{ minWidth: '300px' }}
-                name={field}
-                as={TextField}
-                type="text"
-                label={engToKor(field)}
-                variant="outlined"
-                error={errors[field] && touched[field] ? true : false}
-                helperText={<ErrorMessage name={field} />}
-              />
-            </>
+          {[TITLE, CATEGORY_MAX_POINTS, DESCRIPTION1].map((field, index) => (
+            <Field
+              key={index}
+              style={{ minWidth: '300px' }}
+              name={field}
+              as={TextField}
+              type="text"
+              label={engToKor(field)}
+              variant="outlined"
+              error={!!(errors[field] && touched[field])}
+              helperText={<ErrorMessage name={field} />}
+            />
           ))}
           <ButtonFlexBox>
             <CancelButton modalType={modalType} handleClose={handleClose} />

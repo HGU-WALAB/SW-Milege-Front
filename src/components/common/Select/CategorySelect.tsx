@@ -1,13 +1,27 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
-import { CATEGORYID } from 'src/assets/data/fields';
+import { CATEGORYID, CATEGORY_MAX_POINTS } from 'src/assets/data/fields';
 
 export default function CategorySelect() {
   const categories = useSelector((state) => state.filterList.categoryList);
+  const { setFieldValue } = useFormikContext();
+
+  const handleCategoryChange = (event) => {
+    const selectedCategoryId = event.target.value;
+    const selectedCategory = categories.find(category => category.id === selectedCategoryId);
+    setFieldValue(CATEGORYID, selectedCategoryId);
+    if (selectedCategory) {
+      setFieldValue(CATEGORY_MAX_POINTS, selectedCategory.maxPoints);
+    }
+  };
 
   const MySelect = ({ field, form, ...props }) => (
-    <Select {...field} {...props}>
+    <Select
+      {...field}
+      {...props}
+      onChange={handleCategoryChange} // Bind the onChange handler
+    >
       {categories.map((category) => (
         <MenuItem key={category.id} value={category.id}>
           {category.name}

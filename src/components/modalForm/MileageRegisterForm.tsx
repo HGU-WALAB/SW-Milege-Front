@@ -25,7 +25,6 @@ import { useRouter } from 'next/router';
 import {
   COUNTS,
   DESCRIPTION1,
-  DESCRIPTION2,
   EXTRAPOINTS,
   ID,
   NAME,
@@ -106,7 +105,6 @@ export default function MileageRegisterForm({ handleClose }) {
       // [POINTS]: values[POINTS],
       [EXTRAPOINTS]: values[EXTRAPOINTS],
       [DESCRIPTION1]: values[DESCRIPTION1],
-      [DESCRIPTION2]: values[DESCRIPTION2],
     };
 
     switch (modalType) {
@@ -114,20 +112,20 @@ export default function MileageRegisterForm({ handleClose }) {
         axiosInstance
           .post(`/api/mileage/records`, newData)
           .then((res) => {
-            alert('마일리지 등록 리스트에 추가되었습니다.');
+            alert('마일리지 적립 리스트에 추가되었습니다.');
             router.reload();
           })
-          .catch((err) => alert('마일리지 등록 리스트 추가에 실패했습니다.'));
+          .catch((err) => alert('마일리지 적립 리스트 추가에 실패했습니다.'));
         break;
 
       case EDITMILEAGEREGISTER:
         axiosInstance
           .patch(`/api/mileage/records/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert('마일리지 등록 리스트가 수정되었습니다.');
+            alert('마일리지 적립 리스트가 수정되었습니다.');
             router.reload();
           })
-          .catch((err) => alert('마일리지 등록 리스트 수정이 실패했습니다.'));
+          .catch((err) => alert('마일리지 적립 리스트 수정이 실패했습니다.'));
         break;
     }
   };
@@ -143,7 +141,6 @@ export default function MileageRegisterForm({ handleClose }) {
          * points
          * extraPoints
          * description1
-         * description2
          */
 
         [SEMESTERITEMID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SEMESTERITEMID] : '',

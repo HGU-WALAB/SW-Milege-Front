@@ -1,39 +1,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {
-  Chip,
-  FilledInput,
-  IconButton,
-  OutlinedInput,
-  Switch,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import {
-  closeCategoryModal,
-  closeModal,
-  openCategoryModal,
-  openModal,
-} from 'src/redux/slices/modal';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
-  ADDMANAGER,
   ADDMILEAGEREGISTER,
-  ADDSTUDENT,
   ADDTYPE,
-  DELETECATEGORY,
   EDITCATEGORY,
   EDITGLOBALITEM,
   EDITITEM,
@@ -43,53 +18,50 @@ import {
   EDITTYPE,
   MAGICIANSEMESTERITEM,
   REGISTEREDSTUDENTS,
+  SHOWLIST,
 } from 'src/assets/data/modal/modals';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
-  DESCRIPTION,
+  AID,
   CATEGORY,
-  MAX_MILEAGE,
-  SEMESTER,
-  ITEM,
-  MILEAGE,
+  CATEGORY_MAX_POINTS,
+  COUNTS,
+  DEPARTMENT,
+  DESCRIPTION,
   DESCRIPTION1,
-  DESCRIPTION2,
+  EMAIL,
+  EXTRAPOINTS,
   FILE_DESCRIPTION,
-  ISVISIBLE,
-  ISVISIBLE_STUDENT,
+  IS_MULTI,
   IS_STUDENT_INPUT,
   ISDUPLICATE_RECORD,
-  ISEVALUATE_CSEE,
-  ISEVALUATE_PORTFOLIO,
-  ISEVALUATE_FUSION,
-  MAX_MAILEAGE,
-  NAME,
-  SID,
-  YEAR,
-  SEMESTERCOUNT,
-  EMAIL,
-  DEPARTMENT,
-  MOBILE,
+  ISEVALUATE_CSEE_GENERAL,
+  ISEVALUATE_CSEE_SPECIAL,
+  ISEVALUATE_ICT_CONVERGENCE,
+  ISVISIBLE,
+  ISVISIBLE_STUDENT,
+  ITEM,
+  SPECIFIC_ITEM_NAME,
+  POINT,
+  ITEM_MAX_POINTS,
   MAJOR1,
   MAJOR2,
-  SEMESTERITEMID,
-  COUNTS,
-  POINTS,
-  EXTRAPOINTS,
-  TITLE,
+  MAX_MAILEAGE,
+  MILEAGE,
+  MOBILE,
+  NAME,
   ORDER_IDX,
-  ITEM_MAX_POINTS,
-  AID,
-  IS_MULTI,
-  CATEGORY_MAX_POINTS,
+  POINTS,
+  SEMESTER,
+  SEMESTERCOUNT,
+  SEMESTERITEMID,
+  SID,
+  TITLE,
+  YEAR,
 } from '../../../assets/data/fields';
-import FilledButton from 'src/components/Template/FilledButton';
 import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
 import ModalIconButton from './ModalIconButton';
 import ModalTitle from './ModalTitle';
-import { before, values } from 'lodash';
-import ItemForm from 'src/components/modalForm/GlobalItemForm';
 import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
 import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
 import StudentForm from 'src/components/modalForm/StudentForm';
@@ -99,6 +71,7 @@ import StudentsModal from 'src/components/modalForm/StudentsModal';
 import ManagerForm from 'src/components/modalForm/ManagerForm';
 import SemesterMagicianForm from 'src/components/modalForm/SemesterMagicianForm';
 import TypeForm from 'src/components/modalForm/TypeForm';
+import TypeSpecificCategoryModal from 'src/components/modalForm/TypeSpecificCategoryModal';
 
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
@@ -113,6 +86,8 @@ const modalForm = (modalType, handleClose) => {
       return <TypeForm handleClose={handleClose} />;
     case EDITTYPE:
       return <TypeForm handleClose={handleClose} />;
+    case SHOWLIST:
+      return <TypeSpecificCategoryModal handleClose={handleClose} />;
     case ADDCATEGORY:
       return <CategoryForm handleClose={handleClose} />;
     case EDITCATEGORY:
@@ -149,9 +124,11 @@ export const engToKor = (eng) => {
     case DESCRIPTION:
       return '설명';
     case CATEGORY_MAX_POINTS:
-      return '카테고리 최대 포인트';
+      return '적립 가능 최대 마일리지';
+    case POINT:
+      return '마일리지';
     case IS_MULTI:
-      return '중복 여부';
+      return '중복 적립 가능 여부';
     case AID:
       return '직번';
     case TITLE:
@@ -163,15 +140,15 @@ export const engToKor = (eng) => {
     case SEMESTER:
       return '학기';
     case ITEM:
-      return '항목 이름';
+      return '세부 항목 이름'; // 세부항목에서 세부항목이름
+    case SPECIFIC_ITEM_NAME:
+      return '세부 항목 이름'; // 학기별 세부항목에서 세부항목이름
     case MILEAGE:
       return '마일리지';
     case MAX_MAILEAGE:
       return '최대 마일리지';
     case DESCRIPTION1:
-      return '설명1';
-    case DESCRIPTION2:
-      return '설명2';
+      return '비고';
     case FILE_DESCRIPTION:
       return '파일 설명';
     case ISVISIBLE:
@@ -182,12 +159,12 @@ export const engToKor = (eng) => {
       return '학생 입력';
     case ISDUPLICATE_RECORD:
       return '중복 레코드';
-    case ISEVALUATE_CSEE:
-      return '전전 평가항목';
-    case ISEVALUATE_PORTFOLIO:
-      return '포폴 평가항목';
-    case ISEVALUATE_FUSION:
-      return '융합 평가항목';
+    case ISEVALUATE_CSEE_GENERAL:
+      return '전전 일반 평가항목';
+    case ISEVALUATE_CSEE_SPECIAL:
+      return '전전 특별 평가항목';
+    case ISEVALUATE_ICT_CONVERGENCE:
+      return '융합 전공 평가항목';
     case NAME:
       return '이름';
     case SID:
@@ -213,15 +190,11 @@ export const engToKor = (eng) => {
     case COUNTS:
       return '등록횟수';
     case POINTS:
-      return '계싼된 점수';
+      return '계산된 점수';
     case EXTRAPOINTS:
       return '가산점';
-    case DESCRIPTION1:
-      return '설명1';
-    case DESCRIPTION2:
-      return '설명2';
     case ITEM_MAX_POINTS:
-      return '항목 최대 포인트';
+      return '적립 가능 최대 마일리지';
   }
 };
 
@@ -280,9 +253,8 @@ export default function SWModal({ type, beforeData }) {
       >
         <Box sx={style}>
           <ModalTitle />
-
           {modalForm(modalType, handleClose)}
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} />
         </Box>
       </Modal>
     </div>

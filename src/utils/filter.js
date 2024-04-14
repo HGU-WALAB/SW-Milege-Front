@@ -6,9 +6,11 @@ import {
   setItemList,
   setSemesterList,
   setStudentList,
+  setTypeList,
 } from '../redux/slices/filterList';
 import { dispatch } from '../redux/store';
 import { setCurrentSemester } from '../redux/slices/data';
+import { max } from 'lodash';
 
 export const filteringInit = async () => {
   const resSemester = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
@@ -16,12 +18,20 @@ export const filteringInit = async () => {
   await dispatch(setSemester(currentSemester));
   await dispatch(setCurrentSemester(currentSemester));
 
+  const resType = await axiosInstance.get('/api/mileage/types');
+  const typeData = resType.data;
+  await dispatch(
+    setTypeList(
+      typeData.list?.map((type) => ({ id: type.id, name: type.name })),
+    ),
+  );
+
   const resCategory = await axiosInstance.get('/api/mileage/categories');
   const categoryData = resCategory.data;
   await dispatch(
     setCategoryList(
-      categoryData.list?.map((category) => ({ id: category.id, name: category.name }))
-    )
+      categoryData.list?.map((category) => ({ id: category.id, name: category.name, maxPoints: category.maxPoints})),
+    ),
   );
 
   const resSemesterList = await axiosInstance.get('/api/mileage/semesters');
@@ -37,8 +47,8 @@ export const filteringInit = async () => {
         id: item.id,
         name: item.name,
         itemMaxPoints: item.itemMaxPoints,
-      }))
-    )
+      })),
+    ),
   );
 
   const resStudents = await axiosInstance.get(`/api/mileage/students`);
@@ -49,8 +59,8 @@ export const filteringInit = async () => {
         id: student.id,
         name: student.name,
         sid: student.sid,
-      }))
-    )
+      })),
+    ),
   );
 
   const resAdmins = await axiosInstance.get('/api/mileage/admins');
@@ -60,7 +70,7 @@ export const filteringInit = async () => {
       adminData.list?.map((admin) => ({
         name: admin.name,
         aid: admin.aid,
-      }))
-    )
+      })),
+    ),
   );
 };

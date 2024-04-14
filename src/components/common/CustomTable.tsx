@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,61 +19,27 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { StarIcon } from 'src/theme/overrides/CustomIcons';
-import {
-  Autocomplete,
-  TablePagination,
-  TextField,
-  useMediaQuery,
-  styled,
-  Button,
-} from '@mui/material';
+import { styled } from '@mui/material';
 import CustomTablePagination from './Table/CustomTablePagination';
 
-import { MileageCategoryBoard } from '../../assets/data/board/mileageCategoryBoard';
-import { CATEGORY, NUM, ORDER_IDX } from '../../assets/data/fields';
-
-import Modal from './modal/SWModal';
-import CustomModal1 from '../Template/CustomModal';
 import SWModal from './modal/SWModal';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
   ADDITEM,
-  ADDMANAGER,
   ADDMILEAGEREGISTER,
-  ADDSTUDENT,
   ADDTYPE,
-  EDITCATEGORY,
   MAGICIANSEMESTERITEM,
 } from 'src/assets/data/modal/modals';
 import { useDispatch, useSelector } from 'react-redux';
-import { dispatch } from 'src/redux/store';
-import { setCategory } from 'src/redux/slices/filter';
-import CategoryAutoComplete from './Filter/CategoryAutoComplete';
-import { useEffect } from 'react';
-import { setMileageCategoryList } from 'src/redux/slices/data';
-import SemesterDropdown from './Filter/SemesterDropdown';
-import { id } from 'date-fns/locale';
-
-import IsVisibleDropdown from './Filter/IsVisibleDropdown';
-import ItemAutoComplete from './Filter/ItemAutoComplete';
 import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
-import StudentNameDropdown from './Filter/StudentNameAutoComplete';
-import GradeDropdown from './Filter/GradeDropdown';
-import DepartmentDropdown from './Filter/DepartmentDropDown';
 import { useRouter } from 'next/router';
 import Filtering from './Filter/Filtering';
-import Link from 'next/link';
-import { setComponentNum } from 'src/redux/slices/component';
-import TitleAndRefreshButton from './Title/Title';
+import Title from './Title/Title';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axiosInstance from 'src/utils/axios';
 import { setSelectedId } from 'src/redux/slices/table';
-import Title from './Title/Title';
 import {
   END_ROUTE_CATEGORY,
   END_ROUTE_MANAGE_REGISTER,
@@ -80,11 +47,8 @@ import {
   END_ROUTE_RESULT,
   END_ROUTE_SEMESTER_ITEM,
   END_ROUTE_VIEW,
-  REGISTER,
-  RESULT,
-  SEMESTER_ITEM,
-  VIEW,
 } from 'src/routes/paths';
+import Data from 'src/redux/slices/data';
 
 /**
  *  @brief 반응형 구축
@@ -112,7 +76,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 function getComparator<Key extends keyof any>(
   order: Order,
-  orderBy: Key
+  orderBy: Key,
 ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -257,8 +221,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           </Tooltip>
         )}
 
-        {type === '마일리지 학기별 항목' && (
-          <SWModal type={typeConverter('마일리지 학기별 항목 마법사')} />
+        {type === '학기별 마일리지 세부 항목' && (
+          <SWModal type={typeConverter('학기별 마일리지 세부 항목 마법사')} />
         )}
         <SWModal type={typeConverter(type)} />
       </Toolbar>
@@ -275,12 +239,12 @@ const typeConverter = (type) => {
       return ADDTYPE;
     case '마일리지 카테고리':
       return ADDCATEGORY;
-    case '마일리지 학기별 항목':
+    case '학기별 마일리지 세부 항목':
       return ADDITEM;
-    case '마일리지 글로벌 항목':
+    case '마일리지 세부 항목':
       return ADDGLOBALITEM;
 
-    case '마일리지 학기별 항목 마법사':
+    case '학기별 마일리지 세부 항목 마법사':
       return MAGICIANSEMESTERITEM;
     case '마일리지 조회':
       return ADDMILEAGEREGISTER;
@@ -298,17 +262,13 @@ const typeConverter = (type) => {
 export default function EnhancedTable({ originalRows, headCells, type }) {
   const { pathname } = useRouter();
 
-  const checkIsPageRelatedWithSemester = () => {
-    if (
-      pathname.includes(END_ROUTE_VIEW) ||
-      pathname.includes(END_ROUTE_SEMESTER_ITEM) ||
-      pathname.includes(END_ROUTE_MILEAGE_REGISTER) ||
-      pathname.includes(END_ROUTE_MANAGE_REGISTER) ||
-      pathname.includes(END_ROUTE_RESULT)
-    )
-      return true;
-    else return false;
-  };
+  const checkIsPageRelatedWithSemester = () => (
+    pathname.includes(END_ROUTE_VIEW) ||
+    pathname.includes(END_ROUTE_SEMESTER_ITEM) ||
+    pathname.includes(END_ROUTE_MILEAGE_REGISTER) ||
+    pathname.includes(END_ROUTE_MANAGE_REGISTER) ||
+    pathname.includes(END_ROUTE_RESULT)
+  );
 
   function sortByDescOrderIdx(data) {
     if (!data || data.length === 0) return;
@@ -361,17 +321,17 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     }
     if (studentName && studentName !== '전체') {
       copyRows = copyRows?.filter(
-        (row) => row.name === studentName || row.studentName === studentName
+        (row) => row.name === studentName || row.studentName === studentName,
       );
     }
     if (sid && sid !== '전체') {
       copyRows = copyRows?.filter(
-        (row) => row.sid === sid || row.id === sid || row.studentId === sid
+        (row) => row.sid === sid || row.id === sid || row.studentId === sid,
       );
     }
     if (aid && aid !== '전체') {
       copyRows = copyRows?.filter(
-        (row) => aid === row.aid || aid === row.id || aid === row.adminId
+        (row) => aid === row.aid || aid === row.id || aid === row.adminId,
       );
     }
     if (grade && grade !== '전체') {
@@ -402,7 +362,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
 
-  // selected를 redux로 전역 상태 관리
+// selected를 redux로 전역 상태 관리
   const selected = useSelector((state) => state.table.selectedId);
   const dispatch = useDispatch();
   const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
@@ -439,7 +399,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selected.slice(selectedIndex + 1),
       );
     }
 
@@ -461,16 +421,16 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
+// Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
       stableSort(rows, getComparator(order, orderBy))?.slice(
         page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
+        page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage, rows]
+    [order, orderBy, page, rowsPerPage, rows],
   );
 
   const router = useRouter();
@@ -481,7 +441,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       orderIdx: newOrderIdx,
       type: target.type,
       description1: target.description1,
-      description2: target.description2,
     };
 
     axiosInstance.patch(`/api/mileage/categories/${target.num}`, newData).then((res) => {
@@ -604,12 +563,12 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   </TableCell>
 
                                   {rowValues.slice(1)?.map((rowValue, index) => (
-                                    <TableCell key={index} align={'left'}>
+                                    <TableCell key={index} align="left">
                                       {rowValue === true
                                         ? 'Y'
                                         : rowValue === false
-                                        ? 'N'
-                                        : rowValue}
+                                          ? 'N'
+                                          : rowValue}
                                     </TableCell>
                                   ))}
                                 </TableRow>

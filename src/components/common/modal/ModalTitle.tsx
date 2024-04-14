@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { ADDTYPE, EDITMANAGER, EDITTYPE } from 'src/assets/data/modal/modals';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
@@ -16,6 +15,10 @@ import {
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
   MAGICIANSEMESTERITEM,
+  ADDTYPE,
+  EDITMANAGER,
+  EDITTYPE,
+  SHOWLIST,
 } from 'src/assets/data/modal/modals';
 
 export default function ModalTitle() {
@@ -27,6 +30,8 @@ export default function ModalTitle() {
         return '마일리지 타입 추가';
       case EDITTYPE:
         return '마일리지 타입 수정';
+      case SHOWLIST:
+        return '마일리지 세부 리스트';
       case ADDCATEGORY:
         return '마일리지 카테고리 추가';
       case EDITCATEGORY:
@@ -34,25 +39,25 @@ export default function ModalTitle() {
       case DELETECATEGORY:
         return '마일리지 카테고리 삭제';
       case ADDITEM:
-        return '마일리지 학기별 항목 추가';
+        return '학기별 마일리지 세부 항목 추가';
       case EDITITEM:
-        return '마일리지 학기별 항목 수정';
+        return '학기별 마일리지 세부 항목 수정';
       case DELETEITEM:
-        return '마일리지 학기별 항목 삭제';
+        return '학기별 마일리지 세부 항목 삭제';
       case ADDGLOBALITEM:
-        return '마일리지 글로벌 항목 추가';
+        return '마일리지 세부 항목 추가';
       case EDITGLOBALITEM:
-        return '마일리지 글로벌 항목 수정';
+        return '마일리지 세부 항목 수정';
       case ADDSTUDENT:
         return '학생 추가';
       case EDITSTUDENT:
         return '학생 수정';
       case ADDMILEAGEREGISTER:
-        return '마일리지 등록';
+        return '마일리지 적립';
       case EDITMILEAGEREGISTER:
         return '마일리지 수정';
       case MAGICIANSEMESTERITEM:
-        return '마일리지 학기별 항목 마법사';
+        return '학기별 마일리지 세부 항목 마법사';
       case EDITMANAGER:
         return '관리자 수정';
       case ADDMANAGER:

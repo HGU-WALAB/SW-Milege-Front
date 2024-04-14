@@ -106,7 +106,6 @@ function createDate(
   counts: number,
   extraPoints: number,
   description1: string,
-  description2: string,
   modDate: string
 ) {
   return {
@@ -116,7 +115,6 @@ function createDate(
     counts: counts,
     extraPoints: extraPoints,
     description1: description1,
-    description2: description2,
     modDate: modDate,
   };
 }
@@ -159,7 +157,6 @@ export default function CRUDStudentTable() {
             row.counts,
             row.extraPoints,
             row.description1,
-            row.description2,
             row.modDate
           )
         );
@@ -191,7 +188,6 @@ export default function CRUDStudentTable() {
       counts: editingRow?.counts,
       extraPoints: editingRow?.extraPoints,
       description1: editingRow?.description1,
-      description2: editingRow?.description2,
     };
     const validateDuplicate = () => {
       return rows.map((row) => row.sid).includes(editingRow?.sid);
@@ -251,7 +247,7 @@ export default function CRUDStudentTable() {
     },
     {
       field: 'counts',
-      headerName: '포인트',
+      headerName: '마일리지',
       type: 'string',
       width: 80,
       align: 'left',
@@ -269,14 +265,7 @@ export default function CRUDStudentTable() {
     },
     {
       field: 'description1',
-      headerName: '설명1',
-      type: 'string',
-      width: 200,
-      editable: true,
-    },
-    {
-      field: 'description2',
-      headerName: '설명2',
+      headerName: '비고',
       type: 'string',
       width: 200,
       editable: true,

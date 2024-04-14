@@ -59,15 +59,15 @@ export const PATH_API = {
   root: API_ROOT,
   excel: {
     upload: {
-      semesterItem: path(ROOTS_UPLOAD, '/mileage-items'),
-      record: path(ROOTS_UPLOAD, '/mileage-records'),
-      result: path(ROOTS_UPLOAD, '/scholarship-results'),
+      item: path(ROOTS_UPLOAD, '/mileage-item'),
+      record: path(ROOTS_UPLOAD, '/mileage-record'),
+      result: path(ROOTS_UPLOAD, '/scholarship-result'),
     },
     download: {
       format: {
-        semesterItem: path(ROOTS_DOWNLOAD, '/semesterItemFormat'),
-        record: path(ROOTS_DOWNLOAD, '/mileageRecordFormat'),
-        result: path(ROOTS_DOWNLOAD, '/mileageScholarshipFormat'),
+        item: path(ROOTS_DOWNLOAD, '/format/mileage-item'),
+        record: path(ROOTS_DOWNLOAD, '/format/mileage-record'),
+        result: path(ROOTS_DOWNLOAD, '/format/scholarship-result'),
       },
       category: path(ROOTS_DOWNLOAD, '/mileage-categories'),
       globalItem: path(ROOTS_DOWNLOAD, '/mileage-items-common'),
