@@ -4,7 +4,6 @@ import { setComponentNum } from 'src/redux/slices/component';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import { PATH_API, PATH_PAGES } from 'src/routes/paths';
-import ExcelImport from './ExcelImport';
 
 export default function ExcelExport() {
   const semester = useSelector((state) => state.filter.semester);
@@ -85,7 +84,6 @@ export default function ExcelExport() {
           {Excel.name}
         </Button>
       ))}
-      <ExcelImport />
     </Box>
   );
 }

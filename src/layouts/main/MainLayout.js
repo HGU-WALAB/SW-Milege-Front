@@ -1,18 +1,14 @@
 import PropTypes from 'prop-types';
 // next
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import MiniDrawer from 'src/components/common/Drawer/Drawer';
-import Header from 'src/components/common/Header';
 // @mui
 import { Box, Stack } from '@mui/material';
-import ExcelExport from 'src/components/excel/ExcelExport';
-import { useSelector } from 'react-redux';
-import { DOMAIN } from '../../sections/auth/AuthLoginForm';
 import { END_ROUTE_LOGIN } from '../../routes/paths';
 import MileageHeader from 'src/components/common/Appbar/MileageHeader';
 
-const handleDrawerOpen = () => {};
+const handleDrawerOpen = () => {
+};
 
 MainLayout.propTypes = {
   children: PropTypes.node,
@@ -34,13 +30,10 @@ export default function MainLayout({ children }) {
           sx={{
             py: '100px',
             px: '50px',
-
             width: '100%',
           }}
         >
           {children}
-
-          <ExcelExport />
         </Box>
       </Box>
     </Stack>
