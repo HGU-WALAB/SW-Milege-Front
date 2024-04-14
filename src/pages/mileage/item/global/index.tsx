@@ -10,6 +10,7 @@ import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { ReactNode } from 'react';
+import {setAllMileageList} from 'src/redux/slices/filterList';
 
 /**
  * @component [마일리지 항목] 게시판
@@ -195,6 +196,7 @@ export default function MileageCategory({
   const convertedFetchList = fetchData.list?.map((item) =>
     createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />)
   );
+ dispatch(setAllMileageList(fetchData.list));
 
   return (
     <EnhancedTable
