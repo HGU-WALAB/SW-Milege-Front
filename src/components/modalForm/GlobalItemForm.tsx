@@ -15,6 +15,7 @@ import {
   POINT,
   ITEM_MAX_POINTS,
   TYPE,
+  CATEGORY_MAX_POINTS,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
@@ -46,23 +47,22 @@ interface RequestPayload {
   };
 }
 
+const GlobalItemSchema = Yup.object().shape({
+  [CATEGORYID]: Yup.string().required('필수입니다.'),
+  [ITEM]: Yup.string().required('필수입니다.'),
+});
+
 export default function GlobalItemForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
   const beforeData: IGlobalItem = useSelector((state) => state.modal.beforeData);
   const router = useRouter();
 
-  const GlobalItemSchema = Yup.object().shape({
-    [CATEGORYID]: Yup.string().required('필수입니다.'),
-    [ITEM]: Yup.string().required('필수입니다.'),
-  });
-
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: object) => {
     // 세부 항목 추가
     // 1) newData 생성
     // 2) axios post
     // 3) alert
     // 4) reload
-
     const newData: RequestPayload = {
       categoryId: values[CATEGORYID],
       typeId: values[TYPE],
@@ -108,32 +108,36 @@ export default function GlobalItemForm({ handleClose }) {
     }
   };
 
+  const initialValues = {
+    [CATEGORYID]: beforeData?.category?.id || '',
+    [CATEGORY_MAX_POINTS]: beforeData?.category?.maxPoints || 0,
+    [TYPE]: beforeData?.mileageType?.id || '',
+    [ITEM]: beforeData?.name || '',
+    [POINT]: beforeData?.mileage || 0,
+    [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints || 0,
+    [DESCRIPTION1]: beforeData?.description1 || '',
+    [ISVISIBLE]: beforeData?.isVisible || true,
+    [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible || true,
+    [IS_STUDENT_INPUT]: beforeData?.isStudentInput || false,
+    [IS_MULTI]: beforeData?.isDuplicable || true,
+    [ISEVALUATE_CSEE_GENERAL]: beforeData?.isCseeGeneral || false,
+    [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isCseeSpecial || false,
+    [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.isIctConvergence || false,
+  };
+
   return (
     <Formik
-      initialValues={{
-        [TYPE]: beforeData?.mileageType.id || '',
-        [CATEGORYID]: beforeData?.category.id || '',
-        [ITEM]: beforeData?.name || '',
-        [POINT]: beforeData?.mileage || 0,
-        [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints || 0,
-        [DESCRIPTION1]: beforeData?.description1 || '',
-        [ISVISIBLE]: beforeData?.isVisible ?? true,
-        [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible ?? true,
-        [IS_STUDENT_INPUT]: beforeData?.isStudentInput ?? false,
-        [IS_MULTI]: beforeData?.isDuplicable ?? true,
-        [ISEVALUATE_CSEE_GENERAL]: beforeData?.isCseeGeneral ?? false,
-        [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isCseeSpecial ?? false,
-        [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.isIctConvergence ?? false,
-      }}
+      initialValues={initialValues}
       validationSchema={GlobalItemSchema}
       onSubmit={handleSubmit}
     >
-      {({ errors, touched }) => (
+      {({ values }) => (
         <StyleFieldForm>
           <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
             <StyleFieldBox>
               <TypeSelect />
               <CategorySelect />
+              <DisplayMaxPoints points={values[CATEGORY_MAX_POINTS]} />
               {[ITEM, POINT, ITEM_MAX_POINTS, DESCRIPTION1].map((field: string, index: number) => (
                 <Box key={index} sx={{ width: '100%' }}>
                   <Field name={field}>
@@ -286,3 +290,7 @@ const StyleFieldForm = styled(Form)({
   width: '100%',
   gap: '20px',
 });
+
+const DisplayMaxPoints = ({ points }) => (
+  <Chip color="primary" label={`카테고리 최대 마일리지: ${points}`} variant="outlined" />
+);

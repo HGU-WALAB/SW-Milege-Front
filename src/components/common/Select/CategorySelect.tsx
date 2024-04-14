@@ -1,25 +1,38 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Field } from 'formik';
+import React from 'react';
+import { useFormikContext } from 'formik';
 import { useSelector } from 'react-redux';
-import { CATEGORYID } from 'src/assets/data/fields';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { CATEGORYID, CATEGORY_MAX_POINTS } from 'src/assets/data/fields';
 
-export default function CategorySelect() {
+const CategorySelect = () => {
+  const { setFieldValue } = useFormikContext();
   const categories = useSelector((state) => state.filterList.categoryList);
 
-  const MySelect = ({ field, form, ...props }) => (
-    <Select {...field} {...props}>
-      {categories.map((category) => (
-        <MenuItem key={category.id} value={category.id}>
-          {category.name}
-        </MenuItem>
-      ))}
-    </Select>
-  );
+  const handleChange = (event) => {
+    const categoryId = event.target.value;
+    const category = categories.find(c => c.id === categoryId);
+    const maxPoints = category ? category.maxPoints : 0;
+    console.log(categoryId, category);
+    setFieldValue(CATEGORYID, categoryId);
+    setFieldValue(CATEGORY_MAX_POINTS, maxPoints);
+  };
 
   return (
-    <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
-      <Field as={MySelect} name={CATEGORYID} variant="outlined" required />
+    <FormControl fullWidth>
+      <InputLabel id="category-select-label">카테고리</InputLabel>
+      <Select
+        labelId="category-select-label"
+        onChange={handleChange}
+        required
+      >
+        {categories.map((category) => (
+          <MenuItem key={category.id} value={category.id}>
+            {category.name}
+          </MenuItem>
+        ))}
+      </Select>
     </FormControl>
   );
-}
+};
+
+export default CategorySelect;
