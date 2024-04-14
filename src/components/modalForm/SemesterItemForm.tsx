@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useEffect } from 'react';
+import React from 'react';
 import axiosInstance from 'src/utils/axios';
 import { setSelectedItemList } from 'src/redux/slices/filterList';
 import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
@@ -42,7 +42,6 @@ const SemesterItemSchema = Yup.object().shape({
 const SemesterItemForm = ({ handleClose }) => {
   const modalType = useSelector((state) => state.modal.modalType);
   const beforeData = useSelector((state) => state.modal.beforeData);
-
   const router = useRouter();
 
   const handleSubmit = (values: object) => {
@@ -124,9 +123,12 @@ const SemesterItemForm = ({ handleClose }) => {
         >
           <SemesterSelect />
           <GlobalItemSelect itemId={beforeData?.itemId} />
-          <Field name={SPECIFIC_ITEM_NAME} component={TextField} label="세부항목 이름" 
-          value={values[SPECIFIC_ITEM_NAME]}
-          onChange={(e) => setFieldValue(SPECIFIC_ITEM_NAME, e.target.value)}
+          <Field
+            name={SPECIFIC_ITEM_NAME}
+            component={TextField}
+            label="세부항목 이름"
+            value={values[SPECIFIC_ITEM_NAME]}
+            onChange={(e) => setFieldValue(SPECIFIC_ITEM_NAME, e.target.value)}
           />
           <Field
             name={MILEAGE}

@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   typeList: [],
   categoryList: [],
+  allMileageList: [],
   semesterList: [], // 애매
   itemList: [],
   studentList: [],
@@ -38,6 +39,10 @@ const slice = createSlice({
     resetSelectedItemList: (state) => {
       state.selectedItemList = [];
     },
+    // 세부 항목 이름 중복 방지를 위해 전체 마일리지 리스트를 따로 저장
+    setAllMileageList: (state, action) => {
+      state.allMileageList = action.payload;
+    },
   },
 });
 
@@ -51,5 +56,6 @@ export const {
   setAdminList,
   setSelectedItemList,
   resetSelectedItemList,
+  setAllMileageList,
 } = slice.actions;
 export default slice.reducer;

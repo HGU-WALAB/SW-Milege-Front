@@ -12,6 +12,7 @@ import { handleServerAuth403Error } from 'src/auth/utils';
 import { ReactNode } from 'react';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import ExcelImport from 'src/components/excel/ExcelImport';
+import {setAllMileageList} from 'src/redux/slices/filterList';
 
 /**
  * @component [마일리지 항목] 게시판
@@ -197,6 +198,7 @@ export default function MileageCategory({
   const convertedFetchList = fetchData.list?.map((item) =>
     createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />),
   );
+ dispatch(setAllMileageList(fetchData.list));
 
   return (
     <>
