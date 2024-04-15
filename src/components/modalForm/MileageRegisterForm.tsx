@@ -24,6 +24,7 @@ import { Stack } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import SemesterItemSelect from '../common/Select/SemesterIdSelect';
 import ExcelImport from 'src/components/excel/ExcelImport';
+import { PATH_API } from 'src/routes/paths';
 
 export default function MileageRegisterForm({ handleClose }) {
   const [semesterItemList, setSemesterItemList] = React.useState([]);
@@ -208,7 +209,7 @@ export default function MileageRegisterForm({ handleClose }) {
             </ButtonFlexBox>
           </CustomTabPanel>
           <CustomTabPanel value={tabIndex} index={1}>
-            <ExcelImport />
+            <ExcelImport endpoint={PATH_API.excel.upload.record} />
           </CustomTabPanel>
         </Form>
       )}
