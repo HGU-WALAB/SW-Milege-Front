@@ -122,7 +122,7 @@ const headCells = [
     id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
     numeric: true,
     disablePadding: false,
-    label: '학기별 세부 항목 개수',
+    label: '사용되는 학기 수',
   },
   {
     id: [MileageGlobalItemBoard.MOD_DATE],
@@ -155,6 +155,7 @@ export interface IGlobalItem {
   isStudentInput: boolean;
   modDate: string;
   semesterItemCount: number;
+  semesterNameList: [string];
   mileageType: {
     id: number;
     name: string;
