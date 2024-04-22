@@ -10,7 +10,10 @@ import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { ReactNode } from 'react';
-import {setAllMileageList} from 'src/redux/slices/filterList';
+import ExcelExport from 'src/components/excel/ExcelExport';
+import ExcelImport from 'src/components/excel/ExcelImport';
+import { setAllMileageList } from 'src/redux/slices/filterList';
+import { PATH_API } from 'src/routes/paths';
 
 /**
  * @component [마일리지 항목] 게시판
@@ -184,10 +187,10 @@ const getServerSidePropsFunction: GetServerSideProps<{
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageCategory({
-  fetchData,
-  requireLogin,
-  error,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+                                          fetchData,
+                                          requireLogin,
+                                          error,
+                                        }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
@@ -195,15 +198,17 @@ export default function MileageCategory({
 
   const dispatch = useDispatch();
   const convertedFetchList = fetchData.list?.map((item) =>
-    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />)
+    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />),
   );
- dispatch(setAllMileageList(fetchData.list));
+  dispatch(setAllMileageList(fetchData.list));
 
-  return (
+  return <>
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
       type="마일리지 세부 항목"
-    />
-  );
+    />;
+    <ExcelExport />;
+    <ExcelImport endpoint={PATH_API.excel.upload.item} />;
+  </>;
 }

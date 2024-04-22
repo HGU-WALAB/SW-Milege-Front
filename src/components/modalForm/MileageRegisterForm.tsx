@@ -2,46 +2,29 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 
 import * as Yup from 'yup';
-import Button from '@mui/material/Button';
 
-import {
-  Box,
-  Chip,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-  styled,
-} from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { dispatch } from 'src/redux/store';
-import { closeModal } from 'src/redux/slices/modal';
+import { Box, Chip, FormControl, InputLabel, MenuItem, Select, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import {
-  COUNTS,
   DESCRIPTION1,
   EXTRAPOINTS,
   ID,
   NAME,
-  POINTS,
-  SEMESTERITEMID,
   SEMESTER_ITEM_ID,
+  SEMESTERITEMID,
   SID,
   STUDENT_NAME,
 } from '../../assets/data/fields';
-import { STUDENT_ID } from 'src/assets/data/fields';
 import { ADDMILEAGEREGISTER, EDITMILEAGEREGISTER } from 'src/assets/data/modal/modals';
-import { RECORD_NAME } from '../../assets/data/fields';
 import { Stack } from '@mui/system';
-import GlobalItemSelect from '../common/Select/GlobalItemSelect';
-import { currentYear, generateSemesters } from 'src/utils/semesterAutoGenerate';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SemesterItemSelect from '../common/Select/SemesterIdSelect';
+import ExcelImport from 'src/components/excel/ExcelImport';
+import { PATH_API } from 'src/routes/paths';
 
 export default function MileageRegisterForm({ handleClose }) {
   const [semesterItemList, setSemesterItemList] = React.useState([]);
@@ -56,7 +39,7 @@ export default function MileageRegisterForm({ handleClose }) {
         value={semester}
         onChange={(e) => setSemester(e.target.value)}
         placeholder="학기"
-        defaultValue={'학기'}
+        defaultValue="학기"
         label="학기"
         sx={{ minWidth: '100%', color: 'black' }}
       >
@@ -87,9 +70,9 @@ export default function MileageRegisterForm({ handleClose }) {
   const MileageRegisterSchema = Yup.object().shape({
     // [SEMESTERITEMID]: Yup.string().required('필수입니다.'),
     // [STUDENT_ID]: Yup.number().integer().required('필수입니다.'),
-    [NAME]: Yup.string().required('필수입니다.'),
+    [STUDENT_NAME]: Yup.string().required('필수입니다.'),
     [SID]: Yup.string().length(8, '반드시 8자리 여야 합니다.').required('필수입니다.'),
-    [COUNTS]: Yup.number().integer().required('필수입니다.'),
+    // [COUNTS]: Yup.number().integer().required('필수입니다.'),
     // [POINTS]: Yup.number().integer().required('필수입니다.'),
     [EXTRAPOINTS]: Yup.number().integer(),
     [DESCRIPTION1]: Yup.string(),
@@ -99,9 +82,9 @@ export default function MileageRegisterForm({ handleClose }) {
     const newData = {
       [SEMESTERITEMID]: beforeData ? beforeData[SEMESTER_ITEM_ID] : values[SEMESTER_ITEM_ID],
       [SID]: values[SID],
-      [STUDENT_NAME]: values[NAME],
+      [STUDENT_NAME]: values[STUDENT_NAME],
       // [STUDENT_ID]: values[STUDENT_ID],
-      [COUNTS]: values[COUNTS],
+      // [COUNTS]: 1,
       // [POINTS]: values[POINTS],
       [EXTRAPOINTS]: values[EXTRAPOINTS],
       [DESCRIPTION1]: values[DESCRIPTION1],
@@ -127,7 +110,29 @@ export default function MileageRegisterForm({ handleClose }) {
           })
           .catch((err) => alert('마일리지 적립 리스트 수정이 실패했습니다.'));
         break;
+      default:
+        break;
     }
+  };
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const CustomTabPanel = (props) => {
+    const { children, value, index } = props;
+
+    return (
+      <div
+        hidden={value !== index}
+        role="tabpanel"
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -145,9 +150,9 @@ export default function MileageRegisterForm({ handleClose }) {
 
         [SEMESTERITEMID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SEMESTERITEMID] : '',
         // [STUDENT_ID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[STUDENT_ID] : '',
-        [NAME]: modalType === EDITMILEAGEREGISTER ? beforeData?.[NAME] : '',
+        [STUDENT_NAME]: modalType === EDITMILEAGEREGISTER ? beforeData?.[NAME] : '',
         [SID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SID] : '',
-        [COUNTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[COUNTS] : 1,
+        // [COUNTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[COUNTS] : 1,
         // [POINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[POINTS] : 0,
         [EXTRAPOINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[EXTRAPOINTS] : 0,
         [DESCRIPTION1]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION1] : '',
@@ -169,9 +174,9 @@ export default function MileageRegisterForm({ handleClose }) {
         >
           {beforeData ? (
             <Stack direction="row" gap={1}>
-              <Chip label={` ${beforeData?.categoryName}`} color="primary" variant="outlined" />
+              <Chip label={`${beforeData?.semester}`} color="primary" variant="outlined" />
+              <Chip label={`${beforeData?.categoryName}`} color="primary" variant="outlined" />
               <Chip label={`${beforeData?.itemName}`} color="primary" variant="outlined" />
-              <Chip label={` ${beforeData?.semester}`} color="primary" variant="outlined" />
             </Stack>
           ) : (
             <>
@@ -180,8 +185,13 @@ export default function MileageRegisterForm({ handleClose }) {
             </>
           )}
 
-          {[NAME, SID, COUNTS, EXTRAPOINTS, DESCRIPTION1].map((field) => (
-            <>
+          <Tabs value={tabIndex} onChange={(e, index: number) => setTabIndex(index)}>
+            <Tab label="건별 등록" />
+            <Tab label="엑셀 업로드" />
+          </Tabs>
+
+          <CustomTabPanel value={tabIndex} index={0}>
+            {[STUDENT_NAME, SID, EXTRAPOINTS, DESCRIPTION1].map((field) => (
               <Field
                 style={{ minWidth: '300px' }}
                 name={field}
@@ -189,15 +199,18 @@ export default function MileageRegisterForm({ handleClose }) {
                 type="text"
                 label={engToKor(field)}
                 variant="outlined"
-                error={errors[field] && touched[field] ? true : false}
+                error={!!(errors[field] && touched[field])}
                 helperText={<ErrorMessage name={field} />}
               />
-            </>
-          ))}
-          <ButtonFlexBox>
-            <CancelButton modalType={modalType} handleClose={handleClose} />
-            <SubmitButton />
-          </ButtonFlexBox>
+            ))}
+            <ButtonFlexBox>
+              <CancelButton modalType={modalType} handleClose={handleClose} />
+              <SubmitButton />
+            </ButtonFlexBox>
+          </CustomTabPanel>
+          <CustomTabPanel value={tabIndex} index={1}>
+            <ExcelImport endpoint={PATH_API.excel.upload.record} />
+          </CustomTabPanel>
         </Form>
       )}
     </Formik>
