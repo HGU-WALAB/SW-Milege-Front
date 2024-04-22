@@ -1,6 +1,5 @@
 import { Autocomplete, TextField } from '@mui/material';
 import { styled } from '@mui/system';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory } from 'src/redux/slices/filter';
 import { removeDuplicates } from './Filtering';
