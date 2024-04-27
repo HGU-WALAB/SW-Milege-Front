@@ -10,7 +10,6 @@ import {
 } from '../redux/slices/filterList';
 import { dispatch } from '../redux/store';
 import { setCurrentSemester } from '../redux/slices/data';
-import { max } from 'lodash';
 
 export const filteringInit = async () => {
   const resSemester = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);

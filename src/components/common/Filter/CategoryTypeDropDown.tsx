@@ -16,7 +16,7 @@ export default function CategoryTypeDropDown() {
     ...useSelector((state) => state?.filterList?.typeList?.map((type) => type?.name)),
   ]);
 
-  const value = useSelector((state) => state.filter.categoryType);
+  const value = useSelector((state) => state.filter.mileageType);
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
