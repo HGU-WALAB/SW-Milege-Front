@@ -2,7 +2,19 @@ import EnhancedTable from 'src/components/common/CustomTable';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITGLOBALITEM } from 'src/assets/data/modal/modals';
 import { useDispatch } from 'react-redux';
-
+import { useState } from 'react';
+import {
+  NUM,
+  TYPE,
+  CATEGORY,
+  ITEM,
+  DESCRIPTION1,
+  SEMESTER_ITEM_COUNT,
+  MOD_DATE,
+  POINT,
+  ITEM_MAX_POINTS,
+  MANAGE,
+} from 'src/assets/data/fields';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
@@ -25,16 +37,16 @@ import { PATH_API } from 'src/routes/paths';
  */
 
 export enum MileageGlobalItemBoard {
-  NUM = 'num',
-  TYPE = 'TYPE',
-  CATEGORY = 'CATEGORY',
-  ITEM = 'ITEM',
-  DESCRIPTION1 = 'DESCRIPTION1',
-  SEMESTER_ITEM_COUNT = 'SEMESTER_ITEM_COUNT',
-  MOD_DATE = 'MOD_DATE',
-  POINT = 'POINT',
-  ITEM_MAX_POINTS = 'ITEM_MAX_POINTS',
-  MANAGE = 'MANAGE',
+  'NUM' = NUM,
+  'TYPE' = TYPE,
+  'CATEGORY' = CATEGORY,
+  'ITEM' = ITEM,
+  'DESCRIPTION1' = DESCRIPTION1,
+  'SEMESTER_ITEM_COUNT' = SEMESTER_ITEM_COUNT,
+  'MOD_DATE' = MOD_DATE,
+  'POINT' = POINT,
+  'ITEM_MAX_POINTS' = ITEM_MAX_POINTS,
+  'MANAGE' = MANAGE,
 }
 
 /**
@@ -59,17 +71,28 @@ interface Data {
  * @brief 데이터 생성 함수
  *
  *  */
-function createData(item: IGlobalItem, MANAGE: ReactNode): Data {
+function createData(
+  NUM: number,
+  TYPE: string,
+  CATEGORY: string,
+  ITEM: string,
+  POINT: number,
+  ITEM_MAX_POINTS: number,
+  DESCRIPTION1: string,
+  SEMESTER_ITEM_COUNT: number,
+  MOD_DATE: string,
+  MANAGE: string
+): Data {
   return {
-    [MileageGlobalItemBoard.NUM]: item.id,
-    [MileageGlobalItemBoard.TYPE]: item.mileageType.name,
-    [MileageGlobalItemBoard.CATEGORY]: item.category.name,
-    [MileageGlobalItemBoard.ITEM]: item.name,
-    [MileageGlobalItemBoard.POINT]: item.mileage,
-    [MileageGlobalItemBoard.ITEM_MAX_POINTS]: item.itemMaxPoints,
-    [MileageGlobalItemBoard.DESCRIPTION1]: item.description1,
-    [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: item.semesterItemCount,
-    [MileageGlobalItemBoard.MOD_DATE]: formatDateToKorean(item.modDate),
+    [MileageGlobalItemBoard.NUM]: NUM,
+    [MileageGlobalItemBoard.TYPE]: TYPE,
+    [MileageGlobalItemBoard.CATEGORY]: CATEGORY,
+    [MileageGlobalItemBoard.ITEM]: ITEM,
+    [MileageGlobalItemBoard.POINT]: POINT,
+    [MileageGlobalItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
+    [MileageGlobalItemBoard.DESCRIPTION1]: DESCRIPTION1,
+    [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: SEMESTER_ITEM_COUNT,
+    [MileageGlobalItemBoard.MOD_DATE]: formatDateToKorean(MOD_DATE),
     [MileageGlobalItemBoard.MANAGE]: MANAGE,
   };
 }
@@ -186,29 +209,46 @@ const getServerSidePropsFunction: GetServerSideProps<{
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
+const fetchToUseData = (data) => {
+  return data?.list.map((item) => {
+    return createData(
+      item.id,
+      item.mileageType.name,
+      item.category.name,
+      item.name,
+      item.mileage,
+      item.itemMaxPoints,
+      item.description1,
+      item.semesterItemCount,
+      item.modDate,
+      <SWModal type={EDITGLOBALITEM} beforeData={item} />
+    );
+  });
+};
+
 export default function MileageCategory({
-                                          fetchData,
-                                          requireLogin,
-                                          error,
-                                        }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  fetchData,
+  requireLogin,
+  error,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
   }
 
   const dispatch = useDispatch();
-  const convertedFetchList = fetchData.list?.map((item) =>
-    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />),
-  );
-  dispatch(setAllMileageList(fetchData.list));
 
-  return <>
-    <EnhancedTable
-      originalRows={convertedFetchList}
-      headCells={headCells}
-      type="마일리지 세부 항목"
-    />;
-    <ExcelExport />;
-    <ExcelImport endpoint={PATH_API.excel.upload.item} />;
-  </>;
+  const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
+
+  return (
+    <>
+      <EnhancedTable
+        originalRows={convertedFetchList}
+        headCells={headCells}
+        type="마일리지 세부 항목"
+      />
+      <ExcelExport />
+      <ExcelImport endpoint={PATH_API.excel.upload.item} />
+    </>
+  );
 }

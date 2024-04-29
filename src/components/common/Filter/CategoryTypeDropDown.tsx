@@ -1,16 +1,10 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { styled } from '@mui/system';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCategoryType } from 'src/redux/slices/filter';
 import { removeDuplicates } from './Filtering';
 
-const StyledAutocomplete = styled(Autocomplete)({
-  minWidth: '200px',
-});
-
 export default function CategoryTypeDropDown() {
-
   const top100Films = removeDuplicates([
     '전체',
     ...useSelector((state) => state?.filterList?.typeList?.map((type) => type?.name)),
@@ -35,3 +29,7 @@ export default function CategoryTypeDropDown() {
     />
   );
 }
+
+const StyledAutocomplete = styled(Autocomplete)({
+  minWidth: '200px',
+});

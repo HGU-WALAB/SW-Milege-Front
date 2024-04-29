@@ -210,7 +210,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
 
   let fetchData = res.data;
-  console.log('fetchData:', fetchData);
+
   return { props: { fetchData } };
 };
 
@@ -240,7 +240,6 @@ const fetchToUseData = (data) => {
       formatDateToKorean(semesterItem.modDate),
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );
-
   });
 };
 

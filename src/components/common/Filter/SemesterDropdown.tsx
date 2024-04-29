@@ -1,12 +1,13 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, styled } from '@mui/material';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSemester } from 'src/redux/slices/filter';
 
 export default function SemesterDropdown() {
   const SEMESTERS = useSelector((state) => state.filterList.semesterList);
   const semester = useSelector((state) => state.filter.semester);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(setSemester(event.target.value));

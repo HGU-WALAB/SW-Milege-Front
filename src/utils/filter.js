@@ -4,6 +4,7 @@ import {
   setAdminList,
   setCategoryList,
   setItemList,
+  setDetailedItemBySemesterList,
   setSemesterList,
   setStudentList,
   setTypeList,
@@ -23,7 +24,7 @@ export const filteringInit = async () => {
 
   const resCategory = await axiosInstance.get('/api/mileage/categories');
   const categoryData = resCategory.data;
-  console.log(categoryData);
+
   await dispatch(
     setCategoryList(
       categoryData.list?.map((category) => ({
@@ -33,7 +34,6 @@ export const filteringInit = async () => {
       }))
     )
   );
-
 
   const resSemesterList = await axiosInstance.get('/api/mileage/semesters');
   const semesterList = resSemesterList.data.list.map((sem) => sem.name).reverse();
@@ -51,6 +51,8 @@ export const filteringInit = async () => {
       }))
     )
   );
+
+  // const resDetailSemesterItem = await axiosInstance.get(`/api/mileage/semesters/${currentSemester}/items`);
 
   const resStudents = await axiosInstance.get(`/api/mileage/students`);
   const studentData = await resStudents.data;
