@@ -60,7 +60,7 @@ function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): Data {
     [MileageSemesterItemBoard.NUM]: semesterItem.id,
     [MileageSemesterItemBoard.SEMESTER]: semesterItem.semesterName,
     [MileageSemesterItemBoard.CATEGORY]: semesterItem.category.name,
-    [MileageSemesterItemBoard.ITEM]: semesterItem.item.itemName,
+    [MileageSemesterItemBoard.ITEM]: semesterItem.item.name,
     [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: semesterItem.name,
     [MileageSemesterItemBoard.POINTS]: semesterItem.points,
     [MileageSemesterItemBoard.ITEM_MAX_POINTS]: semesterItem.itemMaxPoints,
@@ -136,21 +136,19 @@ const headCells = [
   },
 ];
 
-interface IItem {
+export interface IItem {
   id: number;
-  itemName: string;
-  isPortfolio: boolean;
-  description1: string;
-  stuType: string; // 'C', 'F', 'CF' 중 하나로 제한하려면 "C" | "F" | "CF"와 같이 명시할 수 있습니다.
+  name: string;
+  isDuplicable: boolean;
 }
 
-interface ICategory {
+export interface ICategory {
   id: number;
   name: string;
   maxPoints: number;
 }
 
-interface ISemesterItem {
+export interface ISemesterItem {
   id: number;
   item: IItem;
   category: ICategory;

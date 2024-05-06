@@ -26,6 +26,7 @@ export enum MileageViewBoard {
   CATEGORY = 'category',
   SEMESTER = 'semester',
   ITEM = 'item',
+  SPECIFIC_ITEM_NAME = 'specificItemName',
   STUDENT_ID = 'studentId',
   STUDENT_NAME = 'studentName',
   POINT = 'point',
@@ -43,6 +44,7 @@ function createData(mileageRecord: IMileageRecord, edit: ReactNode): Data {
     [MileageViewBoard.SEMESTER]: mileageRecord.semesterItem.semesterName,
     [MileageViewBoard.CATEGORY]: mileageRecord.category.name,
     [MileageViewBoard.ITEM]: mileageRecord.semesterItem.item.name,
+    [MileageViewBoard.SPECIFIC_ITEM_NAME]: mileageRecord.semesterItem.name,
     [MileageViewBoard.STUDENT_NAME]: mileageRecord.studentName,
     [MileageViewBoard.STUDENT_ID]: mileageRecord.sid,
     [MileageViewBoard.POINT]: mileageRecord.points,
@@ -79,6 +81,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: '세부 항목명',
+  },
+  {
+    id: [MileageViewBoard.SPECIFIC_ITEM_NAME],
+    numeric: true,
+    disablePadding: false,
+    label: '학기 세부항목명',
   },
   {
     id: [MileageViewBoard.STUDENT_NAME],
@@ -121,6 +129,7 @@ interface Data {
   [MileageViewBoard.CATEGORY]: string;
   [MileageViewBoard.SEMESTER]: string;
   [MileageViewBoard.ITEM]: string;
+  [MileageViewBoard.SPECIFIC_ITEM_NAME]: string;
   [MileageViewBoard.STUDENT_ID]: string;
   [MileageViewBoard.STUDENT_NAME]: string;
   [MileageViewBoard.POINT]: number;
@@ -137,8 +146,8 @@ interface IMileageRecord {
   description1: string;
   category: {
     id: number;
-    'name': string;
-    'maxPoints': number;
+    name: string;
+    maxPoints: number;
   },
   semesterItem: {
     id: number;

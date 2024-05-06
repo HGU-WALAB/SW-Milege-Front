@@ -2,28 +2,18 @@ import EnhancedTable from 'src/components/common/CustomTable';
 import React, { ReactNode, useEffect, useState } from 'react';
 import axiosInstance from 'src/utils/axios';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import { IconButton } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, IconButton } from '@mui/material';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
-import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { useDispatch, useSelector } from 'react-redux';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { GetServerSideProps } from 'next';
 import SWModal from 'src/components/common/modal/SWModal';
 import { ADDMILEAGEREGISTER } from 'src/assets/data/modal/modals';
-import { ISemesterItemList } from 'src/pages/mileage/item/semester';
+import { ISemesterItem, ISemesterItemList } from 'src/pages/mileage/item/semester';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import ExcelExport from 'src/components/excel/ExcelExport';
-import {
-  NUM,
-  SEMESTER,
-  ITEM_NAME,
-  DESCRIPTION1,
-  POINTS,
-  COUNTS,
-  MOD_DATE,
-  STUDENTS,
-} from 'src/assets/data/fields';
+import { PATH_API } from 'src/routes/paths';
 
 /**
  * @component [마일리지 적립] 게시판
@@ -35,14 +25,16 @@ import {
  */
 
 export enum MileageRegisterBoard {
-  'NUM' = NUM,
-  'SEMESTER' = SEMESTER,
-  'ITEM_NAME' = ITEM_NAME,
-  'DESCRIPTION1' = DESCRIPTION1,
-  'POINTS' = POINTS,
-  'COUNTS' = COUNTS,
-  'MOD_DATE' = MOD_DATE,
-  'STUDENTS' = STUDENTS,
+  NUM = 'num',
+  SEMESTER = 'semester',
+  CATEGORY = 'category',
+  ITEM_NAME = 'item',
+  SPECIFIC_ITEM_NAME = 'specificItemName',
+  DESCRIPTION1 = 'description1',
+  POINTS = 'points',
+  COUNTS = 'counts',
+  MOD_DATE = 'modDate',
+  MANAGE = 'MANAGE',
 }
 
 /**
@@ -52,12 +44,13 @@ export enum MileageRegisterBoard {
 interface Data {
   [MileageRegisterBoard.NUM]: number;
   [MileageRegisterBoard.SEMESTER]: string;
+  [MileageRegisterBoard.CATEGORY]: string;
   [MileageRegisterBoard.ITEM_NAME]: string;
-  [MileageRegisterBoard.DESCRIPTION1]: string;
+  [MileageRegisterBoard.SPECIFIC_ITEM_NAME]: string;
   [MileageRegisterBoard.POINTS]: number;
   [MileageRegisterBoard.COUNTS]: number;
   [MileageRegisterBoard.MOD_DATE]: string;
-  [MileageRegisterBoard.STUDENTS]: ReactNode;
+  [MileageRegisterBoard.MANAGE]: ReactNode;
 }
 
 /**
@@ -66,34 +59,20 @@ interface Data {
  *
  *  */
 function createData(
-  NUM: number,
-  SEMESTER: string,
-  ITEM_NAME: string,
-  DESCRIPTION1: string,
-  POINTS: number,
-  COUNTS: number,
-  MOD_DATE: string,
-  STUDENTS: ReactNode
+  semesterItem: ISemesterItem,
+  MANAGE: ReactNode,
 ): Data {
   return {
-    [MileageRegisterBoard.NUM]: NUM,
-    [MileageRegisterBoard.SEMESTER]: SEMESTER,
-    [MileageRegisterBoard.ITEM_NAME]: ITEM_NAME,
-    [MileageRegisterBoard.DESCRIPTION1]: DESCRIPTION1,
-    [MileageRegisterBoard.POINTS]: POINTS,
-    [MileageRegisterBoard.COUNTS]: COUNTS,
-    [MileageRegisterBoard.MOD_DATE]: MOD_DATE,
-    [MileageRegisterBoard.STUDENTS]: STUDENTS,
+    [MileageRegisterBoard.NUM]: semesterItem.id,
+    [MileageRegisterBoard.SEMESTER]: semesterItem.semesterName,
+    [MileageRegisterBoard.CATEGORY]: semesterItem.category.name,
+    [MileageRegisterBoard.ITEM_NAME]: semesterItem.item.name,
+    [MileageRegisterBoard.SPECIFIC_ITEM_NAME]: semesterItem.name,
+    [MileageRegisterBoard.POINTS]: semesterItem.points,
+    [MileageRegisterBoard.COUNTS]: semesterItem.recordCount,
+    [MileageRegisterBoard.MOD_DATE]: formatDateToKorean(semesterItem.modDate),
+    [MileageRegisterBoard.MANAGE]: MANAGE,
   };
-}
-
-interface Record {
-  id: number;
-  studentName: string;
-  counts: number;
-  points: number;
-  extraPoints: number;
-  description1: string;
 }
 
 /**
@@ -114,16 +93,22 @@ const headCells = [
     label: '학기',
   },
   {
+    id: [MileageRegisterBoard.CATEGORY],
+    numeric: true,
+    disablePadding: false,
+    label: '카테고리',
+  },
+  {
     id: [MileageRegisterBoard.ITEM_NAME],
     numeric: true,
     disablePadding: false,
     label: '세부 항목명',
   },
   {
-    id: [MileageRegisterBoard.DESCRIPTION1],
+    id: [MileageRegisterBoard.SPECIFIC_ITEM_NAME],
     numeric: true,
     disablePadding: false,
-    label: '설명',
+    label: '학기 세부항목명',
   },
   {
     id: [MileageRegisterBoard.POINTS],
@@ -144,7 +129,7 @@ const headCells = [
     label: '최근 수정일',
   },
   {
-    id: [MileageRegisterBoard.STUDENTS],
+    id: [MileageRegisterBoard.MANAGE],
     numeric: true,
     disablePadding: false,
     label: '학생 관리',
@@ -179,7 +164,7 @@ const handleAllDelete = (id) => {
 };
 
 const fetchToUseData = (data) =>
-  data.list.map((semesterItem) => {
+  data.list.map((semesterItem: ISemesterItem) => {
     const beforeData = {
       id: semesterItem.id,
       recordName: semesterItem.item.name,
@@ -190,28 +175,21 @@ const fetchToUseData = (data) =>
     };
 
     return createData(
-      semesterItem.id,
-      // semesterItem.item.id,
-      semesterItem.semesterName,
-      semesterItem.item.name,
-      semesterItem.item.description1,
-      semesterItem.points,
-      semesterItem.recordCount, //  학생수가 들어가야함
-      formatDateToKorean(semesterItem.modDate),
+      semesterItem,
       <Box sx={{ display: 'flex' }}>
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />
         </IconButton>
-      </Box>
+      </Box>,
     );
   });
 
 export default function MileageRegister({
-  fetchData,
-  requireLogin,
-  error,
-}): InferGetServerSidePropsType<typeof getServerSideProps> {
+                                          fetchData,
+                                          requireLogin,
+                                          error,
+                                        }): React.JSX.Element {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
@@ -227,10 +205,8 @@ export default function MileageRegister({
     });
   }, [semester]);
 
-  return (
-    <>
-      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 적립" />
-      <ExcelExport />
-    </>
-  );
+  return <>
+    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 적립" />
+    <ExcelExport endpoint={PATH_API.excel.download.format.record} />
+  </>;
 }

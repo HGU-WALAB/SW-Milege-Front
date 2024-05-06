@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, styled } from '@mui/material';
+import { Autocomplete, styled, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setItem } from 'src/redux/slices/filter';
 import { removeDuplicates } from './Filtering';
