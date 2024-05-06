@@ -92,17 +92,17 @@ const headCells = [
     disablePadding: false,
     label: '카테고리명',
   },
-  // {
-  //   id: [MileageSemesterItemBoard.ITEM],
-  //   numeric: true,
-  //   disablePadding: false,
-  //   label: '항목명',
-  // },
+  {
+    id: [MileageSemesterItemBoard.ITEM],
+    numeric: true,
+    disablePadding: false,
+    label: '세부 항목명',
+  },
   {
     id: [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME],
     numeric: true,
     disablePadding: false,
-    label: '세부 항목명',
+    label: '학기 세부항목명',
   },
   {
     id: [MileageSemesterItemBoard.POINTS],

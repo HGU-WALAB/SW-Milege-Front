@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   category: '전체',
-  semester: '전체',
   isVisible: '전체',
+  semester: '전체',
   item: '전체',
+  detailedItemBySemester: '전체',
   studentName: '전체',
   grade: '전체',
   department: '전체',
@@ -41,6 +42,12 @@ const slice = createSlice({
     },
     clearItem: (state) => {
       state.item = '전체';
+    },
+    setDetailedItemBySemester: (state, action) => {
+      state.detailedItemBySemester = action.payload;
+    },
+    clearDetailedItemBySemester: (state) => {
+      state.detailedItemBySemester = '전체';
     },
     setStudentName: (state, action) => {
       state.studentName = action.payload;
@@ -97,6 +104,8 @@ export const {
   clearIsVisible,
   setItem,
   clearItem,
+  setDetailedItemBySemester,
+  clearDetailedItemBySemester,
   setStudentName,
   clearStudentName,
   setGrade,

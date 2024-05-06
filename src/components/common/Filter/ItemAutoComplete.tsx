@@ -1,12 +1,7 @@
 import { Autocomplete, TextField, styled } from '@mui/material';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategory, setItem } from 'src/redux/slices/filter';
+import { setItem } from 'src/redux/slices/filter';
 import { removeDuplicates } from './Filtering';
-
-const StyledAutocomplete = styled(Autocomplete)({
-  minWidth: '230px',
-});
 
 export default function ItemAutoComplete() {
   const top100Films = removeDuplicates([
@@ -27,8 +22,12 @@ export default function ItemAutoComplete() {
       disablePortal
       id="combo-box-demo"
       options={top100Films}
-      renderInput={(params) => <TextField {...params} label="항목명" />}
+      renderInput={(params) => <TextField {...params} label="세부항목" />}
       onChange={(e, newValue) => handleChange(e, newValue)}
     />
   );
 }
+
+const StyledAutocomplete = styled(Autocomplete)({
+  minWidth: '230px',
+});
