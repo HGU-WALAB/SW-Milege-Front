@@ -6,6 +6,7 @@ const initialState = {
   allMileageList: [],
   semesterList: [], // 애매
   itemList: [],
+  detailedItemBySemesterList: [],
   studentList: [],
   adminList: [],
   selectedItemList: [],
@@ -27,6 +28,10 @@ const slice = createSlice({
     setItemList: (state, action) => {
       state.itemList = action.payload;
     },
+    setDetailedItemBySemesterList: (state, action) => {
+      state.detailedItemBySemesterList = action.payload;
+    },
+
     setStudentList: (state, action) => {
       state.studentList = action.payload;
     },
@@ -52,6 +57,7 @@ export const {
   setCategoryList,
   setSemesterList,
   setItemList,
+  setDetailedItemBySemesterList,
   setStudentList,
   setAdminList,
   setSelectedItemList,

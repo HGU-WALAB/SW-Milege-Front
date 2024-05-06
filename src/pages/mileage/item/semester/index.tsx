@@ -1,4 +1,3 @@
-import { StarIcon } from 'src/theme/overrides/CustomIcons';
 import EnhancedTable from 'src/components/common/CustomTable';
 import {
   MILEAGE,
@@ -33,15 +32,12 @@ import { EDITITEM } from 'src/assets/data/modal/modals';
 import { useSelector, dispatch } from 'src/redux/store';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setMileageSemesterList } from 'src/redux/slices/data';
 import axiosInstance from 'src/utils/axios';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
-import { setSemester } from 'src/redux/slices/filter';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import MileageSemesterItem from '../../../../components/board/MileageSemesterItem';
-import { set } from 'lodash';
 
 /**
  * @component [학기별 마일리지 세부 항목] 게시판
@@ -102,7 +98,7 @@ function createData(
     [MileageSemesterItemBoard.NUM]: NUM,
     [MileageSemesterItemBoard.SEMESTER]: SEMESTER,
     [MileageSemesterItemBoard.CATEGORY]: CATEGORY,
-    // [MileageSemesterItemBoard.ITEM]: ITEM,
+    [MileageSemesterItemBoard.ITEM]: ITEM,
     [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: SPECIFIC_ITEM_NAME,
     [MileageSemesterItemBoard.POINTS]: POINTS,
     [MileageSemesterItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
@@ -135,17 +131,17 @@ const headCells = [
     disablePadding: false,
     label: '카테고리명',
   },
-  // {
-  //   id: [MileageSemesterItemBoard.ITEM],
-  //   numeric: true,
-  //   disablePadding: false,
-  //   label: '항목명',
-  // },
+  {
+    id: [MileageSemesterItemBoard.ITEM],
+    numeric: true,
+    disablePadding: false,
+    label: '세부 항목명',
+  },
   {
     id: [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME],
     numeric: true,
     disablePadding: false,
-    label: '세부 항목명',
+    label: '학기 세부항목명',
   },
   {
     id: [MileageSemesterItemBoard.POINTS],
@@ -214,7 +210,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
 
   let fetchData = res.data;
-  console.log('fetchData:', fetchData);
+
   return { props: { fetchData } };
 };
 
@@ -241,11 +237,9 @@ const fetchToUseData = (data) => {
       semesterItem.name,
       semesterItem.points,
       semesterItem.itemMaxPoints,
-      // semesterItem.isMulti,
       formatDateToKorean(semesterItem.modDate),
       <SWModal type={EDITITEM} beforeData={beforeData} />
     );
-
   });
 };
 

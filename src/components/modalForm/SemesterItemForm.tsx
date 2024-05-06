@@ -126,7 +126,7 @@ const SemesterItemForm = ({ handleClose }) => {
           <Field
             name={SPECIFIC_ITEM_NAME}
             component={TextField}
-            label="세부항목 이름"
+            label="학기 세부항목 이름"
             value={values[SPECIFIC_ITEM_NAME]}
             onChange={(e) => setFieldValue(SPECIFIC_ITEM_NAME, e.target.value)}
           />
