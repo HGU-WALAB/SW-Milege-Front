@@ -9,6 +9,8 @@ import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { ReactNode } from 'react';
+import ExcelExport from 'src/components/excel/ExcelExport';
+import { PATH_API } from 'src/routes/paths';
 
 /**
  * @breif [마일리지 카테고리] 게시판
@@ -156,11 +158,12 @@ export default function MileageCategory({
     <SWModal type={EDITCATEGORY} beforeData={item} />,
   ));
 
-  return (
+  return <>
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
       type="마일리지 카테고리"
     />
-  );
+    <ExcelExport endpoint={PATH_API.excel.download.category} />
+  </>;
 }

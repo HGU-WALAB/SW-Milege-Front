@@ -206,8 +206,9 @@ export default function MileageCategory({
       originalRows={convertedFetchList}
       headCells={headCells}
       type="마일리지 세부 항목"
-    />;
-    <ExcelExport />;
-    <ExcelImport endpoint={PATH_API.excel.upload.item} />;
+    />
+    <ExcelExport endpoint={PATH_API.excel.download.globalItem} />
+    <ExcelExport endpoint={PATH_API.excel.download.format.item} buttonText="엑셀양식 다운로드" />
+    <ExcelImport endpoint={PATH_API.excel.upload.item} />
   </>;
 }

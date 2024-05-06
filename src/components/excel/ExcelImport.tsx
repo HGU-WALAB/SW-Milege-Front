@@ -58,7 +58,7 @@ export default function ExcelImport({ endpoint, buttonText = '엑셀 업로드' 
     inputRef.current.click();
   };
 
-  return <Box>
+  return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', mt: '30px' }}>
     <input type="file" style={{ display: 'none' }} onChange={handleChange} ref={inputRef} />
     <Button variant="contained" onClick={() => handleButtonClick(endpoint)}>
       {buttonText}

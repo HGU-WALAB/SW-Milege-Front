@@ -69,10 +69,11 @@ export const PATH_API = {
         record: path(ROOTS_DOWNLOAD, '/format/mileage-record'),
         result: path(ROOTS_DOWNLOAD, '/format/scholarship-result'),
       },
-      category: path(ROOTS_DOWNLOAD, '/mileage-categories'),
-      globalItem: path(ROOTS_DOWNLOAD, '/mileage-items-common'),
-      semesterItem: (semester) => path(ROOTS_DOWNLOAD, `/mileage-items?semester=${semester}`),
-      register: (semester) => path(ROOTS_DOWNLOAD, `/scholarship-applicants?semester=${semester}`),
+      category: path(ROOTS_DOWNLOAD, '/mileage-category'),
+      globalItem: path(ROOTS_DOWNLOAD, '/mileage-item'),
+      semesterItem: path(ROOTS_DOWNLOAD, `/mileage-semester-item`),
+      record: path(ROOTS_DOWNLOAD, `/mileage-record`),
+      register: path(ROOTS_DOWNLOAD, `/scholarship-applicant`), // Not Implemented
     },
   },
 };
