@@ -235,6 +235,7 @@ export default function MileageCategory({
     handleServerAuth403Error(error);
     return;
   }
+  
 
   const dispatch = useDispatch();
 

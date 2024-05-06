@@ -9,20 +9,38 @@ import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { ReactNode } from 'react';
-
+import {
+  NUM,
+  CATEGORY,
+  DESCRIPTION1,
+  ITEM_COUNT,
+  CATEGORY_MAX_POINTS,
+  MOD_DATE,
+  MANAGE,
+} from 'src/assets/data/fields';
 /**
  * @breif [마일리지 카테고리] 게시판
  */
 
+// enum MileageCategoryBoard {
+//   NUM = 'num',
+//   CATEGORY = 'name',
+//   DESCRIPTION1 = 'description1',
+//   ORDER_IDX = 'orderIdx',
+//   ITEM_COUNT = 'itemCount',
+//   CATEGORY_MAX_POINTS = 'categoryMaxPoints',
+//   MOD_DATE = 'modDate',
+//   MANAGE = 'MANAGE',
+// }
+
 enum MileageCategoryBoard {
-  NUM = 'num', // Used in EnhancedTable
-  CATEGORY = 'name',
-  DESCRIPTION1 = 'description1',
-  ORDER_IDX = 'orderIdx',
-  ITEM_COUNT = 'itemCount',
-  CATEGORY_MAX_POINTS = 'categoryMaxPoints',
-  MOD_DATE = 'modDate',
-  MANAGE = 'MANAGE',
+  'NUM' = NUM,
+  'CATEGORY' = CATEGORY,
+  'DESCRIPTION1' = DESCRIPTION1,
+  'ITEM_COUNT' = ITEM_COUNT,
+  'CATEGORY_MAX_POINTS' = CATEGORY_MAX_POINTS,
+  'MOD_DATE' = MOD_DATE,
+  'MANAGE' = MANAGE,
 }
 
 /**
@@ -136,10 +154,10 @@ const getServerSidePropsFunction: GetServerSideProps<{
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageCategory({
-                                          fetchData,
-                                          requireLogin,
-                                          error,
-                                        }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  fetchData,
+  requireLogin,
+  error,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
@@ -151,10 +169,10 @@ export default function MileageCategory({
    * @brief 마일리지 카테고리 리스트 데이터
    */
 
-  const convertedFetchList = fetchData.list?.map((item: IList): BoardColumn => createData(
-    item,
-    <SWModal type={EDITCATEGORY} beforeData={item} />,
-  ));
+  const convertedFetchList = fetchData.list?.map(
+    (item: IList): BoardColumn =>
+      createData(item, <SWModal type={EDITCATEGORY} beforeData={item} />)
+  );
 
   return (
     <EnhancedTable
