@@ -124,7 +124,7 @@ const headCells = [
     id: [MileageGlobalItemBoard.ITEM],
     numeric: true,
     disablePadding: false,
-    label: '항목명',
+    label: '세부 항목명',
   },
   {
     id: [MileageGlobalItemBoard.POINT],
@@ -235,7 +235,6 @@ export default function MileageCategory({
     handleServerAuth403Error(error);
     return;
   }
-  
 
   const dispatch = useDispatch();
 

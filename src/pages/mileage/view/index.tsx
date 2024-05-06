@@ -110,7 +110,7 @@ const headCells = [
     id: [MileageViewBoard.ITEM],
     numeric: true,
     disablePadding: false,
-    label: '항목명',
+    label: '세부 항목명',
   },
   {
     id: [MileageViewBoard.STUDENT_NAME],

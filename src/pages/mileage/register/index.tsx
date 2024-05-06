@@ -14,6 +14,16 @@ import SWModal from 'src/components/common/modal/SWModal';
 import { ADDMILEAGEREGISTER } from 'src/assets/data/modal/modals';
 import { ISemesterItemList } from 'src/pages/mileage/item/semester';
 import ExcelExport from 'src/components/excel/ExcelExport';
+import {
+  NUM,
+  SEMESTER,
+  ITEM_NAME,
+  DESCRIPTION1,
+  POINTS,
+  COUNTS,
+  MOD_DATE,
+  STUDENTS,
+} from 'src/assets/data/fields';
 
 /**
  * @component [마일리지 적립] 게시판
@@ -25,14 +35,14 @@ import ExcelExport from 'src/components/excel/ExcelExport';
  */
 
 export enum MileageRegisterBoard {
-  NUM = 'num',
-  SEMESTER = 'semester',
-  ITEM_NAME = 'itemName',
-  DESCRIPTION1 = 'description1',
-  POINTS = 'points',
-  COUNTS = 'counts',
-  MOD_DATE = 'modDate',
-  STUDENTS = 'students',
+  'NUM' = NUM,
+  'SEMESTER' = SEMESTER,
+  'ITEM_NAME' = ITEM_NAME,
+  'DESCRIPTION1' = DESCRIPTION1,
+  'POINTS' = POINTS,
+  'COUNTS' = COUNTS,
+  'MOD_DATE' = MOD_DATE,
+  'STUDENTS' = STUDENTS,
 }
 
 /**
@@ -63,7 +73,7 @@ function createData(
   POINTS: number,
   COUNTS: number,
   MOD_DATE: string,
-  STUDENTS: ReactNode,
+  STUDENTS: ReactNode
 ): Data {
   return {
     [MileageRegisterBoard.NUM]: NUM,
@@ -107,7 +117,7 @@ const headCells = [
     id: [MileageRegisterBoard.ITEM_NAME],
     numeric: true,
     disablePadding: false,
-    label: '항목명',
+    label: '세부 항목명',
   },
   {
     id: [MileageRegisterBoard.DESCRIPTION1],
@@ -168,39 +178,40 @@ const handleAllDelete = (id) => {
   }
 };
 
-const fetchToUseData = (data) => data.list.map((semesterItem) => {
-  const beforeData = {
-    id: semesterItem.id,
-    recordName: semesterItem.item.name,
-    semesterItemId: semesterItem.id,
-    semester: semesterItem.semesterName,
-    itemName: semesterItem.item.name,
-    categoryName: semesterItem.category.name,
-  };
+const fetchToUseData = (data) =>
+  data.list.map((semesterItem) => {
+    const beforeData = {
+      id: semesterItem.id,
+      recordName: semesterItem.item.name,
+      semesterItemId: semesterItem.id,
+      semester: semesterItem.semesterName,
+      itemName: semesterItem.item.name,
+      categoryName: semesterItem.category.name,
+    };
 
-  return createData(
-    semesterItem.id,
-    // semesterItem.item.id,
-    semesterItem.semesterName,
-    semesterItem.item.name,
-    semesterItem.item.description1,
-    semesterItem.points,
-    semesterItem.recordCount, //  학생수가 들어가야함
-    formatDateToKorean(semesterItem.modDate),
-    <Box sx={{ display: 'flex' }}>
-      <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
-      <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
-        <DeleteIcon />
-      </IconButton>
-    </Box>,
-  );
-});
+    return createData(
+      semesterItem.id,
+      // semesterItem.item.id,
+      semesterItem.semesterName,
+      semesterItem.item.name,
+      semesterItem.item.description1,
+      semesterItem.points,
+      semesterItem.recordCount, //  학생수가 들어가야함
+      formatDateToKorean(semesterItem.modDate),
+      <Box sx={{ display: 'flex' }}>
+        <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
+        <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
+          <DeleteIcon />
+        </IconButton>
+      </Box>
+    );
+  });
 
 export default function MileageRegister({
-                                          fetchData,
-                                          requireLogin,
-                                          error,
-                                        }): InferGetServerSidePropsType<typeof getServerSideProps> {
+  fetchData,
+  requireLogin,
+  error,
+}): InferGetServerSidePropsType<typeof getServerSideProps> {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
