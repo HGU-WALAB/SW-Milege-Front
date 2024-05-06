@@ -238,17 +238,14 @@ export default function MileageCategory({
 
   const dispatch = useDispatch();
 
-  const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
-
-  return (
-    <>
-      <EnhancedTable
-        originalRows={convertedFetchList}
-        headCells={headCells}
-        type="마일리지 세부 항목"
-      />
-      <ExcelExport />
-      <ExcelImport endpoint={PATH_API.excel.upload.item} />
-    </>
-  );
+  return <>
+    <EnhancedTable
+      originalRows={convertedFetchList}
+      headCells={headCells}
+      type="마일리지 세부 항목"
+    />
+    <ExcelExport endpoint={PATH_API.excel.download.globalItem} />
+    <ExcelExport endpoint={PATH_API.excel.download.format.item} buttonText="엑셀양식 다운로드" />
+    <ExcelImport endpoint={PATH_API.excel.upload.item} />
+  </>;
 }

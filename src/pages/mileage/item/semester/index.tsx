@@ -1,43 +1,16 @@
 import EnhancedTable from 'src/components/common/CustomTable';
-import {
-  MILEAGE,
-  ISVISIBLE,
-  REGISTERED_DATE,
-  CHECK_BOX,
-  NUM,
-  DESCRIPTION,
-  DESCRIPTION1,
-  SEMESTERITEM,
-  FILE_DESCRIPTION,
-  ISVISIBLE_STUDENT,
-  ISINPUT_STUDENT,
-  ISDUPLICATE_RECORD,
-  ISEVALUATE_CSEE_GENERAL,
-  ISEVALUATE_CSEE_SPECIAL,
-  ISEVALUATE_ICT_CONVERGENCE,
-  MOD_DATE,
-  MAX_MAILEAGE,
-  SEMESTERITEMID,
-  CATEGORY,
-  SEMESTER,
-  ITEM,
-  POINTS,
-  MANAGE,
-  ITEM_MAX_POINTS,
-  IS_MULTI,
-  SPECIFIC_ITEM_NAME,
-} from 'src/assets/data/fields';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITITEM } from 'src/assets/data/modal/modals';
-import { useSelector, dispatch } from 'src/redux/store';
-import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'src/redux/store';
+import { ReactNode, useEffect, useState } from 'react';
 import axiosInstance from 'src/utils/axios';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
-import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
-import MileageSemesterItem from '../../../../components/board/MileageSemesterItem';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import ExcelExport from 'src/components/excel/ExcelExport';
+import { PATH_API } from 'src/routes/paths';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 /**
  * @component [학기별 마일리지 세부 항목] 게시판
@@ -49,15 +22,15 @@ import MileageSemesterItem from '../../../../components/board/MileageSemesterIte
  */
 
 export enum MileageSemesterItemBoard {
-  'NUM' = NUM,
-  'CATEGORY' = CATEGORY,
-  'SEMESTER' = SEMESTER,
-  'ITEM' = ITEM,
-  'SPECIFIC_ITEM_NAME' = SPECIFIC_ITEM_NAME,
-  'POINTS' = POINTS,
-  'ITEM_MAX_POINTS' = ITEM_MAX_POINTS,
-  'MOD_DATE' = MOD_DATE,
-  'MANAGE' = MANAGE,
+  NUM = 'num',
+  CATEGORY = 'category',
+  SEMESTER = 'semester',
+  ITEM = 'item',
+  SPECIFIC_ITEM_NAME = 'specificItemName',
+  POINTS = 'points',
+  ITEM_MAX_POINTS = 'itemMaxPoints',
+  MOD_DATE = 'modDate',
+  MANAGE = 'manage',
   // 'IS_MULTI' = IS_MULTI,
 }
 
@@ -66,15 +39,15 @@ export enum MileageSemesterItemBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
-  [MileageSemesterItemBoard.CATEGORY]: string;
+  [MileageSemesterItemBoard.NUM]: number;
   [MileageSemesterItemBoard.SEMESTER]: string;
+  [MileageSemesterItemBoard.CATEGORY]: string;
   [MileageSemesterItemBoard.ITEM]: string;
   [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: string;
   [MileageSemesterItemBoard.POINTS]: number;
   [MileageSemesterItemBoard.ITEM_MAX_POINTS]: number;
   [MileageSemesterItemBoard.MOD_DATE]: string;
-  [MileageSemesterItemBoard.MANAGE]: string;
-  // [MileageSemesterItemBoard.IS_MULTI]: boolean;
+  [MileageSemesterItemBoard.MANAGE]: ReactNode;
 }
 
 /**
@@ -82,29 +55,17 @@ interface Data {
  * @brief 데이터 생성 함수
  *
  *  */
-function createData(
-  NUM: number,
-  CATEGORY: string,
-  SEMESTER: string,
-  ITEM: string,
-  SPECIFIC_ITEM_NAME: string,
-  POINTS: number,
-  ITEM_MAX_POINTS: number,
-  MOD_DATE: string,
-  MANAGE: string
-  // IS_MULTI: boolean
-): Data {
+function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): Data {
   return {
-    [MileageSemesterItemBoard.NUM]: NUM,
-    [MileageSemesterItemBoard.SEMESTER]: SEMESTER,
-    [MileageSemesterItemBoard.CATEGORY]: CATEGORY,
-    [MileageSemesterItemBoard.ITEM]: ITEM,
-    [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: SPECIFIC_ITEM_NAME,
-    [MileageSemesterItemBoard.POINTS]: POINTS,
-    [MileageSemesterItemBoard.ITEM_MAX_POINTS]: ITEM_MAX_POINTS,
-    [MileageSemesterItemBoard.MOD_DATE]: MOD_DATE,
+    [MileageSemesterItemBoard.NUM]: semesterItem.id,
+    [MileageSemesterItemBoard.SEMESTER]: semesterItem.semesterName,
+    [MileageSemesterItemBoard.CATEGORY]: semesterItem.category.name,
+    [MileageSemesterItemBoard.ITEM]: semesterItem.item.itemName,
+    [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME]: semesterItem.name,
+    [MileageSemesterItemBoard.POINTS]: semesterItem.points,
+    [MileageSemesterItemBoard.ITEM_MAX_POINTS]: semesterItem.itemMaxPoints,
+    [MileageSemesterItemBoard.MOD_DATE]: formatDateToKorean(semesterItem.modDate),
     [MileageSemesterItemBoard.MANAGE]: MANAGE,
-    // [MileageSemesterItemBoard.IS_MULTI]: IS_MULTI,
   };
 }
 
@@ -190,11 +151,17 @@ interface ICategory {
 }
 
 interface ISemesterItem {
+  id: number;
   item: IItem;
   category: ICategory;
+  name: string;
   semesterName: string;
-  weight: number;
+  points: number;
+  recordCount: number;
+  itemMaxPoints: number;
+  modDate: string;
 }
+
 export interface ISemesterItemList {
   semesterItems: ISemesterItem[];
 }
@@ -208,8 +175,7 @@ const getServerSidePropsFunction: GetServerSideProps<{
   const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
   const nowSemester = await semesterRes.data.data.name;
   const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
-
-  let fetchData = res.data;
+  const fetchData = res.data;
 
   return { props: { fetchData } };
 };
@@ -218,45 +184,23 @@ export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction)
 
 const fetchToUseData = (data) => {
   return data?.list.map((semesterItem) => {
-    const beforeData = {
-      [SEMESTERITEMID]: semesterItem.id,
-      itemId: semesterItem.item.id,
-      [CATEGORY]: semesterItem.category.name,
-      [SEMESTER]: semesterItem.semesterName,
-      [ITEM]: semesterItem.item.name,
-      [SPECIFIC_ITEM_NAME]: semesterItem.name,
-      [MILEAGE]: semesterItem.points,
-      [IS_MULTI]: semesterItem.item.isDuplicable,
-      [ITEM_MAX_POINTS]: semesterItem.itemMaxPoints,
-    };
     return createData(
-      semesterItem.id,
-      semesterItem.category.name,
-      semesterItem.semesterName,
-      semesterItem.item.name,
-      semesterItem.name,
-      semesterItem.points,
-      semesterItem.itemMaxPoints,
-      formatDateToKorean(semesterItem.modDate),
-      <SWModal type={EDITITEM} beforeData={beforeData} />
+      semesterItem,
+      <SWModal type={EDITITEM} beforeData={semesterItem} />,
     );
   });
 };
 
 export default function MileageSemesterItem({
-  fetchData,
-  requireLogin,
-  error,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+                                              fetchData,
+                                              requireLogin,
+                                              error,
+                                            }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
   }
-
-  const dispatch = useDispatch();
-
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
-
   const semester = useSelector((state) => state.filter.semester);
 
   useEffect(() => {
@@ -265,11 +209,12 @@ export default function MileageSemesterItem({
     });
   }, [semester]);
 
-  return (
+  return <>
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
       type="학기별 마일리지 세부 항목"
     />
-  );
+    <ExcelExport endpoint={PATH_API.excel.download.semesterItem} queryParams={{ semester }} />
+  </>;
 }
