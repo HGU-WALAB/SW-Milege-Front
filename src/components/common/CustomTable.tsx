@@ -76,7 +76,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 function getComparator<Key extends keyof any>(
   order: Order,
-  orderBy: Key,
+  orderBy: Key
 ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -262,13 +262,12 @@ const typeConverter = (type) => {
 export default function EnhancedTable({ originalRows, headCells, type }) {
   const { pathname } = useRouter();
 
-  const checkIsPageRelatedWithSemester = () => (
+  const checkIsPageRelatedWithSemester = () =>
     pathname.includes(END_ROUTE_VIEW) ||
     pathname.includes(END_ROUTE_SEMESTER_ITEM) ||
     pathname.includes(END_ROUTE_MILEAGE_REGISTER) ||
     pathname.includes(END_ROUTE_MANAGE_REGISTER) ||
-    pathname.includes(END_ROUTE_RESULT)
-  );
+    pathname.includes(END_ROUTE_RESULT);
 
   function sortByDescOrderIdx(data) {
     if (!data || data.length === 0) return;
@@ -321,17 +320,17 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     }
     if (studentName && studentName !== '전체') {
       copyRows = copyRows?.filter(
-        (row) => row.name === studentName || row.studentName === studentName,
+        (row) => row.name === studentName || row.studentName === studentName
       );
     }
     if (sid && sid !== '전체') {
       copyRows = copyRows?.filter(
-        (row) => row.sid === sid || row.id === sid || row.studentId === sid,
+        (row) => row.sid === sid || row.id === sid || row.studentId === sid
       );
     }
     if (aid && aid !== '전체') {
       copyRows = copyRows?.filter(
-        (row) => aid === row.aid || aid === row.id || aid === row.adminId,
+        (row) => aid === row.aid || aid === row.id || aid === row.adminId
       );
     }
     if (grade && grade !== '전체') {
@@ -362,14 +361,14 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
 
-// selected를 redux로 전역 상태 관리
+  // selected를 redux로 전역 상태 관리
   const selected = useSelector((state) => state.table.selectedId);
   const dispatch = useDispatch();
   const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
 
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [dense, setDense] = React.useState(true);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -399,7 +398,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -421,16 +420,16 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-// Avoid a layout jump when reaching the last page with empty rows.
+  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
       stableSort(rows, getComparator(order, orderBy))?.slice(
         page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
+        page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage, rows],
+    [order, orderBy, page, rowsPerPage, rows]
   );
 
   const router = useRouter();
@@ -492,7 +491,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     <ResponsiveTable>
       <Box>
         <EnhancedTableToolbar numSelected={selected.length} type={type} />
-
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId={type}>
             {(provided) => (
@@ -567,8 +565,8 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                       {rowValue === true
                                         ? 'Y'
                                         : rowValue === false
-                                          ? 'N'
-                                          : rowValue}
+                                        ? 'N'
+                                        : rowValue}
                                     </TableCell>
                                   ))}
                                 </TableRow>
@@ -581,7 +579,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                       {emptyRows > 0 && (
                         <TableRow
                           style={{
-                            height: (dense ? 33 : 53) * emptyRows,
+                            height: (dense ? 23 : 33) * emptyRows,
                           }}
                         >
                           <TableCell colSpan={6} />
