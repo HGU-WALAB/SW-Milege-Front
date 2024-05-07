@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Button, Stack } from '@mui/material';
-import BackspaceIcon from '@mui/icons-material/Backspace';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowModesModel } from '@mui/x-data-grid';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
-import CancelButton from '../../common/modal/CancelButton';
+import { useRouter } from 'next/router';
+
+
 
 interface Student {
   id: number;
@@ -34,6 +35,7 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
   const [rows, setRows] = useState<Student[]>(initialRows);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const beforeData = useSelector((state) => state.modal.beforeData);
+  const router = useRouter();
 
   const handleDelete = useCallback((id: number) => {
     setRows((old) => old.filter((row) => row.id !== id));
@@ -52,6 +54,7 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
         });
         alert('성공적으로 등록되었습니다.');
         handleClose();
+        router.reload();
       } catch (error) {
         alert('등록에 실패했습니다.');
         console.error(error);
