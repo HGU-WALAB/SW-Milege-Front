@@ -1,9 +1,18 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
-
 import * as Yup from 'yup';
-
-import { Box, Chip, FormControl, InputLabel, MenuItem, Select, Tab, Tabs, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useSelector } from 'react-redux';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
@@ -25,6 +34,8 @@ import React, { useEffect, useState } from 'react';
 import SemesterItemSelect from '../common/Select/SemesterIdSelect';
 import ExcelImport from 'src/components/excel/ExcelImport';
 import { PATH_API } from 'src/routes/paths';
+import ExcelDataModal from 'src/components/excel/ExcelDataModal';
+import StudentsModal from 'src/components/modalForm/StudentsModal';
 
 export default function MileageRegisterForm({ handleClose }) {
   const [semesterItemList, setSemesterItemList] = React.useState([]);
@@ -209,7 +220,8 @@ export default function MileageRegisterForm({ handleClose }) {
             </ButtonFlexBox>
           </CustomTabPanel>
           <CustomTabPanel value={tabIndex} index={1}>
-            <ExcelImport endpoint={PATH_API.excel.upload.record} />
+            <ExcelDataModal handleClose={handleClose}/>
+            {/* <ExcelImport endpoint={PATH_API.excel.upload.record} /> */}
           </CustomTabPanel>
         </Form>
       )}
