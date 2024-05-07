@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 
-
-
 interface Student {
   id: number;
   name: string;
@@ -20,8 +18,6 @@ interface CRUDStudentTableProps {
   data: any[];
   handleClose: () => void;
 }
-
-
 
 export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTableProps) {
   const initialRows: Student[] = data.map((row, index) => ({
@@ -44,7 +40,7 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
   const handleRegister = async () => {
     if (confirm('등록하시겠습니까?')) {
       try {
-         await axiosInstance.post(`/api/mileage/records/${beforeData.semesterItemId}`, {
+        await axiosInstance.post(`/api/mileage/records/${beforeData.semesterItemId}`, {
           studentsInfo: rows.map(({ name, sid, extraPoints, description1 }) => ({
             name,
             sid,

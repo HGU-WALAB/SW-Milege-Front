@@ -39,7 +39,7 @@ export default function CustomTablePagination({
 
   return (
     <TablePagination
-      rowsPerPageOptions={[5, 10, 25]}
+      // rowsPerPageOptions={[25, 50, 75]}
       component="div"
       count={count}
       rowsPerPage={rowsPerPage}
