@@ -63,6 +63,7 @@
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.9",
     "eslint-config-airbnb-typescript": "^18.0.0",
+    "exceljs": "^4.4.0",
     "firebase": "^9.15.0",
     "formik": "^2.4.3",
     "framer-motion": "^9.0.4",

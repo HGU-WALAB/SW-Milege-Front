@@ -222,6 +222,8 @@ export default function SWModal({ type, beforeData }) {
         return '1000px';
       case REGISTEREDSTUDENTS:
         return '1200px';
+      case ADDMILEAGEREGISTER:
+        return '800px';
       default:
         return '500px';
     }
