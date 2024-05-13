@@ -112,16 +112,16 @@ export default function MileageResult() {
       label: '항목명',
     },
     {
-      id: [MileageResultBoard.STUDENT_NAME],
-      numeric: true,
-      disablePadding: false,
-      label: '학생명',
-    },
-    {
       id: [MileageResultBoard.STUDENT_ID],
       numeric: true,
       disablePadding: false,
       label: '학번',
+    },
+    {
+      id: [MileageResultBoard.STUDENT_NAME],
+      numeric: true,
+      disablePadding: false,
+      label: '학생명',
     },
     {
       id: [MileageResultBoard.DEPARTMENT],

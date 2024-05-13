@@ -75,8 +75,8 @@ function createData(
     [MileageViewBoard.SEMESTER]: semester,
     [MileageViewBoard.CATEGORY]: category,
     [MileageViewBoard.ITEM]: item,
-    [MileageViewBoard.STUDENT_NAME]: studentName,
     [MileageViewBoard.STUDENT_ID]: studentId,
+    [MileageViewBoard.STUDENT_NAME]: studentName,
     [MileageViewBoard.POINT]: point,
     [MileageViewBoard.REGISTERED_DATE]: registeredDate,
     edit,
@@ -113,16 +113,16 @@ const headCells = [
     label: '세부 항목명',
   },
   {
-    id: [MileageViewBoard.STUDENT_NAME],
-    numeric: true,
-    disablePadding: false,
-    label: '이름',
-  },
-  {
     id: [MileageViewBoard.STUDENT_ID],
     numeric: true,
     disablePadding: false,
     label: '학번',
+  },
+  {
+    id: [MileageViewBoard.STUDENT_NAME],
+    numeric: true,
+    disablePadding: false,
+    label: '이름',
   },
   {
     id: [MileageViewBoard.POINT],
