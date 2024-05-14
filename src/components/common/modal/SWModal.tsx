@@ -17,6 +17,7 @@ import {
   EDITSTUDENT,
   EDITTYPE,
   MAGICIANSEMESTERITEM,
+  MANAGERREGISTEREDSTUDENTS,
   REGISTEREDSTUDENTS,
   SHOWLIST,
 } from 'src/assets/data/modal/modals';
@@ -109,6 +110,8 @@ const modalForm = (modalType, handleClose) => {
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm handleClose={handleClose} />;
     case REGISTEREDSTUDENTS:
+      return <StudentsModal handleClose={handleClose} />;
+    case MANAGERREGISTEREDSTUDENTS:
       return <StudentsModal handleClose={handleClose} />;
 
     case EDITMANAGER:
@@ -221,6 +224,8 @@ export default function SWModal({ type, beforeData }) {
       case MAGICIANSEMESTERITEM:
         return '1000px';
       case REGISTEREDSTUDENTS:
+        return '1200px';
+      case MANAGERREGISTEREDSTUDENTS:
         return '1200px';
       case ADDMILEAGEREGISTER:
         return '800px';

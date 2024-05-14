@@ -11,7 +11,7 @@ import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import SWModal from 'src/components/common/modal/SWModal';
-import { ADDMILEAGEREGISTER } from 'src/assets/data/modal/modals';
+import { ADDMILEAGEREGISTER, MANAGERREGISTEREDSTUDENTS } from 'src/assets/data/modal/modals';
 import { ISemesterItemList } from 'src/pages/mileage/item/semester';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import {
@@ -199,6 +199,7 @@ const fetchToUseData = (data) =>
       semesterItem.recordCount, //  학생수가 들어가야함
       formatDateToKorean(semesterItem.modDate),
       <Box sx={{ display: 'flex' }}>
+        <SWModal type={MANAGERREGISTEREDSTUDENTS} beforeData={beforeData} />
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />

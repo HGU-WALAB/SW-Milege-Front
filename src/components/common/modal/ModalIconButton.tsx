@@ -35,6 +35,8 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
         return <EditIcon />;
       case 'sho':
         return <ListIcon />;
+      case 'man':
+        return <ListIcon />;
       case 'del':
         return <DeleteIcon />;
       case 'reg':
