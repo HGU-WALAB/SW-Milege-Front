@@ -109,8 +109,8 @@ const modalForm = (modalType, handleClose) => {
       return <MileageRegisterForm handleClose={handleClose} />;
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm handleClose={handleClose} />;
-    case REGISTEREDSTUDENTS:
-      return <StudentsModal handleClose={handleClose} />;
+    // case REGISTEREDSTUDENTS:
+    //   return <StudentsModal handleClose={handleClose} />;
     case MANAGERREGISTEREDSTUDENTS:
       return <StudentsModal handleClose={handleClose} />;
 
