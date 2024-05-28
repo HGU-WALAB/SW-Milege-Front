@@ -29,13 +29,14 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
   }));
 
   const modalType = useSelector((state) => state.modal.modalType);
+  const beforeData = useSelector((state) => state.modal.beforeData);
   const [rows, setRows] = useState<Student[]>(initialRows);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-  const beforeData = useSelector((state) => state.modal.beforeData);
   const router = useRouter();
 
   const handleDelete = useCallback((id: number) => {
-
+    console.log('modalType', modalType); 
+    console.log('beforeData', beforeData);
     setRows((old) => old.filter((row) => row.id !== id));
   }, []);
 

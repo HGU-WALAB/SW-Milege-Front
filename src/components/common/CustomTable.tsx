@@ -181,51 +181,49 @@ interface EnhancedTableToolbarProps {
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected, type } = props;
 
-  // example
-
-  const dispatch = useDispatch();
+  const shouldRenderToolbar = type !== '마일리지 적립';
 
   return (
     <Box>
       <Title type={type} />
-
-      {/* 필터링 */}
-
-      {/* 카테고리 필터링 */}
       <Filtering />
+      {shouldRenderToolbar && (
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'end',
+            pl: { sm: 2 },
+            pr: { xs: 1, sm: 1 },
+            ...(numSelected > 0 && {
+              bgcolor: (theme) =>
+                alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+            }),
+          }}
+        >
+          {numSelected > 0 && (
+            <Typography
+              sx={{ flex: '1 1 100%' }}
+              color="inherit"
+              variant="subtitle1"
+              component="div"
+            >
+              {numSelected} selected
+            </Typography>
+          )}
+          {numSelected > 0 && (
+            <Tooltip title="Delete">
+              <IconButton>
+                <SelectedItemsDeleteIcon type={type} />
+              </IconButton>
+            </Tooltip>
+          )}
 
-      {/* 학기 필터링 */}
-
-      <Toolbar
-        sx={{
-          display: 'flex',
-          justifyContent: 'end',
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-          ...(numSelected > 0 && {
-            bgcolor: (theme) =>
-              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-          }),
-        }}
-      >
-        {numSelected > 0 && (
-          <Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="subtitle1" component="div">
-            {numSelected} selected
-          </Typography>
-        )}
-        {numSelected > 0 && (
-          <Tooltip title="Delete">
-            <IconButton>
-              <SelectedItemsDeleteIcon type={type} />
-            </IconButton>
-          </Tooltip>
-        )}
-
-        {type === '학기별 마일리지 세부 항목' && (
-          <SWModal type={typeConverter('학기별 마일리지 세부 항목 마법사')} />
-        )}
-        <SWModal type={typeConverter(type)} />
-      </Toolbar>
+          {type === '학기별 마일리지 세부 항목' && (
+            <SWModal type={typeConverter('학기별 마일리지 세부 항목 마법사')} />
+          )}
+          <SWModal type={typeConverter(type)} />
+        </Toolbar>
+      )}
     </Box>
   );
 }
