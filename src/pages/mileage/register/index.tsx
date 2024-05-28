@@ -179,7 +179,7 @@ const handleAllDelete = (id) => {
 };
 
 const fetchToUseData = (data) =>
-  data.list.map((semesterItem) => {
+  data?.list.map((semesterItem) => {
     const beforeData = {
       id: semesterItem.id,
       recordName: semesterItem.item.name,
