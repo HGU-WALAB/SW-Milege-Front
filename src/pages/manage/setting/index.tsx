@@ -3,6 +3,8 @@ import axios from 'axios';
 import { InferGetServerSidePropsType } from 'next';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { handleServerAuth403Error } from 'src/auth/utils';
+import SemesterSetting from 'src/components/board/SemesterSetting';
+import SemesterSelect from 'src/components/common/Select/SemesterSelect';
 import SemesterTable from 'src/components/common/Table/SemesterTable';
 import axiosInstance from 'src/utils/axios';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
@@ -42,10 +44,11 @@ export default function SettingPage({
   return (
     <>
       <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        신청 결과 설정
+        설정
       </Typography>
       <Box sx={{ height: '50px' }} />
-      <SemesterTable data={fetchData} />
+      <SemesterSetting />
+      {/* <SemesterTable data={fetchData} /> */}
     </>
   );
 }
