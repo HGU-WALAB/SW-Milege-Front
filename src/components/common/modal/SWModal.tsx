@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
@@ -75,12 +76,71 @@ import TypeSpecificCategoryModal from 'src/components/modalForm/TypeSpecificCate
 import ModalTitle from './ModalTitle';
 import ModalIconButton from './ModalIconButton';
 
-export const ButtonFlexBox = styled(Box)({
-  display: 'flex',
-  gap: '10px',
-  justifyContent: 'end',
-  width: '100%',
-});
+
+
+export default function SWModal({ type, beforeData }) {
+
+  const [open, setOpen] = useState(false);
+  const modalType = useSelector((state) => state.modal.modalType);
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
+
+  const modalMinWidth = (type) => {
+    switch (type) {
+      case ADDGLOBALITEM:
+      case EDITGLOBALITEM:
+        return '700px';
+      case MAGICIANSEMESTERITEM:
+        return '1000px';
+      case REGISTEREDSTUDENTS:
+        return '1200px';
+      case MANAGERREGISTEREDSTUDENTS:
+        return '1000px';
+      case ADDMILEAGEREGISTER:
+        return '800px';
+      default:
+        return '500px';
+    }
+  };
+
+  const style = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: '10px',
+    position: 'absolute' as const,
+    maxWidth: modalMinWidth(type),
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxHeight: '700px',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 5,
+    overflowY: 'scroll',
+    width: modalType === REGISTEREDSTUDENTS ? '80%' : '80%',
+  };
+  
+  return (
+    <div>
+      <ModalIconButton setOpen={handleOpen} beforeData={beforeData} type={type} />
+      <Modal
+        key={type + beforeData?.id}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <ModalTitle />
+          {modalForm(modalType, handleClose)}
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} />
+        </Box>
+      </Modal>
+    </div>
+  );
+}
 
 const modalForm = (modalType, handleClose) => {
   switch (modalType) {
@@ -109,11 +169,8 @@ const modalForm = (modalType, handleClose) => {
       return <MileageRegisterForm handleClose={handleClose} />;
     case EDITMILEAGEREGISTER:
       return <MileageRegisterForm handleClose={handleClose} />;
-    // case REGISTEREDSTUDENTS:
-    //   return <StudentsModal handleClose={handleClose} />;
     case MANAGERREGISTEREDSTUDENTS:
       return <StudentsModal handleClose={handleClose} />;
-
     case EDITMANAGER:
       return <ManagerForm handleClose={handleClose} />;
     case MAGICIANSEMESTERITEM:
@@ -206,69 +263,9 @@ export const engToKor = (eng) => {
   }
 };
 
-export default function SWModal({ type, beforeData }) {
-  const dispatch = useDispatch();
-
-  const [open, setOpen] = React.useState(false);
-
-  const modalType = useSelector((state) => state.modal.modalType);
-
-  const handleClose = () => setOpen(false);
-  const handleOpen = () => setOpen(true);
-
-  const modalMinWidth = (type) => {
-    switch (type) {
-      case ADDGLOBALITEM:
-      case EDITGLOBALITEM:
-        return '700px';
-      case MAGICIANSEMESTERITEM:
-        return '1000px';
-      case REGISTEREDSTUDENTS:
-        return '1200px';
-      case MANAGERREGISTEREDSTUDENTS:
-        return '1200px';
-      case ADDMILEAGEREGISTER:
-        return '800px';
-      default:
-        return '500px';
-    }
-  };
-
-  const style = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    borderRadius: '10px',
-    position: 'absolute' as const,
-    maxWidth: modalMinWidth(type),
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxHeight: '700px',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 5,
-    overflowY: 'scroll',
-
-    width: modalType === REGISTEREDSTUDENTS ? '80%' : '80%',
-  };
-  return (
-    <div>
-      <ModalIconButton setOpen={handleOpen} beforeData={beforeData} type={type} />
-      <Modal
-        key={type + beforeData?.id}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <ModalTitle />
-          {modalForm(modalType, handleClose)}
-          <Typography id="modal-modal-description" sx={{ mt: 2 }} />
-        </Box>
-      </Modal>
-    </div>
-  );
-}
+export const ButtonFlexBox = styled(Box)({
+  display: 'flex',
+  gap: '10px',
+  justifyContent: 'end',
+  width: '100%',
+});

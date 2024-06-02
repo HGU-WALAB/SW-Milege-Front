@@ -1,16 +1,16 @@
+import React from 'react';
+import styled from 'styled-components';
 import CRUDStudentTable from '../common/Table/CRUDStudentTable';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
-export default function StudentsModal({ handleClose }) {
-
-  const beforeData = useSelector((state) => state.modal.beforeData);
-
-  useEffect(() => {
-    console.log('beforeData', beforeData);
-  }, [beforeData]);
-
+const StudentsModal = ({ handleClose }) => {
   return (
-    <CRUDStudentTable handleClose={handleClose} data={[]} />
+    <StyledModal>
+      <CRUDStudentTable handleClose={handleClose} data={[]} />
+    </StyledModal>
   );
-}
+};
+export default StudentsModal;
+
+const StyledModal = styled.div`
+  padding: 20px;
+`;

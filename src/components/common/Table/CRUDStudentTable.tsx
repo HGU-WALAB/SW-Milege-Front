@@ -15,28 +15,43 @@ interface Student {
 }
 
 interface CRUDStudentTableProps {
-  data: any[];
+  data: Student[];
   handleClose: () => void;
 }
 
-export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTableProps) {
-  const initialRows: Student[] = data.map((row, index) => ({
-    id: index,
-    name: row[1],
-    sid: row[2],
-    extraPoints: row[3],
-    description1: row[4],
-  }));
-
+const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
+  
   const modalType = useSelector((state) => state.modal.modalType);
   const beforeData = useSelector((state) => state.modal.beforeData);
-  const [rows, setRows] = useState<Student[]>(initialRows);
+
+  const [rows, setRows] = useState<Student[]>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const router = useRouter();
 
+  useEffect(() => {
+    if (modalType === 'addMileageRegister') {
+      const initialRows: Student[] = data.map((row, index) => ({
+        id: index,
+        name: row[1],
+        sid: row[2],
+        extraPoints: row[3],
+        description1: row[4],
+      }));
+      setRows(initialRows);
+    } else if (modalType === 'managerRegisteredStudents') {
+      axiosInstance.get(`/api/mileage/records/${beforeData.id}`).then((res) => {  
+        setRows(res.data.map((row, index) => ({
+          id: index,
+          name: row.studentName,
+          sid: row.sid,
+          extraPoints: row.extraPoints,
+          description1: row.description1,
+        })));
+      });
+    }
+  }, [modalType, beforeData, data]);
+
   const handleDelete = useCallback((id: number) => {
-    console.log('modalType', modalType); 
-    console.log('beforeData', beforeData);
     setRows((old) => old.filter((row) => row.id !== id));
   }, []);
 
@@ -56,6 +71,27 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
         router.reload();
       } catch (error) {
         alert('등록에 실패했습니다.');
+        console.error(error);
+      }
+    }
+  };
+
+  const handleUpdate = async () => {
+    if (confirm('수정하시겠습니까?')) {
+      try {
+        await axiosInstance.patch(`/api/mileage/records/${beforeData.id}`, {
+          studentsInfo: rows.map(({ name, sid, extraPoints, description1 }) => ({
+            name,
+            sid,
+            extraPoints,
+            description1,
+          })),
+        });
+        alert('성공적으로 수정되었습니다.');
+        handleClose();
+        router.reload();
+      } catch (error) {
+        alert('수정에 실패했습니다.');
         console.error(error);
       }
     }
@@ -101,10 +137,17 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
         <Button onClick={handleClose} variant="outlined" color="primary">
           취소
         </Button>
-        <Button variant="contained" color="primary" onClick={handleRegister}>
-          등록하기
-        </Button>
+        {modalType === 'addMileageRegister' ? (
+          <Button variant="contained" color="primary" onClick={handleRegister}>
+            등록하기
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleUpdate}>
+            수정하기
+          </Button>
+        )}
       </Stack>
     </Box>
   );
 }
+export default CRUDStudentTable;
