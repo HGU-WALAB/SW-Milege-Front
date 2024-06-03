@@ -222,8 +222,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
         )}
-        {type === '학기별 마일리지 세부 항목' && (
-          <SWModal type={typeConverter('학기별 마일리지 세부 항목 마법사')} />
+        {type === '학기별 마일리지 항목' && (
+          <SWModal type={typeConverter('학기별 마일리지 항목 마법사')} />
         )}
         <SWModal type={typeConverter(type)} />
       </Toolbar>
@@ -240,12 +240,12 @@ const typeConverter = (type) => {
       return ADDTYPE;
     case '마일리지 카테고리':
       return ADDCATEGORY;
-    case '학기별 마일리지 세부 항목':
+    case '학기별 마일리지 항목':
       return ADDITEM;
-    case '마일리지 세부 항목':
+    case '마일리지 항목':
       return ADDGLOBALITEM;
 
-    case '학기별 마일리지 세부 항목 마법사':
+    case '학기별 마일리지 항목 마법사':
       return MAGICIANSEMESTERITEM;
     case '마일리지 조회':
       return ADDMILEAGEREGISTER;

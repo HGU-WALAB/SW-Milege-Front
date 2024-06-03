@@ -101,7 +101,7 @@ const headCells = [
     id: [MileageGlobalItemBoard.ITEM],
     numeric: true,
     disablePadding: false,
-    label: '세부 항목명',
+    label: '마일리지 항목명',
   },
   {
     id: [MileageGlobalItemBoard.POINT],
@@ -125,7 +125,7 @@ const headCells = [
     id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
     numeric: true,
     disablePadding: false,
-    label: '학기별 세부 항목 개수',
+    label: '학기별 마일리지 항목 개수',
   },
   {
     id: [MileageGlobalItemBoard.MOD_DATE],
@@ -205,7 +205,7 @@ export default function MileageCategory({
     <EnhancedTable
       originalRows={convertedFetchList}
       headCells={headCells}
-      type="마일리지 세부 항목"
+      type="마일리지 항목"
     />
     <ExcelExport endpoint={PATH_API.excel.download.globalItem} />
     <ExcelExport endpoint={PATH_API.excel.download.format.item} buttonText="엑셀양식 다운로드" />

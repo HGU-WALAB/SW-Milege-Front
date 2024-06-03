@@ -13,11 +13,11 @@ import { PATH_API } from 'src/routes/paths';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 /**
- * @component [학기별 마일리지 세부 항목] 게시판
+ * @component [학기별 마일리지 항목] 게시판
  */
 
 /**
- * @kind [학기별 마일리지 세부 항목]
+ * @kind [학기별 마일리지 항목]
  * @breif enum
  */
 
@@ -35,7 +35,7 @@ export enum MileageSemesterItemBoard {
 }
 
 /**
- * @kind [학기별 마일리지 세부 항목]
+ * @kind [학기별 마일리지 항목]
  * @breif 데이터 인터페이스
  */
 interface Data {
@@ -51,7 +51,7 @@ interface Data {
 }
 
 /**
- * @kind [학기별 마일리지 세부 항목]
+ * @kind [학기별 마일리지 항목]
  * @brief 데이터 생성 함수
  *
  *  */
@@ -70,7 +70,7 @@ function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): Data {
 }
 
 /**
- * @kind [학기별 마일리지 세부 항목]
+ * @kind [학기별 마일리지 항목]
  * @brief 테이블 헤더
  */
 const headCells = [
@@ -96,13 +96,13 @@ const headCells = [
     id: [MileageSemesterItemBoard.ITEM],
     numeric: true,
     disablePadding: false,
-    label: '세부 항목명',
+    label: '마일리지 항목명',
   },
   {
     id: [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME],
     numeric: true,
     disablePadding: false,
-    label: '학기 세부항목명',
+    label: '학기별 마일리지 항목명',
   },
   {
     id: [MileageSemesterItemBoard.POINTS],
@@ -182,18 +182,15 @@ export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction)
 
 const fetchToUseData = (data) => {
   return data?.list.map((semesterItem) => {
-    return createData(
-      semesterItem,
-      <SWModal type={EDITITEM} beforeData={semesterItem} />,
-    );
+    return createData(semesterItem, <SWModal type={EDITITEM} beforeData={semesterItem} />);
   });
 };
 
 export default function MileageSemesterItem({
-                                              fetchData,
-                                              requireLogin,
-                                              error,
-                                            }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  fetchData,
+  requireLogin,
+  error,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
@@ -207,12 +204,14 @@ export default function MileageSemesterItem({
     });
   }, [semester]);
 
-  return <>
-    <EnhancedTable
-      originalRows={convertedFetchList}
-      headCells={headCells}
-      type="학기별 마일리지 세부 항목"
-    />
-    <ExcelExport endpoint={PATH_API.excel.download.semesterItem} queryParams={{ semester }} />
-  </>;
+  return (
+    <>
+      <EnhancedTable
+        originalRows={convertedFetchList}
+        headCells={headCells}
+        type="학기별 마일리지 항목"
+      />
+      <ExcelExport endpoint={PATH_API.excel.download.semesterItem} queryParams={{ semester }} />
+    </>
+  );
 }

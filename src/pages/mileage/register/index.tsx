@@ -13,6 +13,7 @@ import { ADDMILEAGEREGISTER, MANAGERREGISTEREDSTUDENTS } from 'src/assets/data/m
 import { ISemesterItemList } from 'src/pages/mileage/item/semester';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import { PATH_API } from 'src/routes/paths';
+import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 /**
  * @component [마일리지 적립] 게시판
@@ -75,7 +76,7 @@ function createData(
 }
 
 /**
- * @kind [학기별 마일리지 세부 항목]
+ * @kind [학기별 마일리지 항목]
  * @brief 테이블 헤더
  */
 const headCells = [
@@ -101,13 +102,13 @@ const headCells = [
     id: [MileageRegisterBoard.ITEM_NAME],
     numeric: true,
     disablePadding: false,
-    label: '세부 항목명',
+    label: '마일리지 항목명',
   },
   {
     id: [MileageRegisterBoard.SPECIFIC_ITEM_NAME],
     numeric: true,
     disablePadding: false,
-    label: '학기 세부항목명',
+    label: '학기별 마일리지 항목명',
   },
   {
     id: [MileageRegisterBoard.POINTS],

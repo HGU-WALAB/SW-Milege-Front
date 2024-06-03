@@ -39,15 +39,15 @@ export default function ModalTitle() {
       case DELETECATEGORY:
         return '마일리지 카테고리 삭제';
       case ADDITEM:
-        return '학기별 마일리지 세부 항목 추가';
+        return '학기별 마일리지 항목 추가';
       case EDITITEM:
-        return '학기별 마일리지 세부 항목 수정';
+        return '학기별 마일리지 항목 수정';
       case DELETEITEM:
-        return '학기별 마일리지 세부 항목 삭제';
+        return '학기별 마일리지 항목 삭제';
       case ADDGLOBALITEM:
-        return '마일리지 세부 항목 추가';
+        return '마일리지 항목 추가';
       case EDITGLOBALITEM:
-        return '마일리지 세부 항목 수정';
+        return '마일리지 항목 수정';
       case ADDSTUDENT:
         return '학생 추가';
       case EDITSTUDENT:
@@ -57,7 +57,7 @@ export default function ModalTitle() {
       case EDITMILEAGEREGISTER:
         return '마일리지 수정';
       case MAGICIANSEMESTERITEM:
-        return '학기별 마일리지 세부 항목 마법사';
+        return '학기별 마일리지 항목 마법사';
       case EDITMANAGER:
         return '관리자 수정';
       case ADDMANAGER:

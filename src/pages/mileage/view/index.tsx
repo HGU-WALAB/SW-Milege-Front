@@ -91,24 +91,9 @@ const headCells = [
     id: [MileageViewBoard.ITEM],
     numeric: true,
     disablePadding: false,
-    label: '세부 항목명',
+    label: '마일리지 항목명',
   },
   {
-<<<<<<< HEAD
-    id: [MileageViewBoard.SPECIFIC_ITEM_NAME],
-    numeric: true,
-    disablePadding: false,
-    label: '학기 세부항목명',
-  },
-  {
-    id: [MileageViewBoard.STUDENT_NAME],
-    numeric: true,
-    disablePadding: false,
-    label: '이름',
-  },
-  {
-=======
->>>>>>> issue/#123
     id: [MileageViewBoard.STUDENT_ID],
     numeric: true,
     disablePadding: false,
