@@ -1,4 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useState } from 'react';
 import { ButtonFlexBox } from '../common/modal/SWModal';
 import {
   TITLE,
@@ -42,11 +43,11 @@ import SemesterItemTransferList from '../common/TransferList/SemesterItemTransfe
 export default function SemesterMagicianForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
 
-  const [left, setLeft] = React.useState<ILastSemesterItem[]>();
-  const [right, setRight] = React.useState<ILastSemesterItem[]>([]);
+  const [left, setLeft] = useState<ILastSemesterItem[]>();
+  const [right, setRight] = useState<ILastSemesterItem[]>([]);
 
-  const [lastSemester, setLastSemester] = React.useState('2023-02');
-  const [thisSemester, setThisSemester] = React.useState('2023-02');
+  const [lastSemester, setLastSemester] = useState('2023-02');
+  const [thisSemester, setThisSemester] = useState('2023-02');
 
   const handleSubmit = (e) => {
     e.preventDefault();

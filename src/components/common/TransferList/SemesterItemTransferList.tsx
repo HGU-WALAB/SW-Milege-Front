@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
@@ -50,7 +51,7 @@ export default function SemesterItemTransferList({
   setLastSemester,
   setThisSemester,
 }) {
-  const [checked, setChecked] = React.useState<ILastSemesterItem[]>([]);
+  const [checked, setChecked] = useState<ILastSemesterItem[]>([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -86,20 +87,21 @@ export default function SemesterItemTransferList({
     setChecked(not(checked, leftChecked));
   };
 
-  const handleCheckedLeft = () => {
-    setLeft(left.concat(rightChecked));
-    setRight(not(right, rightChecked));
-    setChecked(not(checked, rightChecked));
-  };
+  // const handleCheckedLeft = () => {
+  //   setLeft(left.concat(rightChecked));
+  //   setRight(not(right, rightChecked));
+  //   setChecked(not(checked, rightChecked));
+  // };
 
-  const checkListDuplicated = (id: number) => {
-    if (right.some((item) => item.item.id === id) && left.some((item) => item.item.id === id)) {
+  const checkListDuplicated = (list: ILastSemesterItem[], id: number) => {
+    if (right.some((item) => item.item.id === id) && list.some((item) => item.item.id === id)) {
       return true;
     }
     return false;
   };
+  
 
-  const customList = (title: React.ReactNode, items: ILastSemesterItem[]) => (
+  const customList = (title: React.ReactNode, items: ILastSemesterItem[], isLeftList: boolean) => (
     <Card>
       <CardHeader
         sx={{ px: 2, py: 1, color: 'primary.main' }}
@@ -133,16 +135,16 @@ export default function SemesterItemTransferList({
       >
         {items?.map((item: ILastSemesterItem) => {
           const labelId = `transfer-list-all-item-${item.item.name}-label`;
-
+  
           return (
             <ListItem
-              disabled={checkListDuplicated(item.item.id)}
+              disabled={isLeftList && checkListDuplicated(items, item.item.id)}
               key={item.id}
               role="listitem"
               button
               onClick={handleToggle(item)}
               sx={{
-                backgroundColor: checkListDuplicated(item.item.id) ? 'lightGray' : 'none',
+                backgroundColor: isLeftList && checkListDuplicated(items, item.item.id) ? 'lightGray' : 'none',
               }}
             >
               <ListItemIcon>
@@ -155,9 +157,9 @@ export default function SemesterItemTransferList({
                   }}
                 />
               </ListItemIcon>
-
+  
               <ListItemText id={item.id} primary={`${item.item.name}`} />
-              {checkListDuplicated(item.item.id) && (
+              {isLeftList && checkListDuplicated(items, item.item.id) && (
                 <Typography
                   color="primary"
                   variant="body2"
@@ -175,14 +177,15 @@ export default function SemesterItemTransferList({
       </List>
     </Card>
   );
+  
 
-  React.useEffect(() => {
+  useEffect(() => {
     axiosInstance.get(`/api/mileage/semesters/${lastSemester}/items`).then((res) => {
       setLeft(res.data.list);
     });
   }, [lastSemester]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     axiosInstance.get(`/api/mileage/semesters/${thisSemester}/items`).then((res) => {
       setRight(res.data.list);
     });
@@ -197,7 +200,7 @@ export default function SemesterItemTransferList({
             복사할 학기 선택
           </Typography>
           <SemesterMagicianSelect semester={lastSemester} setSemester={setLastSemester} />
-          {customList(`복사할 학기별 항목 (${lastSemester})`, left)}
+          {customList(`복사할 학기별 항목 (${lastSemester})`, left, true)}
         </Grid>
         <Grid item>
           <Grid container direction="column" alignItems="center">
@@ -211,7 +214,7 @@ export default function SemesterItemTransferList({
             >
               &gt;
             </Button>
-            <Button
+            {/* <Button
               sx={{ my: 0.5 }}
               variant="outlined"
               size="small"
@@ -220,7 +223,7 @@ export default function SemesterItemTransferList({
               aria-label="move selected left"
             >
               &lt;
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
         <Grid item>
@@ -228,9 +231,10 @@ export default function SemesterItemTransferList({
             붙여넣을 학기 선택
           </Typography>
           <SemesterMagicianSelect semester={thisSemester} setSemester={setThisSemester} />
-          {customList(`붙여 넣을 학기별 항목 (${thisSemester})`, right)}
+          {customList(`붙여 넣을 학기별 항목 (${thisSemester})`, right, false)}
         </Grid>
       </Grid>
     </Box>
   );
+  
 }
