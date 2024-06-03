@@ -38,7 +38,7 @@ export enum MileageViewBoard {
  * @brief 데이터 생성 함수
  *
  *  */
-function createData(mileageRecord: IMileageRecord, edit: ReactNode): Data {
+function createData(mileageRecord: IMileageRecord): Data {
   return {
     [MileageViewBoard.NUM]: mileageRecord.id,
     [MileageViewBoard.SEMESTER]: mileageRecord.semesterItem.semesterName,
@@ -48,7 +48,6 @@ function createData(mileageRecord: IMileageRecord, edit: ReactNode): Data {
     [MileageViewBoard.STUDENT_NAME]: mileageRecord.studentName,
     [MileageViewBoard.POINT]: mileageRecord.points,
     [MileageViewBoard.LAST_MODIFIED_DATE]: formatDateToKorean(mileageRecord.modDate),
-    edit,
   };
 }
 
@@ -105,12 +104,6 @@ const headCells = [
     disablePadding: false,
     label: '최근 수정일',
   },
-  {
-    id: 'edit',
-    numeric: true,
-    disablePadding: false,
-    label: '관리',
-  },
 ];
 
 /**
@@ -127,7 +120,6 @@ interface Data {
   [MileageViewBoard.STUDENT_NAME]: string;
   [MileageViewBoard.POINT]: number;
   [MileageViewBoard.LAST_MODIFIED_DATE]: string;
-  edit: ReactNode;
 }
 
 interface IMileageRecord {
@@ -182,7 +174,6 @@ export default function MileageView({
   }
   const convertedFetchList = fetchData?.list?.map((mileageRecord: IMileageRecord) => createData(
     mileageRecord,
-    <SWModal type={EDITMILEAGEREGISTER} beforeData={mileageRecord} />,
   ));
   const semester = useSelector((state) => state.filter.semester);
 

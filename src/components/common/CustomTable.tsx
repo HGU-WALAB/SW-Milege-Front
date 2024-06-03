@@ -225,7 +225,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         {type === '학기별 마일리지 항목' && (
           <SWModal type={typeConverter('학기별 마일리지 항목 마법사')} />
         )}
-        <SWModal type={typeConverter(type)} />
+        {type !== '마일리지 조회' && <SWModal type={typeConverter(type)} />}
       </Toolbar>
     </Box>
   );

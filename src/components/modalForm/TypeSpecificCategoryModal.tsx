@@ -18,7 +18,7 @@ export default function TypeSpecificCategoryModal({ handleClose }) {
           const { list } = response.data;
           setCategories(list);
         } catch (error) {
-          console.error('하위 마일리지 세부항목 가져오기 실패했습니다.', error);
+          console.error('하위 마일리지 항목 가져오기 실패했습니다.', error);
         }
       }
     };

@@ -7,7 +7,7 @@ interface ExcelExportProps {
   readonly buttonText?: string;
 }
 
-export default function ExcelExport({ endpoint, queryParams, buttonText = '엑셀로 내려받기' }: ExcelExportProps) {
+export default function ExcelExport({ endpoint, queryParams, buttonText = '엑셀양식 다운로드' }: ExcelExportProps) {
   const handleExcelExport = async (apiEndpoint: string) => {
     try {
       const response = await axiosInstance.get(apiEndpoint, {

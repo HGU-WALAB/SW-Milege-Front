@@ -22,7 +22,7 @@ export default function ItemAutoComplete() {
       disablePortal
       id="combo-box-demo"
       options={top100Films}
-      renderInput={(params) => <TextField {...params} label="세부항목" />}
+      renderInput={(params) => <TextField {...params} label="마일리지 항목" />}
       onChange={(e, newValue) => handleChange(e, newValue)}
     />
   );

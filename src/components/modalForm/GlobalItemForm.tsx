@@ -238,7 +238,7 @@ const TextFieldComponent = ({ field, values, setFieldValue, touched, errors, all
       label={engToKor(field)}
       variant="outlined"
       error={isError || Boolean(touched[field] && errors[field])}
-      helperText={isError ? '존재하는 세부항목 이름입니다.' : touched[field] && errors[field]}
+      helperText={isError ? '존재하는 마일리지 항목 이름입니다.' : touched[field] && errors[field]}
     />
   );
 };
