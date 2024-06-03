@@ -28,6 +28,7 @@ import { CATEGORYID } from '../../assets/data/fields';
 import CategorySelect from '../common/Select/CategorySelect';
 import TypeSelect from 'src/components/common/Filter/TypeSelect';
 import { be } from 'date-fns/locale';
+import { useEffect } from 'react';
 
 const inputFields = [ITEM, POINT, ITEM_MAX_POINTS, DESCRIPTION1];
 const toggleFields = [
@@ -162,6 +163,7 @@ export default function GlobalItemForm({ handleClose }) {
                   touched={touched}
                   errors={errors}
                   allMileageList={allMileageList}
+                  beforeData={beforeData}
                 />
               ))}
             </StyledFieldBox>
@@ -209,13 +211,21 @@ const DisplayMaxPoints = ({ points }) => {
   return <Chip color="primary" label={label} variant="outlined" />;
 };
 
-const TextFieldComponent = ({ field, values, setFieldValue, touched, errors, allMileageList }) => {
+const TextFieldComponent = ({
+  field,
+  values,
+  setFieldValue,
+  touched,
+  errors,
+  allMileageList,
+  beforeData,
+}) => {
   const handleChange = (e) => setFieldValue(field, e.target.value);
   const isDisabled = field === ITEM_MAX_POINTS && !values[IS_MULTI];
 
   const checkIfItemExists = (itemName) => {
     console.log(itemName, values[TYPE], values[CATEGORYID]);
-  
+
     return allMileageList.some(
       (item) =>
         item.name === itemName &&
@@ -225,7 +235,7 @@ const TextFieldComponent = ({ field, values, setFieldValue, touched, errors, all
   };
 
   const isError =
-    field === ITEM && checkIfItemExists(values[ITEM]);
+    field === ITEM && checkIfItemExists(values[ITEM]) && values[ITEM] !== beforeData?.name;
   if (field == ITEM_MAX_POINTS && isDisabled && values[POINT] !== values[ITEM_MAX_POINTS]) {
     setFieldValue(field, values[POINT]);
   }

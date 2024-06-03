@@ -79,10 +79,6 @@ const SemesterItemForm = ({ handleClose }) => {
     }
   };
 
-  useEffect(() => {
-    console.log('beforeData', beforeData);
-  }, []);
-
   const initialValues =
     modalType === EDITITEM
       ? {
