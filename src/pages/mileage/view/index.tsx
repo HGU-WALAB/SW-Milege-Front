@@ -40,26 +40,14 @@ export enum MileageViewBoard {
  *  */
 function createData(mileageRecord: IMileageRecord, edit: ReactNode): Data {
   return {
-<<<<<<< HEAD
     [MileageViewBoard.NUM]: mileageRecord.id,
     [MileageViewBoard.SEMESTER]: mileageRecord.semesterItem.semesterName,
-    [MileageViewBoard.CATEGORY]: mileageRecord.category.name,
+    [MileageViewBoard.CATEGORY]: mileageRecord.semesterItem.item.category.name,
     [MileageViewBoard.ITEM]: mileageRecord.semesterItem.item.name,
-    [MileageViewBoard.SPECIFIC_ITEM_NAME]: mileageRecord.semesterItem.name,
-    [MileageViewBoard.STUDENT_NAME]: mileageRecord.studentName,
     [MileageViewBoard.STUDENT_ID]: mileageRecord.sid,
+    [MileageViewBoard.STUDENT_NAME]: mileageRecord.studentName,
     [MileageViewBoard.POINT]: mileageRecord.points,
     [MileageViewBoard.LAST_MODIFIED_DATE]: formatDateToKorean(mileageRecord.modDate),
-=======
-    [MileageViewBoard.NUM]: num,
-    [MileageViewBoard.SEMESTER]: semester,
-    [MileageViewBoard.CATEGORY]: category,
-    [MileageViewBoard.ITEM]: item,
-    [MileageViewBoard.STUDENT_ID]: studentId,
-    [MileageViewBoard.STUDENT_NAME]: studentName,
-    [MileageViewBoard.POINT]: point,
-    [MileageViewBoard.REGISTERED_DATE]: registeredDate,
->>>>>>> issue/#123
     edit,
   };
 }
