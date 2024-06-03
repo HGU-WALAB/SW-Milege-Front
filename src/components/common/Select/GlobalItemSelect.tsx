@@ -35,13 +35,13 @@ const GlobalItemSelect = ({ itemId } = { itemId: 'itemId' }) => {
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="item-select-label">세부 항목</InputLabel>
+      <InputLabel id="item-select-label">마일리지 항목</InputLabel>
       <Select
         labelId="item-select-label"
         name={itemId}
         value={values.itemId}
         onChange={handleChange}
-        disabled={modalType === EDITITEM ? 1 : 0}
+        disabled={modalType === EDITITEM ? true : false}
         label="세부 항목"
       >
         {globalItemList.map((item) => (

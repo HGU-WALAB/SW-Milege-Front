@@ -13,12 +13,13 @@ import {
 } from '@mui/material';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 import axiosInstance from 'src/utils/axios';
 import { setSelectedItemList } from 'src/redux/slices/filterList';
 import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
+  ITEM_NAME,
   SPECIFIC_ITEM_NAME,
   MILEAGE,
   ITEM_MAX_POINTS,
@@ -45,11 +46,6 @@ const SemesterItemForm = ({ handleClose }) => {
   const router = useRouter();
 
   const handleSubmit = (values: object) => {
-    // 카테고리 추가
-    // 1) newData 생성
-    // 2) axios post
-    // 3) alert
-    // 4) reload
     const newData = {
       itemId: values.itemId,
       points: values[MILEAGE],
@@ -72,7 +68,7 @@ const SemesterItemForm = ({ handleClose }) => {
 
       case EDITITEM:
         axiosInstance
-          .patch(`/api/mileage/semesters/${beforeData[SEMESTERITEMID]}`, newData)
+          .patch(`/api/mileage/semesters/${beforeData.id}`, newData)
           .then((res) => {
             alert('학기별 항목이 수정되었습니다.');
             router.reload();
@@ -83,15 +79,19 @@ const SemesterItemForm = ({ handleClose }) => {
     }
   };
 
+  useEffect(() => {
+    console.log('beforeData', beforeData);
+  }, []);
+
   const initialValues =
     modalType === EDITITEM
       ? {
-          [SEMESTER]: beforeData.semester,
-          itemId: beforeData.itemId,
+          itemId: beforeData.item.id,
+          [SEMESTER]: beforeData.semesterName,
           [SPECIFIC_ITEM_NAME]: beforeData.name,
-          [MILEAGE]: beforeData.mileage,
+          [MILEAGE]: beforeData.points,
           [ITEM_MAX_POINTS]: beforeData.itemMaxPoints,
-          [IS_MULTI]: beforeData.isMulti,
+          [IS_MULTI]: beforeData.item.isDuplicable,
         }
       : {
           [SEMESTER]: '',
@@ -122,7 +122,7 @@ const SemesterItemForm = ({ handleClose }) => {
           }}
         >
           <SemesterSelect />
-          <GlobalItemSelect itemId={beforeData?.itemId} />
+          <GlobalItemSelect itemId={beforeData?.item.id} />
           <Field
             name={SPECIFIC_ITEM_NAME}
             component={TextField}
