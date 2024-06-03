@@ -91,7 +91,6 @@ export default function ManagerForm({ handleClose }) {
   const modalType = useSelector((state) => state.modal.modalType);
   const level = useSelector((state) => state.filter.level);
 
-
   const router = useRouter();
 
   const StudentSchema = Yup.object().shape({
@@ -154,6 +153,7 @@ export default function ManagerForm({ handleClose }) {
               {[NAME, AID].map((field: string, index: number) => (
                 <Box key={index} sx={{ width: '100%' }}>
                   <Field
+                    disabled={modalType === EDITMANAGER ? true : false}
                     name={field}
                     as={TextField}
                     type="text"

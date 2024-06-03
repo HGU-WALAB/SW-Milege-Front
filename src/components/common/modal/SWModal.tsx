@@ -201,9 +201,9 @@ export const engToKor = (eng) => {
     case SEMESTER:
       return '학기';
     case ITEM:
-      return '항목 이름'; // 세부항목에서 세부항목이름
+      return '항목 이름';
     case SPECIFIC_ITEM_NAME:
-      return '학기별 항목 이름'; // 학기별 세부항목에서 세부항목이름
+      return '학기별 항목 이름'; 
     case MILEAGE:
       return '마일리지';
     case MAX_MAILEAGE:

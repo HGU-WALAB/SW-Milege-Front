@@ -1,8 +1,6 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, styled } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
-import { useSelector } from 'react-redux';
-import { CATEGORYID, DEPARTMENT, GRADE, LEVEL, SEMESTER, YEAR } from 'src/assets/data/fields';
-import { engToKor } from '../modal/SWModal';
+import { LEVEL } from 'src/assets/data/fields';
 
 export default function LevelSelect() {
   const LEVELS = [
@@ -13,7 +11,6 @@ export default function LevelSelect() {
     },
     {
       id: 1,
-
       label: '담당자',
       value: '1',
     },
@@ -30,20 +27,36 @@ export default function LevelSelect() {
   ];
 
   const MySelect = ({ field, form, ...props }) => (
-    <Select {...field} {...props}>
+    <StyledSelect {...field} {...props}>
       {LEVELS.map((level) => (
         <MenuItem key={level.id} value={level.value}>
           {level.label}
         </MenuItem>
       ))}
-    </Select>
+    </StyledSelect>
   );
 
   return (
-    <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="demo-simple-select-label">권한</InputLabel>
-      <Field as={MySelect} name={LEVEL} variant="outlined" />
+    <StyledFormControl variant="outlined" fullWidth>
+      <InputLabel id="level-select-label">권한</InputLabel>
+      <Field as={MySelect} name={LEVEL} label="권한" />
       <ErrorMessage name={LEVEL} />
-    </FormControl>
+    </StyledFormControl>
   );
 }
+
+const StyledFormControl = styled(FormControl)`
+  & .MuiOutlinedInput-root {
+    fieldset {
+      border-color: black;
+    }
+  }
+`;
+
+const StyledSelect = styled(Select)`
+  &.MuiOutlinedInput-root {
+    fieldset {
+      border-color: black;
+    }
+  }
+`;
