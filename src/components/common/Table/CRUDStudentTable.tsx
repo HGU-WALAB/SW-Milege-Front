@@ -160,7 +160,7 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
           </Button>
         ) : (
           <Button variant="contained" color="primary" onClick={handleDeleteStudents}>
-            삭제하기
+            저장하기
           </Button>
         )}
       </Stack>
