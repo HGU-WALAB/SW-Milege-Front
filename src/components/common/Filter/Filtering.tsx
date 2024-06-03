@@ -31,10 +31,10 @@ export default function Filtering() {
       {renderComponentsForTableNums([2, 3, 4, 5], <CategoryAutoComplete />)}
       {/* {renderComponentsForTableNums([2], <IsVisibleDropdown />)} */}
       {renderComponentsForTableNums([2, 3, 4, 5], <ItemAutoComplete />)}
+      {renderComponentsForTableNums([4, 6, 7, 10], <StudentIdAutoComplete />)}
       {renderComponentsForTableNums([4, 6, 7, 9, 10, 11], <StudentNameAutoComplete />)}
       {renderComponentsForTableNums([6, 7], <GradeDropdown />)}
       {renderComponentsForTableNums([6, 7, 10], <DepartmentDropdown />)}
-      {renderComponentsForTableNums([4, 6, 7, 10], <StudentIdAutoComplete />)}
       {renderComponentsForTableNums([8], <AdminIdAutoComplete />)}
     </ResponsiveFilterBox>
   );

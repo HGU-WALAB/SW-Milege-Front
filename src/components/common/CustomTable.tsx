@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -112,6 +112,7 @@ interface HeadCell {
  */
 
 interface EnhancedTableProps {
+  type?: string;
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -122,25 +123,36 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { headCells, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const {
+    type,
+    headCells,
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
+  const showCheckbox = type !== '마일리지 적립';
 
   return (
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
+          {showCheckbox && (
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{
+                'aria-label': 'select all desserts',
+              }}
+            />
+          )}
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -174,34 +186,24 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
-
   type?: string;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected, type } = props;
-
-  // example
-
-  const dispatch = useDispatch();
+  const shouldRenderToolbar = type !== '마일리지 적립';
 
   return (
     <Box>
       <Title type={type} />
-
-      {/* 필터링 */}
-
-      {/* 카테고리 필터링 */}
       <Filtering />
-
-      {/* 학기 필터링 */}
-
       <Toolbar
         sx={{
           display: 'flex',
           justifyContent: 'end',
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
+          visibility: shouldRenderToolbar ? 'visible' : 'hidden',
           ...(numSelected > 0 && {
             bgcolor: (theme) =>
               alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
@@ -220,7 +222,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
         )}
-
         {type === '학기별 마일리지 세부 항목' && (
           <SWModal type={typeConverter('학기별 마일리지 세부 항목 마법사')} />
         )}
@@ -358,17 +359,19 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     aid,
   ]);
 
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+  const [order, setOrder] = useState<Order>('asc');
+  const [orderBy, setOrderBy] = useState<keyof Data>('calories');
 
   // selected를 redux로 전역 상태 관리
   const selected = useSelector((state) => state.table.selectedId);
   const dispatch = useDispatch();
   const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
 
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(true);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
+
+  const showCheckbox = type !== '마일리지 적립';
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -498,6 +501,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                 <TableContainer>
                   <Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
                     <EnhancedTableHead
+                      type={type}
                       headCells={headCells}
                       numSelected={selected.length}
                       order={order}
@@ -538,13 +542,15 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                   selected={isItemSelected}
                                 >
                                   <TableCell padding="checkbox">
-                                    <Checkbox
-                                      color="primary"
-                                      checked={isItemSelected}
-                                      inputProps={{
-                                        'aria-labelledby': labelId,
-                                      }}
-                                    />
+                                    {showCheckbox && (
+                                      <Checkbox
+                                        color="primary"
+                                        checked={isItemSelected}
+                                        inputProps={{
+                                          'aria-labelledby': labelId,
+                                        }}
+                                      />
+                                    )}
                                   </TableCell>
 
                                   <TableCell

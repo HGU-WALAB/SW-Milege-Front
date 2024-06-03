@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, use } from 'react';
 import { Box, Button, Stack } from '@mui/material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowModesModel } from '@mui/x-data-grid';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
+import { set } from 'lodash';
 
 interface Student {
   id: number;
@@ -15,27 +16,53 @@ interface Student {
 }
 
 interface CRUDStudentTableProps {
-  data: any[];
+  data: Student[];
   handleClose: () => void;
 }
 
-export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTableProps) {
-  const initialRows: Student[] = data.map((row, index) => ({
-    id: index,
-    name: row[1],
-    sid: row[2],
-    extraPoints: row[3],
-    description1: row[4],
-  }));
-
-  const [rows, setRows] = useState<Student[]>(initialRows);
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
+  const modalType = useSelector((state) => state.modal.modalType);
   const beforeData = useSelector((state) => state.modal.beforeData);
+
+  const [rows, setRows] = useState<Student[]>([]);
+  const [deletedRows, setDeletedRows] = useState<number[]>([]);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const router = useRouter();
 
-  const handleDelete = useCallback((id: number) => {
-    setRows((old) => old.filter((row) => row.id !== id));
-  }, []);
+  useEffect(() => {
+    if (modalType === 'addMileageRegister') {
+      const initialRows: Student[] = data.map((row, index) => ({
+        id: index,
+        name: row[1],
+        sid: row[2],
+        extraPoints: row[3],
+        description1: row[4],
+      }));
+      setRows(initialRows);
+    } else if (modalType === 'managerRegisteredStudents') {
+      axiosInstance.get(`/api/mileage/records/${beforeData.id}`).then((res) => {
+        setRows(
+          res.data.map((row) => ({
+            id: row.id,
+            name: row.studentName,
+            sid: row.sid,
+            extraPoints: row.extraPoints,
+            description1: row.description1,
+          }))
+        );
+      });
+    }
+  }, [modalType, beforeData, data]);
+
+  const handleDelete = useCallback(
+    (id: number) => {
+      if (modalType === 'managerRegisteredStudents') {
+        setDeletedRows((old) => [...old, id]);
+      }
+      setRows((old) => old.filter((row) => row.id !== id));
+    },
+    []
+  );
 
   const handleRegister = async () => {
     if (confirm('등록하시겠습니까?')) {
@@ -57,12 +84,41 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
       }
     }
   };
+  const handleDeleteStudents = async () => {
+    if (confirm('삭제하시겠습니까?')) {
+      try {
+        if (deletedRows.length > 0) {
+          const queryString = deletedRows.map(id => `recordIds=${id}`).join('&');
+          await axiosInstance.delete(`/api/mileage/records?${queryString}`);
+          alert('성공적으로 삭제되었습니다.');
+          handleClose();
+          router.reload();
+        } else {
+          alert('삭제할 항목이 없습니다.');
+        }
+      } catch (error) {
+        alert('삭제에 실패했습니다.');
+        console.error(error);
+      }
+    }
+  };
+  
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: '이름', width: 150, editable: true },
-    { field: 'sid', headerName: '학번', width: 150, editable: true },
-    { field: 'extraPoints', headerName: '가산점', width: 90, editable: true },
-    { field: 'description1', headerName: '비고', width: 200, editable: true },
+    { field: 'name', headerName: '이름', width: 150, editable: modalType === 'addMileageRegister' },
+    { field: 'sid', headerName: '학번', width: 150, editable: modalType === 'addMileageRegister' },
+    {
+      field: 'extraPoints',
+      headerName: '가산점',
+      width: 90,
+      editable: modalType === 'addMileageRegister',
+    },
+    {
+      field: 'description1',
+      headerName: '비고',
+      width: 200,
+      editable: modalType === 'addMileageRegister',
+    },
     {
       field: 'actions',
       type: 'actions',
@@ -98,10 +154,17 @@ export default function CRUDStudentTable({ data, handleClose }: CRUDStudentTable
         <Button onClick={handleClose} variant="outlined" color="primary">
           취소
         </Button>
-        <Button variant="contained" color="primary" onClick={handleRegister}>
-          등록하기
-        </Button>
+        {modalType === 'addMileageRegister' ? (
+          <Button variant="contained" color="primary" onClick={handleRegister}>
+            등록하기
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleDeleteStudents}>
+            삭제하기
+          </Button>
+        )}
       </Stack>
     </Box>
   );
-}
+};
+export default CRUDStudentTable;

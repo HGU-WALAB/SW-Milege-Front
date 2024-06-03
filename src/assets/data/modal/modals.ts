@@ -19,6 +19,7 @@ export const EDITMANAGER = 'editManager';
 export const ADDMILEAGEREGISTER = 'addMileageRegister';
 export const EDITMILEAGEREGISTER = 'editMileageRegister';
 export const REGISTEREDSTUDENTS = 'registeredStudents';
+export const MANAGERREGISTEREDSTUDENTS = 'managerRegisteredStudents';
 
 export const MAGICIANSEMESTERITEM = 'magicianSemesterItem';
 

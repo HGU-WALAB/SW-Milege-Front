@@ -40,6 +40,7 @@ export enum MileageViewBoard {
  *  */
 function createData(mileageRecord: IMileageRecord, edit: ReactNode): Data {
   return {
+<<<<<<< HEAD
     [MileageViewBoard.NUM]: mileageRecord.id,
     [MileageViewBoard.SEMESTER]: mileageRecord.semesterItem.semesterName,
     [MileageViewBoard.CATEGORY]: mileageRecord.category.name,
@@ -49,6 +50,16 @@ function createData(mileageRecord: IMileageRecord, edit: ReactNode): Data {
     [MileageViewBoard.STUDENT_ID]: mileageRecord.sid,
     [MileageViewBoard.POINT]: mileageRecord.points,
     [MileageViewBoard.LAST_MODIFIED_DATE]: formatDateToKorean(mileageRecord.modDate),
+=======
+    [MileageViewBoard.NUM]: num,
+    [MileageViewBoard.SEMESTER]: semester,
+    [MileageViewBoard.CATEGORY]: category,
+    [MileageViewBoard.ITEM]: item,
+    [MileageViewBoard.STUDENT_ID]: studentId,
+    [MileageViewBoard.STUDENT_NAME]: studentName,
+    [MileageViewBoard.POINT]: point,
+    [MileageViewBoard.REGISTERED_DATE]: registeredDate,
+>>>>>>> issue/#123
     edit,
   };
 }
@@ -83,6 +94,7 @@ const headCells = [
     label: '세부 항목명',
   },
   {
+<<<<<<< HEAD
     id: [MileageViewBoard.SPECIFIC_ITEM_NAME],
     numeric: true,
     disablePadding: false,
@@ -95,10 +107,18 @@ const headCells = [
     label: '이름',
   },
   {
+=======
+>>>>>>> issue/#123
     id: [MileageViewBoard.STUDENT_ID],
     numeric: true,
     disablePadding: false,
     label: '학번',
+  },
+  {
+    id: [MileageViewBoard.STUDENT_NAME],
+    numeric: true,
+    disablePadding: false,
+    label: '이름',
   },
   {
     id: [MileageViewBoard.POINT],

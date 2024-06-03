@@ -9,9 +9,8 @@ import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import { GetServerSideProps } from 'next';
 import SWModal from 'src/components/common/modal/SWModal';
-import { ADDMILEAGEREGISTER } from 'src/assets/data/modal/modals';
-import { ISemesterItem, ISemesterItemList } from 'src/pages/mileage/item/semester';
-import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { ADDMILEAGEREGISTER, MANAGERREGISTEREDSTUDENTS } from 'src/assets/data/modal/modals';
+import { ISemesterItemList } from 'src/pages/mileage/item/semester';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import { PATH_API } from 'src/routes/paths';
 
@@ -164,7 +163,7 @@ const handleAllDelete = (id) => {
 };
 
 const fetchToUseData = (data) =>
-  data.list.map((semesterItem: ISemesterItem) => {
+  data?.list.map((semesterItem) => {
     const beforeData = {
       id: semesterItem.id,
       recordName: semesterItem.item.name,
@@ -177,6 +176,7 @@ const fetchToUseData = (data) =>
     return createData(
       semesterItem,
       <Box sx={{ display: 'flex' }}>
+        <SWModal type={MANAGERREGISTEREDSTUDENTS} beforeData={beforeData} />
         <SWModal type={ADDMILEAGEREGISTER} beforeData={beforeData} />
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />
