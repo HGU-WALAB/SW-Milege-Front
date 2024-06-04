@@ -27,36 +27,21 @@ export default function LevelSelect() {
   ];
 
   const MySelect = ({ field, form, ...props }) => (
-    <StyledSelect {...field} {...props}>
+    <Select {...field} {...props}>
       {LEVELS.map((level) => (
         <MenuItem key={level.id} value={level.value}>
           {level.label}
         </MenuItem>
       ))}
-    </StyledSelect>
+    </Select>
   );
 
   return (
-    <StyledFormControl variant="outlined" fullWidth>
+    <FormControl variant="outlined" fullWidth>
       <InputLabel id="level-select-label">권한</InputLabel>
       <Field as={MySelect} name={LEVEL} label="권한" />
       <ErrorMessage name={LEVEL} />
-    </StyledFormControl>
+    </FormControl>
   );
 }
 
-const StyledFormControl = styled(FormControl)`
-  & .MuiOutlinedInput-root {
-    fieldset {
-      border-color: black;
-    }
-  }
-`;
-
-const StyledSelect = styled(Select)`
-  &.MuiOutlinedInput-root {
-    fieldset {
-      border-color: black;
-    }
-  }
-`;

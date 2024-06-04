@@ -1,9 +1,9 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, styled } from '@mui/material';
 import { Field } from 'formik';
 import { TYPE } from 'src/assets/data/fields';
 import { useSelector } from 'react-redux';
 
-export default function TypeSelect() {
+const TypeSelect = () => {
   const types = useSelector((state) => state.filterList.typeList);
 
   const MySelect = ({ field, form, ...props }) => (
@@ -17,9 +17,10 @@ export default function TypeSelect() {
   );
 
   return (
-    <FormControl sx={{ width: '100%' }} variant="outlined">
-      <InputLabel id="demo-simple-select-label">타입</InputLabel>
-      <Field as={MySelect} name={TYPE} variant="outlined" required />
+    <FormControl variant="outlined" fullWidth>
+      <InputLabel id="type-select-label">타입</InputLabel>
+      <Field as={MySelect} name={TYPE} label="타입" required />
     </FormControl>
   );
-}
+};
+export default TypeSelect;

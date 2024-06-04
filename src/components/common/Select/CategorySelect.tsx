@@ -20,7 +20,7 @@ export default function CategorySelect() {
     <Select
       {...field}
       {...props}
-      onChange={handleCategoryChange} // Bind the onChange handler
+      onChange={handleCategoryChange} 
     >
       {categories.map((category) => (
         <MenuItem key={category.id} value={category.id}>
@@ -32,8 +32,8 @@ export default function CategorySelect() {
 
   return (
     <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
-      <Field as={MySelect} name={CATEGORYID} variant="outlined" required />
+      <InputLabel id="category-select-label">카테고리</InputLabel>
+      <Field as={MySelect} name={CATEGORYID} label="카테고리" required />
     </FormControl>
   );
 }

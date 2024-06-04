@@ -62,30 +62,6 @@ import SemesterCountSelect from '../common/Select/SemesterCountSelect';
 import LevelDropdown from '../common/Filter/LevelSelect';
 import LevelSelect from '../common/Filter/LevelSelect';
 
-const StyleFieldBox = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: ' center',
-  margin: '30px 0px',
-  padding: '0px 20px',
-  width: '100%',
-  gap: '15px',
-});
-
-const StyleFieldForm = styled(Form)({
-  '@media (max-width: 600px)': {
-    scale: '0.8',
-    margin: '0px',
-  },
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  margin: '30px 0px',
-  padding: '0px 20px',
-  width: '100%',
-  gap: '20px',
-});
-
 export default function ManagerForm({ handleClose }) {
   const beforeData = useSelector((state) => state.modal.beforeData);
   const modalType = useSelector((state) => state.modal.modalType);
@@ -177,3 +153,27 @@ export default function ManagerForm({ handleClose }) {
     </Formik>
   );
 }
+
+const StyleFieldBox = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: ' center',
+  margin: '30px 0px',
+  padding: '0px 20px',
+  width: '100%',
+  gap: '15px',
+});
+
+const StyleFieldForm = styled(Form)({
+  '@media (max-width: 600px)': {
+    scale: '0.8',
+    margin: '0px',
+  },
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  margin: '30px 0px',
+  padding: '0px 20px',
+  width: '100%',
+  gap: '20px',
+});

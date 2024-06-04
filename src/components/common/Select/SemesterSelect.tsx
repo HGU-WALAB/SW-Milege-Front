@@ -20,8 +20,8 @@ export default function SemesterSelect() {
 
   return (
     <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="demo-simple-select-label">학기</InputLabel>
-      <Field as={MySelect} name={SEMESTER} variant="outlined" required />
+      <InputLabel id="semester-select-label">학기</InputLabel>
+      <Field as={MySelect} name={SEMESTER} label="학기" required />
     </FormControl>
   );
 }

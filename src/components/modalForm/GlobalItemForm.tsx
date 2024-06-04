@@ -119,12 +119,12 @@ export default function GlobalItemForm({ handleClose }) {
         axiosInstance
           .post('/api/mileage/items', newData)
           .then((res) => {
-            alert('세부 항목이 추가되었습니다.');
+            alert('마일리지 항목이 추가되었습니다.');
             router.reload();
           })
           .catch((err) => {
             console.log(err);
-            alert('세부 항목 추가에 실패했습니다.');
+            alert('마일리지 항목 추가에 실패했습니다.');
           });
         break;
 
@@ -132,10 +132,10 @@ export default function GlobalItemForm({ handleClose }) {
         axiosInstance
           .patch(`/api/mileage/items/${beforeData[ID]}`, newData)
           .then((res) => {
-            alert(`세부 항목 ${beforeData[ID]}번이 수정되었습니다.`);
+            alert(`마일리지 항목 ${beforeData[ID]}번이 수정되었습니다.`);
             router.reload();
           })
-          .catch((err) => alert('세부 항목 수정에 실패했습니다.'));
+          .catch((err) => alert('마일리지 항목 수정에 실패했습니다.'));
         break;
       default:
     }

@@ -4,16 +4,12 @@ import axiosInstance from 'src/utils/axios';
 import { useFormikContext } from 'formik';
 import { EDITITEM } from 'src/assets/data/modal/modals';
 import {
-  SPECIFIC_ITEM_NAME,
   MILEAGE,
   ITEM_MAX_POINTS,
   IS_MULTI,
-  SEMESTER,
-  SEMESTERITEMID,
 } from 'src/assets/data/fields';
 
 const GlobalItemSelect = ({ itemId } = { itemId: 'itemId' }) => {
-  const dispatch = useDispatch();
   const globalItemList = useSelector((state) => state.filterList.itemList);
   const modalType = useSelector((state) => state.modal.modalType);
   const { setFieldValue, values } = useFormikContext();
@@ -42,7 +38,7 @@ const GlobalItemSelect = ({ itemId } = { itemId: 'itemId' }) => {
         value={values.itemId}
         onChange={handleChange}
         disabled={modalType === EDITITEM ? true : false}
-        label="세부 항목"
+        label="마일리지 항목"
       >
         {globalItemList.map((item) => (
           <MenuItem key={item.id} value={item.id}>
