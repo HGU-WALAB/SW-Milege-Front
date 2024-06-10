@@ -5,7 +5,6 @@ import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
-import { set } from 'lodash';
 
 interface Student {
   id: number;
@@ -54,15 +53,12 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
     }
   }, [modalType, beforeData, data]);
 
-  const handleDelete = useCallback(
-    (id: number) => {
-      if (modalType === 'managerRegisteredStudents') {
-        setDeletedRows((old) => [...old, id]);
-      }
-      setRows((old) => old.filter((row) => row.id !== id));
-    },
-    []
-  );
+  const handleDelete = useCallback((id: number) => {
+    if (modalType === 'managerRegisteredStudents') {
+      setDeletedRows((old) => [...old, id]);
+    }
+    setRows((old) => old.filter((row) => row.id !== id));
+  }, []);
 
   const handleRegister = async () => {
     if (confirm('등록하시겠습니까?')) {
@@ -88,7 +84,7 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
     if (confirm('삭제하시겠습니까?')) {
       try {
         if (deletedRows.length > 0) {
-          const queryString = deletedRows.map(id => `recordIds=${id}`).join('&');
+          const queryString = deletedRows.map((id) => `recordIds=${id}`).join('&');
           await axiosInstance.delete(`/api/mileage/records?${queryString}`);
           alert('성공적으로 삭제되었습니다.');
           handleClose();
@@ -102,22 +98,21 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
       }
     }
   };
-  
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: '이름', width: 150, editable: modalType === 'addMileageRegister' },
-    { field: 'sid', headerName: '학번', width: 150, editable: modalType === 'addMileageRegister' },
+    { field: 'name', headerName: '이름', width: 150, editable: false },
+    { field: 'sid', headerName: '학번', width: 150, editable: false },
     {
       field: 'extraPoints',
       headerName: '가산점',
       width: 90,
-      editable: modalType === 'addMileageRegister',
+      editable: false,
     },
     {
       field: 'description1',
       headerName: '비고',
       width: 200,
-      editable: modalType === 'addMileageRegister',
+      editable: false,
     },
     {
       field: 'actions',
@@ -139,7 +134,6 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
       <DataGrid
         rows={rows}
         columns={columns}
-        editMode="row"
         rowModesModel={rowModesModel}
         rowHeight={38}
         onRowModesModelChange={setRowModesModel}
