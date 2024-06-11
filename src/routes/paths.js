@@ -73,7 +73,7 @@ export const PATH_API = {
       globalItem: path(ROOTS_DOWNLOAD, '/mileage-item'),
       semesterItem: path(ROOTS_DOWNLOAD, `/mileage-semester-item`),
       record: path(ROOTS_DOWNLOAD, `/mileage-record`),
-      register: path(ROOTS_DOWNLOAD, `/scholarship-applicant`), // Not Implemented
+      register: path(ROOTS_DOWNLOAD, `/scholarship-applicant`),
     },
   },
 };
