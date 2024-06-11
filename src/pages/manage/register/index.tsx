@@ -223,11 +223,11 @@ const getServerSidePropsFunction: GetServerSideProps<{
 }> = async (context) => {
   setServerSideCookie(context);
   const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
-  const nowSemester = semesterRes.data.data.name;
-  const res = await axiosInstance.get(`/api/mileage/apply/semester/${nowSemester}`);
+  const semester = semesterRes.data.data.name;
+  const res = await axiosInstance.get(`/api/mileage/apply/semester/${semester}`);
   const fetchData = res.data;
 
-  return { props: { fetchData, nowSemester } };
+  return { props: { fetchData, semester } };
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
@@ -267,7 +267,7 @@ const fetchToUseData = (data, semester) =>
 
 export default function RegisterManage({
   fetchData,
-  nowSemester,
+  semester,
   requireLogin,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -278,11 +278,11 @@ export default function RegisterManage({
   return (
     <>
       <EnhancedTable
-        originalRows={fetchToUseData(fetchData, nowSemester)}
+        originalRows={fetchToUseData(fetchData, semester)}
         headCells={headCells}
         type="신청자 관리"
       />
-      <ExcelExport endpoint={PATH_API.excel.download.register} queryParams={{ nowSemester }} />
+      <ExcelExport endpoint={PATH_API.excel.download.register} queryParams={{ semester }} />
     </>
   );
 }
