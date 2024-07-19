@@ -1,7 +1,6 @@
 import EnhancedTable from 'src/components/common/CustomTable';
 
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {
   NUM,
   STUDENT_NAME,
@@ -27,19 +26,20 @@ import {
   SEMESTER_NAME,
   SEMESTER,
   ISAPPROVED,
+  EMAIL,
+  REGDATE,
 } from 'src/assets/data/fields';
 import { EDITSTUDENT } from 'src/assets/data/modal/modals';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import axiosInstance from 'src/utils/axios';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import { formatDateToKorean } from 'src/utils/date/dateConverter';
 import SWModal from 'src/components/common/modal/SWModal';
-import { useSelector } from 'react-redux';
-import { dispatch } from 'src/redux/store';
-import { setSemester } from 'src/redux/slices/filter';
-import { useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
 import { handleServerAuth403Error } from 'src/auth/utils';
+import ExcelExport from 'src/components/excel/ExcelExport';
+import { PATH_API } from 'src/routes/paths';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 /**
  * @component [신청자 관리] 게시판
@@ -93,14 +93,13 @@ function createData(
   semester: string,
   studentName: string,
   studentId: number,
-  grade: number,
-  contact: number,
+  grade: string,
+  contact: string,
   department: string,
   major: string,
-  frequency: string,
   registeredDate: string,
-  approve: string,
-  reject: string
+  approve: ReactNode,
+  modal: ReactNode
 ): Data {
   return {
     [RegisterManageBoard.NUM]: num,
@@ -111,10 +110,9 @@ function createData(
     [RegisterManageBoard.CONTACT]: contact,
     [RegisterManageBoard.DEPARTMENT]: department,
     [RegisterManageBoard.MAJOR]: major,
-    [RegisterManageBoard.FREQUENCY]: frequency,
     [RegisterManageBoard.REGISTERED_DATE]: registeredDate,
     [RegisterManageBoard.APPROVE]: approve,
-    [RegisterManageBoard.REJECT]: reject,
+    [RegisterManageBoard.REJECT]: modal,
   };
 }
 
@@ -153,7 +151,12 @@ const headCells = [
     disablePadding: false,
     label: '학년',
   },
-
+  {
+    id: [RegisterManageBoard.CONTACT],
+    numeric: true,
+    disablePadding: false,
+    label: '이메일',
+  },
   {
     id: [RegisterManageBoard.DEPARTMENT],
     numeric: true,
@@ -166,24 +169,17 @@ const headCells = [
     disablePadding: false,
     label: '전공',
   },
-
   {
     id: [RegisterManageBoard.REGISTERED_DATE],
     numeric: true,
     disablePadding: false,
-    label: '등록일',
+    label: '신청일',
   },
   {
     id: [RegisterManageBoard.APPROVE],
     numeric: true,
     disablePadding: false,
     label: '승인 여부',
-  },
-  {
-    id: [RegisterManageBoard.APPROVE],
-    numeric: true,
-    disablePadding: false,
-    label: '마지막 로그인 날짜',
   },
   {
     id: [RegisterManageBoard.REJECT],
@@ -227,17 +223,17 @@ const getServerSidePropsFunction: GetServerSideProps<{
 }> = async (context) => {
   setServerSideCookie(context);
   const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
-  const nowSemester = semesterRes.data.data.name;
-  const res = await axiosInstance.get(`/api/mileage/apply/semester/${nowSemester}`);
+  const semester = semesterRes.data.data.name;
+  const res = await axiosInstance.get(`/api/mileage/apply/semester/${semester}`);
   const fetchData = res.data;
 
-  return { props: { fetchData } };
+  return { props: { fetchData, semester } };
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
-const fetchToUseData = (data, semester) => {
-  return data.list.map((regData, index) => {
+const fetchToUseData = (data, semester) =>
+  data.list.map((regData) => {
     const beforeData = {
       [NAME]: regData.student[NAME],
       [ID]: regData.student[SID],
@@ -249,28 +245,29 @@ const fetchToUseData = (data, semester) => {
       [LASTLOGINDATE]: regData.student[LASTLOGINDATE],
       [ISAPPROVED]: regData.student[ISAPPROVED],
     };
+
     return createData(
       regData.student[SID],
       semester,
       regData.student[NAME],
       regData.student[SID],
-      regData.student[YEAR] + `( ${regData.student[SEMESTERCOUNT]}학기 )`,
+      `${regData.student[YEAR]}(${regData.student[SEMESTERCOUNT]}학기)`,
+      regData.student[EMAIL],
       regData.student[DEPARTMENT],
-      regData.student[MAJOR1] + ` ${regData.student[MAJOR2]}`,
-      regData.student[LASTLOGINDATE]?.split('T')[0],
+      `${regData.student[MAJOR1]}\n${regData.student[MAJOR2]}`,
+      regData[REGDATE]?.split('T')[0],
       regData.student[ISAPPROVED] ? (
         <CheckBoxIcon color="primary" />
       ) : (
         <CheckBoxOutlineBlankIcon color="primary" />
       ),
-      formatDateToKorean(regData.student[MOD_DATE]),
       <SWModal type={EDITSTUDENT} beforeData={beforeData} />
     );
   });
-};
 
 export default function RegisterManage({
   fetchData,
+  semester,
   requireLogin,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -278,17 +275,14 @@ export default function RegisterManage({
     handleServerAuth403Error(error);
     return;
   }
-  const semester = useSelector((state) => state.filter.semester);
-
-  const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData, semester));
-
-  useEffect(() => {
-    axiosInstance.get(`/api/mileage/apply/semester/${semester}`).then((res) => {
-      setConvertedFetchList(fetchToUseData(res.data, semester));
-    });
-  }, [semester]);
-
   return (
-    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="신청자 관리" />
+    <>
+      <EnhancedTable
+        originalRows={fetchToUseData(fetchData, semester)}
+        headCells={headCells}
+        type="신청자 관리"
+      />
+      <ExcelExport endpoint={PATH_API.excel.download.register} queryParams={{ semester }} />
+    </>
   );
 }

@@ -186,10 +186,10 @@ const getServerSidePropsFunction: GetServerSideProps<{
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageCategory({
-                                          fetchData,
-                                          requireLogin,
-                                          error,
-                                        }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  fetchData,
+  requireLogin,
+  error,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
@@ -197,18 +197,16 @@ export default function MileageCategory({
 
   const dispatch = useDispatch();
   const convertedFetchList = fetchData.list?.map((item) =>
-    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />),
+    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />)
   );
   dispatch(setAllMileageList(fetchData.list));
 
-  return <>
-    <EnhancedTable
-      originalRows={convertedFetchList}
-      headCells={headCells}
-      type="마일리지 항목"
-    />
-    <ExcelExport endpoint={PATH_API.excel.download.globalItem} />
-    <ExcelExport endpoint={PATH_API.excel.download.format.item} buttonText="엑셀양식 다운로드" />
-    <ExcelImport endpoint={PATH_API.excel.upload.item} />
-  </>;
+  return (
+    <>
+      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 항목" />
+      <ExcelExport endpoint={PATH_API.excel.download.globalItem} />
+      <ExcelExport endpoint={PATH_API.excel.download.format.item} buttonText="엑셀양식 다운로드" />
+      <ExcelImport endpoint={PATH_API.excel.upload.item} />
+    </>
+  );
 }
