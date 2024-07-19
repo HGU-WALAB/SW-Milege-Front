@@ -138,32 +138,33 @@ const getServerSidePropsFunction: GetServerSideProps<{
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageCategory({
-                                          fetchData,
-                                          requireLogin,
-                                          error,
-                                        }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  fetchData,
+  requireLogin,
+  error,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
   }
 
-  const dispatch = useDispatch();
 
   /**
    * @brief 마일리지 카테고리 리스트 데이터
    */
 
-  const convertedFetchList = fetchData.list?.map((item: IList): BoardColumn => createData(
-    item,
-    <SWModal type={EDITCATEGORY} beforeData={item} />,
-  ));
+  const convertedFetchList = fetchData.list?.map(
+    (item: IList): BoardColumn =>
+      createData(item, <SWModal type={EDITCATEGORY} beforeData={item} />)
+  );
 
-  return <>
-    <EnhancedTable
-      originalRows={convertedFetchList}
-      headCells={headCells}
-      type="마일리지 카테고리"
-    />
-    <ExcelExport endpoint={PATH_API.excel.download.category} />
-  </>;
+  return (
+    <>
+      <EnhancedTable
+        originalRows={convertedFetchList}
+        headCells={headCells}
+        type="마일리지 카테고리"
+      />
+      <ExcelExport endpoint={PATH_API.excel.download.category} />
+    </>
+  );
 }

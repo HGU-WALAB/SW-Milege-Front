@@ -133,7 +133,7 @@ interface IMileageRecord {
     id: number;
     name: string;
     maxPoints: number;
-  },
+  };
   semesterItem: {
     id: number;
     semesterName: string;
@@ -143,12 +143,12 @@ interface IMileageRecord {
         id: number;
         name: string;
         maxPoints: number;
-      },
+      };
       name: string;
       isDuplicable: boolean;
-    },
+    };
     name: string;
-  },
+  };
   points: number;
   description2: string;
 }
@@ -164,21 +164,23 @@ const getServerSidePropsFunction: GetServerSideProps<{ fetchData: any }> = async
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function MileageView({
-                                      fetchData,
-                                      requireLogin,
-                                      error,
-                                    }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  fetchData,
+  requireLogin,
+  error,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
     return;
   }
-  const convertedFetchList = fetchData?.list?.map((mileageRecord: IMileageRecord) => createData(
-    mileageRecord,
-  ));
+  const convertedFetchList = fetchData?.list?.map((mileageRecord: IMileageRecord) =>
+    createData(mileageRecord)
+  );
   const semester = useSelector((state) => state.filter.semester);
 
-  return <>
-    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 조회" />
-    <ExcelExport endpoint={PATH_API.excel.download.record} queryParams={{ semester }} />
-  </>;
+  return (
+    <>
+      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 조회" />
+      <ExcelExport endpoint={PATH_API.excel.download.record} queryParams={{ semester }} />
+    </>
+  );
 }

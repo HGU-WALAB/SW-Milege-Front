@@ -1,29 +1,35 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  Toolbar,
+  Typography,
+  Paper,
+  Checkbox,
+  IconButton,
+  Tooltip,
+  FormControlLabel,
+  Switch,
+  alpha,
+} from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import axiosInstance from 'src/utils/axios';
+import { setSelectedId } from 'src/redux/slices/table';
 import CustomTablePagination from './Table/CustomTablePagination';
-
 import SWModal from './modal/SWModal';
+import Filtering from './Filter/Filtering';
+import Title from './Title/Title';
+import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
 import {
   ADDCATEGORY,
   ADDGLOBALITEM,
@@ -32,14 +38,6 @@ import {
   ADDTYPE,
   MAGICIANSEMESTERITEM,
 } from 'src/assets/data/modal/modals';
-import { useDispatch, useSelector } from 'react-redux';
-import SelectedItemsDeleteIcon from './Table/SelectedItemsDeleteIcon';
-import { useRouter } from 'next/router';
-import Filtering from './Filter/Filtering';
-import Title from './Title/Title';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import axiosInstance from 'src/utils/axios';
-import { setSelectedId } from 'src/redux/slices/table';
 import {
   END_ROUTE_CATEGORY,
   END_ROUTE_MANAGE_REGISTER,
@@ -48,21 +46,6 @@ import {
   END_ROUTE_SEMESTER_ITEM,
   END_ROUTE_VIEW,
 } from 'src/routes/paths';
-import Data from 'src/redux/slices/data';
-
-/**
- *  @brief 반응형 구축
- */
-
-const ResponsiveTable = styled(Paper)({
-  minWidth: '1200px',
-  overflowX: 'scroll',
-  padding: '20px',
-});
-
-const ResponsiveHeaderCell = styled(TableCell)({
-  minWidth: '110px',
-});
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -74,29 +57,20 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key
-): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
+function getComparator<Key extends keyof any>(order: Order, orderBy: Key) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array?.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis?.sort((a, b) => {
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+  stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
+    if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis?.map((el) => el[0]);
+  return stabilizedThis.map((el) => el[0]);
 }
 
 interface HeadCell {
@@ -105,11 +79,6 @@ interface HeadCell {
   label: string;
   numeric: boolean;
 }
-
-/**
- * @number 1번 목록
- * @description 마일리지 카테고리 리스트
- */
 
 interface EnhancedTableProps {
   type?: string;
@@ -149,7 +118,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={onSelectAllClick}
               inputProps={{
-                'aria-label': 'select all desserts',
+                'aria-label': 'select all items',
               }}
             />
           )}
@@ -162,9 +131,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
-              /**
-               * @breif 반응형
-               */
               align={'right'}
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
@@ -231,9 +197,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-/**
- *  @brief 타입을 add modal에 알맞는 형태로 변환 시켜줌
- */
 const typeConverter = (type) => {
   switch (type) {
     case '마일리지 타입':
@@ -244,25 +207,17 @@ const typeConverter = (type) => {
       return ADDITEM;
     case '마일리지 항목':
       return ADDGLOBALITEM;
-
     case '학기별 마일리지 항목 마법사':
       return MAGICIANSEMESTERITEM;
     case '마일리지 조회':
       return ADDMILEAGEREGISTER;
+    default:
+      return '';
   }
 };
 
-/**
- *
- * @brief 테이블 컴포넌트
- * @param originalRows 전체 데이터를 가지고 있는 배열
- * @param headCells 테이블 카테고리들
- * @param type 테이블 타입
- */
-
 export default function EnhancedTable({ originalRows, headCells, type }) {
   const { pathname } = useRouter();
-
   const checkIsPageRelatedWithSemester = () =>
     pathname.includes(END_ROUTE_VIEW) ||
     pathname.includes(END_ROUTE_SEMESTER_ITEM) ||
@@ -273,22 +228,11 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   function sortByDescOrderIdx(data) {
     if (!data || data.length === 0) return;
 
-    // Create a shallow copy of the array
     const sortedData = [...data];
-
-    // Sort the copied array
     return sortedData.sort((a, b) => (b?.orderIdx ?? 0) - (a?.orderIdx ?? 0));
   }
 
-  /**
-   * @field 필터링을 거치고 보여주는 값들 (rows)
-   */
-
-  const [rows, setRows] = React.useState(originalRows);
-
-  /**
-   * @brief 필터링 요소
-   */
+  const [rows, setRows] = useState(originalRows);
 
   const sid = useSelector((state) => state.filter.sid);
   const aid = useSelector((state) => state.filter.aid);
@@ -301,47 +245,37 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const department = useSelector((state) => state.filter.department);
   const categoryType = useSelector((state) => state.filter.categoryType);
 
-  /**
-   * @brief 필터링
-   */
-
   useEffect(() => {
     let copyRows = originalRows;
     if (category && category !== '전체') {
-      copyRows = copyRows?.filter((row) => row.category === category);
+      copyRows = copyRows.filter((row) => row.category === category);
     }
     if (semester && checkIsPageRelatedWithSemester()) {
-      copyRows = copyRows?.filter((row) => row.semester === semester);
+      copyRows = copyRows.filter((row) => row.semester === semester);
     }
     if (isVisible !== '전체') {
-      copyRows = copyRows?.filter((row) => row.isVisible === isVisible);
+      copyRows = copyRows.filter((row) => row.isVisible === isVisible);
     }
     if (item && item !== '전체') {
       copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
     }
     if (studentName && studentName !== '전체') {
-      copyRows = copyRows?.filter(
-        (row) => row.name === studentName || row.studentName === studentName
-      );
+      copyRows = copyRows.filter((row) => row.name === studentName || row.studentName === studentName);
     }
     if (sid && sid !== '전체') {
-      copyRows = copyRows?.filter(
-        (row) => row.sid === sid || row.id === sid || row.studentId === sid
-      );
+      copyRows = copyRows.filter((row) => row.sid === sid || row.id === sid || row.studentId === sid);
     }
     if (aid && aid !== '전체') {
-      copyRows = copyRows?.filter(
-        (row) => aid === row.aid || aid === row.id || aid === row.adminId
-      );
+      copyRows = copyRows.filter((row) => aid === row.aid || aid === row.id || aid === row.adminId);
     }
     if (grade && grade !== '전체') {
-      copyRows = copyRows?.filter((row) => (row.grade + '').slice(0, 1) === grade);
+      copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
     }
     if (department && department !== '전체') {
-      copyRows = copyRows?.filter((row) => row.department === department);
+      copyRows = copyRows.filter((row) => row.department === department);
     }
     if (categoryType && categoryType !== '전체') {
-      copyRows = copyRows?.filter((row) => row.type === categoryType);
+      copyRows = copyRows.filter((row) => row.type === categoryType);
     }
     if (pathname.includes(END_ROUTE_CATEGORY)) copyRows = sortByDescOrderIdx(copyRows);
     setRows(copyRows);
@@ -362,7 +296,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof Data>('calories');
 
-  // selected를 redux로 전역 상태 관리
   const selected = useSelector((state) => state.table.selectedId);
   const dispatch = useDispatch();
   const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
@@ -423,19 +356,16 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy))?.slice(
+      stableSort(rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
     [order, orderBy, page, rowsPerPage, rows]
   );
-
-  const router = useRouter();
 
   const updateNewOrderIdx = (target, newOrderIdx) => {
     const newData = {
@@ -448,12 +378,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     axiosInstance.patch(`/api/mileage/categories/${target.num}`, newData).then((res) => {
       console.log(res);
     });
-  };
-
-  const findRowByIndex = (rows, index) => {
-    const target = rows.filter((row) => row.num === index);
-
-    return target[0];
   };
 
   const handleDragEnd = async (result) => {
@@ -483,7 +407,6 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
       const target = updatedRows[i];
       if (target) {
         updateNewOrderIdx(updatedRows[i], updatedRows[i].orderIdx);
-        // target.orderIdx = newOrderIdx; // Update the local state as well
       }
     }
 
@@ -508,86 +431,64 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                       orderBy={orderBy}
                       onSelectAllClick={handleSelectAllClick}
                       onRequestSort={handleRequestSort}
-                      rowCount={rows?.length}
+                      rowCount={rows.length}
                     />
-
                     <TableBody>
-                      {visibleRows?.map((row, index) => {
+                      {visibleRows.map((row, index) => {
                         const rowValues = Object.values(row);
-                        const isItemSelected = isSelected(row?.num);
+                        const isItemSelected = isSelected(row.num);
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
                           <Draggable
-                            draggableId={type + row?.num}
+                            draggableId={type + row.num}
                             index={index}
-                            key={type + row?.num}
+                            key={type + row.num}
                             isDragDisabled={type !== '마일리지 카테고리'}
                           >
-                            {(provided, snapshot) => {
-                              return (
-                                <TableRow
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  style={{
-                                    cursor: type === '마일리지 카테고리' ? 'move' : 'pointer',
-                                    ...provided.draggableProps.style, // react-beautiful-dnd에서 제공하는 기본 스타일
-                                  }}
-                                  ref={provided.innerRef}
-                                  hover
-                                  onClick={(event) => handleClick(event, row?.num)}
-                                  role="checkbox"
-                                  aria-checked={isItemSelected}
-                                  tabIndex={-1}
-                                  selected={isItemSelected}
-                                >
-                                  <TableCell padding="checkbox">
-                                    {showCheckbox && (
-                                      <Checkbox
-                                        color="primary"
-                                        checked={isItemSelected}
-                                        inputProps={{
-                                          'aria-labelledby': labelId,
-                                        }}
-                                      />
-                                    )}
+                            {(provided, snapshot) => (
+                              <TableRow
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  cursor: type === '마일리지 카테고리' ? 'move' : 'pointer',
+                                  ...provided.draggableProps.style,
+                                }}
+                                ref={provided.innerRef}
+                                hover
+                                onClick={(event) => handleClick(event, row.num)}
+                                role="checkbox"
+                                aria-checked={isItemSelected}
+                                tabIndex={-1}
+                                selected={isItemSelected}
+                              >
+                                <TableCell padding="checkbox">
+                                  {showCheckbox && (
+                                    <Checkbox
+                                      color="primary"
+                                      checked={isItemSelected}
+                                      inputProps={{
+                                        'aria-labelledby': labelId,
+                                      }}
+                                    />
+                                  )}
+                                </TableCell>
+                                <TableCell component="th" id={labelId} scope="row" padding="none">
+                                  {index + 1 + page * rowsPerPage}
+                                </TableCell>
+                                {rowValues.slice(1).map((rowValue, index) => (
+                                  <TableCell key={index} align="left">
+                                    {rowValue === true ? 'Y' : rowValue === false ? 'N' : rowValue}
                                   </TableCell>
-
-                                  <TableCell
-                                    /**
-                                     * @brief 반응형
-                                     */
-
-                                    component="th"
-                                    id={labelId}
-                                    scope="row"
-                                    padding="none"
-                                  >
-                                    {index + 1 + page * rowsPerPage}
-                                  </TableCell>
-
-                                  {rowValues.slice(1)?.map((rowValue, index) => (
-                                    <TableCell key={index} align="left">
-                                      {rowValue === true
-                                        ? 'Y'
-                                        : rowValue === false
-                                        ? 'N'
-                                        : rowValue}
-                                    </TableCell>
-                                  ))}
-                                </TableRow>
-                              );
-                            }}
+                                ))}
+                              </TableRow>
+                            )}
                           </Draggable>
                         );
                       })}
                       {provided.placeholder}
                       {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: (dense ? 23 : 33) * emptyRows,
-                          }}
-                        >
+                        <TableRow style={{ height: (dense ? 23 : 33) * emptyRows }}>
                           <TableCell colSpan={6} />
                         </TableRow>
                       )}
@@ -598,11 +499,10 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
             )}
           </Droppable>
         </DragDropContext>
-
         <CustomTablePagination
           setPage={setPage}
           rowsPerPage={rowsPerPage}
-          count={rows?.length}
+          count={rows.length}
           page={page}
           setRowsPerPage={setRowsPerPage}
         />
@@ -614,3 +514,9 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     </ResponsiveTable>
   );
 }
+
+const ResponsiveTable = styled(Paper)({
+  minWidth: '1200px',
+  overflowX: 'scroll',
+  padding: '20px',
+});
