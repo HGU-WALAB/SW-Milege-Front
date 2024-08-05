@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Box, Chip, styled, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
-  DESCRIPTION1,
+  DESCRIPTION,
   ID,
   IS_MULTI,
   IS_STUDENT_INPUT,
@@ -12,13 +12,14 @@ import {
   ISVISIBLE,
   ISVISIBLE_STUDENT,
   ITEM,
-  POINT,
+  MILEAGE,
   ITEM_MAX_POINTS,
   TYPE,
   CATEGORY_MAX_POINTS,
 } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import { ADDGLOBALITEM, EDITGLOBALITEM } from 'src/assets/data/modal/modals';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
@@ -27,10 +28,12 @@ import { useRouter } from 'next/router';
 import { CATEGORYID } from '../../assets/data/fields';
 import CategorySelect from '../common/Select/CategorySelect';
 import TypeSelect from 'src/components/common/Filter/TypeSelect';
-import { be } from 'date-fns/locale';
-import { useEffect } from 'react';
 
-const inputFields = [ITEM, POINT, ITEM_MAX_POINTS, DESCRIPTION1];
+interface DisplayMaxPointsProps {
+  mileage: number | null;
+}
+
+const inputFields = [ITEM, MILEAGE, ITEM_MAX_POINTS, DESCRIPTION];
 const toggleFields = [
   IS_MULTI,
   ISVISIBLE,
@@ -47,7 +50,7 @@ interface RequestPayload {
   readonly itemName: string;
   readonly mileage: number;
   readonly itemMaxPoints: number;
-  readonly description1: string;
+  readonly description: string;
   readonly flags: {
     readonly isVisible: boolean;
     readonly isStudentVisible: boolean;
@@ -65,8 +68,8 @@ const GlobalItemSchema = Yup.object().shape({
   [TYPE]: Yup.string().required('필수입니다.'),
 });
 
-export default function GlobalItemForm({ handleClose }) {
-  const { modalType, beforeData, allMileageList } = useSelector((state) => ({
+export default function GlobalItemForm({ handleClose }: { handleClose: () => void }) {
+  const { modalType, beforeData, allMileageList } = useSelector((state: RootState) => ({
     modalType: state.modal.modalType,
     beforeData: state.modal.beforeData,
     allMileageList: state.filterList.allMileageList,
@@ -74,35 +77,30 @@ export default function GlobalItemForm({ handleClose }) {
   const router = useRouter();
 
   const initialValues = {
-    [CATEGORYID]: beforeData?.category?.id || '',
-    [CATEGORY_MAX_POINTS]: beforeData?.category?.maxPoints || -1,
-    [TYPE]: beforeData?.mileageType?.id || '',
-    [ITEM]: beforeData?.name || '',
-    [POINT]: beforeData?.mileage || 0,
-    [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints || 0,
-    [DESCRIPTION1]: beforeData?.description1 || '',
-    [ISVISIBLE]: beforeData?.isVisible || true,
-    [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible || true,
-    [IS_STUDENT_INPUT]: beforeData?.isStudentInput || false,
-    [IS_MULTI]: beforeData?.isDuplicable || true,
-    [ISEVALUATE_CSEE_GENERAL]: beforeData?.isCseeGeneral || false,
-    [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isCseeSpecial || false,
-    [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.isIctConvergence || false,
+    [CATEGORYID]: beforeData?.category?.id ?? '',
+    [CATEGORY_MAX_POINTS]: beforeData?.category?.maxPoints ?? -1,
+    [TYPE]: beforeData?.mileageType?.id ?? '',
+    [ITEM]: beforeData?.name ?? '',
+    [MILEAGE]: beforeData?.mileage ?? 0,
+    [ITEM_MAX_POINTS]: beforeData?.itemMaxPoints ?? 0,
+    [DESCRIPTION]: beforeData?.description ?? '',
+    [IS_MULTI]: beforeData?.isDuplicable ?? true,
+    [ISVISIBLE]: beforeData?.isVisible ?? true,
+    [ISVISIBLE_STUDENT]: beforeData?.isStudentVisible ?? true,
+    [IS_STUDENT_INPUT]: beforeData?.isStudentInput ?? false,
+    [ISEVALUATE_CSEE_GENERAL]: beforeData?.isCseeGeneral ?? false,
+    [ISEVALUATE_CSEE_SPECIAL]: beforeData?.isCseeSpecial ?? false,
+    [ISEVALUATE_ICT_CONVERGENCE]: beforeData?.isIctConvergence ?? false,
   };
 
-  const handleSubmit = (values: object) => {
-    // 세부 항목 추가
-    // 1) newData 생성
-    // 2) axios post
-    // 3) alert
-    // 4) reload
+  const handleSubmit = (values: typeof initialValues) => {
     const newData: RequestPayload = {
       categoryId: values[CATEGORYID],
       typeId: values[TYPE],
       itemName: values[ITEM],
-      mileage: values[POINT],
+      mileage: values[MILEAGE],
       itemMaxPoints: values[ITEM_MAX_POINTS],
-      description1: values[DESCRIPTION1],
+      description: values[DESCRIPTION],
       flags: {
         isVisible: values[ISVISIBLE],
         isStudentVisible: values[ISVISIBLE_STUDENT],
@@ -118,9 +116,10 @@ export default function GlobalItemForm({ handleClose }) {
       case ADDGLOBALITEM:
         axiosInstance
           .post('/api/mileage/items', newData)
-          .then((res) => {
+          .then(() => {
             alert('마일리지 항목이 추가되었습니다.');
             router.reload();
+
           })
           .catch((err) => {
             console.log(err);
@@ -131,11 +130,14 @@ export default function GlobalItemForm({ handleClose }) {
       case EDITGLOBALITEM:
         axiosInstance
           .patch(`/api/mileage/items/${beforeData[ID]}`, newData)
-          .then((res) => {
+          .then(() => {
             alert(`마일리지 항목 ${beforeData[ID]}번이 수정되었습니다.`);
             router.reload();
           })
-          .catch((err) => alert('마일리지 항목 수정에 실패했습니다.'));
+          .catch((err) => {
+            console.log(err);
+            alert('마일리지 항목 수정에 실패했습니다.');
+          });
         break;
       default:
     }
@@ -153,7 +155,7 @@ export default function GlobalItemForm({ handleClose }) {
             <StyledFieldBox>
               <TypeSelect />
               <CategorySelect />
-              <DisplayMaxPoints points={values[CATEGORY_MAX_POINTS]} />
+              <DisplayMaxPoints mileage={values[CATEGORY_MAX_POINTS]} />
               {inputFields.map((field, index) => (
                 <TextFieldComponent
                   key={index}
@@ -198,15 +200,15 @@ const StyledFieldBox = styled(Box)(({ theme }) => ({
 const StyleFieldForm = styled(Form)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: '30px',
+  paddingTop: '30px',
   width: '100%',
 }));
 
-const DisplayMaxPoints = ({ points }) => {
-  if (points === -1) return null;
+const DisplayMaxPoints = ({ mileage }: DisplayMaxPointsProps) => {
+  if (mileage === -1) return null;
 
   const label =
-    points === null ? '카테고리 최대 마일리지: 제한없음' : `카테고리 최대 마일리지: ${points}`;
+    mileage === null ? '카테고리 최대 마일리지: 제한없음' : `카테고리 최대 마일리지: ${mileage}`;
 
   return <Chip color="primary" label={label} variant="outlined" />;
 };
@@ -224,8 +226,6 @@ const TextFieldComponent = ({
   const isDisabled = field === ITEM_MAX_POINTS && !values[IS_MULTI];
 
   const checkIfItemExists = (itemName) => {
-    console.log(itemName, values[TYPE], values[CATEGORYID]);
-
     return allMileageList.some(
       (item) =>
         item.name === itemName &&
@@ -236,8 +236,8 @@ const TextFieldComponent = ({
 
   const isError =
     field === ITEM && checkIfItemExists(values[ITEM]) && values[ITEM] !== beforeData?.name;
-  if (field == ITEM_MAX_POINTS && isDisabled && values[POINT] !== values[ITEM_MAX_POINTS]) {
-    setFieldValue(field, values[POINT]);
+  if (field == ITEM_MAX_POINTS && isDisabled && values[MILEAGE] !== values[ITEM_MAX_POINTS]) {
+    setFieldValue(field, values[MILEAGE]);
   }
   return (
     <TextField

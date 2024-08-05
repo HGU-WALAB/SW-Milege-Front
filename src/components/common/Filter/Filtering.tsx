@@ -8,17 +8,20 @@ import DepartmentDropdown from './DepartmentDropDown';
 import StudentNameAutoComplete from './StudentNameAutoComplete';
 import StudentIdAutoComplete from './StudentIDAutoComplete';
 import AdminIdAutoComplete from './AdminIdAutoComplete';
+import { RootState } from 'src/redux/rootReducer';
 
-export function removeDuplicates(arr) {
+export function removeDuplicates<T>(arr: T[]): T[] {
   return [...new Set(arr)];
 }
 
-export default function Filtering() {
-  const tableNum = useSelector((state) => state.component.componentNum);
 
-  function renderComponentsForTableNums(allowedTableNums, Component) {
+export default function Filtering() {
+  const tableNum = useSelector((state: RootState) => state.component.componentNum);
+
+  function renderComponentsForTableNums(allowedTableNums: number[], Component: React.ReactNode): React.ReactNode | null {
     return allowedTableNums.includes(tableNum) ? Component : null;
   }
+  
 
   return (
     /**

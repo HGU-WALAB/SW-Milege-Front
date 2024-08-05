@@ -1,5 +1,5 @@
-import EnhancedTable from 'src/components/common/CustomTable';
 import React, { ReactNode, useEffect, useState } from 'react';
+import EnhancedTable from 'src/components/common/CustomTable';
 import axiosInstance from 'src/utils/axios';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { Box, IconButton } from '@mui/material';
@@ -14,6 +14,8 @@ import { ISemesterItemList } from 'src/pages/mileage/item/semester';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import { PATH_API } from 'src/routes/paths';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { ISemesterItem } from 'src/pages/mileage/item/semester';
+import { RootState } from 'src/redux/store';
 
 /**
  * @component [마일리지 적립] 게시판
@@ -21,7 +23,7 @@ import { formatDateToKorean } from 'src/utils/date/dateConverter';
 
 /**
  * @kind [마일리지 적립]
- * @breif enum
+ * @brief enum
  */
 
 export enum MileageRegisterBoard {
@@ -39,9 +41,9 @@ export enum MileageRegisterBoard {
 
 /**
  * @kind [마일리지 적립]
- * @breif 데이터 인터페이스
+ * @brief 데이터 인터페이스
  */
-interface Data {
+export interface MileageRegisterData {
   [MileageRegisterBoard.NUM]: number;
   [MileageRegisterBoard.SEMESTER]: string;
   [MileageRegisterBoard.CATEGORY]: string;
@@ -56,12 +58,8 @@ interface Data {
 /**
  * @kind [마일리지 적립]
  * @brief 데이터 생성 함수
- *
- *  */
-function createData(
-  semesterItem: ISemesterItem,
-  MANAGE: ReactNode,
-): Data {
+ */
+function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): MileageRegisterData {
   return {
     [MileageRegisterBoard.NUM]: semesterItem.id,
     [MileageRegisterBoard.SEMESTER]: semesterItem.semesterName,
@@ -136,6 +134,18 @@ const headCells = [
   },
 ];
 
+/**
+ * @kind [마일리지 적립] 데이터 형식
+ */
+export interface IRegister {
+  id: number;
+  recordName: string;
+  semesterItemId: number;
+  semester: string;
+  itemName: string;
+  categoryName: string;
+}
+
 const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: ISemesterItemList;
 }> = async (context) => {
@@ -151,10 +161,10 @@ const getServerSidePropsFunction: GetServerSideProps<{
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
-const handleAllDelete = (id) => {
+const handleAllDelete = (id: number) => {
   if (window.confirm('등록된 학생 모두 삭제하시겠습니까?')) {
     axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
-      res.data.list.forEach((item) => {
+      res.data.list.forEach((item: { student?: { name?: string; sid?: string }; id: number }) => {
         axiosInstance.delete(`/api/mileage/records/${item.id}`).then(() => {
           alert(` ${item.student?.name} - ${item.student?.sid} 가 삭제 되었습니다.`);
         });
@@ -163,9 +173,9 @@ const handleAllDelete = (id) => {
   }
 };
 
-const fetchToUseData = (data) =>
-  data?.list.map((semesterItem) => {
-    const beforeData = {
+const fetchToUseData = (data: ISemesterItemList) =>
+  data?.list?.map((semesterItem: ISemesterItem) => {
+    const beforeData: IRegister = {
       id: semesterItem.id,
       recordName: semesterItem.item.name,
       semesterItemId: semesterItem.id,
@@ -182,23 +192,26 @@ const fetchToUseData = (data) =>
         <IconButton onClick={() => handleAllDelete(semesterItem.id)}>
           <DeleteIcon />
         </IconButton>
-      </Box>,
+      </Box>
     );
   });
 
 export default function MileageRegister({
-                                          fetchData,
-                                          requireLogin,
-                                          error,
-                                        }): React.JSX.Element {
+  fetchData,
+  requireLogin,
+  error,
+}: {
+  fetchData: ISemesterItemList | null;
+  requireLogin: boolean;
+  error: string | null;
+}): React.JSX.Element {
   if (requireLogin) {
     handleServerAuth403Error(error);
-    return;
+    return <></>;
   }
 
-  const dispatch = useDispatch();
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
-  const semester = useSelector((state) => state.filter.semester);
+  const semester = useSelector((state: RootState) => state.filter.semester);
 
   useEffect(() => {
     axiosInstance.get(`/api/mileage/semesters/${semester}/items`).then((res) => {
@@ -206,8 +219,10 @@ export default function MileageRegister({
     });
   }, [semester]);
 
-  return <>
-    <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 적립" />
-    <ExcelExport endpoint={PATH_API.excel.download.format.record} />
-  </>;
+  return (
+    <>
+      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 적립" />
+      <ExcelExport endpoint={PATH_API.excel.download.format.record} />
+    </>
+  );
 }

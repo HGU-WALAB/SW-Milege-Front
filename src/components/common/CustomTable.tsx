@@ -46,8 +46,17 @@ import {
   END_ROUTE_SEMESTER_ITEM,
   END_ROUTE_VIEW,
 } from 'src/routes/paths';
+import { RootState } from 'src/redux/store';
+import { MileageGlobalItemData } from 'src/pages/mileage/item/global';
+import { SemesterMileageItemsData } from 'src/pages/mileage/item/semester';
+import { MileageRegisterData } from 'src/pages/mileage/register';
+import { MileageTypeData } from 'src/pages/mileage/type';
+import { MileageCategoryData } from 'src/pages/mileage/category';
+import isEqual from 'lodash.isequal';
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+type Order = 'asc' | 'desc';
+
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -57,13 +66,17 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-function getComparator<Key extends keyof any>(order: Order, orderBy: Key) {
+function getComparator<T>(order: Order, orderBy: keyof T): (a: T, b: T) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+function stableSort<T>(array: readonly T[] | undefined, comparator: (a: T, b: T) => number): T[] {
+  if (!array) {
+    return [];
+  }
+
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -72,6 +85,13 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
   });
   return stabilizedThis.map((el) => el[0]);
 }
+
+type Data =
+  | MileageGlobalItemData
+  | SemesterMileageItemsData
+  | MileageRegisterData
+  | MileageTypeData
+  | MileageCategoryData;
 
 interface HeadCell {
   disablePadding: boolean;
@@ -125,13 +145,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
+            key={String(headCell.id)}
             align={'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
-              align={'right'}
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
@@ -197,7 +216,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-const typeConverter = (type) => {
+const typeConverter = (type: string) => {
   switch (type) {
     case '마일리지 타입':
       return ADDTYPE;
@@ -216,7 +235,7 @@ const typeConverter = (type) => {
   }
 };
 
-export default function EnhancedTable({ originalRows, headCells, type }) {
+export default function EnhancedTable({ originalRows = [], headCells, type }) {
   const { pathname } = useRouter();
   const checkIsPageRelatedWithSemester = () =>
     pathname.includes(END_ROUTE_VIEW) ||
@@ -234,51 +253,64 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
 
   const [rows, setRows] = useState(originalRows);
 
-  const sid = useSelector((state) => state.filter.sid);
-  const aid = useSelector((state) => state.filter.aid);
-  const category = useSelector((state) => state.filter.category);
-  const semester = useSelector((state) => state.filter.semester);
-  const isVisible = useSelector((state) => state.filter.isVisible);
-  const item = useSelector((state) => state.filter.item);
-  const studentName = useSelector((state) => state.filter.studentName);
-  const grade = useSelector((state) => state.filter.grade);
-  const department = useSelector((state) => state.filter.department);
-  const categoryType = useSelector((state) => state.filter.categoryType);
+  const sid = useSelector((state: RootState) => state.filter.sid);
+  const aid = useSelector((state: RootState) => state.filter.aid);
+  const category = useSelector((state: RootState) => state.filter.category);
+  const semester = useSelector((state: RootState) => state.filter.semester);
+  const isVisible = useSelector((state: RootState) => state.filter.isVisible);
+  const item = useSelector((state: RootState) => state.filter.item);
+  const studentName = useSelector((state: RootState) => state.filter.studentName);
+  const grade = useSelector((state: RootState) => state.filter.grade);
+  const department = useSelector((state: RootState) => state.filter.department);
+  const categoryType = useSelector((state: RootState) => state.filter.categoryType);
 
   useEffect(() => {
-    let copyRows = originalRows;
-    if (category && category !== '전체') {
-      copyRows = copyRows.filter((row) => row.category === category);
+    const filterRows = () => {
+      let copyRows = originalRows;
+      if (category && category !== '전체') {
+        copyRows = copyRows.filter((row) => row.category === category);
+      }
+      if (semester && checkIsPageRelatedWithSemester()) {
+        copyRows = copyRows.filter((row) => row.semester === semester);
+      }
+      if (isVisible !== '전체') {
+        copyRows = copyRows.filter((row) => row.isVisible === isVisible);
+      }
+      if (item && item !== '전체') {
+        copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
+      }
+      if (studentName && studentName !== '전체') {
+        copyRows = copyRows.filter(
+          (row) => row.name === studentName || row.studentName === studentName
+        );
+      }
+      if (sid && sid !== '전체') {
+        copyRows = copyRows.filter(
+          (row) => row.sid === sid || row.id === sid || row.studentId === sid
+        );
+      }
+      if (aid && aid !== '전체') {
+        copyRows = copyRows.filter(
+          (row) => aid === row.aid || aid === row.id || aid === row.adminId
+        );
+      }
+      if (grade && grade !== '전체') {
+        copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
+      }
+      if (department && department !== '전체') {
+        copyRows = copyRows.filter((row) => row.department === department);
+      }
+      if (categoryType && categoryType !== '전체') {
+        copyRows = copyRows.filter((row) => row.type === categoryType);
+      }
+      if (pathname.includes(END_ROUTE_CATEGORY)) copyRows = sortByDescOrderIdx(copyRows);
+      return copyRows;
+    };
+
+    const filteredRows = filterRows();
+    if (!isEqual(rows, filteredRows)) {
+      setRows(filteredRows);
     }
-    if (semester && checkIsPageRelatedWithSemester()) {
-      copyRows = copyRows.filter((row) => row.semester === semester);
-    }
-    if (isVisible !== '전체') {
-      copyRows = copyRows.filter((row) => row.isVisible === isVisible);
-    }
-    if (item && item !== '전체') {
-      copyRows = copyRows.filter((row) => row?.itemName === item || row?.item === item);
-    }
-    if (studentName && studentName !== '전체') {
-      copyRows = copyRows.filter((row) => row.name === studentName || row.studentName === studentName);
-    }
-    if (sid && sid !== '전체') {
-      copyRows = copyRows.filter((row) => row.sid === sid || row.id === sid || row.studentId === sid);
-    }
-    if (aid && aid !== '전체') {
-      copyRows = copyRows.filter((row) => aid === row.aid || aid === row.id || aid === row.adminId);
-    }
-    if (grade && grade !== '전체') {
-      copyRows = copyRows.filter((row) => (row.grade + '').slice(0, 1) === grade);
-    }
-    if (department && department !== '전체') {
-      copyRows = copyRows.filter((row) => row.department === department);
-    }
-    if (categoryType && categoryType !== '전체') {
-      copyRows = copyRows.filter((row) => row.type === categoryType);
-    }
-    if (pathname.includes(END_ROUTE_CATEGORY)) copyRows = sortByDescOrderIdx(copyRows);
-    setRows(copyRows);
   }, [
     category,
     semester,
@@ -291,12 +323,13 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
     categoryType,
     sid,
     aid,
+    pathname,
   ]);
 
   const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<keyof Data>('calories');
+  const [orderBy, setOrderBy] = useState<keyof Data>('calories' as keyof Data);
 
-  const selected = useSelector((state) => state.table.selectedId);
+  const selected = useSelector((state: RootState) => state.table.selectedId);
   const dispatch = useDispatch();
   const setSelected = (newSelected) => dispatch(setSelectedId(newSelected));
 
@@ -431,7 +464,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                       orderBy={orderBy}
                       onSelectAllClick={handleSelectAllClick}
                       onRequestSort={handleRequestSort}
-                      rowCount={rows.length}
+                      rowCount={rows?.length}
                     />
                     <TableBody>
                       {visibleRows.map((row, index) => {
@@ -476,7 +509,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
                                 <TableCell component="th" id={labelId} scope="row" padding="none">
                                   {index + 1 + page * rowsPerPage}
                                 </TableCell>
-                                {rowValues.slice(1).map((rowValue, index) => (
+                                {rowValues.slice(1).map((rowValue: React.ReactNode, index) => (
                                   <TableCell key={index} align="left">
                                     {rowValue === true ? 'Y' : rowValue === false ? 'N' : rowValue}
                                   </TableCell>
@@ -502,7 +535,7 @@ export default function EnhancedTable({ originalRows, headCells, type }) {
         <CustomTablePagination
           setPage={setPage}
           rowsPerPage={rowsPerPage}
-          count={rows.length}
+          count={rows?.length}
           page={page}
           setRowsPerPage={setRowsPerPage}
         />

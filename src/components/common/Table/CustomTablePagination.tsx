@@ -5,6 +5,7 @@ interface IProps {
   page: number;
   count: number;
   rowsPerPage: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -41,7 +42,7 @@ export default function CustomTablePagination({
     <TablePagination
       // rowsPerPageOptions={[25, 50, 75]}
       component="div"
-      count={count}
+      count={count || 0}  // count가 undefined일 때 기본값 0을 설정
       rowsPerPage={rowsPerPage}
       page={page}
       labelRowsPerPage="페이지당 행 수"

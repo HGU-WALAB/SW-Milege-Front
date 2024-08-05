@@ -1,7 +1,6 @@
 import EnhancedTable from 'src/components/common/CustomTable';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITCATEGORY } from 'src/assets/data/modal/modals';
-import { useDispatch } from 'react-redux';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -17,9 +16,9 @@ import { PATH_API } from 'src/routes/paths';
  */
 
 enum MileageCategoryBoard {
-  NUM = 'num', // Used in EnhancedTable
+  NUM = 'num',
   CATEGORY = 'category',
-  DESCRIPTION1 = 'description1',
+  DESCRIPTION = 'description',
   ORDER_IDX = 'orderIdx',
   ITEM_COUNT = 'itemCount',
   CATEGORY_MAX_POINTS = 'categoryMaxPoints',
@@ -33,12 +32,12 @@ enum MileageCategoryBoard {
  *
  *  */
 
-function createData(data: IList, MANAGE: ReactNode): BoardColumn {
+function createData(data: IListCategory, MANAGE: ReactNode): MileageCategoryData {
   return {
     [MileageCategoryBoard.NUM]: data.id,
     [MileageCategoryBoard.CATEGORY]: data.name,
     [MileageCategoryBoard.CATEGORY_MAX_POINTS]: data.maxPoints,
-    [MileageCategoryBoard.DESCRIPTION1]: data.description1,
+    [MileageCategoryBoard.DESCRIPTION]: data.description,
     [MileageCategoryBoard.ITEM_COUNT]: data.itemCount,
     [MileageCategoryBoard.MOD_DATE]: formatDateToKorean(data.modDate),
     [MileageCategoryBoard.MANAGE]: MANAGE,
@@ -50,10 +49,10 @@ function createData(data: IList, MANAGE: ReactNode): BoardColumn {
  * @breif 데이터 인터페이스
  */
 
-interface BoardColumn {
+export interface MileageCategoryData {
   [MileageCategoryBoard.NUM]: number;
   [MileageCategoryBoard.CATEGORY]: string;
-  [MileageCategoryBoard.DESCRIPTION1]: string;
+  [MileageCategoryBoard.DESCRIPTION]: string;
   [MileageCategoryBoard.ITEM_COUNT]: number;
   [MileageCategoryBoard.CATEGORY_MAX_POINTS]: number;
   [MileageCategoryBoard.MOD_DATE]: string;
@@ -61,78 +60,86 @@ interface BoardColumn {
 }
 
 /**
- * @number 1번 헤더
- * @description 마일리지 카테고리 리스트
+ * @brief 마일리지 카테고리 리스트 헤더
  */
 const headCells = [
   {
-    id: [MileageCategoryBoard.NUM],
+    id: MileageCategoryBoard.NUM,
     numeric: false,
     disablePadding: true,
     label: '번호',
   },
   {
-    id: [MileageCategoryBoard.CATEGORY],
+    id: MileageCategoryBoard.CATEGORY,
     numeric: true,
     disablePadding: false,
     label: '카테고리명',
   },
   {
-    id: [MileageCategoryBoard.CATEGORY_MAX_POINTS],
+    id: MileageCategoryBoard.CATEGORY_MAX_POINTS,
     numeric: true,
     disablePadding: false,
     label: '적립 가능 최대 마일리지',
   },
   {
-    id: [MileageCategoryBoard.DESCRIPTION1],
+    id: MileageCategoryBoard.DESCRIPTION,
     numeric: true,
     disablePadding: false,
     label: '비고',
   },
   {
-    id: [MileageCategoryBoard.ITEM_COUNT],
+    id: MileageCategoryBoard.ITEM_COUNT,
     numeric: true,
     disablePadding: false,
     label: '하위 항목 개수',
   },
   {
-    id: [MileageCategoryBoard.MOD_DATE],
+    id: MileageCategoryBoard.MOD_DATE,
     numeric: true,
     disablePadding: false,
     label: '최근 수정일',
   },
   {
-    id: [MileageCategoryBoard.MANAGE],
+    id: MileageCategoryBoard.MANAGE,
     numeric: true,
     disablePadding: false,
     label: '관리',
   },
 ];
 
-export interface IList {
+export interface IListCategory {
   id: number;
   name: string;
   orderIdx: number;
   itemCount: number;
   modDate: string;
-  description1: string;
+  description: string;
   maxPoints: number;
 }
 
 interface IGetMileageCategory {
   description: string;
   count: number;
-  list: IList[];
+  list: IListCategory[];
 }
 
 const getServerSidePropsFunction: GetServerSideProps<{
-  fetchData: IGetMileageCategory;
+  fetchData: IGetMileageCategory | null;
+  requireLogin: boolean;
+  error: string | null;
 }> = async (context) => {
   setServerSideCookie(context);
-  const res = await axiosInstance.get('/api/mileage/categories');
-  const fetchData = res.data;
-
-  return { props: { fetchData } };
+  try {
+    const res = await axiosInstance.get('/api/mileage/categories');
+    const fetchData = res.data;
+    return { props: { fetchData, requireLogin: false, error: null } };
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      return { props: { fetchData: null, requireLogin: true, error: 'Unauthorized' } };
+    } else {
+      return { props: { fetchData: null, requireLogin: false, error: 'Failed to fetch data' } };
+    }
+  }
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
@@ -144,16 +151,14 @@ export default function MileageCategory({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
-    return;
+    return null;
   }
-
 
   /**
    * @brief 마일리지 카테고리 리스트 데이터
    */
-
-  const convertedFetchList = fetchData.list?.map(
-    (item: IList): BoardColumn =>
+  const convertedFetchList = fetchData?.list?.map(
+    (item: IListCategory): MileageCategoryData =>
       createData(item, <SWModal type={EDITCATEGORY} beforeData={item} />)
   );
 

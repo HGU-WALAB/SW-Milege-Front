@@ -3,22 +3,25 @@ import { styled } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory } from 'src/redux/slices/filter';
 import { removeDuplicates } from './Filtering';
-
-const StyledAutocomplete = styled(Autocomplete)({
-  minWidth: '200px',
-});
+import { RootState } from 'src/redux/rootReducer';
+import { createSelector } from 'reselect'
 
 export default function CategoryAutoComplete() {
-  const top100Films = removeDuplicates([
+  const selectCategoryList = (state: RootState) => state.filterList.categoryList;
+
+  const selectCategoryNames = createSelector([selectCategoryList], (categoryList) => [
     '전체',
-    ...useSelector((state) => state?.filterList?.categoryList?.map((category) => category?.name)),
+    ...removeDuplicates(categoryList.map((category) => category.name)),
   ]);
 
-  const value = useSelector((state) => state.filter.category);
+  const top100Films: string[] = useSelector(selectCategoryNames);
+  const value: string = useSelector((state: RootState) => state.filter.category);
   const dispatch = useDispatch();
 
-  const handleChange = (event, newValue) => {
-    dispatch(setCategory(newValue));
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: string | null) => {
+    if (newValue !== null) {
+      dispatch(setCategory(newValue));
+    }
   };
 
   return (
@@ -29,7 +32,11 @@ export default function CategoryAutoComplete() {
       id="combo-box-demo"
       options={top100Films}
       renderInput={(params) => <TextField {...params} label="카테고리" />}
-      onChange={(e, newValue) => handleChange(e, newValue)}
+      onChange={handleChange}
     />
   );
 }
+
+const StyledAutocomplete = styled(Autocomplete)({
+  minWidth: '200px',
+});

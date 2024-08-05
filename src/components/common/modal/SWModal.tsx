@@ -35,7 +35,6 @@ import {
   COUNTS,
   DEPARTMENT,
   DESCRIPTION,
-  DESCRIPTION1,
   EMAIL,
   EXTRAPOINTS,
   FILE_DESCRIPTION,
@@ -75,17 +74,25 @@ import TypeForm from 'src/components/modalForm/TypeForm';
 import TypeSpecificCategoryModal from 'src/components/modalForm/TypeSpecificCategoryModal';
 import ModalTitle from './ModalTitle';
 import ModalIconButton from './ModalIconButton';
+import { RootState } from 'src/redux/store';
+import { IGlobalItem } from 'src/pages/mileage/item/global';
+import { ISemesterItem } from 'src/pages/mileage/item/semester';
+import { IListType } from 'src/pages/mileage/type';
+import { IRegister } from 'src/pages/mileage/register';
+import { IListCategory } from 'src/pages/mileage/category';
 
+interface SWModalProps {
+  type: string;
+  beforeData?: IGlobalItem | ISemesterItem | IListType | IRegister | IListCategory;
+}
 
-
-export default function SWModal({ type, beforeData }) {
-
+export default function SWModal({ type, beforeData }: SWModalProps) {
   const [open, setOpen] = useState(false);
-  const modalType = useSelector((state) => state.modal.modalType);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
 
-  const modalMinWidth = (type) => {
+  const modalMinWidth = (type: string) => {
     switch (type) {
       case ADDGLOBALITEM:
       case EDITGLOBALITEM:
@@ -121,7 +128,11 @@ export default function SWModal({ type, beforeData }) {
     overflowY: 'scroll',
     width: modalType === REGISTEREDSTUDENTS ? '80%' : '80%',
   };
-  
+
+  const handleModalClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
+
   return (
     <div>
       <ModalIconButton setOpen={handleOpen} beforeData={beforeData} type={type} />
@@ -132,7 +143,7 @@ export default function SWModal({ type, beforeData }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} onClick={handleModalClick}>
           <ModalTitle />
           {modalForm(modalType, handleClose)}
           <Typography id="modal-modal-description" sx={{ mt: 2 }} />
@@ -142,7 +153,7 @@ export default function SWModal({ type, beforeData }) {
   );
 }
 
-const modalForm = (modalType, handleClose) => {
+const modalForm = (modalType: string, handleClose: () => void) => {
   switch (modalType) {
     case ADDTYPE:
       return <TypeForm handleClose={handleClose} />;
@@ -154,15 +165,14 @@ const modalForm = (modalType, handleClose) => {
       return <CategoryForm handleClose={handleClose} />;
     case EDITCATEGORY:
       return <CategoryForm handleClose={handleClose} />;
-    case ADDITEM:
-      return <SemesterItemForm handleClose={handleClose} />;
-    case EDITITEM:
-      return <SemesterItemForm handleClose={handleClose} />;
     case ADDGLOBALITEM:
       return <GlobalItemForm handleClose={handleClose} />;
     case EDITGLOBALITEM:
       return <GlobalItemForm handleClose={handleClose} />;
-
+    case ADDITEM:
+      return <SemesterItemForm handleClose={handleClose} />;
+    case EDITITEM:
+      return <SemesterItemForm handleClose={handleClose} />;
     case EDITSTUDENT:
       return <StudentForm handleClose={handleClose} />;
     case ADDMILEAGEREGISTER:
@@ -180,7 +190,7 @@ const modalForm = (modalType, handleClose) => {
   }
 };
 
-export const engToKor = (eng) => {
+export const engToKor = (eng: string) => {
   switch (eng) {
     case DESCRIPTION:
       return '설명';
@@ -203,12 +213,12 @@ export const engToKor = (eng) => {
     case ITEM:
       return '항목 이름';
     case SPECIFIC_ITEM_NAME:
-      return '학기별 항목 이름'; 
+      return '학기별 항목 이름';
     case MILEAGE:
       return '마일리지';
     case MAX_MAILEAGE:
       return '최대 마일리지';
-    case DESCRIPTION1:
+    case DESCRIPTION:
       return '비고';
     case FILE_DESCRIPTION:
       return '파일 설명';
@@ -266,6 +276,6 @@ export const engToKor = (eng) => {
 export const ButtonFlexBox = styled(Box)({
   display: 'flex',
   gap: '10px',
-  justifyContent: 'end',
+  justifyContent: 'flex-end',
   width: '100%',
 });

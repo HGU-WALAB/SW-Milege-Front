@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { CATEGORY_MAX_POINTS, DESCRIPTION1, ID, TITLE } from 'src/assets/data/fields';
+import { CATEGORY_MAX_POINTS, DESCRIPTION, ID, TITLE } from 'src/assets/data/fields';
 import * as Yup from 'yup';
 import { ADDCATEGORY, EDITCATEGORY } from 'src/assets/data/modal/modals';
 import { TextField } from '@mui/material';
@@ -9,11 +9,12 @@ import { useRouter } from 'next/router';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import SubmitButton from '../common/modal/SubmitButton';
 import CancelButton from '../common/modal/CancelButton';
-import { IList } from 'src/pages/mileage/category';
+import { IListCategory } from 'src/pages/mileage/category';
+import { RootState } from 'src/redux/store';
 
 export default function CategoryForm({ handleClose }) {
-  const beforeData: IList = useSelector((state) => state.modal.beforeData);
-  const modalType = useSelector((state) => state.modal.modalType);
+  const beforeData: IListCategory = useSelector((state: RootState) => state.modal.beforeData);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
   const router = useRouter();
 
   const CategorySchema = Yup.object().shape({
@@ -30,7 +31,7 @@ export default function CategoryForm({ handleClose }) {
     const newData = {
       [TITLE]: values[TITLE],
       [CATEGORY_MAX_POINTS]: values[CATEGORY_MAX_POINTS],
-      [DESCRIPTION1]: values[DESCRIPTION1],
+      [DESCRIPTION]: values[DESCRIPTION],
     };
 
     switch (modalType) {
@@ -63,7 +64,7 @@ export default function CategoryForm({ handleClose }) {
       initialValues={{
         [TITLE]: beforeData?.name,
         [CATEGORY_MAX_POINTS]: beforeData?.maxPoints,
-        [DESCRIPTION1]: beforeData?.description1,
+        [DESCRIPTION]: beforeData?.description,
       }}
       validationSchema={CategorySchema}
       onSubmit={handleSubmit}
@@ -80,7 +81,7 @@ export default function CategoryForm({ handleClose }) {
             gap: '30px',
           }}
         >
-          {[TITLE, CATEGORY_MAX_POINTS, DESCRIPTION1].map((field, index) => (
+          {[TITLE, CATEGORY_MAX_POINTS, DESCRIPTION].map((field, index) => (
             <Field
               key={index}
               style={{ minWidth: '300px' }}

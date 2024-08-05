@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import EnhancedTable from 'src/components/common/CustomTable';
 import SWModal from 'src/components/common/modal/SWModal';
 import { EDITGLOBALITEM } from 'src/assets/data/modal/modals';
 import { useDispatch } from 'react-redux';
-
 import axiosInstance from 'src/utils/axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
@@ -29,27 +29,27 @@ export enum MileageGlobalItemBoard {
   TYPE = 'type',
   CATEGORY = 'category',
   ITEM = 'item',
-  DESCRIPTION1 = 'deescription1',
-  SEMESTER_ITEM_COUNT = 'semeseItemCount',
+  DESCRIPTION = 'description',
+  SEMESTER_ITEM_COUNT = 'semesterItemCount',
   MOD_DATE = 'modDate',
-  POINT = 'point',
+  MILEAGE = 'Mileage',
   ITEM_MAX_POINTS = 'itemMaxPoints',
-  MANAGE = 'MANAGE',
+  MANAGE = 'Manage',
 }
 
 /**
  * @kind [마일리지 항목]
  * @breif 데이터 인터페이스
  */
-interface Data {
+export interface MileageGlobalItemData {
   [MileageGlobalItemBoard.NUM]: number;
   [MileageGlobalItemBoard.TYPE]: string;
   [MileageGlobalItemBoard.CATEGORY]: string;
   [MileageGlobalItemBoard.ITEM]: string;
-  [MileageGlobalItemBoard.DESCRIPTION1]: string;
-  [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
-  [MileageGlobalItemBoard.POINT]: number;
+  [MileageGlobalItemBoard.MILEAGE]: number;
   [MileageGlobalItemBoard.ITEM_MAX_POINTS]: number;
+  [MileageGlobalItemBoard.DESCRIPTION]: string;
+  [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: number;
   [MileageGlobalItemBoard.MOD_DATE]: string;
   [MileageGlobalItemBoard.MANAGE]: ReactNode;
 }
@@ -59,15 +59,15 @@ interface Data {
  * @brief 데이터 생성 함수
  *
  *  */
-function createData(item: IGlobalItem, MANAGE: ReactNode): Data {
+function createData(item: IGlobalItem, MANAGE: ReactNode): MileageGlobalItemData {
   return {
     [MileageGlobalItemBoard.NUM]: item.id,
     [MileageGlobalItemBoard.TYPE]: item.mileageType.name,
     [MileageGlobalItemBoard.CATEGORY]: item.category.name,
     [MileageGlobalItemBoard.ITEM]: item.name,
-    [MileageGlobalItemBoard.POINT]: item.mileage,
+    [MileageGlobalItemBoard.MILEAGE]: item.mileage,
     [MileageGlobalItemBoard.ITEM_MAX_POINTS]: item.itemMaxPoints,
-    [MileageGlobalItemBoard.DESCRIPTION1]: item.description1,
+    [MileageGlobalItemBoard.DESCRIPTION]: item.description,
     [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT]: item.semesterItemCount,
     [MileageGlobalItemBoard.MOD_DATE]: formatDateToKorean(item.modDate),
     [MileageGlobalItemBoard.MANAGE]: MANAGE,
@@ -104,7 +104,7 @@ const headCells = [
     label: '마일리지 항목명',
   },
   {
-    id: [MileageGlobalItemBoard.POINT],
+    id: [MileageGlobalItemBoard.MILEAGE],
     numeric: true,
     disablePadding: false,
     label: '마일리지',
@@ -116,7 +116,7 @@ const headCells = [
     label: '적립 가능 최대 마일리지',
   },
   {
-    id: [MileageGlobalItemBoard.DESCRIPTION1],
+    id: [MileageGlobalItemBoard.DESCRIPTION],
     numeric: true,
     disablePadding: false,
     label: '비고',
@@ -165,7 +165,7 @@ export interface IGlobalItem {
   };
   mileage: number;
   itemMaxPoints: number;
-  description1: string;
+  description: string;
 }
 
 interface IGetMileageItem {
@@ -175,12 +175,23 @@ interface IGetMileageItem {
 }
 
 const getServerSidePropsFunction: GetServerSideProps<{
-  fetchData: IGetMileageItem;
+  fetchData: IGetMileageItem | null;
+  requireLogin: boolean;
+  error: string | null;
 }> = async (context) => {
   setServerSideCookie(context);
-  const res = await axiosInstance.get('/api/mileage/items');
-  const fetchData = res.data;
-  return { props: { fetchData } };
+
+  try {
+    const res = await axiosInstance.get('/api/mileage/items');
+    const fetchData = res.data;
+    return { props: { fetchData, requireLogin: false, error: null } };
+  } catch (err) {
+    if (err.response && err.response.status === 403) {
+      return { props: { fetchData: null, requireLogin: true, error: 'Unauthorized' } };
+    } else {
+      return { props: { fetchData: null, requireLogin: false, error: 'Failed to fetch data' } };
+    }
+  }
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
@@ -190,20 +201,32 @@ export default function MileageCategory({
   requireLogin,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const dispatch = useDispatch();
+  const [convertedFetchList, setConvertedFetchList] = useState<MileageGlobalItemData[] | null>(null);
+
+  useEffect(() => {
+    if (requireLogin) {
+      handleServerAuth403Error(error);
+      return;
+    }
+
+    const list = fetchData.list?.map((item) =>
+      createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />)
+    );
+    setConvertedFetchList(list);
+    dispatch(setAllMileageList(fetchData.list));
+  }, [fetchData, requireLogin, error, dispatch]);
+
   if (requireLogin) {
     handleServerAuth403Error(error);
-    return;
+    return null;
   }
-
-  const dispatch = useDispatch();
-  const convertedFetchList = fetchData.list?.map((item) =>
-    createData(item, <SWModal type={EDITGLOBALITEM} beforeData={item} />)
-  );
-  dispatch(setAllMileageList(fetchData.list));
 
   return (
     <>
-      <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 항목" />
+      {convertedFetchList && (
+        <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 항목" />
+      )}
       <ExcelExport endpoint={PATH_API.excel.download.globalItem} />
       <ExcelExport endpoint={PATH_API.excel.download.format.item} buttonText="엑셀양식 다운로드" />
       <ExcelImport endpoint={PATH_API.excel.upload.item} />

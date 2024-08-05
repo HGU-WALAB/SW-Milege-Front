@@ -20,11 +20,12 @@ import {
   EDITTYPE,
   SHOWLIST,
 } from 'src/assets/data/modal/modals';
+import { RootState } from 'src/redux/store';
 
 export default function ModalTitle() {
-  const modalType = useSelector((state) => state.modal.modalType);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
 
-  const titleConverter = (type) => {
+  const titleConverter = (type: string) => {
     switch (type) {
       case ADDTYPE:
         return '마일리지 타입 추가';

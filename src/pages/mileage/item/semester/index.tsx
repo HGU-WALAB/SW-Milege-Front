@@ -31,14 +31,13 @@ export enum MileageSemesterItemBoard {
   ITEM_MAX_POINTS = 'itemMaxPoints',
   MOD_DATE = 'modDate',
   MANAGE = 'manage',
-  // 'IS_MULTI' = IS_MULTI,
 }
 
 /**
  * @kind [학기별 마일리지 항목]
  * @breif 데이터 인터페이스
  */
-interface Data {
+export interface SemesterMileageItemsData {
   [MileageSemesterItemBoard.NUM]: number;
   [MileageSemesterItemBoard.SEMESTER]: string;
   [MileageSemesterItemBoard.CATEGORY]: string;
@@ -55,7 +54,7 @@ interface Data {
  * @brief 데이터 생성 함수
  *
  *  */
-function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): Data {
+function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): SemesterMileageItemsData {
   return {
     [MileageSemesterItemBoard.NUM]: semesterItem.id,
     [MileageSemesterItemBoard.SEMESTER]: semesterItem.semesterName,
@@ -161,27 +160,47 @@ export interface ISemesterItem {
 }
 
 export interface ISemesterItemList {
-  semesterItems: ISemesterItem[];
+  list: ISemesterItem[];
 }
 
 const getServerSidePropsFunction: GetServerSideProps<{
+  requireLogin: boolean;
+  error: string | null;
   fetchData: ISemesterItemList;
   nowSemester?: string;
 }> = async (context) => {
-  setServerSideCookie(context);
+  try {
+    setServerSideCookie(context);
 
-  const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
-  const nowSemester = await semesterRes.data.data.name;
-  const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
-  const fetchData = res.data;
+    const semesterRes = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
+    const nowSemester = semesterRes.data.data.name;
+    const res = await axiosInstance.get(`/api/mileage/semesters/${nowSemester}/items`);
+    const fetchData: ISemesterItemList = res.data;
 
-  return { props: { fetchData } };
+    return {
+      props: {
+        requireLogin: false,
+        error: null,
+        fetchData,
+        nowSemester,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        requireLogin: false,
+        error: error.message,
+        fetchData: { list: [] },
+        nowSemester: undefined,
+      },
+    };
+  }
 };
 
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
-const fetchToUseData = (data) => {
-  return data?.list.map((semesterItem) => {
+const fetchToUseData = (data: ISemesterItemList) => {
+  return data?.list.map((semesterItem: ISemesterItem) => {
     return createData(semesterItem, <SWModal type={EDITITEM} beforeData={semesterItem} />);
   });
 };

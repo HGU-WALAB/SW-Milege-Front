@@ -1,34 +1,24 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
-import {
-  TITLE,
-  CATEGORY,
-  DESCRIPTION,
-  DESCRIPTION2,
-  ORDER_IDX,
-  ID,
-  TYPE,
-  CATEGORY_MAX_POINTS,
-  NAME,
-} from 'src/assets/data/fields';
+import { DESCRIPTION, ID, NAME } from 'src/assets/data/fields';
 import * as Yup from 'yup';
-import Button from '@mui/material/Button';
 import { ADDTYPE, EDITTYPE } from 'src/assets/data/modal/modals';
 import { TextField, styled } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { dispatch } from 'src/redux/store';
-import { closeModal } from 'src/redux/slices/modal';
+import { useSelector } from 'react-redux';
 import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
-import TypeSelect from '../common/Filter/TypeSelect';
+import { RootState } from 'src/redux/store';
+
+interface TypeFormValues {
+  [NAME]: string;
+  [DESCRIPTION]: string;
+}
 
 export default function TypeForm({ handleClose }) {
-  console.log('!!');
-  const beforeData = useSelector((state) => state.modal.beforeData);
-
-  const modalType = useSelector((state) => state.modal.modalType);
+  const beforeData = useSelector((state: RootState) => state.modal.beforeData);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
   const router = useRouter();
 
   const TypeSchema = Yup.object().shape({
@@ -36,13 +26,15 @@ export default function TypeForm({ handleClose }) {
     [DESCRIPTION]: Yup.string(),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (
+    values: TypeFormValues,
+    { setSubmitting, resetForm }: FormikHelpers<TypeFormValues>
+  ) => {
     // 타입 추가
     // 1) newData 생성
     // 2) axios post
     // 3) alert
     // 4) reload
-
     const newData = {
       [NAME]: values[NAME],
       [DESCRIPTION]: values[DESCRIPTION],
@@ -61,7 +53,6 @@ export default function TypeForm({ handleClose }) {
       case EDITTYPE:
         axiosInstance
           .patch(`/api/mileage/types/${beforeData[ID]}`, newData)
-
           .then((res) => {
             alert('타입이 수정되었습니다.');
             router.reload();
@@ -72,7 +63,7 @@ export default function TypeForm({ handleClose }) {
   };
 
   return (
-    <Formik
+    <Formik<TypeFormValues>
       initialValues={{
         [NAME]: modalType === EDITTYPE ? beforeData?.[NAME] : '',
         [DESCRIPTION]: modalType === EDITTYPE ? beforeData?.[DESCRIPTION] : '',
@@ -85,7 +76,7 @@ export default function TypeForm({ handleClose }) {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: ' center',
+            alignItems: 'center',
             margin: '30px 0px',
             padding: '0px 20px',
             width: '100%',
@@ -93,9 +84,8 @@ export default function TypeForm({ handleClose }) {
           }}
         >
           {[NAME, DESCRIPTION].map((field, index) => (
-            <>
+            <div key={index}>
               <Field
-                key={index}
                 style={{ minWidth: '300px' }}
                 name={field}
                 as={TextField}
@@ -105,7 +95,7 @@ export default function TypeForm({ handleClose }) {
                 error={errors[field] && touched[field] ? true : false}
                 helperText={<ErrorMessage name={field} />}
               />
-            </>
+            </div>
           ))}
           <ButtonFlexBox>
             <CancelButton modalType={modalType} handleClose={handleClose} />

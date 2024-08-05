@@ -35,8 +35,6 @@ export const ACCEPT = 'accept';
 export const APPROVE = 'approve';
 export const REJECT = 'reject';
 export const SCHOLARSHIP = 'scholarship';
-
-export const DESCRIPTION1 = 'description1';
 export const FILE_DESCRIPTION = 'fileDescription';
 
 export const ISVISIBLE_STUDENT = 'isVisibleStudent';

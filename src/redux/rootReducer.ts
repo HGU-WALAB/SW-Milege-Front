@@ -1,13 +1,7 @@
 import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
+import { PersistConfig } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
-// slices
 import modalReducer from './slices/modal';
-import mailReducer from './slices/mail';
-import chatReducer from './slices/chat';
-import productReducer from './slices/product';
-import calendarReducer from './slices/calendar';
-import kanbanReducer from './slices/kanban';
 import filterReducer from './slices/filter';
 import dataReducer from './slices/data';
 import componentReducer from './slices/component';
@@ -15,13 +9,12 @@ import filterListReducer from './slices/filterList';
 import chartReducer from './slices/chart';
 import drawerReducer from './slices/drawer';
 import tableReducer from './slices/table';
-// ----------------------------------------------------------------------
 
 export const createNoopStorage = () => ({
   getItem() {
     return Promise.resolve(null);
   },
-  setItem(_key, value) {
+  setItem(_key: string, value: any) {
     return Promise.resolve(value);
   },
   removeItem() {
@@ -35,7 +28,8 @@ export const storage =
 /**
  * @brief Persist 설정 부분
  */
-export const rootPersistConfig = {
+
+export const rootPersistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
   keyPrefix: 'redux-',
@@ -60,5 +54,7 @@ const rootReducer = combineReducers({
   drawer: drawerReducer,
   table: tableReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

@@ -26,16 +26,16 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
  */
 
 export enum MileageResultBoard {
-  'NUM' = NUM,
-  'SEMESTER' = SEMESTER,
-  'ITEM' = ITEM,
-  'STUDENT_NAME' = STUDENT_NAME,
-  'STUDENT_ID' = STUDENT_ID,
-  'DEPARTMENT' = DEPARTMENT,
-  'CONTACT' = CONTACT,
-  'SCHOLARSHIP' = SCHOLARSHIP,
-  'MESSAGE' = MESSAGE,
-  'MANAGE' = MANAGE,
+  NUM = 'num',
+  SEMESTER = 'semester',
+  ITEM = 'item',
+  STUDENT_NAME = 'studentName',
+  STUDENT_ID = 'studentId',
+  CONTACT = 'contact',
+  DEPARTMENT = 'department',
+  SCHOLARSHIP = 'scholarship',
+  MESSAGE = 'message',
+  MANAGE = 'manage',
 }
 
 /**
@@ -43,6 +43,7 @@ export enum MileageResultBoard {
  * @breif 데이터 인터페이스
  */
 interface Data {
+  [MileageResultBoard.NUM]: number;
   [MileageResultBoard.SEMESTER]: string;
   [MileageResultBoard.ITEM]: string;
   [MileageResultBoard.STUDENT_NAME]: string;

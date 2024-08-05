@@ -1,14 +1,15 @@
-import React, { useState, useCallback, useEffect, use } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Button, Stack } from '@mui/material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowModesModel } from '@mui/x-data-grid';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
+import { RootState } from '../../../redux/store';
 
 interface Student {
   id: number;
-  name: string;
+  studentName: string;
   sid: string;
   extraPoints: number;
   description1: string;
@@ -20,8 +21,8 @@ interface CRUDStudentTableProps {
 }
 
 const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
-  const modalType = useSelector((state) => state.modal.modalType);
-  const beforeData = useSelector((state) => state.modal.beforeData);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
+  const beforeData = useSelector((state: RootState) => state.modal.beforeData);
 
   const [rows, setRows] = useState<Student[]>([]);
   const [deletedRows, setDeletedRows] = useState<number[]>([]);
@@ -32,7 +33,7 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
     if (modalType === 'addMileageRegister') {
       const initialRows: Student[] = data.map((row, index) => ({
         id: index,
-        name: row[1],
+        studentName: row[1],
         sid: row[2],
         extraPoints: row[3],
         description1: row[4],
@@ -41,9 +42,9 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
     } else if (modalType === 'managerRegisteredStudents') {
       axiosInstance.get(`/api/mileage/records/${beforeData.id}`).then((res) => {
         setRows(
-          res.data.map((row) => ({
+          res.data.map((row: Student) => ({
             id: row.id,
-            name: row.studentName,
+            studentName: row.studentName,
             sid: row.sid,
             extraPoints: row.extraPoints,
             description1: row.description1,
@@ -64,8 +65,8 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
     if (confirm('등록하시겠습니까?')) {
       try {
         await axiosInstance.post(`/api/mileage/records/${beforeData.semesterItemId}`, {
-          studentsInfo: rows.map(({ name, sid, extraPoints, description1 }) => ({
-            name,
+          studentsInfo: rows.map(({ studentName, sid, extraPoints, description1 }) => ({
+            studentName,
             sid,
             extraPoints,
             description1,
@@ -100,7 +101,7 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
   };
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: '이름', width: 150, editable: false },
+    { field: 'studentName', headerName: '이름', width: 150, editable: false },
     { field: 'sid', headerName: '학번', width: 150, editable: false },
     {
       field: 'extraPoints',
