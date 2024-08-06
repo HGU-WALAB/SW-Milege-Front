@@ -11,6 +11,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import ExcelExport from 'src/components/excel/ExcelExport';
 import { PATH_API } from 'src/routes/paths';
 import { formatDateToKorean } from 'src/utils/date/dateConverter';
+import { RootState } from 'src/redux/store';
 
 /**
  * @component [학기별 마일리지 항목] 게시판
@@ -72,63 +73,65 @@ function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): SemesterMil
  * @kind [학기별 마일리지 항목]
  * @brief 테이블 헤더
  */
-const headCells = [
+
+interface HeadCell {
+  id: string;
+  numeric: boolean;
+  disablePadding: boolean;
+  label: string;
+}
+
+const headCells: HeadCell[] = [
   {
-    id: [MileageSemesterItemBoard.NUM],
+    id: MileageSemesterItemBoard.NUM,
     numeric: false,
     disablePadding: true,
     label: '번호',
   },
   {
-    id: [MileageSemesterItemBoard.SEMESTER],
+    id: MileageSemesterItemBoard.SEMESTER,
     numeric: true,
     disablePadding: false,
     label: '학기',
   },
   {
-    id: [MileageSemesterItemBoard.CATEGORY],
+    id: MileageSemesterItemBoard.CATEGORY,
     numeric: true,
     disablePadding: false,
     label: '카테고리명',
   },
   {
-    id: [MileageSemesterItemBoard.ITEM],
+    id: MileageSemesterItemBoard.ITEM,
     numeric: true,
     disablePadding: false,
     label: '마일리지 항목명',
   },
   {
-    id: [MileageSemesterItemBoard.SPECIFIC_ITEM_NAME],
+    id: MileageSemesterItemBoard.SPECIFIC_ITEM_NAME,
     numeric: true,
     disablePadding: false,
     label: '학기별 마일리지 항목명',
   },
   {
-    id: [MileageSemesterItemBoard.POINTS],
+    id: MileageSemesterItemBoard.POINTS,
     numeric: true,
     disablePadding: false,
     label: '마일리지',
   },
   {
-    id: [MileageSemesterItemBoard.ITEM_MAX_POINTS],
+    id: MileageSemesterItemBoard.ITEM_MAX_POINTS,
     numeric: true,
     disablePadding: false,
     label: '적립 가능 최대 마일리지',
   },
-  // {
-  //   id: [MileageSemesterItemBoard.IS_MULTI],
-  //   numeric: true,
-  //   disablePadding: false,
-  //   label: '중복 가능 여부',
-  // },
   {
-    id: [MileageSemesterItemBoard.MOD_DATE],
+    id: MileageSemesterItemBoard.MOD_DATE,
     numeric: true,
     disablePadding: false,
     label: '최근 수정일',
   },
   {
-    id: [MileageSemesterItemBoard.MANAGE],
+    id: MileageSemesterItemBoard.MANAGE,
     numeric: true,
     disablePadding: false,
     label: '관리',
@@ -215,7 +218,7 @@ export default function MileageSemesterItem({
     return;
   }
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));
-  const semester = useSelector((state) => state.filter.semester);
+  const semester = useSelector((state: RootState) => state.filter.semester);
 
   useEffect(() => {
     axiosInstance.get(`/api/mileage/semesters/${semester}/items`).then((res) => {

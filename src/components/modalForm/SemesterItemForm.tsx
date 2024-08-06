@@ -31,6 +31,7 @@ import CancelButton from '../common/modal/CancelButton';
 import SubmitButton from '../common/modal/SubmitButton';
 import SemesterSelect from '../common/Select/SemesterSelect';
 import GlobalItemSelect from '../common/Select/GlobalItemSelect';
+import { RootState } from 'src/redux/store';
 
 const SemesterItemSchema = Yup.object().shape({
   [SEMESTER]: Yup.string().required('필수입니다.'),
@@ -41,8 +42,8 @@ const SemesterItemSchema = Yup.object().shape({
 });
 
 const SemesterItemForm = ({ handleClose }) => {
-  const modalType = useSelector((state) => state.modal.modalType);
-  const beforeData = useSelector((state) => state.modal.beforeData);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
+  const beforeData = useSelector((state: RootState) => state.modal.beforeData);
   const router = useRouter();
 
   const handleSubmit = (values: object) => {

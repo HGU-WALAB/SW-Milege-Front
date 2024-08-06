@@ -2,10 +2,12 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSemester } from 'src/redux/slices/filter';
+import { RootState } from 'src/redux/store';
+import { FormValues } from 'src/components/board/SemesterSetting';
 
 export default function SemesterDropdownField() {
-  const SEMESTERS = useSelector((state) => state.filterList.semesterList);
-  const { values, setFieldValue } = useFormikContext();
+  const SEMESTERS = useSelector((state: RootState) => state.filterList.semesterList);
+  const { values, setFieldValue } = useFormikContext<FormValues>();
 
   const dispatch = useDispatch();
 

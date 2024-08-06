@@ -16,13 +16,13 @@ import { ADD, CATEGORY_NAME, ITEM, NUM, REGISTER_NUM, SEMESTER } from '../../ass
 import {
   STUDENT_ID,
   POINTS,
-  DESCRIPTION1,
+  DESCRIPTION,
   STUDENT_NAME,
 } from 'src/assets/data/fields';
 import { styled } from '@mui/material';
-import TitleAndRefreshButton from './Title/Title';
+import TitleAndRefreshButton from './Title';
 import Filtering from './Filter/Filtering';
-import Title from './Title/Title';
+import Title from './Title';
 
 const ResponsiveHeadCell = styled(TableCell)({
   minWidth: '110px',
@@ -71,7 +71,7 @@ function Row({ row }) {
                         student[STUDENT_NAME],
                         student[STUDENT_ID],
                         student[POINTS],
-                        student[DESCRIPTION1],
+                        student[DESCRIPTION],
                         student['edit'],
                       ].map((bodyElement, index) => (
                         <TableCell component="th" scope="row" key={index}>

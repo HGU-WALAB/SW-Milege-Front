@@ -62,7 +62,15 @@ export interface MileageCategoryData {
 /**
  * @brief 마일리지 카테고리 리스트 헤더
  */
-const headCells = [
+
+interface HeadCell {
+  id: string;
+  numeric: boolean;
+  disablePadding: boolean;
+  label: string;
+}
+
+const headCells: HeadCell[] = [
   {
     id: MileageCategoryBoard.NUM,
     numeric: false,

@@ -4,7 +4,7 @@ const initialState = {
   typeList: [],
   categoryList: [],
   allMileageList: [],
-  semesterList: [], // 애매
+  semesterList: [],
   itemList: [],
   detailedItemBySemesterList: [],
   studentList: [],

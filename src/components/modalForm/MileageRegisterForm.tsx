@@ -19,7 +19,7 @@ import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import {
-  DESCRIPTION1,
+  DESCRIPTION,
   EXTRAPOINTS,
   ID,
   NAME,
@@ -36,11 +36,12 @@ import ExcelImport from 'src/components/excel/ExcelImport';
 import { PATH_API } from 'src/routes/paths';
 import ExcelDataModal from 'src/components/excel/ExcelDataModal';
 import StudentsModal from 'src/components/modalForm/StudentsModal';
+import { RootState } from 'src/redux/store';
 
 export default function MileageRegisterForm({ handleClose }) {
   const [semesterItemList, setSemesterItemList] = React.useState([]);
   const [semester, setSemester] = React.useState(null);
-  const semesters = useSelector((state) => state.filterList.semesterList);
+  const semesters = useSelector((state: RootState) => state.filterList.semesterList);
 
   const SemesterSelect = () => (
     <FormControl fullWidth>
@@ -72,9 +73,9 @@ export default function MileageRegisterForm({ handleClose }) {
       .then((res) => setSemesterItemList(res.data.list));
   }, [semester]);
 
-  const beforeData = useSelector((state) => state.modal.beforeData);
+  const beforeData = useSelector((state: RootState) => state.modal.beforeData);
 
-  const modalType = useSelector((state) => state.modal.modalType);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
 
   const router = useRouter();
 
@@ -86,7 +87,7 @@ export default function MileageRegisterForm({ handleClose }) {
     // [COUNTS]: Yup.number().integer().required('필수입니다.'),
     // [POINTS]: Yup.number().integer().required('필수입니다.'),
     [EXTRAPOINTS]: Yup.number().integer(),
-    [DESCRIPTION1]: Yup.string(),
+    [DESCRIPTION]: Yup.string(),
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
@@ -98,7 +99,7 @@ export default function MileageRegisterForm({ handleClose }) {
       // [COUNTS]: 1,
       // [POINTS]: values[POINTS],
       [EXTRAPOINTS]: values[EXTRAPOINTS],
-      [DESCRIPTION1]: values[DESCRIPTION1],
+      [DESCRIPTION]: values[DESCRIPTION],
     };
 
     switch (modalType) {
@@ -156,7 +157,7 @@ export default function MileageRegisterForm({ handleClose }) {
          * counts
          * points
          * extraPoints
-         * description1
+         * description
          */
 
         [SEMESTERITEMID]: modalType === EDITMILEAGEREGISTER ? beforeData?.[SEMESTERITEMID] : '',
@@ -166,7 +167,7 @@ export default function MileageRegisterForm({ handleClose }) {
         // [COUNTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[COUNTS] : 1,
         // [POINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[POINTS] : 0,
         [EXTRAPOINTS]: modalType === EDITMILEAGEREGISTER ? beforeData?.[EXTRAPOINTS] : 0,
-        [DESCRIPTION1]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION1] : '',
+        [DESCRIPTION]: modalType === EDITMILEAGEREGISTER ? beforeData?.[DESCRIPTION] : '',
       }}
       validationSchema={MileageRegisterSchema}
       onSubmit={handleSubmit}
@@ -202,7 +203,7 @@ export default function MileageRegisterForm({ handleClose }) {
           </Tabs>
 
           <CustomTabPanel value={tabIndex} index={0}>
-            {[STUDENT_NAME, SID, EXTRAPOINTS, DESCRIPTION1].map((field) => (
+            {[STUDENT_NAME, SID, EXTRAPOINTS, DESCRIPTION].map((field) => (
               <Field
                 style={{ minWidth: '300px' }}
                 name={field}

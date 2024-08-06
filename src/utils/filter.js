@@ -1,5 +1,5 @@
 import axiosInstance from './axios';
-import { setSemester } from '../redux/slices/filter';
+import { setSemester, setCurrentSemester } from '../redux/slices/filter';
 import {
   setAdminList,
   setCategoryList,
@@ -10,70 +10,80 @@ import {
   setTypeList,
 } from '../redux/slices/filterList';
 import { dispatch } from '../redux/store';
-import { setCurrentSemester } from '../redux/slices/data';
 
 export const filteringInit = async () => {
-  const resSemester = await axiosInstance.get(`/api/mileage/semesters/currentSemester`);
-  const currentSemester = resSemester.data.data.name;
-  await dispatch(setSemester(currentSemester));
-  await dispatch(setCurrentSemester(currentSemester));
+  try {
+    const [
+      resSemester,
+      resType,
+      resCategory,
+      resSemesterList,
+      resGlobalItem,
+      resStudents,
+      resAdmins,
+    ] = await Promise.all([
+      axiosInstance.get(`/api/mileage/semesters/currentSemester`),
+      axiosInstance.get('/api/mileage/types'),
+      axiosInstance.get('/api/mileage/categories'),
+      axiosInstance.get('/api/mileage/semesters'),
+      axiosInstance.get('/api/mileage/items'),
+      axiosInstance.get(`/api/mileage/students`),
+      axiosInstance.get('/api/mileage/admins'),
+    ]);
 
-  const resType = await axiosInstance.get('/api/mileage/types');
-  const typeData = resType.data;
-  await dispatch(setTypeList(typeData.list?.map((type) => ({ id: type.id, name: type.name }))));
+    const currentSemester = resSemester.data.data.name;
+    // dispatch(setSemester(currentSemester));
+    dispatch(setCurrentSemester(currentSemester));
 
-  const resCategory = await axiosInstance.get('/api/mileage/categories');
-  const categoryData = resCategory.data;
+    const typeData = resType.data;
+    dispatch(setTypeList(typeData.list?.map((type) => ({ id: type.id, name: type.name }))));
 
-  await dispatch(
-    setCategoryList(
-      categoryData.list?.map((category) => ({
-        id: category.id,
-        name: category.name,
-        maxPoints: category.maxPoints,
-      }))
-    )
-  );
+    const categoryData = resCategory.data;
+    dispatch(
+      setCategoryList(
+        categoryData.list?.map((category) => ({
+          id: category.id,
+          name: category.name,
+          maxPoints: category.maxPoints,
+        }))
+      )
+    );
 
-  const resSemesterList = await axiosInstance.get('/api/mileage/semesters');
-  const semesterList = resSemesterList.data.list.map((sem) => sem.name).reverse();
+    const semesterList = resSemesterList.data.list.map((sem) => sem.name).reverse();
+    dispatch(setSemesterList(semesterList));
 
-  await dispatch(setSemesterList(semesterList));
+    const globalItemData = resGlobalItem.data;
+    dispatch(
+      setItemList(
+        globalItemData.list?.map((item) => ({
+          id: item.id,
+          name: item.name,
+          itemMaxPoints: item.itemMaxPoints,
+        }))
+      )
+    );
 
-  const resGlobalItem = await axiosInstance.get('/api/mileage/items');
-  const globalItemData = await resGlobalItem.data;
-  await dispatch(
-    setItemList(
-      globalItemData.list?.map((item) => ({
-        id: item.id,
-        name: item.name,
-        itemMaxPoints: item.itemMaxPoints,
-      }))
-    )
-  );
+    const studentData = resStudents.data;
+    dispatch(
+      setStudentList(
+        studentData.list?.map((student) => ({
+          id: student.id,
+          name: student.name,
+          sid: student.sid,
+        }))
+      )
+    );
 
-  // const resDetailSemesterItem = await axiosInstance.get(`/api/mileage/semesters/${currentSemester}/items`);
-
-  const resStudents = await axiosInstance.get(`/api/mileage/students`);
-  const studentData = await resStudents.data;
-  await dispatch(
-    setStudentList(
-      studentData.list?.map((student) => ({
-        id: student.id,
-        name: student.name,
-        sid: student.sid,
-      }))
-    )
-  );
-
-  const resAdmins = await axiosInstance.get('/api/mileage/admins');
-  const adminData = await resAdmins.data;
-  await dispatch(
-    setAdminList(
-      adminData.list?.map((admin) => ({
-        name: admin.name,
-        aid: admin.aid,
-      }))
-    )
-  );
+    const adminData = resAdmins.data;
+    dispatch(
+      setAdminList(
+        adminData.list?.map((admin) => ({
+          name: admin.name,
+          aid: admin.aid,
+        }))
+      )
+    );
+  } catch (error) {
+    console.error('Error initializing filtering data:', error);
+  }
 };

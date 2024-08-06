@@ -77,57 +77,65 @@ function createData(semesterItem: ISemesterItem, MANAGE: ReactNode): MileageRegi
  * @kind [학기별 마일리지 항목]
  * @brief 테이블 헤더
  */
-const headCells = [
+
+interface HeadCell {
+  id: string;
+  numeric: boolean;
+  disablePadding: boolean;
+  label: string;
+}
+
+const headCells: HeadCell[] = [
   {
-    id: [MileageRegisterBoard.NUM],
+    id: MileageRegisterBoard.NUM,
     numeric: false,
     disablePadding: true,
     label: '번호',
   },
   {
-    id: [MileageRegisterBoard.SEMESTER],
+    id: MileageRegisterBoard.SEMESTER,
     numeric: true,
     disablePadding: false,
     label: '학기',
   },
   {
-    id: [MileageRegisterBoard.CATEGORY],
+    id: MileageRegisterBoard.CATEGORY,
     numeric: true,
     disablePadding: false,
     label: '카테고리',
   },
   {
-    id: [MileageRegisterBoard.ITEM_NAME],
+    id: MileageRegisterBoard.ITEM_NAME,
     numeric: true,
     disablePadding: false,
     label: '마일리지 항목명',
   },
   {
-    id: [MileageRegisterBoard.SPECIFIC_ITEM_NAME],
+    id: MileageRegisterBoard.SPECIFIC_ITEM_NAME,
     numeric: true,
     disablePadding: false,
     label: '학기별 마일리지 항목명',
   },
   {
-    id: [MileageRegisterBoard.POINTS],
+    id: MileageRegisterBoard.POINTS,
     numeric: true,
     disablePadding: false,
     label: '마일리지',
   },
   {
-    id: [MileageRegisterBoard.COUNTS],
+    id: MileageRegisterBoard.COUNTS,
     numeric: true,
     disablePadding: false,
     label: '등록수',
   },
   {
-    id: [MileageRegisterBoard.MOD_DATE],
+    id: MileageRegisterBoard.MOD_DATE,
     numeric: true,
     disablePadding: false,
     label: '최근 수정일',
   },
   {
-    id: [MileageRegisterBoard.MANAGE],
+    id: MileageRegisterBoard.MANAGE,
     numeric: true,
     disablePadding: false,
     label: '학생 관리',

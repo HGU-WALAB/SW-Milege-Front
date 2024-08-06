@@ -60,45 +60,53 @@ function createData(type: IListType, MANAGE: ReactNode, LIST: ReactNode): Mileag
  * @number 1번 헤더
  * @description 마일리지 카테고리 리스트
  */
-const headCells = [
+
+interface HeadCell {
+  id: string;
+  numeric: boolean;
+  disablePadding: boolean;
+  label: string;
+}
+
+const headCells: HeadCell[] = [
   {
-    id: [MileageTypeBoard.NUM],
+    id: MileageTypeBoard.NUM,
     numeric: false,
     disablePadding: true,
     label: '번호',
   },
   {
-    id: [MileageTypeBoard.NAME],
+    id: MileageTypeBoard.NAME,
     numeric: true,
     disablePadding: false,
-    label: '이름',
+    label: '타입명',
   },
   {
-    id: [MileageTypeBoard.DESCRIPTION],
+    id: MileageTypeBoard.DESCRIPTION,
     numeric: true,
     disablePadding: false,
     label: '설명',
   },
   {
-    id: [MileageTypeBoard.CATEGORY_COUNT],
+    id: MileageTypeBoard.CATEGORY_COUNT,
     numeric: true,
     disablePadding: false,
-    label: '하위 마일리지 항목 개수',
+    label: '카테고리 수',
   },
   {
-    id: [MileageTypeBoard.MOD_DATE],
+    id: MileageTypeBoard.MOD_DATE,
     numeric: true,
     disablePadding: false,
-    label: '최근 수정일',
+    label: '수정일',
   },
   {
-    id: [MileageTypeBoard.MANAGE],
+    id: MileageTypeBoard.MANAGE,
     numeric: true,
     disablePadding: false,
     label: '관리',
   },
   {
-    id: [MileageTypeBoard.LIST],
+    id: MileageTypeBoard.LIST,
     numeric: true,
     disablePadding: false,
     label: '목록',
@@ -128,7 +136,6 @@ const getServerSidePropsFunction: GetServerSideProps<{
 
   try {
     const { data } = await axiosInstance.get('/api/mileage/types');
-    console.log('Fetched data:', data);
     return {
       props: {
         fetchData: data,

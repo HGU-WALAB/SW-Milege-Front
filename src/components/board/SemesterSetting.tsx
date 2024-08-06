@@ -5,18 +5,39 @@ import { useSelector, useDispatch } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import ApplicationDateSetting from './ApplicationDateSetting';
 import SemesterDropdownField from 'src/pages/manage/setting/SemesterDropdownField';
-import { setCurrentSemester } from 'src/redux/slices/data';
+import { setCurrentSemester } from 'src/redux/slices/filter';
+import { RootState } from 'src/redux/store';
+import { useEffect, useState } from 'react';
+
+export interface FormValues {
+  semester: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}
 
 const SemesterSetting = () => {
   const dispatch = useDispatch();
-  const currentSemester = useSelector((state) => state.filter.currentSemester);
-  const semester = useSelector((state) => state.filter.semester);
+  const currentSemester = useSelector((state: RootState) => state.filter.currentSemester);
+  const [initialValues, setInitialValues] = useState<FormValues>({
+    semester: '',
+    startDate: null,
+    endDate: null,
+  });
 
-  const handleSubmit = async (values) => {
+  useEffect(() => {
+    if (currentSemester) {
+      setInitialValues((prevValues) => ({
+        ...prevValues,
+        semester: currentSemester,
+      }));
+    }
+  }, [currentSemester]);
+
+  const handleSubmit = async (values: FormValues) => {
     const startDate = dayjs(values.startDate).format('YYYY-MM-DDTHH:mm:ss');
     const endDate = dayjs(values.endDate).format('YYYY-MM-DDTHH:mm:ss');
 
-    await dispatch(setCurrentSemester(values.semester));
+    dispatch(setCurrentSemester(values.semester));
     try {
       await axiosInstance.put('/api/mileage/semesters', {
         semester: values.semester,
@@ -29,12 +50,9 @@ const SemesterSetting = () => {
   };
 
   return (
-    <Formik
-      initialValues={{
-        semester: semester,
-        startDate: null,
-        endDate: null,
-      }}
+    <Formik<FormValues>
+      enableReinitialize
+      initialValues={initialValues}
       onSubmit={handleSubmit}
     >
       <Form>

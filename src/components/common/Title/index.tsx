@@ -1,7 +1,4 @@
-import { Box, Typography, Button } from '@mui/material';
-import Link from 'next/link';
-import { setComponentNum } from 'src/redux/slices/component';
-import { dispatch } from 'src/redux/store';
+import { Box, Typography } from '@mui/material';
 
 const DOMAIN = process.env.NEXT_PUBLIC_HOST_BASE_DOMAIN;
 

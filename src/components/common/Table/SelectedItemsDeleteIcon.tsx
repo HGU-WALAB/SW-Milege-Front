@@ -2,13 +2,14 @@ import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
+import { RootState } from 'src/redux/store';
 
 interface ISelectedItemsDeleteIcon {
   type: string;
 }
 
 export default function SelectedItemsDeleteIcon({ type }: ISelectedItemsDeleteIcon) {
-  const selected = useSelector((state) => state.table.selectedId);
+  const selected = useSelector((state: RootState) => state.table.selectedId);
   const router = useRouter();
 
   const showDescendants = (id) => {

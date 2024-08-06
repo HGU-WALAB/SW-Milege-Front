@@ -1,11 +1,14 @@
+// filter.js
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   category: '전체',
   isVisible: '전체',
   semester: '전체',
+  currentSemester: null,
   item: '전체',
-  detailedItemBySemester: '전체',
+  specificItemName: '전체',
   studentName: '전체',
   grade: '전체',
   department: '전체',
@@ -13,6 +16,7 @@ const initialState = {
   mileageType: '전체',
   sid: '전체',
   aid: '전체',
+  categoryType: '전체',
 };
 
 const slice = createSlice({
@@ -28,8 +32,14 @@ const slice = createSlice({
     setSemester: (state, action) => {
       state.semester = action.payload;
     },
-    clearSemester: (state, action) => {
-      state.semester = action.payload;
+    clearSemester: (state) => {
+      state.semester = '전체';
+    },
+    setCurrentSemester: (state, action) => {
+      state.currentSemester = action.payload;
+    },
+    clearCurrentSemester: (state) => {
+      state.currentSemester = null;
     },
     setIsVisible: (state, action) => {
       state.isVisible = action.payload;
@@ -43,11 +53,11 @@ const slice = createSlice({
     clearItem: (state) => {
       state.item = '전체';
     },
-    setDetailedItemBySemester: (state, action) => {
-      state.detailedItemBySemester = action.payload;
+    setSpecificItemName: (state, action) => {
+      state.specificItemName = action.payload;
     },
-    clearDetailedItemBySemester: (state) => {
-      state.detailedItemBySemester = '전체';
+    clearSpecificItemName: (state) => {
+      state.specificItemName = '전체';
     },
     setStudentName: (state, action) => {
       state.studentName = action.payload;
@@ -100,12 +110,14 @@ export const {
   clearCategory,
   setSemester,
   clearSemester,
+  setCurrentSemester,
+  clearCurrentSemester,
   setIsVisible,
   clearIsVisible,
   setItem,
   clearItem,
-  setDetailedItemBySemester,
-  clearDetailedItemBySemester,
+  setSpecificItemName,
+  clearSpecificItemName,
   setStudentName,
   clearStudentName,
   setGrade,

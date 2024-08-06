@@ -3,10 +3,11 @@ import { Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { SEMESTER } from 'src/assets/data/fields';
 import { EDITITEM } from 'src/assets/data/modal/modals';
+import { RootState } from 'src/redux/store';
 
 export default function SemesterSelect() {
-  const semesters = useSelector((state) => state.filterList.semesterList);
-  const modalType = useSelector((state) => state.modal.modalType);
+  const semesters = useSelector((state: RootState) => state.filterList.semesterList);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
 
   const MySelect = ({ field, form, ...props }) => (
     <Select {...field} {...props} disabled={modalType === EDITITEM ? 1 : 0}>

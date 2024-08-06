@@ -1,10 +1,9 @@
-import { Box, Typography } from '@mui/material';
-import axios from 'axios';
+import { Box, Typography, styled } from '@mui/material';
+import { GetServerSideProps } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import { setServerSideCookie } from 'src/auth/jwtCookie';
 import { handleServerAuth403Error } from 'src/auth/utils';
 import SemesterSetting from 'src/components/board/SemesterSetting';
-import SemesterSelect from 'src/components/common/Select/SemesterSelect';
 import SemesterTable from 'src/components/common/Table/SemesterTable';
 import axiosInstance from 'src/utils/axios';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
@@ -14,7 +13,7 @@ interface IGetAllSemesterWithStatus {
   list: ISemesterWithStatus[];
 }
 
-interface IISemesterWithStatus {
+interface ISemesterWithStatus {
   id: number;
   name: string;
   status: string;
@@ -22,14 +21,17 @@ interface IISemesterWithStatus {
 
 const getServerSidePropsFunction: GetServerSideProps<{
   fetchData: IGetAllSemesterWithStatus;
+  requireLogin?: boolean;
+  error?: string;
 }> = async (context) => {
-  await setServerSideCookie(context);
+  setServerSideCookie(context);
 
   const res = await axiosInstance.get(`/api/mileage/semesters/admin/status`);
-  const fetchData = res.data;
-
+  const fetchData: IGetAllSemesterWithStatus = res.data;
+  console.log('fetchData', fetchData);
   return { props: { fetchData } };
 };
+
 export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction);
 
 export default function SettingPage({
@@ -39,16 +41,24 @@ export default function SettingPage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (requireLogin) {
     handleServerAuth403Error(error);
-    return;
+    return null;
   }
+
   return (
     <>
-      <Typography color="primary" variant="h5" sx={{ mb: 2 }}>
-        설정
-      </Typography>
-      <Box sx={{ height: '50px' }} />
+      <Title variant="h5">설정</Title>
+      <Spacer />
       <SemesterSetting />
       {/* <SemesterTable data={fetchData} /> */}
     </>
   );
 }
+
+const Title = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  marginBottom: theme.spacing(2),
+}));
+
+const Spacer = styled(Box)({
+  height: '50px',
+});

@@ -78,63 +78,71 @@ function createData(item: IGlobalItem, MANAGE: ReactNode): MileageGlobalItemData
  * @kind [마일리지 항목]
  * @brief 테이블 헤더
  */
-const headCells = [
+
+interface HeadCell {
+  id: string;
+  numeric: boolean;
+  disablePadding: boolean;
+  label: string;
+}
+
+const headCells: HeadCell[] = [
   {
-    id: [MileageGlobalItemBoard.NUM],
+    id: MileageGlobalItemBoard.NUM,
     numeric: false,
     disablePadding: true,
     label: '번호',
   },
   {
-    id: [MileageGlobalItemBoard.TYPE],
+    id: MileageGlobalItemBoard.TYPE,
     numeric: true,
     disablePadding: false,
     label: '타입',
   },
   {
-    id: [MileageGlobalItemBoard.CATEGORY],
+    id: MileageGlobalItemBoard.CATEGORY,
     numeric: true,
     disablePadding: false,
     label: '카테고리',
   },
   {
-    id: [MileageGlobalItemBoard.ITEM],
+    id: MileageGlobalItemBoard.ITEM,
     numeric: true,
     disablePadding: false,
     label: '마일리지 항목명',
   },
   {
-    id: [MileageGlobalItemBoard.MILEAGE],
+    id: MileageGlobalItemBoard.MILEAGE,
     numeric: true,
     disablePadding: false,
     label: '마일리지',
   },
   {
-    id: [MileageGlobalItemBoard.ITEM_MAX_POINTS],
+    id: MileageGlobalItemBoard.ITEM_MAX_POINTS,
     numeric: true,
     disablePadding: false,
     label: '적립 가능 최대 마일리지',
   },
   {
-    id: [MileageGlobalItemBoard.DESCRIPTION],
+    id: MileageGlobalItemBoard.DESCRIPTION,
     numeric: true,
     disablePadding: false,
     label: '비고',
   },
   {
-    id: [MileageGlobalItemBoard.SEMESTER_ITEM_COUNT],
+    id: MileageGlobalItemBoard.SEMESTER_ITEM_COUNT,
     numeric: true,
     disablePadding: false,
     label: '학기별 마일리지 항목 개수',
   },
   {
-    id: [MileageGlobalItemBoard.MOD_DATE],
+    id: MileageGlobalItemBoard.MOD_DATE,
     numeric: true,
     disablePadding: false,
     label: '최근 수정일',
   },
   {
-    id: [MileageGlobalItemBoard.MANAGE],
+    id: MileageGlobalItemBoard.MANAGE,
     numeric: true,
     disablePadding: false,
     label: '관리',
@@ -202,7 +210,9 @@ export default function MileageCategory({
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const dispatch = useDispatch();
-  const [convertedFetchList, setConvertedFetchList] = useState<MileageGlobalItemData[] | null>(null);
+  const [convertedFetchList, setConvertedFetchList] = useState<MileageGlobalItemData[] | null>(
+    null
+  );
 
   useEffect(() => {
     if (requireLogin) {
@@ -225,7 +235,11 @@ export default function MileageCategory({
   return (
     <>
       {convertedFetchList && (
-        <EnhancedTable originalRows={convertedFetchList} headCells={headCells} type="마일리지 항목" />
+        <EnhancedTable
+          originalRows={convertedFetchList}
+          headCells={headCells}
+          type="마일리지 항목"
+        />
       )}
       <ExcelExport endpoint={PATH_API.excel.download.globalItem} />
       <ExcelExport endpoint={PATH_API.excel.download.format.item} buttonText="엑셀양식 다운로드" />
