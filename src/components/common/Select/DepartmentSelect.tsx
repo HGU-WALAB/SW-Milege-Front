@@ -5,17 +5,9 @@ import { CATEGORYID, DEPARTMENT, SEMESTER } from 'src/assets/data/fields';
 
 export default function DepartmentSelect() {
   const departments = [
-    '경영경제학부',
-    '상당심리사회복지학부',
-    '생명과학부',
     '전산전자공학부',
-    'ICT창업학부',
-    '커뮤니케이션학부',
-    '기계제어공학부',
-    '국제어문학부',
-    '법학부',
-    '공간환경시스템공학부',
-    '콘텐츠융합디자인학부',
+    '융합전공',
+    '1학년',
   ];
 
   const MySelect = ({ field, form, ...props }) => (
@@ -29,9 +21,15 @@ export default function DepartmentSelect() {
   );
 
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">학부</InputLabel>
-      <Field as={MySelect} name={DEPARTMENT} variant="outlined" />
+      <Field
+        as={MySelect}
+        name={DEPARTMENT}
+        label="학부"
+        labelId="department-select-label"
+        variant="outlined"
+      />
       <ErrorMessage name={DEPARTMENT} />
     </FormControl>
   );

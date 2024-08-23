@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import ExcelJS from 'exceljs';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const ExcelUpload = ({ onFileProcessed }) => {
-  const onDrop = async (acceptedFiles) => {
-    const workbook = new ExcelJS.Workbook();
+interface ExcelUploadProps {
+  onFileProcessed: (rows: unknown[]) => void;
+}
+
+const ExcelUpload = ({ onFileProcessed }: ExcelUploadProps) => {
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
+
+    if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
+      alert('xlsx 확장자 파일을 업로드 해주세요.');
+      return;
+    }
+
+    const workbook = new ExcelJS.Workbook();
     const arrayBuffer = await file.arrayBuffer();
     await workbook.xlsx.load(arrayBuffer);
     const worksheet = workbook.getWorksheet(1);
-    const rows = [];
+    const rows: unknown[] = [];
     let headerSkipped = false;
     worksheet.eachRow((row) => {
       if (!headerSkipped) {
@@ -21,9 +31,15 @@ const ExcelUpload = ({ onFileProcessed }) => {
       }
     });
     onFileProcessed(rows);
-  };
+  }, [onFileProcessed]);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+      'application/vnd.ms-excel': ['.xls'],
+    }
+  });
 
   return (
     <StyledDropzone {...getRootProps()}>

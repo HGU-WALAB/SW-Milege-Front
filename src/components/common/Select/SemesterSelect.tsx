@@ -11,7 +11,7 @@ export default function SemesterSelect() {
 
   const MySelect = ({ field, form, ...props }) => (
     <Select {...field} {...props} disabled={modalType === EDITITEM ? 1 : 0}>
-      {semesters.map((semester, index) => (
+      {semesters.map((semester: string, index: number) => (
         <MenuItem key={index} value={semester}>
           {semester}
         </MenuItem>

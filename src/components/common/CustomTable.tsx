@@ -107,16 +107,7 @@ const EnhancedTable = <T,>({ originalRows, headCells, type }: EnhancedTableProps
           <SWModal type={typeConverter('학기별 마일리지 항목 마법사')} />
         )}
         {type !== '마일리지 조회' && <SWModal type={typeConverter(type)} />}
-        {selected.length > 0 && (
-          <Tooltip title="삭제">
-            <IconButton>
-              <SelectedItemsDeleteIcon type={type} />
-              <Typography variant="body2" color="inherit" fontWeight={700} sx={{ marginLeft: 1 }}>
-                {selected.length}개 삭제
-              </Typography>
-            </IconButton>
-          </Tooltip>
-        )}
+        {selected.length > 0 && <SelectedItemsDeleteIcon type={type} />}
       </GridToolbarContainer>
     );
   };
@@ -124,12 +115,11 @@ const EnhancedTable = <T,>({ originalRows, headCells, type }: EnhancedTableProps
   return (
     <ResponsiveTable>
       <Title type={type} />
-
       <DataGrid
         rows={rows}
         columns={columns}
         getRowId={(row: any) => row.num}
-        checkboxSelection
+        checkboxSelection={type !== '마일리지 적립'}
         slots={{
           toolbar: CustomToolbar,
         }}

@@ -43,6 +43,8 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
         return <PersonIcon />;
       case 'mag':
         return <AutoFixNormalIcon />;
+      default:
+        return null;
     }
   };
 
@@ -50,12 +52,14 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
     const slicedType = type?.slice(0, 3);
     let buttonText = '';
 
-    if (slicedType === 'add') {
-      buttonText = '추가';
-    } else if (slicedType === 'del') {
-      buttonText = '삭제';
-    } else if (slicedType === 'mag') {
-      buttonText = '마법사';
+    if (type !== ADDMILEAGEREGISTER) {
+      if (slicedType === 'add') {
+        buttonText = '추가';
+      } else if (slicedType === 'del') {
+        buttonText = '삭제';
+      } else if (slicedType === 'mag') {
+        buttonText = '마법사';
+      }
     }
 
     if (buttonText) {
@@ -77,5 +81,4 @@ export default function ModalIconButton({ setOpen, type, beforeData }) {
   };
 
   return renderButton();
-
 }

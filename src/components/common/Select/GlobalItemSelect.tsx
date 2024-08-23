@@ -1,20 +1,23 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
-import { useFormikContext } from 'formik';
+import { useFormikContext, FormikValues } from 'formik';
 import { EDITITEM } from 'src/assets/data/modal/modals';
 import {
   MILEAGE,
   ITEM_MAX_POINTS,
   IS_MULTI,
 } from 'src/assets/data/fields';
+import { RootState } from 'src/redux/rootReducer';
 
-const GlobalItemSelect = ({ itemId } = { itemId: 'itemId' }) => {
-  const globalItemList = useSelector((state) => state.filterList.itemList);
-  const modalType = useSelector((state) => state.modal.modalType);
-  const { setFieldValue, values } = useFormikContext();
 
-  const handleChange = async (event) => {
+
+const GlobalItemSelect = ({ itemId }) => {
+  const globalItemList = useSelector((state: RootState) => state.filterList.itemList);
+  const modalType = useSelector((state: RootState) => state.modal.modalType);
+  const { setFieldValue, values } = useFormikContext<FormikValues>();
+
+  const handleChange = async (event: SelectChangeEvent) => {
     const selectedItemId = event.target.value;
     try {
       const response = await axiosInstance.get(`/api/mileage/items/${selectedItemId}`);

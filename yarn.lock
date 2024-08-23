@@ -9038,6 +9038,11 @@ react-markdown@^8.0.5:
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
+react-mobile-picker@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/react-mobile-picker/-/react-mobile-picker-1.0.0.tgz"
+  integrity sha512-6xaEBdy4YzgCULRqKcYCa/T34OFRrxXQz8TYrTeRPjq8UEsuH023OpcajnxWbU4X9+kk0nbarorvMFsiaBmXHg==
+
 react-organizational-chart@^2.2.0:
   version "2.2.1"
   resolved "https://registry.npmjs.org/react-organizational-chart/-/react-organizational-chart-2.2.1.tgz"

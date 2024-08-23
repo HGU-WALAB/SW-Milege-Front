@@ -7,6 +7,7 @@ import SemesterSetting from 'src/components/board/SemesterSetting';
 import SemesterTable from 'src/components/common/Table/SemesterTable';
 import axiosInstance from 'src/utils/axios';
 import { withTryCatchForSSR } from 'src/utils/withTryCatchForSSR';
+import SemesterAdder from 'src/components/board/SemesterAdder';
 
 interface IGetAllSemesterWithStatus {
   count: number;
@@ -46,10 +47,12 @@ export default function SettingPage({
 
   return (
     <>
-      <Title variant="h5">설정</Title>
+      <Title variant="h5">신청 기간 및 학기 설정</Title>
       <Spacer />
+      <SemesterAdder />
       <SemesterSetting />
-      {/* <SemesterTable data={fetchData} /> */}
+    
+      <SemesterTable data={fetchData} />
     </>
   );
 }

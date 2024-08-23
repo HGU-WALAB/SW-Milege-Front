@@ -6,30 +6,10 @@ import { engToKor } from '../modal/SWModal';
 
 export default function MajorSelect({ name }) {
   const majors = [
-    'ACE',
-    'AI',
-    'GE',
-    'GM',
-    'ICT융합',
-    'UIL',
-    '건설공학',
-    '경영학',
-    '경제학',
-    '공연영상학',
-    '국제지역학',
+    'AI·컴퓨터공학심화(60)',
+    'ICT융합(33)',
     '기계공학',
-    '도시환경공학',
-    '사회복지학',
-    '상담심리학',
-    '생명과학부',
-    '시각디자인',
-    '언론정보학',
-    '영어',
     '전자공학',
-    '전자제어공학',
-    '제품디자인',
-    '컴퓨터공학',
-    '한국법',
   ];
 
   const MySelect = ({ field, form, ...props }) => (
@@ -43,9 +23,15 @@ export default function MajorSelect({ name }) {
   );
 
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">{engToKor(name)}</InputLabel>
-      <Field as={MySelect} name={name} variant="outlined" />
+      <Field
+        as={MySelect}
+        name={name}
+        label={engToKor(name)}
+        labelId="major-select-label"
+        variant="outlined"
+      />
       <ErrorMessage name={name} />
     </FormControl>
   );

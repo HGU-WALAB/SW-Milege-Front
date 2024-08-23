@@ -19,6 +19,7 @@ import {
   EDITMANAGER,
   EDITTYPE,
   SHOWLIST,
+  MANAGERTARGETSTUDENT,
 } from 'src/assets/data/modal/modals';
 import { RootState } from 'src/redux/store';
 
@@ -59,6 +60,8 @@ export default function ModalTitle() {
         return '마일리지 수정';
       case MAGICIANSEMESTERITEM:
         return '학기별 마일리지 항목 마법사';
+      case MANAGERTARGETSTUDENT:
+        return '대상 관리';
       case EDITMANAGER:
         return '관리자 수정';
       case ADDMANAGER:

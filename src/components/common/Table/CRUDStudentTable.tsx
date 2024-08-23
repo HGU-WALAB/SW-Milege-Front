@@ -6,14 +6,15 @@ import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import { RootState } from '../../../redux/store';
-
-interface Student {
-  id: number;
-  studentName: string;
-  sid: string;
-  extraPoints: number;
-  description1: string;
-}
+import { MANAGERREGISTEREDSTUDENTS, ADDMILEAGEREGISTER } from 'src/assets/data/modal/modals';
+import {
+  DESCRIPTION,
+  EXTRAPOINTS,
+  SEMESTER_ITEM_ID,
+  SID,
+  STUDENT_NAME,
+} from 'src/assets/data/fields';
+import { Student } from 'src/components/excel/ExcelDataModal';
 
 interface CRUDStudentTableProps {
   data: Student[];
@@ -30,57 +31,63 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (modalType === 'addMileageRegister') {
+    if (modalType === ADDMILEAGEREGISTER) {
       const initialRows: Student[] = data.map((row, index) => ({
         id: index,
         studentName: row[1],
         sid: row[2],
         extraPoints: row[3],
-        description1: row[4],
+        description: row[4],
       }));
       setRows(initialRows);
-    } else if (modalType === 'managerRegisteredStudents') {
+    } else if (modalType === MANAGERREGISTEREDSTUDENTS) {
       axiosInstance.get(`/api/mileage/records/${beforeData.id}`).then((res) => {
         setRows(
           res.data.map((row: Student) => ({
             id: row.id,
-            studentName: row.studentName,
-            sid: row.sid,
-            extraPoints: row.extraPoints,
-            description1: row.description1,
+            studentName: row[STUDENT_NAME],
+            sid: row[SID],
+            extraPoints: row[EXTRAPOINTS],
+            description: row[DESCRIPTION],
           }))
         );
       });
     }
   }, [modalType, beforeData, data]);
 
-  const handleDelete = useCallback((id: number) => {
-    if (modalType === 'managerRegisteredStudents') {
-      setDeletedRows((old) => [...old, id]);
-    }
-    setRows((old) => old.filter((row) => row.id !== id));
-  }, []);
+  const handleDelete = useCallback(
+    (id: number) => {
+      if (modalType === MANAGERREGISTEREDSTUDENTS) {
+        setDeletedRows((old) => [...old, id]);
+      }
+      setRows((old) => old.filter((row) => row.id !== id));
+    },
+    [modalType]
+  );
 
   const handleRegister = async () => {
     if (confirm('등록하시겠습니까?')) {
       try {
-        await axiosInstance.post(`/api/mileage/records/${beforeData.semesterItemId}`, {
-          studentsInfo: rows.map(({ studentName, sid, extraPoints, description1 }) => ({
-            studentName,
-            sid,
-            extraPoints,
-            description1,
-          })),
+        const studentsInfo = rows.map((row) => ({
+          [SID]: row[SID],
+          [STUDENT_NAME]: row[STUDENT_NAME],
+          [EXTRAPOINTS]: row[EXTRAPOINTS],
+          [DESCRIPTION]: row[DESCRIPTION],
+        }));
+        console.log(studentsInfo);
+        await axiosInstance.post(`/api/mileage/records/${beforeData[SEMESTER_ITEM_ID]}`, {
+          studentsInfo,
         });
         alert('성공적으로 등록되었습니다.');
         handleClose();
         router.reload();
       } catch (error) {
         alert('등록에 실패했습니다.');
-        console.error(error);
+        console.error(error.response);
       }
     }
   };
+
   const handleDeleteStudents = async () => {
     if (confirm('삭제하시겠습니까?')) {
       try {
@@ -101,17 +108,17 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
   };
 
   const columns: GridColDef[] = [
-    { field: 'studentName', headerName: '이름', width: 150, editable: false },
-    { field: 'sid', headerName: '학번', width: 150, editable: false },
+    { field: STUDENT_NAME, headerName: '이름', width: 150, editable: false },
+    { field: SID, headerName: '학번', width: 150, editable: false },
     {
-      field: 'extraPoints',
+      field: EXTRAPOINTS,
       headerName: '가산점',
       width: 90,
       editable: false,
     },
     {
-      field: 'description1',
-      headerName: '비고',
+      field: DESCRIPTION,
+      headerName: '설명',
       width: 200,
       editable: false,
     },
@@ -149,7 +156,7 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
         <Button onClick={handleClose} variant="outlined" color="primary">
           취소
         </Button>
-        {modalType === 'addMileageRegister' ? (
+        {modalType === ADDMILEAGEREGISTER ? (
           <Button variant="contained" color="primary" onClick={handleRegister}>
             등록하기
           </Button>
@@ -162,4 +169,5 @@ const CRUDStudentTable = ({ data, handleClose }: CRUDStudentTableProps) => {
     </Box>
   );
 };
+
 export default CRUDStudentTable;

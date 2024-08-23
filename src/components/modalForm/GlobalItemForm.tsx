@@ -119,7 +119,6 @@ export default function GlobalItemForm({ handleClose }: { handleClose: () => voi
           .then(() => {
             alert('마일리지 항목이 추가되었습니다.');
             router.reload();
-
           })
           .catch((err) => {
             console.log(err);
@@ -190,14 +189,14 @@ export default function GlobalItemForm({ handleClose }: { handleClose: () => voi
   );
 }
 
-const StyledFieldBox = styled(Box)(({ theme }) => ({
+const StyledFieldBox = styled(Box)(() => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '20px',
   width: '100%',
 }));
 
-const StyleFieldForm = styled(Form)(({ theme }) => ({
+const StyleFieldForm = styled(Form)(() => ({
   display: 'flex',
   flexDirection: 'column',
   paddingTop: '30px',
@@ -222,12 +221,15 @@ const TextFieldComponent = ({
   allMileageList,
   beforeData,
 }) => {
-  const handleChange = (e) => setFieldValue(field, e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFieldValue(field, e.target.value);
+  };
+
   const isDisabled = field === ITEM_MAX_POINTS && !values[IS_MULTI];
 
-  const checkIfItemExists = (itemName) => {
+  const checkIfItemExists = (itemName: string) => {
     return allMileageList.some(
-      (item) =>
+      (item: { name: string; mileageType: { id: number }; category: { id: number } }) =>
         item.name === itemName &&
         item.mileageType.id === values[TYPE] &&
         item.category.id === values[CATEGORYID]

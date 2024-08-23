@@ -27,3 +27,6 @@ export const EDITTYPE = 'editType';
 export const ADDTYPE = 'addType';
 // 타입 선택 시 하위 마일리지 항목 리스트 보여주기
 export const SHOWLIST = 'showList';
+
+// 신청기간 설정 -> 대상관리
+export const MANAGERTARGETSTUDENT = 'managerTargetStudent';

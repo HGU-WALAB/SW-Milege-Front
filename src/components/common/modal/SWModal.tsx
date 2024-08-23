@@ -16,6 +16,7 @@ import {
   EDITMANAGER,
   EDITMILEAGEREGISTER,
   EDITSTUDENT,
+  MANAGERTARGETSTUDENT,
   EDITTYPE,
   MAGICIANSEMESTERITEM,
   MANAGERREGISTEREDSTUDENTS,
@@ -26,7 +27,7 @@ import { styled } from '@mui/styles';
 import CategoryForm from 'src/components/modalForm/CategoryForm';
 import GlobalItemForm from 'src/components/modalForm/GlobalItemForm';
 import SemesterItemForm from 'src/components/modalForm/SemesterItemForm';
-import StudentForm from 'src/components/modalForm/StudentForm';
+import TargetStudentManagerForm from 'src/components/modalForm/TargetStudentManagerForm';
 import MileageRegisterForm from 'src/components/modalForm/MileageRegisterForm';
 import {
   AID,
@@ -173,14 +174,18 @@ const modalForm = (modalType: string, handleClose: () => void) => {
       return <SemesterItemForm handleClose={handleClose} />;
     case EDITITEM:
       return <SemesterItemForm handleClose={handleClose} />;
-    case EDITSTUDENT:
-      return <StudentForm handleClose={handleClose} />;
-    case ADDMILEAGEREGISTER:
+
+      // 신청기간 설정 -> 대상관리
+    case MANAGERTARGETSTUDENT:
+      return <TargetStudentManagerForm handleClose={handleClose} />;
+    
+      case ADDMILEAGEREGISTER:
       return <MileageRegisterForm handleClose={handleClose} />;
-    case EDITMILEAGEREGISTER:
-      return <MileageRegisterForm handleClose={handleClose} />;
+    // case EDITMILEAGEREGISTER:
+    //   return <MileageRegisterForm handleClose={handleClose} />;
     case MANAGERREGISTEREDSTUDENTS:
       return <StudentsModal handleClose={handleClose} />;
+
     case EDITMANAGER:
       return <ManagerForm handleClose={handleClose} />;
     case MAGICIANSEMESTERITEM:

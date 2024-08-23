@@ -12,17 +12,16 @@ import {
 import * as Yup from 'yup';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
-  DESCRIPTION,
   CATEGORY,
   MAX_MILEAGE,
   SEMESTER,
   ITEM,
   MILEAGE,
-  DESCRIPTION1,
+  DESCRIPTION,
   FILE_DESCRIPTION,
   ISVISIBLE,
   ISVISIBLE_STUDENT,
-  ISINPUT_STUDENT,
+  IS_STUDENT_INPUT,
   ISDUPLICATE_RECORD,
   ISEVALUATE_CSEE_GENERAL,
   ISEVALUATE_CSEE_SPECIAL,
@@ -54,12 +53,6 @@ import SubmitButton from '../common/modal/SubmitButton';
 import axiosInstance from 'src/utils/axios';
 import { useRouter } from 'next/router';
 import { AID } from '../../assets/data/fields';
-import LEVELSelect from '../common/Select/LEVELSelect';
-import MajorSelect from '../common/Select/MajorSelect';
-import GradeSelect from '../common/Select/GradeSelect';
-import semesterCountSelect from '../common/Select/SemesterCountSelect';
-import SemesterCountSelect from '../common/Select/SemesterCountSelect';
-import LevelDropdown from '../common/Filter/LevelSelect';
 import LevelSelect from '../common/Filter/LevelSelect';
 
 export default function ManagerForm({ handleClose }) {

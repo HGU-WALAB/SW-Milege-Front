@@ -32,7 +32,7 @@ export enum MileageRegisterBoard {
   CATEGORY = 'category',
   ITEM_NAME = 'item',
   SPECIFIC_ITEM_NAME = 'specificItemName',
-  DESCRIPTION1 = 'description1',
+  DESCRIPTION = 'description',
   POINTS = 'points',
   COUNTS = 'counts',
   MOD_DATE = 'modDate',
@@ -172,11 +172,15 @@ export const getServerSideProps = withTryCatchForSSR(getServerSidePropsFunction)
 const handleAllDelete = (id: number) => {
   if (window.confirm('등록된 학생 모두 삭제하시겠습니까?')) {
     axiosInstance.get(`/api/mileage/records/filter?semesterItemId=${id}`).then((res) => {
-      res.data.list.forEach((item: { student?: { name?: string; sid?: string }; id: number }) => {
-        axiosInstance.delete(`/api/mileage/records/${item.id}`).then(() => {
-          alert(` ${item.student?.name} - ${item.student?.sid} 가 삭제 되었습니다.`);
+      if (res.data.list.length === 0) {
+        alert('등록된 학생이 없습니다.');
+      } else {
+        res.data.list.forEach((item: { student?: { name?: string; sid?: string }; id: number }) => {
+          axiosInstance.delete(`/api/mileage/records/${item.id}`).then(() => {
+            alert(` ${item.student?.name} - ${item.student?.sid} 가 삭제 되었습니다.`);
+          });
         });
-      });
+      }
     });
   }
 };
@@ -215,7 +219,7 @@ export default function MileageRegister({
 }): React.JSX.Element {
   if (requireLogin) {
     handleServerAuth403Error(error);
-    return <></>;
+    return null;
   }
 
   const [convertedFetchList, setConvertedFetchList] = useState(fetchToUseData(fetchData));

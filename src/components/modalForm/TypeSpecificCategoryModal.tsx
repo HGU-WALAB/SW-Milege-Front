@@ -3,11 +3,21 @@ import axiosInstance from 'src/utils/axios';
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import { ID } from 'src/assets/data/fields';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import { RootState } from 'src/redux/store';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+interface Category {
+  category: {
+    name: string;
+  };
+  name: string;
+}
 
 export default function TypeSpecificCategoryModal({ handleClose }) {
-  const beforeData = useSelector((state) => state.modal.beforeData);
-  const [categories, setCategories] = useState([]);
+  const beforeData = useSelector((state: RootState) => state.modal.beforeData);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -26,28 +36,33 @@ export default function TypeSpecificCategoryModal({ handleClose }) {
     fetchCategories();
   }, [beforeData]);
 
+  const initialValues: FormikValues = {};
+
+  const handleSubmit = (values: FormikValues, { setSubmitting }: FormikHelpers<FormikValues>) => {
+    setSubmitting(false);
+    handleClose();
+  };
+
   return (
-    <Formik>
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           width: '100%',
-          padding: '20px',
-          gap: '20px',
         }}
       >
-        <ul>
+        <ul style={{ listStyle: 'inside', padding: 30 }}>
           {categories.map((item, index) => (
-            <li key={index}>
-              {item.category.name} - {item.name}
+            <li style={{ paddingBottom: 8 }} key={index}>
+              <Typography variant="button">
+                {item.category.name} - {item.name}
+              </Typography>
             </li>
           ))}
         </ul>
-        <Button
-          onClick={handleClose}
-        >
+        <Button variant="contained" color="primary" onClick={handleClose}>
           닫기
         </Button>
       </Form>

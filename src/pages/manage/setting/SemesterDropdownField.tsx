@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSemester } from 'src/redux/slices/filter';
+import { setCurrentSemester } from 'src/redux/slices/filter';
 import { RootState } from 'src/redux/store';
 import { FormValues } from 'src/components/board/SemesterSetting';
 
@@ -12,7 +12,7 @@ export default function SemesterDropdownField() {
   const dispatch = useDispatch();
 
   const handleChange = (event: SelectChangeEvent) => {
-    dispatch(setSemester(event.target.value));
+    dispatch(setCurrentSemester(event.target.value));
     setFieldValue('semester', event.target.value);
   };
 
@@ -29,7 +29,7 @@ export default function SemesterDropdownField() {
           value={values.semester}
           onChange={handleChange}
         >
-          {SEMESTERS.map((semester, index) => (
+          {SEMESTERS.map((semester: string, index: number) => (
             <MenuItem key={index} value={semester}>
               {semester}
             </MenuItem>

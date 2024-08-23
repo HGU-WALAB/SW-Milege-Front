@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { ErrorMessage, Field, Form, Formik, useFormikContext } from 'formik';
+import { ErrorMessage, Field, Form, Formik, useFormikContext, FormikValues } from 'formik';
 import {
   Box,
   TextField,
@@ -12,10 +12,8 @@ import {
   Chip,
 } from '@mui/material';
 import * as Yup from 'yup';
-import { useSelector, useDispatch } from 'react-redux';
-import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axiosInstance from 'src/utils/axios';
-import { setSelectedItemList } from 'src/redux/slices/filterList';
 import { ADDITEM, EDITITEM } from 'src/assets/data/modal/modals';
 import { ButtonFlexBox, engToKor } from '../common/modal/SWModal';
 import {
@@ -46,9 +44,10 @@ const SemesterItemForm = ({ handleClose }) => {
   const beforeData = useSelector((state: RootState) => state.modal.beforeData);
   const router = useRouter();
 
-  const handleSubmit = (values: object) => {
+  const handleSubmit = (values: FormikValues) => {
     const newData = {
       itemId: values.itemId,
+      semesterName: values[SEMESTER],
       points: values[MILEAGE],
       name: values[SPECIFIC_ITEM_NAME],
       itemMaxPoints: +values[ITEM_MAX_POINTS],
@@ -60,21 +59,29 @@ const SemesterItemForm = ({ handleClose }) => {
       case ADDITEM:
         axiosInstance
           .post(`/api/mileage/semesters/${values[SEMESTER]}/items`, newData)
-          .then((res) => {
+          .then(() => {
             alert('학기별 항목이 추가되었습니다.');
             router.reload();
           })
-          .catch((err) => alert('학기별 항목 추가에 실패했습니다.'));
+          .catch((err) => {
+            err.response.status === 403 && alert('이미 존재하는 항목입니다.');
+            err.response.status === 400 && alert('학기별 항목 추가에 실패했습니다.');
+            alert('학기별 항목 추가에 실패했습니다.');});
         break;
 
       case EDITITEM:
         axiosInstance
           .patch(`/api/mileage/semesters/${beforeData.id}`, newData)
-          .then((res) => {
+          .then(() => {
             alert('학기별 항목이 수정되었습니다.');
             router.reload();
           })
-          .catch((err) => alert('학기별 항목 수정에 실패했습니다.'));
+          .catch((err) => 
+          { 
+            err.response.status === 403 && alert('이미 존재하는 항목입니다.');
+            err.response.status === 400 && alert('학기별 항목 수정에 실패했습니다.');
+            alert('학기별 항목 수정에 실패했습니다.');}
+           );
         break;
       default:
     }
@@ -106,7 +113,7 @@ const SemesterItemForm = ({ handleClose }) => {
       onSubmit={handleSubmit}
       enableReinitialize
     >
-      {({ setFieldValue, values, errors, touched, name, isSubmitting }) => (
+      {({ setFieldValue, values, errors, touched, isSubmitting }) => (
         <Form
           style={{
             display: 'flex',
@@ -125,11 +132,14 @@ const SemesterItemForm = ({ handleClose }) => {
             component={TextField}
             label="학기별 마일리지 항목 이름"
             value={values[SPECIFIC_ITEM_NAME]}
-            onChange={(e) => setFieldValue(SPECIFIC_ITEM_NAME, e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setFieldValue(SPECIFIC_ITEM_NAME, e.target.value);
+            }
+            }
           />
           <Field
             name={MILEAGE}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setFieldValue(MILEAGE, e.target.value);
               if (!values[IS_MULTI]) {
                 setFieldValue(ITEM_MAX_POINTS, e.target.value);
@@ -139,12 +149,12 @@ const SemesterItemForm = ({ handleClose }) => {
             component={TextField}
             label="마일리지"
             type="number"
-            error={!!(errors[name] && touched[name])}
-            helperText={errors[name] && touched[name] && <ErrorMessage name={name} />}
+            error={!!(errors[MILEAGE] && touched[MILEAGE])}
+            helperText={<ErrorMessage name={MILEAGE} />}
           />
           <Field
             name={ITEM_MAX_POINTS}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setFieldValue(ITEM_MAX_POINTS, e.target.value);
             }}
             value={values[ITEM_MAX_POINTS]}
@@ -166,7 +176,7 @@ const SemesterItemForm = ({ handleClose }) => {
                 <ToggleButtonGroup
                   sx={{ height: '40px', width: '100%' }}
                   color="primary"
-                  name={IS_MULTI}
+                  key={field.name}
                   exclusive
                   value={values[IS_MULTI]}
                   onChange={(_, newValue) => setFieldValue(IS_MULTI, newValue)}

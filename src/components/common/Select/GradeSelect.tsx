@@ -1,8 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
-import { useSelector } from 'react-redux';
-import { CATEGORYID, DEPARTMENT, GRADE, SEMESTER, YEAR } from 'src/assets/data/fields';
-import { engToKor } from '../modal/SWModal';
+import { GRADE } from 'src/assets/data/fields';
 
 export default function GradeSelect() {
   const grades = [
@@ -25,7 +23,7 @@ export default function GradeSelect() {
   ];
 
   const MySelect = ({ field, form, ...props }) => (
-    <Select {...field} {...props}>
+    <Select {...field} {...props} label="학년">
       {grades.map((grade) => (
         <MenuItem key={grade.id} value={grade.id}>
           {grade.name}
@@ -35,10 +33,16 @@ export default function GradeSelect() {
   );
 
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">학년</InputLabel>
-      <Field as={MySelect} name={YEAR} variant="outlined" />
-      <ErrorMessage name={YEAR} />
+      <Field
+        as={MySelect}
+        name={GRADE}
+        label="학년"
+        labelId="grade-select-label"
+        variant="outlined"
+      />
+      <ErrorMessage name={GRADE} />
     </FormControl>
   );
 }
