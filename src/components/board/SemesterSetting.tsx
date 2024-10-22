@@ -64,17 +64,6 @@ const SemesterSetting = () => {
             <SemesterDropdownField />
 
           </Box>
-          {/* <Typography variant="h5" sx={{ mb: 2 }}>
-            마일리지 장학금 신청 기간
-          </Typography>
-          <Box sx={{ display: 'flex' }}>
-            <ApplicationDateSetting />
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Button type="submit" variant="contained" color="primary">
-              저장
-            </Button>
-          </Box> */}
         </Box>
       </Form>
     </Formik>

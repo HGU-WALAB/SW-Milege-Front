@@ -179,6 +179,7 @@ export default function MileageType({
   /**
    * @brief 마일리지 카테고리 리스트 데이터
    */
+  
   const convertedFetchList = fetchData?.list?.map((item) =>
     createData(
       item,
